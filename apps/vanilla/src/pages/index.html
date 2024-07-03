@@ -6,35 +6,50 @@
     <link rel="stylesheet" href="./index.css" />
     <title>Books App</title>
   </head>
-  <body class="container">
+  <body>
+
     <header>
 			<p class="logo">📚 Books app</p>
 		</header>
-		<main>
 
-			<section class="filters">
+		<main class="container">
 
-			</section>
+			<div class="filters">
+				<p class="title">Filters</p>
+				<input type="seacrh"
+				       name="search"
+							 placeholder='e.g. "Refactoring"'
+							 class="text-input">
+				<select name="sort-field" class="text-input">
+					<option value="">Choose sort field</option>
+					<option value="Sort field">Sort field</option>
+					<option value="Another sort field">Another sort field</option>
+				</select>
+				<div class="checkbox-container">
+					<input type="checkbox" name="comics" id="comics-checkbox">
+					<label for="comics-checkbox">Show comics</label>
+				</div>
+			</div>
 
-			<section class="content">
+			<div class="content">
 
 				<section class="content__year">
-					<p>2020 Year</p>
+					<p class="title">2020 Year</p>
 					<div class="books-container">
 						<div class="book">
-							<img src="./assets/image 1.png"
+							<img src="./assets/images/image 1.png"
 									 alt="Book cover"
 									 class="book-picture">
 							<p class="book-title">Refactoring UI</p>
 						</div>
 						<div class="book">
-							<img src="./assets/image 2.png"
+							<img src="./assets/images/image 2.png"
 									 alt="Book cover"
 									 class="book-picture">
 							<p class="book-title">Master the Skill of Debugging CSS</p>
 						</div>
 						<div class="book">
-							<img src="./assets/image 3.png"
+							<img src="./assets/images/image 3.png"
 									 alt="Book cover"
 									 class="book-picture">
 							<p class="book-title">Blue Period</p>
@@ -43,40 +58,40 @@
 				</section>
 
 				<section class="content__year">
-					<p>1980 Year</p>
+					<p class="title">1980 Year</p>
 					<div class="books-container">
 						<div class="book">
-							<img src="./assets/image 4.png"
+							<img src="./assets/images/image 4.png"
 									 alt="Book cover"
 									 class="book-picture">
 							<p class="book-title">Yokohama Kaidashi Kikou</p>
 						</div>
 						<div class="book">
-							<img src="./assets/image 5.png"
+							<img src="./assets/images/image 5.png"
 									 alt="Book cover"
 									 class="book-picture">
 							<p class="book-title">Learning JavaScript Design Patterns</p>
 						</div>
 						<div class="book">
-							<img src="./assets/image 6.png"
+							<img src="./assets/images/image 6.png"
 									 alt="Book cover"
 									 class="book-picture">
 							<p class="book-title">Yotsuba to!</p>
 						</div>
 						<div class="book">
-							<img src="./assets/image 7.png"
+							<img src="./assets/images/image 7.png"
 									 alt="Book cover"
 									 class="book-picture">
 							<p class="book-title">Domain-Driven Design</p>
 						</div>
 						<div class="book">
-							<img src="./assets/image 8.png"
+							<img src="./assets/images/image 8.png"
 									 alt="Book cover"
 									 class="book-picture">
 							<p class="book-title">Implementing Domain-Driven Design</p>
 						</div>
 						<div class="book">
-							<img src="./assets/image 9.png"
+							<img src="./assets/images/image 9.png"
 									 alt="Book cover"
 									 class="book-picture">
 							<p class="book-title">7 Навыков высокоэффективных...</p>
@@ -84,13 +99,15 @@
 					</div>
 				</section>
 
-			</section>
+			</div>
 
 		</main>
 		<footer>
-			<p class="logo">Books app <span class="copyright">© 2023</span></p>
-			<a>Github</a>
-			<a>Go to top ↑</a>
+			<div class="footer-logo-container">
+				<p class="logo">Books app <span class="copyright">© 2023</span></p>
+				<a class="contact-link">Github</a>
+			</div>
+			<a href="#" class="top-link">Go to top ↑</a>
 		</footer>
     <script type="module" src="./index.ts"></script>
   </body>
