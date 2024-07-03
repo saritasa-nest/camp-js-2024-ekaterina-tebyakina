@@ -16,22 +16,21 @@
 
 			<div class="filters">
 				<p class="title">Filters</p>
-				<div class="filters-container">
-					<input type="seacrh"
+				<form class="filters-form">
+					<input type="text"
 								 name="search"
 								 placeholder='e.g. "Refactoring"'
-								 class="text-input">
-					<select name="sort-field" class="text-input">
+								 class="text-input search">
+					<select name="sort-field" class="text-input sort-field-select">
 						<option value="">Choose sort field</option>
 						<option value="Sort field">Sort field</option>
 						<option value="Another sort field">Another sort field</option>
 					</select>
-					<div class="checkbox-container">
-						<input type="checkbox" name="comics" id="comics-checkbox">
-						<label for="comics-checkbox" class="checkbox-label">Show comics</label>
-					</div>
-				</div>
-
+					<label class="checkbox-container">Show comics
+						<input type="checkbox" checked="checked">
+						<span class="checkmark"></span>
+					</label>
+				</form>
 			</div>
 
 			<div class="content">
