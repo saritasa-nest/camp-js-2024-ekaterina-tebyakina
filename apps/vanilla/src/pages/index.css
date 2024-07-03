@@ -34,9 +34,9 @@ body {
   scroll-behavior: smooth;
   min-width: 360px;
   padding: 0 24px;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 24px; */
 }
 
 header {
@@ -61,17 +61,28 @@ header {
   text-transform: uppercase;
 }
 
+.year-title {
+  position: sticky;
+  top: 0;
+  background-color: var(--surface);
+  padding: 24px 0;
+  display: flex;
+  align-items: center;
+}
+
 .container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  /* gap: 24px; */
+  padding-bottom: 24px;
 }
 
 .filters {
+  /* position: fixed; */
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding-bottom: 24px;
+  padding: 24px 40px;
   border-bottom: 1px var(--border) solid;
 }
 
@@ -182,7 +193,7 @@ header {
 .content__year {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  /* gap: 24px; */
 }
 
 .books-container {
@@ -277,12 +288,20 @@ footer {
   }
 
   .container {
-    flex-direction: row-reverse;
+    /* flex-direction: row-reverse; */
+    flex-direction: row;
     justify-content: space-between;
+  }
+
+  .content {
+    width: calc(100% - 276px);
   }
 
   .filters {
     border-bottom: none;
+    position: fixed;
+		top: 64px;
+		right: 0;
   }
 
   .filters-form {
