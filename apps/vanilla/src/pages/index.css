@@ -303,7 +303,7 @@ footer {
   }
 
   .content {
-    width: calc(100% - var(--form-field-width-lg));
+    width: calc(100% - var(--form-field-width-lg) - var(--space-6));
   }
 
   .filters-container {
