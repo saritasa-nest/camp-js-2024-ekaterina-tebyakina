@@ -119,12 +119,6 @@ header {
   padding-left: var(--space-5);
 }
 
-option {
-  /* font-size: var(--font-size-body);
-  font-weight: var(--font-weight-regular);
-  line-height: 1.6; */
-}
-
 /* Checkbox styles */
 .checkbox-container {
   display: block;
@@ -209,16 +203,13 @@ option {
 }
 
 .books-container {
-  display: flex;
-  flex-flow: row wrap;
-  gap: var(--space-4);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  grid-gap: var(--space-4);
 }
 
 /* Book styles */
 .book-container {
-  --book-container-width-sm: 148px;
-
-  width: var(--book-container-width-sm);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -227,7 +218,7 @@ option {
 .book-cover {
   --book-cover-height: 250px;
 
-  width: 100%;
+  max-width: 100%;
   height: var(--book-cover-height);
   border-radius: var(--space-6);
 }
@@ -286,12 +277,6 @@ footer {
     width: var(--form-field-width-md);
   }
 
-  .book-container {
-    --book-container-width-md: 172px;
-
-    width: var(--book-container-width-md);
-  }
-
   footer {
     padding: var(--space-6) 0 var(--space-20);
   }
@@ -336,12 +321,6 @@ footer {
 
   .form-field {
     width: var(--form-field-width-lg);
-  }
-
-  .book-container {
-    --book-container-width-lg: 167px;
-
-    width: var(--book-container-width-lg);
   }
 }
 
