@@ -1,11 +1,11 @@
 @import url("../global/index.css");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..700&display=swap");
 
+/* Basic styles */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  font-family: Inter, sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -18,11 +18,11 @@ button {
 a {
   text-decoration: none;
   border: none;
-  color: var(--on-surface);
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 1.6;
   cursor: pointer;
+  color: var(--on-surface);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: 1.6;
 }
 
 a:active {
@@ -30,17 +30,18 @@ a:active {
 }
 
 body {
+  font-family: Inter, sans-serif;
   min-height: 100vh;
   scroll-behavior: smooth;
   min-width: 360px;
-  padding: 0 24px;
-  /* display: flex;
-  flex-direction: column;
-  gap: 24px; */
+  padding: 0 var(--space-6);
 }
 
+/* Header styles */
 header {
-  height: 64px;
+  --header-height: 64px;
+
+  height: var(--header-height);
   border-bottom: 1px var(--border) solid;
   display: flex;
   flex-direction: row;
@@ -49,89 +50,90 @@ header {
 }
 
 .logo {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: var(--font-size-logo);
+  font-weight: var(--font-weight-bold);
   line-height: 1.2;
 }
 
-.title {
-  font-size: 18px;
-  font-weight: 600;
+/* Main-block styles */
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--space-6);
+}
+
+.subtitle {
+  font-size: var(--font-size-subtitle);
+  font-weight: var(--font-weight-semibold);
   line-height: 1.3;
   text-transform: uppercase;
 }
 
-.year-title {
-  position: sticky;
-  top: 0;
-  background-color: var(--surface);
-  padding: 24px 0;
-  display: flex;
-  align-items: center;
-}
-
-.container {
+/* Filters-block styles */
+.filters-container {
   display: flex;
   flex-direction: column;
-  /* gap: 24px; */
-  padding-bottom: 24px;
-}
-
-.filters {
-  /* position: fixed; */
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 24px 40px;
+  gap: var(--space-6);
+  padding: var(--space-6) 0;
   border-bottom: 1px var(--border) solid;
 }
 
 .filters-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-6);
 }
 
-.text-input {
+.form-field {
+  --form-field-height: 48px;
+
   width: 100%;
   background-color: var(--surface-overlay);
   border: none;
-  height: 48px;
-  border-radius: 16px;
-  padding: 0 16px;
-  font-size: 20px;
-  font-weight: 400;
+  height: var(--form-field-height);
+  border-radius: var(--space-4);
+  padding: 0 var(--space-4);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
   line-height: 1.6;
 }
 
-.text-input::placeholder {
+.form-field::placeholder {
   color: var(--on-surface-dim);
 }
 
-.search {
+/* Search field styles */
+.search-field {
   background-image: url("./assets/icons/search.svg");
-  background-position: 19px 15px;
+  background-position: var(--space-5) 14px;
   background-repeat: no-repeat;
-  padding: 0 19px 0 48px;
+  padding: 0 var(--space-3) 0 var(--space-12);
 }
 
+/* Sort field styles */
 .sort-field-select {
   appearance: none;
   background-image: url("./assets/icons/arrow.svg");
-  background-position: 234px 20px;
+  background-position: calc(100% - var(--space-5)) calc(100% - var(--space-5));
   background-repeat: no-repeat;
-  padding-left: 19px;
+  padding-left: var(--space-5);
 }
 
-/* The container */
+option {
+  /* font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.6; */
+}
+
+/* Checkbox styles */
 .checkbox-container {
   display: block;
   position: relative;
-  padding-left: 36px;
+  padding-left: var(--space-9);
   cursor: pointer;
   user-select: none;
-  font-size: 20px;
-  font-weight: 400;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
   line-height: 1.6;
 }
 
@@ -144,97 +146,107 @@ header {
   width: 0;
 }
 
-/* Create a custom checkbox */
+/* Custom checkbox */
 .checkmark {
+  --checkmark-size: 20px;
+
   position: absolute;
   top: 6px;
   left: 0;
-  height: 20px;
-  width: 20px;
+  height: var(--checkmark-size);
+  width: var(--checkmark-size);
   border: 2px var(--border) solid;
-  border-radius: 4px;
+  border-radius: var(--space-1);
 }
 
-/* When the checkbox is checked, add a blue background */
+/* Checked checkbox */
 .checkbox-container input:checked ~ .checkmark {
   border-color: var(--primary);
 }
 
-/* Create the checkmark/indicator (hidden when not checked) */
+/* Checkmark indicator */
 .checkmark::after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* Style the checkmark/indicator */
 .checkbox-container .checkmark::after {
+  --checkmark-indicator-size: 10px;
+
   left: 3px;
   top: 3px;
-  width: 10px;
-  height: 10px;
+  width: var(--checkmark-indicator-size);
+  height: var(--checkmark-indicator-size);
   background-color: var(--primary);
   border-radius: 2px;
-  /* border: solid white; */
   border-width: 0 3px 3px 0;
 }
 
-/* Show the checkmark when checked */
 .checkbox-container input:checked ~ .checkmark::after {
   display: block;
 }
 
+/* Content styles */
 .content {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: var(--space-10);
+}
+
+.year-title {
+  position: sticky;
+  top: 0;
+  background-color: var(--surface);
+  padding: var(--space-6) 0;
+  display: flex;
+  align-items: center;
 }
 
 .content__year {
   display: flex;
   flex-direction: column;
-  /* gap: 24px; */
 }
 
 .books-container {
   display: flex;
   flex-flow: row wrap;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
-.book {
-  width: 148px;
+/* Book styles */
+.book-container {
+  --book-container-width-sm: 148px;
+
+  width: var(--book-container-width-sm);
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.book-picture {
+.book-cover {
+  --book-cover-height: 250px;
+
   width: 100%;
-  height: 250px;
-  border-radius: 24px;
+  height: var(--book-cover-height);
+  border-radius: var(--space-6);
 }
 
 .book-title {
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-body-small);
   line-height: 1.5;
   overflow-x: hidden;
 }
 
-.copyright {
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 1.15;
-}
-
+/* Footer styles */
 footer {
   border-top: 1px var(--border) solid;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  gap: 40px;
-  padding: 24px 0 52px;
+  gap: var(--space-10);
+  padding: var(--space-6) 0 var(--space-13);
 }
 
 .footer-logo-container {
@@ -242,6 +254,12 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.copyright {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.15;
 }
 
 .top-link {
@@ -254,27 +272,32 @@ footer {
   text-decoration: underline;
 }
 
+/* Responsive */
 @media (min-width: 786px) {
   .filters-form {
     flex-direction: row;
     align-items: center;
-    gap: 32px;
+    gap: var(--space-8);
   }
 
-  .text-input {
-    width: 256px;
+  .form-field {
+    --form-field-width-md: 256px;
+
+    width: var(--form-field-width-md);
   }
 
-  .book {
-    width: 172px;
+  .book-container {
+    --book-container-width-md: 172px;
+
+    width: var(--book-container-width-md);
   }
 
   footer {
-    padding: 24px 0 80px;
+    padding: var(--space-6) 0 var(--space-20);
   }
 
   .footer-logo-container {
-    width: 281px;
+    width: 280px;
   }
 
   .top-link {
@@ -284,47 +307,60 @@ footer {
 
 @media (min-width: 1280px) {
   body {
-    padding: 0 40px;
+    --form-field-width-lg: 276px;
+
+    padding: 0 var(--space-10);
   }
 
   .container {
-    /* flex-direction: row-reverse; */
     flex-direction: row;
     justify-content: space-between;
   }
 
   .content {
-    width: calc(100% - 276px);
+    width: calc(100% - var(--form-field-width-lg));
   }
 
-  .filters {
+  .filters-container {
     border-bottom: none;
     position: fixed;
-		top: 64px;
-		right: 0;
+    top: var(--space-16);
+    right: var(--space-10);
   }
 
   .filters-form {
     flex-direction: column;
     align-items: start;
-    gap: 24px;
+    gap: var(--space-6);
   }
 
-  .text-input {
-    width: 276px;
+  .form-field {
+    width: var(--form-field-width-lg);
   }
 
-  .book {
-    width: 167px;
+  .book-container {
+    --book-container-width-lg: 167px;
+
+    width: var(--book-container-width-lg);
   }
 }
 
 @media (min-width: 1920px) {
   body {
+    --form-field-width-xl: 320px;
+
     padding: 0 338px;
   }
 
-  .text-input {
-    width: 320px;
+  .filters-container {
+    right: 338px;
+  }
+
+  .form-field {
+    width: var(--form-field-width-xl);
+  }
+
+  .content {
+    width: calc(100% - var(--form-field-width-xl));
   }
 }
