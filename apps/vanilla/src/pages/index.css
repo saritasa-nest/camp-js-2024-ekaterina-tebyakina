@@ -1,59 +1,4 @@
 @import url("../global/index.css");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..700&display=swap");
-
-/* Basic styles */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-input,
-button {
-  outline: none;
-}
-
-a {
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  color: var(--on-surface);
-  font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-body);
-  line-height: 1.6;
-}
-
-a:active {
-  color: var(--primary);
-}
-
-body {
-  font-family: Inter, sans-serif;
-  min-height: 100vh;
-  scroll-behavior: smooth;
-  min-width: 360px;
-  padding: 0 var(--space-6);
-}
-
-/* Header styles */
-header {
-  --header-height: 64px;
-
-  height: var(--header-height);
-  border-bottom: 1px var(--border) solid;
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-}
-
-.logo {
-  font-size: var(--font-size-logo);
-  font-weight: var(--font-weight-bold);
-  line-height: 1.2;
-}
 
 /* Main-block styles */
 .container {
@@ -205,7 +150,7 @@ header {
 .books-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
-  grid-gap: var(--space-4);
+  gap: var(--space-4);
 }
 
 /* Book styles */
@@ -228,39 +173,6 @@ header {
   font-size: var(--font-size-body-small);
   line-height: 1.5;
   overflow-x: hidden;
-}
-
-/* Footer styles */
-footer {
-  border-top: 1px var(--border) solid;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  gap: var(--space-10);
-  padding: var(--space-6) 0 var(--space-13);
-}
-
-.footer-logo-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.copyright {
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-regular);
-  line-height: 1.15;
-}
-
-.top-link {
-  width: 100%;
-  text-align: right;
-  border: none;
-}
-
-.contact-link {
-  text-decoration: underline;
 }
 
 /* Responsive */

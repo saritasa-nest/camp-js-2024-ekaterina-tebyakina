@@ -1,4 +1,37 @@
-html {
-  font-size: 20px;
-  font-family: system-ui, sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..700&display=swap");
+
+/* Basic styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+input,
+button {
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  color: var(--on-surface);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: 1.6;
+}
+
+a:active {
+  color: var(--primary);
+}
+
+body {
+  font-family: Inter, sans-serif;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  min-width: 360px;
+  padding: 0 var(--space-6);
 }
