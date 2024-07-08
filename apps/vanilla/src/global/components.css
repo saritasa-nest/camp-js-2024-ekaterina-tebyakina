@@ -13,7 +13,7 @@
 }
 
 /* Header styles */
-header {
+.header {
   --header-height: 64px;
   --header-border-width: 1px;
 
