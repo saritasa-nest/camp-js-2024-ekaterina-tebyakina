@@ -116,7 +116,8 @@ header {
   --bg-position-left: 20px;
   --bg-position-top: 14px;
 
-  background-image: url("./assets/icons/search.svg");
+  /* background-image: url("./assets/icons/search.svg"); */
+  background-image: url("../pages/assets/icons/search.svg");
   background-position: var(--bg-position-left) var(--bg-position-top);
   background-repeat: no-repeat;
   padding: 0 var(--search-field-right-padding) 0 var(--search-field-left-padding);
@@ -127,7 +128,7 @@ header {
   --bg-position: 20px;
 
   appearance: none;
-  background-image: url("./assets/icons/arrow.svg");
+  background-image: url("../pages/assets/icons/arrow.svg");
   background-position: calc(100% - var(--bg-position)) calc(100% - var(--bg-position));
   background-repeat: no-repeat;
   padding-left: var(--bg-position);
