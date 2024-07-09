@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Books App</title>
+		<script type="module" crossorigin src="/camp-js-2024-ekaterina-tebyakina/pr-preview/pr-1/assets/modulepreload-polyfill-B5Qt9EMX.js"></script>
+		<link rel="stylesheet" crossorigin href="/camp-js-2024-ekaterina-tebyakina/pr-preview/pr-1/assets/index-DnFuaJaH.css">
+	</head>
+	<body>
+
+		<header class="header">
+			<h1 class="header__logo logo">📚 Books app</h1>
+		</header>
+
+		<main class="container">
+
+			<div class="container__filters filters">
+				<h2 class="filters__subtitle subtitle">Filters</h2>
+				<form class="filters__form">
+					<label>
+						<input type="search"
+									 name="search-field"
+									 placeholder='e.g. "Refactoring"'
+									 class="filters__form-field filters__search-field">
+					</label>
+					<label>
+						<select name="sort-field"
+										class="filters__form-field filters__sort-field">
+							<option value="">Choose sort field</option>
+							<option value="Sort field">Sort field</option>
+							<option value="Another sort field">Another sort field</option>
+						</select>
+					</label>
+					<label class="filters__checkbox-container">
+						Show comics
+						<input type="checkbox"
+									 checked="checked"
+									 class="filters__checkbox">
+						<span class="filters__checkmark"></span>
+					</label>
+				</form>
+			</div>
+
+			<div class="content">
+
+				<article class="content__subsection subsection">
+					<h2 class="subsection__title subtitle">2020 Year</h2>
+					<div class="subsection__container">
+						<div class="subsection__item book">
+							<img src="/camp-js-2024-ekaterina-tebyakina/pr-preview/pr-1/assets/image%201-NgbPmAQL.png"
+									 alt="Book cover"
+									 class="book__cover">
+							<p class="book__title">Refactoring UI</p>
+						</div>
+						<div class="subsection__item book">
+							<img src="/camp-js-2024-ekaterina-tebyakina/pr-preview/pr-1/assets/image%202-CukTPkh_.png"
+									 alt="Book cover"
+									 class="book__cover">
+							<p class="book__title">Master the Skill of Debugging CSS</p>
+						</div>
+						<div class="subsection__item book">
+							<img src="/camp-js-2024-ekaterina-tebyakina/pr-preview/pr-1/assets/image%203-D2clU_kX.png"
+									 alt="Book cover"
+									 class="book__cover">
+							<p class="book__title">Blue Period</p>
+						</div>
+					</div>
+				</article>
+
+				<article class="content__subsection subsection">
+					<h2 class="subsection__title subtitle">1980 Year</h2>
+					<div class="subsection__container">
+						<div class="subsection__item book">
+							<img src="/camp-js-2024-ekaterina-tebyakina/pr-preview/pr-1/assets/image%204-Bl0BMrGA.png"
+									 alt="Book cover"
+									 class="book__cover">
+							<p class="book__title">Yokohama Kaidashi Kikou</p>
+						</div>
+						<div class="subsection__item book">
+							<img src="/camp-js-2024-ekaterina-tebyakina/pr-preview/pr-1/assets/image%205-DuMbon7E.png"
+									 alt="Book cover"
+									 class="book__cover">
+							<p class="book__title">Learning JavaScript Design Patterns</p>
+						</div>
+						<div class="subsection__item book">
+							<img src="/camp-js-2024-ekaterina-tebyakina/pr-preview/pr-1/assets/image%206-BqUiAK6q.png"
+									 alt="Book cover"
+									 class="book__cover">
+							<p class="book__title">Yotsuba to!</p>
+						</div>
+						<div class="subsection__item book">
+							<img src="/camp-js-2024-ekaterina-tebyakina/pr-preview/pr-1/assets/image%207-BmWx-xTo.png"
+									 alt="Book cover"
+									 class="book__cover">
+							<p class="book__title">Domain-Driven Design</p>
+						</div>
+						<div class="subsection__item book">
+							<img src="/camp-js-2024-ekaterina-tebyakina/pr-preview/pr-1/assets/image%208-D2jvdQgW.png"
+									 alt="Book cover"
+									 class="book__cover">
+							<p class="book__title">Implementing Domain-Driven Design</p>
+						</div>
+						<div class="subsection__item book">
+							<img src="/camp-js-2024-ekaterina-tebyakina/pr-preview/pr-1/assets/image%209-CFDf0mCj.png"
+									 alt="Book cover"
+									 class="book__cover">
+							<p class="book__title">7 Навыков высокоэффективных...</p>
+						</div>
+					</div>
+				</article>
+
+			</div>
+
+		</main>
+
+		<footer class="footer">
+			<div class="footer__logo-container">
+				<p class="footer__logo logo">Books app <span class="footer__copyright">&copy; 2023</span></p>
+				<a class="footer__contact-link" title="Github profile">Github</a>
+			</div>
+			<a href="#" class="footer__top-link" title="Books app">Go to top &uarr;</a>
+		</footer>
+	</body>
+</html>
