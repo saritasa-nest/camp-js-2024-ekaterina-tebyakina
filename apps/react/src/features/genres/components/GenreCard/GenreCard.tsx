@@ -3,18 +3,21 @@ import { Genre } from '@js-camp/core/models/genre';
 
 import styles from './GenreCard.module.css';
 
-interface Props {
+type Props = {
 
 	/** Genre. */
 	readonly genre: Genre;
-}
+};
 
 /** Card with genre data. */
-const GenreCardComponent: FC<Props> = ({ genre }) => (
+const GenreCardComponent: FC<Props> = ({ genre }: Props) => (
 	<div className={styles.card}>
 		<h2>{genre.name}</h2>
 		<span>Id - {genre.id}</span>
 	</div>
 );
 
+/**
+ * Memorized genre card.
+ */
 export const GenreCard = memo(GenreCardComponent);
