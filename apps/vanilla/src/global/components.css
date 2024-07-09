@@ -15,10 +15,9 @@
 /* Header styles */
 .header {
   --header-height: 64px;
-  --header-border-width: 1px;
 
   height: var(--header-height);
-  border-bottom: var(--header-border-width) var(--border-color) solid;
+  border-bottom: 1px var(--border-color) solid;
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -27,11 +26,10 @@
 
 /* Footer styles */
 .footer {
-  --footer-border-width: 1px;
   --footer-top-padding: 24px;
   --footer-bottom-padding: 52px;
 
-  border-top: var(--footer-border-width) var(--border-color) solid;
+  border-top: 1px var(--border-color) solid;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
@@ -89,14 +87,13 @@
 .filters__form-field {
   --form-field-height: 48px;
   --form-field-bg-color: var(--surface-overlay-color);
-  --form-field-border-radius: 24px;
   --form-field-padding: 16px;
 
   width: 100%;
   background-color: var(--form-field-bg-color);
   border: none;
   height: var(--form-field-height);
-  border-radius: var(--form-field-border-radius);
+  border-radius: 24px;
   padding: 0 var(--form-field-padding);
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-regular);
@@ -116,7 +113,6 @@
   --bg-position-left: 20px;
   --bg-position-top: 14px;
 
-  /* background-image: url("./assets/icons/search.svg"); */
   background-image: url("../pages/assets/icons/search.svg");
   background-position: var(--bg-position-left) var(--bg-position-top);
   background-repeat: no-repeat;
@@ -160,7 +156,6 @@
 /* Custom checkbox */
 .filters__checkmark {
   --checkmark-size: 20px;
-  --checkmark-border-radius: 4px;
 
   position: absolute;
   top: 6px;
@@ -168,18 +163,17 @@
   height: var(--checkmark-size);
   width: var(--checkmark-size);
   border: 2px var(--border-color) solid;
-  border-radius: var(--checkmark-border-radius);
+  border-radius: 4px;
 }
 
 /* Checked checkbox */
-.filters__checkbox:checked ~ .filters__checkmark {
+.filters__checkbox-container:has(.filters__checkbox:checked) .filters__checkmark {
   border-color: var(--primary-accent-color);
 }
 
 /* Checkmark indicator */
 .filters__checkmark::after {
   --checkmark-indicator-size: 10px;
-  --checkmark-indicator-border-radius: 2px;
   --checkmark-space: 3px;
 
   content: "";
@@ -190,12 +184,10 @@
   width: var(--checkmark-indicator-size);
   height: var(--checkmark-indicator-size);
   background-color: var(--primary-accent-color);
-  border-radius: var(--checkmark-indicator-border-radius);
+  border-radius: 2px;
 }
 
-/* I can't avoid using "~" because we need to add styles
- specifically to the checked input neighbor */
-.filters__checkbox:checked ~ .filters__checkmark::after {
+.filters__checkbox-container:has(.filters__checkbox:checked) .filters__checkmark::after {
   display: block;
 }
 
@@ -252,7 +244,9 @@
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-body-small);
   line-height: 1.5;
-  overflow-x: hidden;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3rem;
 }
 
 /* Responsive */
@@ -336,7 +330,7 @@
   }
 
   .filters__form-field {
-    width: var(--form-field-width-xl);
+    width: var(--form-field-width);
   }
 
   .content {
