@@ -330,7 +330,7 @@
   }
 
   .filters__form-field {
-    width: var(--form-field-width);
+    width: var(--form-field-width-xl);
   }
 
   .content {
