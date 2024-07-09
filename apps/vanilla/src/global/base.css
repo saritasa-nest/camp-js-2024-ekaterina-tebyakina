@@ -4,33 +4,33 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 html {
-  font-size: var(--font-size-body-small);
+	font-size: var(--font-size-body-small);
 }
 
 a {
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-color);
-  font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-body);
-  line-height: 1.6;
+	text-decoration: none;
+	border: none;
+	cursor: pointer;
+	color: var(--text-color);
+	font-weight: var(--font-weight-regular);
+	font-size: var(--font-size-body);
+	line-height: 1.6;
 }
 
 a:active {
-  color: var(--primary-accent-color);
+	color: var(--primary-accent-color);
 }
 
 body {
-  font-family: Inter, sans-serif;
-  min-height: 100vh;
-  scroll-behavior: smooth;
-  min-width: 360px;
-  padding: 0 var(--space-medium);
+	font-family: Inter, sans-serif;
+	min-height: 100vh;
+	scroll-behavior: smooth;
+	min-width: 360px;
+	padding: 0 var(--space-m);
 }
