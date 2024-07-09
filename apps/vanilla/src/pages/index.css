@@ -1,5 +1,26 @@
 @import url("../global/index.css");
 
-.title {
-  color: var(--heading-color-1);
+.task-link {
+	--link-color: var(--primary-color);
+
+	color: var(--link-color);
+	text-decoration: none;
+	border-bottom: 1px solid var(--link-color);
+}
+
+.task-link:hover {
+	--link-color: var(--primary-light-color);
+}
+
+.links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+}
+
+.default-layout {
+	--default-layout-width: 600px;
+
+	margin: 80px auto 0;
+	max-width: var(--default-layout-width);
 }

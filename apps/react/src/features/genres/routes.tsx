@@ -3,6 +3,9 @@ import { Navigate, RouteObject } from 'react-router-dom';
 
 const GenresPage = lazy(() => import('./pages/GenresPage').then(module => ({ default: module.GenresPage })));
 
+/**
+ * Route object for GenresPage.
+ */
 export const genresRoutes: RouteObject[] = [
 	{
 		path: 'genres',

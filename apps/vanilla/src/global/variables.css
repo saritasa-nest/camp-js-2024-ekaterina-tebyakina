@@ -1,5 +1,29 @@
 :root {
-  --heading-color-1: #ffd700;
-  --heading-color-2: #e9967a;
-  --heading-color-3: #b0e0e6;
+	/* Variables for colors */
+	--primary-accent-color: rgb(241 89 36 / 100%);
+	--border-color: rgb(0 0 0 / 15%);
+	--surface-color: rgb(255 255 255 / 100%);
+	--surface-overlay-color: rgb(0 0 0 / 5%);
+	--on-surface-color: rgb(0 0 0 / 100%);
+	--on-surface-dim-color: rgb(0 0 0 / 50%);
+	--text-color: var(--on-surface-color);
+
+	/* Variables for font sizes */
+	--font-size-body: 20px;
+	--font-size-body-small: 16px;
+	--font-size-subtitle: 18px;
+	--font-size-logo: 20px;
+
+	/* Variables for font weights */
+	--font-weight-regular: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+
+	/* Variables for spaces */
+	--space-xs: 8px;
+	--space-s: calc(var(--space-xs) * 2);
+	--space-m: calc(var(--space-xs) * 3);
+	--space-l: calc(var(--space-xs) * 4);
+	--space-xl: calc(var(--space-xs) * 5);
 }
