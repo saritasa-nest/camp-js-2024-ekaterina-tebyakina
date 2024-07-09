@@ -9,4 +9,7 @@ export abstract class Immerable {
 	private readonly [immerable] = true;
 }
 
+/**
+ * Allows to omit the immerable field.
+ */
 export type OmitImmerable<T> = Omit<T, '[immerable]'>;
