@@ -1,37 +1,7 @@
-// import { Subscriber } from './utils/subscriber';
 import { DiceGenerator } from './classes/diceGenerator';
 import { TurnGenerator } from './classes/turnGenerator';
-import { Subscriber } from './classes/subscriber';
 import { Player } from './classes/player';
-
-/**
- * PlayerObserverDOM.
- */
-class PlayerObserverDOM implements Subscriber<number> {
-	private readonly layout: HTMLElement;
-
-	private readonly player: Player;
-
-	public constructor(el: HTMLElement, player: Player) {
-		this.layout = el;
-		this.player = player;
-	}
-
-	/**
-	 * Update.
-	 * @param val - Val.
-	 */
-	public update(val: number): void {
-		this.layout.innerText = `${this.layout.innerText} ${String(val)}`;
-		const allScore = document.querySelector(".all-results");
-		allScore.innerHTML = `${allScore.innerText} ${String(val)}`;
-		this.player.update(val);
-
-		if (this.player.winStatus) {
-			this.layout.parentNode.style.backgroundColor = '#e0baba';
-		}
-	}
-}
+import { ResultDisplayer } from './classes/resultDisplayer';
 
 /** App. */
 class App {
@@ -46,32 +16,27 @@ class App {
 	public constructor() {
 
 		this.turnGenerator.subscribe(this.diceGenerator);
+		this.diceGenerator.subscribe(this.firstPlayer);
+		this.diceGenerator.subscribe(this.secondPlayer);
 
 		this.listenAndPrintToScreen();
 
-		// this.handleClick();
-
 		const btn = document.querySelector('.button');
 		btn?.addEventListener('click', () => {
-			this.turnGenerator.onTurnChange(this.turnGenerator.next());
+			this.turnGenerator.next();
 		});
 	}
 
-	// private handleClick(): void {
-	// 	const btn = document.querySelector('.button');
-	// 	btn?.addEventListener('click', () => {
-	// 		this.turnGenerator.onTurnChange(this.turnGenerator.next());
-	// 	});
-	// }
-
 	private listenAndPrintToScreen(): void {
-		const firstPlayerObserver = new PlayerObserverDOM(document.querySelector('.first-player-results') as HTMLElement, this.firstPlayer);
-		const secondPlayerObserver = new PlayerObserverDOM(document.querySelector('.second-player-results') as HTMLElement,
-			this.secondPlayer);
-		this.diceGenerator.subscribe(firstPlayerObserver);
-		this.diceGenerator.subscribe(secondPlayerObserver);
+		const firstPlayerDisplay = document.querySelector('.first-player-results') as HTMLElement;
+		const firstPlayerResultsDisplayer = new ResultDisplayer(firstPlayerDisplay);
 
-		// setTimeout(() => this.diceGenerator.unsubscribe(observer), 5000);
+		const secondPlayerDisplay = document.querySelector('.second-player-results') as HTMLElement;
+		const secondPlayerResultsDisplayer = new ResultDisplayer(secondPlayerDisplay);
+
+		this.firstPlayer.subscribe(firstPlayerResultsDisplayer);
+		this.secondPlayer.subscribe(secondPlayerResultsDisplayer);
+
 	}
 }
 

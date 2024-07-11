@@ -1,41 +1,36 @@
-import { Subscriber } from './subscriber';
+// import { Publisher } from '../types/publisher';
+import { Subscriber } from '../types/subscriber';
 
 /**
  * Publisher.
  */
 export class Publisher<T> {
-	/**
-	 * Subscribers.
-	 */
-	protected readonly subscribers: Subscriber<T>[] = [];
 
-	public constructor() {
-		// externalTemperatureGenerator((val) => this.onTemperaturChange(val));
-		// externalGenerator();
-	}
+	/** Subscribers. */
+	protected readonly subscribers: Subscriber<T>[] = [];
 
 	/**
 	 * Subscribe.
 	 * @param subscriber - Subscriber.
 	 */
-	public subscribe(subscriber: Subscriber<T>): void {
+	public subscribe = (subscriber: Subscriber<T>): void	=> {
 
 		const subIdx = this.getSubscriberIndex(subscriber);
 		if (subIdx === -1) {
 			this.subscribers.push(subscriber);
 		}
-	}
+	};
 
 	/**
-	 * Unsubscribe.
+	 * Subscribe.
 	 * @param subscriber - Subscriber.
 	 */
-	public unsubscribe(subscriber: Subscriber<T>): void {
+	public unsubscribe = (subscriber: Subscriber<T>): void	=> {
 		const subIdx = this.getSubscriberIndex(subscriber);
 		if (subIdx !== -1) {
 			this.subscribers.splice(subIdx, 1);
 		}
-	}
+	};
 
 	/**
 	 * Notify.

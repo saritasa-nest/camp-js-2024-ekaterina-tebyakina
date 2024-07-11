@@ -2,11 +2,11 @@
 /**
  * Subscriber.
  */
-export type Subscriber<M> = {
+export type Subscriber<T> = {
 
 	/**
 	 * Update method.
 	 * @param message - Message.
 	 */
-	update: (message: M) => void;
+	update: (message: T) => void;
 };

@@ -1,31 +1,34 @@
+import { Subscriber } from '../types/subscriber';
+
 import { Publisher } from './publisher';
 
 const SIDES_COUNT = 6;
 
-/**
- * PlayerTurnResult.
- */
-class PlayerTurnResult {
-	/**
-	 * PlayerIndex.
-	 */
-	public readonly playerIndex: number;
+// /**
+//  * PlayerTurnResult.
+//  */
+// class PlayerTurnResult {
+// 	/**
+// 	 * PlayerIndex.
+// 	 */
+// 	public readonly playerIndex: number;
 
-	/**
-	 * DiceResult.
-	 */
-	public readonly diceResult: number;
+// 	/**
+// 	 * DiceResult.
+// 	 */
+// 	public readonly diceResult: number;
 
-	public constructor(playerIndex: number, diceResult: number) {
-		this.playerIndex = playerIndex;
-		this.diceResult = diceResult;
-	}
-}
+// 	public constructor(playerIndex: number, diceResult: number) {
+// 		this.playerIndex = playerIndex;
+// 		this.diceResult = diceResult;
+// 	}
+// }
 
 /**
  * DiceGenerator.
  */
-export class DiceGenerator extends Publisher<number> {
+export class DiceGenerator extends Publisher<number> implements Subscriber<number> {
+
 	private readonly sidesCount: number;
 
 	public constructor() {
@@ -34,28 +37,23 @@ export class DiceGenerator extends Publisher<number> {
 	}
 
 	/**
-	 * Next.
-	 */
-	public next = (): number => 1 + Math.floor(Math.random() * this.sidesCount);
-
-	/**
 	 * Update.
-	 * @param id - Number.
+	 * @param currentPlayerIndex - Number.
 	 */
-	public update(id: number): void {
-		// this.notify(this.rollDice(id));
-		this.notify(id);
+	public update(currentPlayerIndex: number): void {
+		this.notify(currentPlayerIndex);
 	}
 
 	/**
 	 * Notify.
-	 * @param id - Number.
+	 * @param currentPlayerIndex - Number.
 	 */
-	public override notify(id: number): void {
-		const cast = this.rollDice(id);
+	public override notify(currentPlayerIndex: number): void {
+		const diceResult = this.rollDice();
+
 		this.subscribers.forEach((sub, index) => {
-			if (cast.playerIndex === index) {
-				sub.update(cast.diceResult);
+			if (currentPlayerIndex === index) {
+				sub.update(diceResult);
 			}
 		});
 	}
@@ -65,5 +63,5 @@ export class DiceGenerator extends Publisher<number> {
 	 * @param id - Number.
 	 * @returns PlayerTurnResult.
 	 */
-	public rollDice = (id: number): PlayerTurnResult => new PlayerTurnResult(id, this.next());
+	public rollDice = (): number => 1 + Math.floor(Math.random() * this.sidesCount);
 }
