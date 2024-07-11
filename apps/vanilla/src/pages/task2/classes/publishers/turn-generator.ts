@@ -5,16 +5,10 @@ const PLAYERS_COUNT = 2;
 /** Determines whose turn is. */
 export class TurnGenerator extends Publisher<number> {
 
-	private readonly playersCount: number;
+	private readonly playersCount: number = PLAYERS_COUNT;
 
 	/** Index of a player whose turn is. */
-	public currentPlayerIndex: number;
-
-	public constructor() {
-		super();
-		this.playersCount = PLAYERS_COUNT;
-		this.currentPlayerIndex = -1;
-	}
+	public currentPlayerIndex = -1;
 
 	/** Calculates an index of the next player in a queue. */
 	private calcCurrentPlayerIndex = (): void => {

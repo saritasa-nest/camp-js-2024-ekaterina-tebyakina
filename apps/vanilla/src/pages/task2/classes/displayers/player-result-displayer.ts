@@ -1,6 +1,8 @@
-import { PlayerResult } from '../player';
+import { PlayerResult } from '../../types/player-result';
 
 import { ResultDisplayer } from './result-displayer';
+
+const BACKGROUND_COLOR = '#e0baba';
 
 /**
  * Subscriber.
@@ -19,7 +21,7 @@ export class PlayerResultDisplayer extends ResultDisplayer {
 
 		if (playerResult.winStatus) {
 			const parentLayout = this.layout.parentNode as HTMLElement;
-			parentLayout.style.backgroundColor = '#e0baba';
+			parentLayout.style.backgroundColor = BACKGROUND_COLOR;
 		}
 	}
 }

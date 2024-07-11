@@ -20,7 +20,7 @@ btn?.addEventListener('click', () => {
 	turnGenerator.next();
 });
 
-/** Creates result displayers and subscribe them on players. */
+/** Creates displayers and subscribe them on players. */
 function listenAndPrintToScreen(): void {
 	const firstPlayerSpan = document.querySelector('.first-player-results') as HTMLElement;
 	const firstPlayerResultsDisplayer = new PlayerResultDisplayer(firstPlayerSpan);

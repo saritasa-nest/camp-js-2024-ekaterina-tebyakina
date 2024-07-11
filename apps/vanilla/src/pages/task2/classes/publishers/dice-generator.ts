@@ -10,16 +10,11 @@ const SIDES_COUNT = 6;
  */
 export class DiceGenerator extends Publisher<number> implements Subscriber<number> {
 
-	private readonly sidesCount: number;
-
-	public constructor() {
-		super();
-		this.sidesCount = SIDES_COUNT;
-	}
+	private readonly sidesCount: number = SIDES_COUNT;
 
 	/**
 	 * Called by a publisher.
-	 * Calls the subscriber notification method.
+	 * Calls the subscribers notification method.
 	 * @param currentPlayerIndex - Index of a player whose turn is.
 	 */
 	public update(currentPlayerIndex: number): void {

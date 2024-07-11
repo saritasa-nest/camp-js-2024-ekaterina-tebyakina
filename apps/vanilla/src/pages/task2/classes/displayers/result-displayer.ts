@@ -1,18 +1,16 @@
 import { Subscriber } from '../../types/subscriber';
 
-import { PlayerResult } from '../player';
+import { PlayerResult } from '../../types/player-result';
 
 /**
  * Displays the received data.
  */
 export class ResultDisplayer implements Subscriber<PlayerResult> {
 
-	/** HTMLElement for display. */
-	protected readonly layout: HTMLElement;
-
-	public constructor(element: HTMLElement) {
-		this.layout = element;
-	}
+	/**
+	 * @param layout HTMLElement for display the data.
+	 */
+	public constructor(protected readonly layout: HTMLElement) {}
 
 	/**
 	 * Called by a publisher.

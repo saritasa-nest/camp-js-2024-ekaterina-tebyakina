@@ -1,41 +1,21 @@
+import { PlayerResult } from '../types/player-result';
 import { Subscriber } from '../types/subscriber';
 
 import { Publisher } from './publishers/publisher';
 
 const WINNING_POINTS_COUNT = 21;
 
-/** Data about a dice roll and whether it became a winning one. */
-export class PlayerResult {
-
-	/** Win status. True if a player won. */
-	public readonly winStatus: boolean;
-
-	/** Result of a dice roll. */
-	public readonly diceResult: number;
-
-	public constructor(winStatus: boolean, diceResult: number) {
-		this.winStatus = winStatus;
-		this.diceResult = diceResult;
-	}
-}
-
 /** Represents a player. */
 export class Player extends Publisher<PlayerResult> implements Subscriber<number> {
 
 	/** Dice results. */
-	public diceResults: number[];
+	public diceResults: number[] = [];
 
 	/**
 	 * Win status.
 	 * True, when the sum of points for dice rolls is greater or equal to WINNING_POINTS_COUNT.
 	 */
-	public winStatus: boolean;
-
-	public constructor() {
-		super();
-		this.diceResults = [];
-		this.winStatus = false;
-	}
+	public winStatus = false;
 
 	private checkIsWin(): void {
 		if (this.calcSumOfPoints() >= WINNING_POINTS_COUNT) {
@@ -68,7 +48,6 @@ export class Player extends Publisher<PlayerResult> implements Subscriber<number
 		this.diceResults.push(diceResult);
 		this.checkIsWin();
 
-		const playerResult = new PlayerResult(this.winStatus, diceResult);
-		this.notify(playerResult);
+		this.notify({ winStatus: this.winStatus, diceResult });
 	}
 }
