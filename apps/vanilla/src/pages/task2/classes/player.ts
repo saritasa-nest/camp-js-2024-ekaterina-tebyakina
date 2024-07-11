@@ -1,19 +1,16 @@
 import { Subscriber } from '../types/subscriber';
 
-import { Publisher } from './publisher';
+import { Publisher } from './publishers/publisher';
 
-/**
- * PlayerTurnResult.
- */
+const WINNING_POINTS_COUNT = 21;
+
+/** Data about a dice roll and whether it became a winning one. */
 export class PlayerResult {
-	/**
-	 * PlayerIndex.
-	 */
+
+	/** Win status. True if a player won. */
 	public readonly winStatus: boolean;
 
-	/**
-	 * DiceResult.
-	 */
+	/** Result of a dice roll. */
 	public readonly diceResult: number;
 
 	public constructor(winStatus: boolean, diceResult: number) {
@@ -22,10 +19,7 @@ export class PlayerResult {
 	}
 }
 
-/**
- * Player.
- */
-/** */
+/** Represents a player. */
 export class Player extends Publisher<PlayerResult> implements Subscriber<number> {
 
 	/** Dice results. */
@@ -33,8 +27,7 @@ export class Player extends Publisher<PlayerResult> implements Subscriber<number
 
 	/**
 	 * Win status.
-	 * True, when the sum of points for dice rolls is
-	 * greater or equal to 21.
+	 * True, when the sum of points for dice rolls is greater or equal to WINNING_POINTS_COUNT.
 	 */
 	public winStatus: boolean;
 
@@ -45,7 +38,7 @@ export class Player extends Publisher<PlayerResult> implements Subscriber<number
 	}
 
 	private checkIsWin(): void {
-		if (this.calcSumOfPoints() >= 21) {
+		if (this.calcSumOfPoints() >= WINNING_POINTS_COUNT) {
 			this.winStatus = true;
 		}
 	}
@@ -59,16 +52,17 @@ export class Player extends Publisher<PlayerResult> implements Subscriber<number
 	}
 
 	/**
-	 * Notify.
-	 * @param playerResult - Number.
+	 * Notifies subscribers about a dice roll.
+	 * @param playerResult - Result of a dice roll.
 	 */
 	public override notify(playerResult: PlayerResult): void {
 		this.subscribers.forEach(sub => sub.update(playerResult));
 	}
 
 	/**
-	 * Update.
-	 * @param diceResult - Message.
+	 * Called by a publisher the player is subscribed to.
+	 * Notifies subscribers about a dice roll results.
+	 * @param diceResult - The number of points.
 	 */
 	public update(diceResult: number): void {
 		this.diceResults.push(diceResult);

@@ -1,31 +1,12 @@
-import { Subscriber } from '../types/subscriber';
+import { Subscriber } from '../../types/subscriber';
 
 import { Publisher } from './publisher';
 
 const SIDES_COUNT = 6;
 
-// /**
-//  * PlayerTurnResult.
-//  */
-// class PlayerTurnResult {
-// 	/**
-// 	 * PlayerIndex.
-// 	 */
-// 	public readonly playerIndex: number;
-
-// 	/**
-// 	 * DiceResult.
-// 	 */
-// 	public readonly diceResult: number;
-
-// 	public constructor(playerIndex: number, diceResult: number) {
-// 		this.playerIndex = playerIndex;
-// 		this.diceResult = diceResult;
-// 	}
-// }
-
 /**
- * DiceGenerator.
+ * TurnGenerator subscriber.
+ * Generates a die roll and notifies a player of a result.
  */
 export class DiceGenerator extends Publisher<number> implements Subscriber<number> {
 
@@ -37,16 +18,17 @@ export class DiceGenerator extends Publisher<number> implements Subscriber<numbe
 	}
 
 	/**
-	 * Update.
-	 * @param currentPlayerIndex - Number.
+	 * Called by a publisher.
+	 * Calls the subscriber notification method.
+	 * @param currentPlayerIndex - Index of a player whose turn is.
 	 */
 	public update(currentPlayerIndex: number): void {
 		this.notify(currentPlayerIndex);
 	}
 
 	/**
-	 * Notify.
-	 * @param currentPlayerIndex - Number.
+	 * Generates a die roll and notifies a player of a result.
+	 * @param currentPlayerIndex - Index of a player whose turn is.
 	 */
 	public override notify(currentPlayerIndex: number): void {
 		const diceResult = this.rollDice();
@@ -59,9 +41,9 @@ export class DiceGenerator extends Publisher<number> implements Subscriber<numbe
 	}
 
 	/**
-	 * RollDice.
-	 * @param id - Number.
-	 * @returns PlayerTurnResult.
+	 * Roll a dice.
+	 * Randomly determines the result.
+	 * @returns The number of points.
 	 */
 	public rollDice = (): number => 1 + Math.floor(Math.random() * this.sidesCount);
 }

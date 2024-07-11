@@ -1,43 +1,39 @@
-import { DiceGenerator } from './classes/diceGenerator';
-import { TurnGenerator } from './classes/turnGenerator';
+import { DiceGenerator } from './classes/publishers/dice-generator';
+import { TurnGenerator } from './classes/publishers/turn-generator';
 import { Player } from './classes/player';
-import { ResultDisplayer } from './classes/resultDisplayer';
+import { ResultDisplayer } from './classes/displayers/result-displayer';
+import { PlayerResultDisplayer } from './classes/displayers/player-result-displayer';
 
-/** App. */
-class App {
-	private readonly turnGenerator = new TurnGenerator();
+const turnGenerator = new TurnGenerator();
+const diceGenerator = new DiceGenerator();
+const firstPlayer = new Player();
+const secondPlayer = new Player();
 
-	private readonly diceGenerator = new DiceGenerator();
+turnGenerator.subscribe(diceGenerator);
+diceGenerator.subscribe(firstPlayer);
+diceGenerator.subscribe(secondPlayer);
 
-	private readonly firstPlayer = new Player();
+listenAndPrintToScreen();
 
-	private readonly secondPlayer = new Player();
+const btn = document.querySelector('.button');
+btn?.addEventListener('click', () => {
+	turnGenerator.next();
+});
 
-	public constructor() {
+/** Creates result displayers and subscribe them on players. */
+function listenAndPrintToScreen(): void {
+	const firstPlayerSpan = document.querySelector('.first-player-results') as HTMLElement;
+	const firstPlayerResultsDisplayer = new PlayerResultDisplayer(firstPlayerSpan);
 
-		this.turnGenerator.subscribe(this.diceGenerator);
-		this.diceGenerator.subscribe(this.firstPlayer);
-		this.diceGenerator.subscribe(this.secondPlayer);
+	const secondPlayerSpan = document.querySelector('.second-player-results') as HTMLElement;
+	const secondPlayerResultsDisplayer = new PlayerResultDisplayer(secondPlayerSpan);
 
-		this.listenAndPrintToScreen();
+	const allResultsSpan = document.querySelector('.all-results') as HTMLElement;
+	const allResultsDisplayer = new ResultDisplayer(allResultsSpan);
 
-		const btn = document.querySelector('.button');
-		btn?.addEventListener('click', () => {
-			this.turnGenerator.next();
-		});
-	}
+	firstPlayer.subscribe(firstPlayerResultsDisplayer);
+	secondPlayer.subscribe(secondPlayerResultsDisplayer);
 
-	private listenAndPrintToScreen(): void {
-		const firstPlayerDisplay = document.querySelector('.first-player-results') as HTMLElement;
-		const firstPlayerResultsDisplayer = new ResultDisplayer(firstPlayerDisplay);
-
-		const secondPlayerDisplay = document.querySelector('.second-player-results') as HTMLElement;
-		const secondPlayerResultsDisplayer = new ResultDisplayer(secondPlayerDisplay);
-
-		this.firstPlayer.subscribe(firstPlayerResultsDisplayer);
-		this.secondPlayer.subscribe(secondPlayerResultsDisplayer);
-
-	}
+	firstPlayer.subscribe(allResultsDisplayer);
+	secondPlayer.subscribe(allResultsDisplayer);
 }
-
-const app = new App();
