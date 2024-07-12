@@ -18,6 +18,6 @@ export class ResultDisplayer implements Subscriber<PlayerResult> {
 	 * @param playerResult - Result of a dice roll.
 	 */
 	public update(playerResult: PlayerResult): void {
-		this.layout.innerText = `${this.layout.innerText} ${String(playerResult.diceResult)}`;
+		this.layout.innerText = `${this.layout.innerText} ${playerResult.diceResult.toString()}`;
 	}
 }
