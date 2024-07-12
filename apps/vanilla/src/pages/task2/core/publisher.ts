@@ -15,23 +15,23 @@ export class Publisher<T> {
 	 * Allows to subscribe to a publisher.
 	 * @param subscriber - Subscriber object.
 	 */
-	public subscribe = (subscriber: Subscriber<T>): void	=> {
+	public subscribe(subscriber: Subscriber<T>): void	{
 		const index = this.getSubscriberIndex(subscriber);
 		if (index === -1) {
 			this.subscribers.push(subscriber);
 		}
-	};
+	}
 
 	/**
 	 * Allows to unsubscribe from a publisher.
 	 * @param subscriber - Subscriber object.
 	 */
-	public unsubscribe = (subscriber: Subscriber<T>): void	=> {
+	public unsubscribe(subscriber: Subscriber<T>): void {
 		const index = this.getSubscriberIndex(subscriber);
 		if (index !== -1) {
 			this.subscribers.splice(index, 1);
 		}
-	};
+	}
 
 	/**
 	 * Sends messages to all publisher subscribers.

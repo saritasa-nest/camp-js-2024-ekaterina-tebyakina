@@ -40,5 +40,7 @@ export class DiceGenerator extends Publisher<number> implements Subscriber<numbe
 	 * Randomly determines the result.
 	 * @returns The number of points.
 	 */
-	public rollDice = (): number => 1 + Math.floor(Math.random() * this.sidesCount);
+	public rollDice(): number {
+		return 1 + Math.floor(Math.random() * this.sidesCount);
+	}
 }
