@@ -17,7 +17,7 @@ export class PlayerResultDisplayer extends ResultDisplayer {
 	 * @param playerResult - Result of a dice roll.
 	 */
 	public override update(playerResult: PlayerResult): void {
-		this.layout.innerText = `${this.layout.innerText} ${String(playerResult.diceResult)}`;
+		this.layout.innerText = `${this.layout.innerText} ${playerResult.diceResult.toString()}`;
 
 		if (playerResult.winStatus) {
 			const parentLayout = this.layout.parentNode as HTMLElement;
