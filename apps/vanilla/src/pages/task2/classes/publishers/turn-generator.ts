@@ -22,7 +22,7 @@ export class TurnGenerator extends Publisher<number> {
 
 	/** Determines whose turn is and notifies all subscribers. */
 	public next = (): void => {
-		this.calcCurrentPlayerIndex();
+		this.calculateCurrentPlayerIndex();
 		this.notify(this.currentPlayerIndex);
 	};
 }

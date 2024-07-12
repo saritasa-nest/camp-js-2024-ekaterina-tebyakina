@@ -15,8 +15,8 @@ diceGenerator.subscribe(secondPlayer);
 
 listenAndPrintToScreen();
 
-const btn = document.querySelector('.button');
-btn?.addEventListener('click', () => {
+const diceRollButton = document.querySelector('.diceRollButton');
+diceRollButton?.addEventListener('click', () => {
 	turnGenerator.next();
 });
 
