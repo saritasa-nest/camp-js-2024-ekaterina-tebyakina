@@ -1,7 +1,7 @@
-import { PlayerResult } from '../types/player-result';
-import { Subscriber } from '../types/subscriber';
+import { PlayerResult } from './models/player-result';
+import { Subscriber } from './models/subscriber';
 
-import { Publisher } from './publishers/publisher';
+import { Publisher } from './publisher';
 
 const WINNING_POINTS_COUNT = 21;
 

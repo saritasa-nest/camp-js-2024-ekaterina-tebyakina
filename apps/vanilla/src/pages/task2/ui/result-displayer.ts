@@ -1,6 +1,6 @@
-import { Subscriber } from '../../types/subscriber';
+import { Subscriber } from '../core/models/subscriber';
 
-import { PlayerResult } from '../../types/player-result';
+import { PlayerResult } from '../core/models/player-result';
 
 /**
  * Displays the received data.

@@ -1,4 +1,4 @@
-import { PlayerResult } from '../../types/player-result';
+import { PlayerResult } from '../core/models/player-result';
 
 import { ResultDisplayer } from './result-displayer';
 

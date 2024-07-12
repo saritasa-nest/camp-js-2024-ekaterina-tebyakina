@@ -1,4 +1,4 @@
-import { Subscriber } from '../../types/subscriber';
+import { Subscriber } from './models/subscriber';
 
 import { Publisher } from './publisher';
 

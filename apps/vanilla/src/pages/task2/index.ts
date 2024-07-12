@@ -1,8 +1,8 @@
-import { DiceGenerator } from './classes/publishers/dice-generator';
-import { TurnGenerator } from './classes/publishers/turn-generator';
-import { Player } from './classes/player';
-import { ResultDisplayer } from './classes/displayers/result-displayer';
-import { PlayerResultDisplayer } from './classes/displayers/player-result-displayer';
+import { DiceGenerator } from './core/dice-generator';
+import { TurnGenerator } from './core/turn-generator';
+import { Player } from './core/player';
+import { ResultDisplayer } from './ui/result-displayer';
+import { PlayerResultDisplayer } from './ui/player-result-displayer';
 
 const turnGenerator = new TurnGenerator();
 const diceGenerator = new DiceGenerator();
