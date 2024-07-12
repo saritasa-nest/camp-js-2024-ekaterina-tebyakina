@@ -11,7 +11,7 @@ export class TurnGenerator extends Publisher<number> {
 	public currentPlayerIndex = -1;
 
 	/** Calculates an index of the next player in a queue. */
-	private calcCurrentPlayerIndex = (): void => {
+	private calculateCurrentPlayerIndex = (): void => {
 		if (this.currentPlayerIndex + 1 < this.playersCount) {
 			this.currentPlayerIndex += 1;
 			return;
