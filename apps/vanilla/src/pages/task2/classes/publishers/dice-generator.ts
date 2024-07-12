@@ -5,7 +5,7 @@ import { Publisher } from './publisher';
 const SIDES_COUNT = 6;
 
 /**
- * TurnGenerator subscriber.
+ * Turn generator subscriber.
  * Generates a die roll and notifies a player of a result.
  */
 export class DiceGenerator extends Publisher<number> implements Subscriber<number> {
