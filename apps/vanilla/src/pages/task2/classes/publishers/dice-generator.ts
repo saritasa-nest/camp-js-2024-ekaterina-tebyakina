@@ -22,7 +22,7 @@ export class DiceGenerator extends Publisher<number> implements Subscriber<numbe
 	}
 
 	/**
-	 * Generates a die roll and notifies a player of a result.
+	 * Generates a dice roll and notifies a player of a result.
 	 * @param currentPlayerIndex - Index of a player whose turn is.
 	 */
 	public override notify(currentPlayerIndex: number): void {
