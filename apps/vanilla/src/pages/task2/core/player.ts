@@ -24,11 +24,7 @@ export class Player extends Publisher<PlayerResult> implements Subscriber<number
 	}
 
 	private calcSumOfPoints(): number {
-		let sumOfPoints = 0;
-		this.diceResults.forEach(item => {
-			sumOfPoints += item;
-		});
-		return sumOfPoints;
+		return this.diceResults.reduce((acc, curr) => (acc + curr), 0);
 	}
 
 	/**
