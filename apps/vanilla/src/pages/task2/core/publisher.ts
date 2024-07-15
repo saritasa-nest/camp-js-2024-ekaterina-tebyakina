@@ -1,11 +1,6 @@
 import { Subscriber } from './models/subscriber';
 
-/**
- * The base publisher class.
- * Stores a list of subscribers.
- * Allows to subscribe.
- * Sends messages to subscribers.
- */
+/** The base publisher class. Allows subscribers to follow its updates. */
 export class Publisher<T> {
 
 	/** Subscribers list. */
