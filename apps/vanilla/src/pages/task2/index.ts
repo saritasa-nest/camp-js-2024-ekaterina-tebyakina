@@ -22,13 +22,13 @@ diceRollButton?.addEventListener('click', () => {
 
 /** Creates displayers and subscribe them on players. */
 function listenAndPrintToScreen(): void {
-	const firstPlayerSpan = document.querySelector('.first-player-results') as HTMLElement;
+	const firstPlayerSpan = document.querySelector('#first-player-results') as HTMLElement;
 	const firstPlayerResultsDisplayer = new PlayerResultDisplayer(firstPlayerSpan);
 
-	const secondPlayerSpan = document.querySelector('.second-player-results') as HTMLElement;
+	const secondPlayerSpan = document.querySelector('#second-player-results') as HTMLElement;
 	const secondPlayerResultsDisplayer = new PlayerResultDisplayer(secondPlayerSpan);
 
-	const allResultsSpan = document.querySelector('.all-results') as HTMLElement;
+	const allResultsSpan = document.querySelector('#all-results') as HTMLElement;
 	const allResultsDisplayer = new ResultDisplayer(allResultsSpan);
 
 	firstPlayer.subscribe(firstPlayerResultsDisplayer);
