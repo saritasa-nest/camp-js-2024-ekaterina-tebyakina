@@ -18,12 +18,12 @@ export class Player extends Publisher<PlayerResult> implements Subscriber<number
 	public winStatus = false;
 
 	private checkIsWin(): void {
-		if (this.calcSumOfPoints() >= WINNING_POINTS_COUNT) {
+		if (this.calculateSumOfPoints() >= WINNING_POINTS_COUNT) {
 			this.winStatus = true;
 		}
 	}
 
-	private calcSumOfPoints(): number {
+	private calculateSumOfPoints(): number {
 		return this.diceResults.reduce((acc, curr) => (acc + curr), 0);
 	}
 
