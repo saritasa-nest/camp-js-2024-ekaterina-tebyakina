@@ -21,7 +21,7 @@ export class PlayerResultDisplayer extends ResultDisplayer {
 
 		if (playerResult.winStatus) {
 			const parentLayout = this.layout.parentNode as HTMLElement;
-			parentLayout.style.backgroundColor = BACKGROUND_COLOR;
+			parentLayout.style.backgroundColor = WINNER_BACKGROUND_COLOR;
 		}
 	}
 }
