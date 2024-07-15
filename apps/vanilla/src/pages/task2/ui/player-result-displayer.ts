@@ -2,7 +2,7 @@ import { PlayerResult } from '../core/models/player-result';
 
 import { ResultDisplayer } from './result-displayer';
 
-const BACKGROUND_COLOR = '#e0baba';
+const WINNER_BACKGROUND_COLOR = '#e0baba';
 
 /**
  * Subscriber.
