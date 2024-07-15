@@ -2,9 +2,7 @@ import { Subscriber } from '../core/models/subscriber';
 
 import { PlayerResult } from '../core/models/player-result';
 
-/**
- * Displays the received data.
- */
+/** Displays the received data. */
 export class ResultDisplayer implements Subscriber<PlayerResult> {
 
 	/**
