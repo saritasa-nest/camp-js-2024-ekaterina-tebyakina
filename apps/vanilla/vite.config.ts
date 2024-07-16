@@ -24,6 +24,7 @@ export default defineConfig({
         resolve(root, 'example', 'index.html'),
         resolve(root, 'example', 'nested', 'index.html'),
 				resolve(root, 'task1', 'index.html'),
+				resolve(root, 'task2', 'index.html'),
       ],
     },
   },

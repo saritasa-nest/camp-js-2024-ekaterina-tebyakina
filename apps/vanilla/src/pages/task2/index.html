@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./index.css" />
+		<title>Blackjack by Dice</title>
+	</head>
+	<body>
+
+		<header class="header">
+			<h1 class="header__logo logo">Blackjack by Dice</h1>
+		</header>
+
+		<main>
+
+			<article class="container">
+				<section class="container__item">
+					<h2>Dice-cap</h2>
+					<span class="container__results" id="all-results"></span>
+				</section>
+				<section class="container__item">
+					<h2>First player</h2>
+					<span class="container__results" id="first-player-results"></span>
+				</section>
+				<section class="container__item">
+					<h2>Second player</h2>
+					<span class="container__results" id="second-player-results"></span>
+				</section>
+			</article>
+
+			<button type="button" class="dice-roll-button">Throw a dice!</button>
+
+		</main>
+
+		<script type="module" src="./index.ts"></script>
+	</body>
+</html>

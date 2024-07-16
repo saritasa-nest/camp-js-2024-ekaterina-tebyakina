@@ -1,0 +1,32 @@
+@import url("../../global/index.css");
+
+.container {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	height: 400px;
+	gap: 8px;
+	justify-content: space-between;
+	align-items: stretch;
+	align-content: stretch;
+	padding-top: 24px;
+}
+
+.container__item {
+	border: 2px #f0eeee solid;
+	width: 100%;
+	border-radius: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 16px;
+}
+
+.dice-roll-button {
+	height: 32px;
+	padding: 0 16px;
+	cursor: pointer;
+	background-color: #fff;
+	border: 2px #bdb9b9 solid;
+	border-radius: 12px;
+}
