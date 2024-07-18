@@ -1,6 +1,10 @@
-import { AnimeStatus, AnimeType } from '../dtos/anime.dto';
-
 import { Immerable, OmitImmerable } from './immerable';
+
+/** */
+export type AnimeStatus = 'AIRING' | 'FINISHED' | 'NOT YET AIRED';
+
+/** */
+export type AnimeType = 'Movie' | 'Music' | 'ONA' | 'OVA' | 'Promotional videos' | 'Special' | 'TV' | 'Unknown';
 
 /** Anime model. */
 export class Anime extends Immerable {
@@ -30,7 +34,7 @@ export class Anime extends Immerable {
 	};
 
 	/** */
-	public readonly type: AnimeType;
+	public readonly type: string;
 
 	/** */
 	public readonly status: AnimeStatus;

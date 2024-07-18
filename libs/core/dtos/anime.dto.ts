@@ -1,5 +1,5 @@
-export type AnimeStatus = 'AIRING' | 'FINISHED' | 'NOT_YET_AIRED';
-export type AnimeType = 'MOVIE' | 'MUSIC' | 'ONA' | 'OVA' | 'PROMOTIONAL_VIDEOS' | 'SPECIAL' | 'TV' | 'UNKNOWN';
+export type AnimeStatusDto = 'AIRING' | 'FINISHED' | 'NOT_YET_AIRED';
+export type AnimeTypeDto = 'MOVIE' | 'MUSIC' | 'ONA' | 'OVA' | 'PROMOTIONAL_VIDEOS' | 'SPECIAL' | 'TV' | 'UNKNOWN';
 
 /** Anime DTO. */
 export type AnimeDto = {
@@ -13,8 +13,8 @@ export type AnimeDto = {
 		start: string;
 		end: string;
 	};
-	readonly type: AnimeType;
-	readonly status: AnimeStatus;
+	readonly type: AnimeTypeDto;
+	readonly status: AnimeStatusDto;
 	readonly score: number;
 	readonly user_score: number;
 	readonly studios: readonly number[];
