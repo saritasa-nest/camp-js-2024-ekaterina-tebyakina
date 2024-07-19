@@ -2,7 +2,7 @@
 	display: block;
 }
 
-.mat-toolbar {
+.header {
 	width: 100%;
 	border-bottom: 2px var(--border-color) solid;
 }
