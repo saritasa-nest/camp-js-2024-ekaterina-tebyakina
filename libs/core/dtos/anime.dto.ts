@@ -1,6 +1,3 @@
-export type AnimeStatusDto = 'AIRING' | 'FINISHED' | 'NOT_YET_AIRED';
-export type AnimeTypeDto = 'MOVIE' | 'MUSIC' | 'ONA' | 'OVA' | 'PROMOTIONAL_VIDEOS' | 'SPECIAL' | 'TV' | 'UNKNOWN';
-
 /** Anime DTO. */
 export type AnimeDto = {
 	readonly id: number;
@@ -9,10 +6,7 @@ export type AnimeDto = {
 	readonly title_eng: string;
 	readonly title_jpn: string;
 	readonly image: string;
-	readonly aired: {
-		start: string;
-		end: string;
-	};
+	readonly aired: AiredDto;
 	readonly type: AnimeTypeDto;
 	readonly status: AnimeStatusDto;
 	readonly score: number;
@@ -20,3 +14,25 @@ export type AnimeDto = {
 	readonly studios: readonly number[];
 	readonly genres: readonly number[];
 };
+
+export type AiredDto = {
+	start: string;
+	end: string;
+};
+
+export enum AnimeStatusDto {
+	Airing = 'AIRING',
+	Finished = 'FINISHED',
+	NotYetAired = 'NOT_YET_AIRED',
+}
+
+export enum AnimeTypeDto {
+	Movie = 'MOVIE',
+	Music = 'MUSIC',
+	ONA = 'ONA',
+	OVA = 'OVA',
+	Promotional = 'PROMOTIONAL_VIDEOS',
+	Special = 'SPECIAL',
+	TV = 'TV',
+	Unknown = 'UNKNOWN',
+}

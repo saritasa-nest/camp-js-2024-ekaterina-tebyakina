@@ -1,8 +1,15 @@
-import { AnimeDto, AnimeStatusDto, AnimeTypeDto } from '../dtos/anime.dto';
-import { Anime, AnimeStatus, AnimeType } from '../models/anime';
-import { changeStringCase, replaceUnderscores } from '../utils/string-modify.util';
+import { AiredDto, AnimeDto, AnimeStatusDto, AnimeTypeDto } from '../dtos/anime.dto';
+import { Aired, Anime, AnimeStatus, AnimeType } from '../models/anime';
+
+// import { changeStringCase, replaceUnderscores } from '../utils/string-modify.util';
 
 export namespace AnimeMapper {
+
+	/** */
+	export type StatusKey = keyof typeof AnimeStatusDto;
+
+	/** */
+	export type TypeKey = keyof typeof AnimeTypeDto;
 
 	/**
 	 * Maps dto to model.
@@ -16,12 +23,9 @@ export namespace AnimeMapper {
 			titleEng: dto.title_eng,
 			titleJpn: dto.title_jpn,
 			image: dto.image,
-			aired: {
-				start: new Date(dto.aired.start),
-				end: new Date(dto.aired.end),
-			},
-			type: fromAnimeTypeDto(dto.type),
-			status: fromAnimeStatusDto(dto.status),
+			aired: fromAiredDto(dto.aired),
+			type: fromTypeDto(dto.type),
+			status: fromStatusDto(dto.status),
 			score: dto.score,
 			userScore: dto.user_score,
 			studios: dto.studios,
@@ -30,23 +34,37 @@ export namespace AnimeMapper {
 	}
 
 	/**
-	 * ChangeStringCase.
-	 * @param animeType  - String.
-	 * @returns - String.
+	 * AiredDto.
+	 * @param aired - AiredDto.
+	 * @returns AiredDto.
 	 */
-	export function fromAnimeTypeDto(animeType: AnimeTypeDto): AnimeType {
-		if (animeType === 'TV' || animeType === 'OVA' || animeType === 'ONA') {
-			return animeType;
-		}
-		return changeStringCase(replaceUnderscores(animeType)) as AnimeType;
+	export function fromAiredDto(aired: AiredDto): Aired {
+		return {
+			start: new Date(aired.start),
+			end: new Date(aired.end),
+		};
 	}
 
 	/**
 	 * ChangeStringCase.
-	 * @param animeStatus  - String.
+	 * @param type  - String.
 	 * @returns - String.
 	 */
-	export function fromAnimeStatusDto(animeStatus: AnimeStatusDto): AnimeStatus {
-		return changeStringCase(replaceUnderscores(animeStatus)) as AnimeStatus;
+	export function fromTypeDto(type: AnimeTypeDto): AnimeType {
+		const keyId = Object.values(AnimeTypeDto).indexOf(type);
+		const enumKey = Object.keys(AnimeTypeDto)[keyId] as TypeKey;
+		return AnimeType[enumKey];
 	}
+
+	/**
+	 * ChangeStringCase.
+	 * @param status  - String.
+	 * @returns - String.
+	 */
+	export function fromStatusDto(status: AnimeStatusDto): AnimeStatus {
+		const keyId = Object.values(AnimeStatusDto).indexOf(status);
+		const enumKey = Object.keys(AnimeStatusDto)[keyId] as StatusKey;
+		return AnimeStatus[enumKey];
+	}
+
 }

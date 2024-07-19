@@ -1,54 +1,45 @@
 import { Immerable, OmitImmerable } from './immerable';
 
-/** */
-export type AnimeStatus = 'AIRING' | 'FINISHED' | 'NOT YET AIRED';
-
-/** */
-export type AnimeType = 'Movie' | 'Music' | 'ONA' | 'OVA' | 'Promotional videos' | 'Special' | 'TV' | 'Unknown';
-
 /** Anime model. */
 export class Anime extends Immerable {
 
 	/** Id. */
 	public readonly id: number;
 
-	/** */
+	/** Date of creation. */
 	public readonly created: Date;
 
-	/** */
+	/** Date of modification. */
 	public readonly modified: Date;
 
-	/** */
+	/** Title in English. */
 	public readonly titleEng: string;
 
-	/** */
+	/** Title in Japanese. */
 	public readonly titleJpn: string;
 
-	/** */
+	/** Url to cover. */
 	public readonly image: string;
 
-	/** */
-	public readonly aired: {
-		start: Date;
-		end: Date;
-	};
+	/** The date on which aired started and ended. */
+	public readonly aired: Aired;
 
-	/** */
+	/** Anime type. */
 	public readonly type: string;
 
-	/** */
+	/** Anime status. */
 	public readonly status: AnimeStatus;
 
-	/** */
+	/** Calculated score. */
 	public readonly score: number;
 
-	/** */
+	/** User score. */
 	public readonly userScore: number;
 
-	/** */
+	/** List of studios. */
 	public readonly studios: readonly number[];
 
-	/** */
+	/** List of genres. */
 	public readonly genres: readonly number[];
 
 	public constructor(data: AnimeConstructorData) {
@@ -67,6 +58,35 @@ export class Anime extends Immerable {
 		this.studios = data.studios;
 		this.genres = data.genres;
 	}
+}
+
+/** */
+export type Aired = {
+
+	/** */
+	start: Date;
+
+	/** */
+	end: Date;
+};
+
+/** */
+export enum AnimeStatus {
+	Airing = 'Airing',
+	Finished = 'Finished',
+	NotYetAired = 'Not yet aired',
+}
+
+/** */
+export enum AnimeType {
+	Movie = 'Movie',
+	Music = 'Music',
+	ONA = 'ONA',
+	OVA = 'OVA',
+	Promotional = 'Promotional videos',
+	Special = 'Special',
+	TV = 'TV',
+	Unknown = 'Unknown',
 }
 
 type AnimeConstructorData = OmitImmerable<Anime>;

@@ -8,25 +8,15 @@ import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 
 import { Anime } from '@js-camp/core/models/anime';
 
-import { AppConfig } from '../utils/app-config';
-
-/** */
-@Injectable({
-	providedIn: 'root',
-})
+/** API Access Service. */
+@Injectable({ providedIn: 'root' })
 export class ApiService {
 
-	public constructor(private httpClient: HttpClient, private appConfig: AppConfig) {}
+	public constructor(private http: HttpClient) {}
 
-	/** */
+	/** Gets anime list. */
 	public getAnime(): Observable<Anime[]> {
-		return this.httpClient.get<PaginationDto<AnimeDto>>(`${this.appConfig.baseApiURL}/anime/anime/`, {
-			headers: {
-				// Disable lint, because it's a header, it shouldn't be written in camel case
-				// eslint-disable-next-line @typescript-eslint/naming-convention
-				'Api-Key': this.appConfig.apiKey,
-			},
-		}).pipe(
+		return this.http.get<PaginationDto<AnimeDto>>(`anime/anime/`).pipe(
 			map(pageItem => pageItem.results),
 			map(results => results.map((anime: AnimeDto) => AnimeMapper.fromDto(anime))),
 		);
