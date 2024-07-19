@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-/** App component. */
+/** Main component of application. */
 @Component({
 	selector: 'camp-root',
 	templateUrl: './app.component.html',
@@ -10,4 +10,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 	standalone: true,
 	imports: [RouterModule, MatToolbarModule],
 })
-export class AppComponent {}
+export class AppComponent {
+
+	/** Name of application. */
+	public appName = 'Anime app';
+}
