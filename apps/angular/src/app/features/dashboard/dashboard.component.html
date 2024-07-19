@@ -1,45 +1,50 @@
 <div class="dashboard">
+	@if (anime$ | async; as animeList) {
 
-	<table mat-table class="dashboard__table" [dataSource]="anime$">
+		<table mat-table class="dashboard__table" [dataSource]="animeList">
 
-		<ng-container matColumnDef={{columnsHeaders.Image}}>
-			<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Image}} </th>
-			<td mat-cell *matCellDef="let element" class="dashboard__content cover">
-				<div class="cover__wrapper">
-					<img src="{{element.image | empty}}" alt="{{element.titleJpn}} cover" class="cover__image">
-				</div>
+			<ng-container matColumnDef={{columnsHeaders.Image}}>
+				<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Image}} </th>
+				<td mat-cell *matCellDef="let element" class="dashboard__content cover">
+					<div class="cover__wrapper">
+						<img src="{{element.image}}" alt="{{element.titleJpn}} cover" class="cover__image">
+					</div>
 
-			</td>
-		</ng-container>
+				</td>
+			</ng-container>
 
-		<ng-container matColumnDef={{columnsHeaders.TitleEng}}>
-			<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.TitleEng}} </th>
-			<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.titleEng | empty}}</td>
-		</ng-container>
+			<ng-container matColumnDef={{columnsHeaders.TitleEng}}>
+				<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.TitleEng}} </th>
+				<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.titleEng | empty}}</td>
+			</ng-container>
 
-		<ng-container matColumnDef={{columnsHeaders.TitleJpn}}>
-			<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.TitleJpn}}</th>
-			<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.titleJpn | empty}} </td>
-		</ng-container>
+			<ng-container matColumnDef={{columnsHeaders.TitleJpn}}>
+				<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.TitleJpn}}</th>
+				<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.titleJpn | empty}} </td>
+			</ng-container>
 
-		<ng-container matColumnDef={{columnsHeaders.AiredStart}}>
-			<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.AiredStart}} </th>
-			<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.aired.start  | empty | date: "mediumDate"}} </td>
-		</ng-container>
+			<ng-container matColumnDef={{columnsHeaders.AiredStart}}>
+				<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.AiredStart}} </th>
+				<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.aired.start  | empty | date: "mediumDate"}} </td>
+			</ng-container>
 
-		<ng-container matColumnDef={{columnsHeaders.Type}}>
-			<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Type}} </th>
-			<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.type | empty}} </td>
-		</ng-container>
+			<ng-container matColumnDef={{columnsHeaders.Type}}>
+				<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Type}} </th>
+				<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.type | empty}} </td>
+			</ng-container>
 
-		<ng-container matColumnDef={{columnsHeaders.Status}}>
-			<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Status}} </th>
-			<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.status | empty}} </td>
-		</ng-container>
+			<ng-container matColumnDef={{columnsHeaders.Status}}>
+				<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Status}} </th>
+				<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.status | empty}} </td>
+			</ng-container>
 
-		<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-		<tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+			<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+			<tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
 
-	</table>
+		</table>
+
+	} @else {
+		<camp-progress-bar></camp-progress-bar>
+	}
 
 </div>
