@@ -1,7 +1,8 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+
 import { AppConfig } from '../utils/app-config';
 
-const appConfig = new AppConfig;
+const appConfig = new AppConfig();
 
 /**
  * Adds header Api-Key to a request.
@@ -9,9 +10,10 @@ const appConfig = new AppConfig;
  * @param next - Request handler function.
  * @returns Request with Api-Key.
  */
-export const apiKeyInterceptor: HttpInterceptorFn = (req, next) => {
+export const apiKeyInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
 	const reqWithApiKey = req.clone({
 		headers: req.headers.set('Api-Key', appConfig.apiKey),
 	});
-  return next(reqWithApiKey);
+
+	return next(reqWithApiKey);
 };
