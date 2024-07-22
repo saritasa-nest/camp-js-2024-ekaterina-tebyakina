@@ -1,4 +1,5 @@
 <div class="dashboard">
+
 	@if (anime$ | async; as animeList) {
 
 		<table mat-table class="dashboard__table" [dataSource]="animeList">
@@ -7,7 +8,7 @@
 				<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Image}} </th>
 				<td mat-cell *matCellDef="let element" class="dashboard__content cover">
 					<div class="cover__wrapper">
-						<img src="{{element.image}}" alt="{{element.titleJpn}} cover" class="cover__image">
+						<img [src]="element.image" [alt]="element.titleJpn + ' cover' | empty: 'Anime cover'" class="cover__image">
 					</div>
 
 				</td>
@@ -25,7 +26,7 @@
 
 			<ng-container matColumnDef={{columnsHeaders.AiredStart}}>
 				<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.AiredStart}} </th>
-				<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.aired.start  | empty | date: "mediumDate"}} </td>
+				<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.aired.start | date: "mediumDate" | empty}} </td>
 			</ng-container>
 
 			<ng-container matColumnDef={{columnsHeaders.Type}}>
