@@ -36,7 +36,7 @@ export class DashboardComponent {
 	/** Stream of anime. */
 	protected readonly anime$ = this.apiService.getAnime();
 
-	/** Getter for column headers enum. Required to access enum from html. */
+	/** Getter for column headers enum to access enum from html. */
 	protected get columnsHeaders(): typeof ColumnsHeaders {
 		return ColumnsHeaders;
 	}

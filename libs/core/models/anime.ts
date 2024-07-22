@@ -1,3 +1,4 @@
+// import { StatusModel } from '../dtos/anime.dto';
 import { Immerable, OmitImmerable } from './immerable';
 
 /** Anime model. */
@@ -9,7 +10,7 @@ export class Anime extends Immerable {
 	/** Date of creation. */
 	public readonly created: Date;
 
-	/** Date of modification. */
+	/** Date of last modification. */
 	public readonly modified: Date;
 
 	/** Title in English. */
@@ -21,7 +22,7 @@ export class Anime extends Immerable {
 	/** Url to cover. */
 	public readonly image: string;
 
-	/** The date on which aired started and ended. */
+	/** The dates on which aired started and ended. */
 	public readonly aired: Aired;
 
 	/** Anime type. */
@@ -60,24 +61,24 @@ export class Anime extends Immerable {
 	}
 }
 
-/** */
+/** The dates on which aired started and ended. */
 export type Aired = {
 
-	/** */
-	start: Date;
+	/** Date, when aired started. */
+	start: Date | null;
 
-	/** */
-	end: Date;
+	/** Date, when aired ended. */
+	end: Date | null;
 };
 
-/** */
+/** Anime status. */
 export enum AnimeStatus {
 	Airing = 'Airing',
 	Finished = 'Finished',
 	NotYetAired = 'Not yet aired',
 }
 
-/** */
+/** Anime type. */
 export enum AnimeType {
 	Movie = 'Movie',
 	Music = 'Music',

@@ -1,19 +1,11 @@
 import { AiredDto, AnimeDto, AnimeStatusDto, AnimeTypeDto } from '../dtos/anime.dto';
 import { Aired, Anime, AnimeStatus, AnimeType } from '../models/anime';
 
-// import { changeStringCase, replaceUnderscores } from '../utils/string-modify.util';
-
 export namespace AnimeMapper {
-
-	/** */
-	export type StatusKey = keyof typeof AnimeStatusDto;
-
-	/** */
-	export type TypeKey = keyof typeof AnimeTypeDto;
 
 	/**
 	 * Maps dto to model.
-	 * @param dto Anime dto.
+	 * @param dto - Anime dto.
 	 */
 	export function fromDto(dto: AnimeDto): Anime {
 		return new Anime({
@@ -34,21 +26,24 @@ export namespace AnimeMapper {
 	}
 
 	/**
-	 * AiredDto.
-	 * @param aired - AiredDto.
-	 * @returns AiredDto.
+	 * Map aired dto to model.
+	 * @param aired - Aired dto.
+	 * @returns Aired model.
 	 */
 	export function fromAiredDto(aired: AiredDto): Aired {
 		return {
-			start: new Date(aired.start),
-			end: new Date(aired.end),
+			start: aired.start ? new Date(aired.start) : null,
+			end: aired.end ? new Date(aired.end) : null,
 		};
 	}
 
+	/** Type of anime type enum's keys. */
+	export type TypeKey = keyof typeof AnimeTypeDto;
+
 	/**
-	 * ChangeStringCase.
-	 * @param type  - String.
-	 * @returns - String.
+	 * Map type dto.
+	 * @param type  - Type dto.
+	 * @returns Type model.
 	 */
 	export function fromTypeDto(type: AnimeTypeDto): AnimeType {
 		const keyId = Object.values(AnimeTypeDto).indexOf(type);
@@ -56,10 +51,13 @@ export namespace AnimeMapper {
 		return AnimeType[enumKey];
 	}
 
+	/** Type of anime status enum's keys. */
+	export type StatusKey = keyof typeof AnimeStatusDto;
+
 	/**
-	 * ChangeStringCase.
-	 * @param status  - String.
-	 * @returns - String.
+	 * Map status dto.
+	 * @param status  - Status dto.
+	 * @returns Status model.
 	 */
 	export function fromStatusDto(status: AnimeStatusDto): AnimeStatus {
 		const keyId = Object.values(AnimeStatusDto).indexOf(status);
