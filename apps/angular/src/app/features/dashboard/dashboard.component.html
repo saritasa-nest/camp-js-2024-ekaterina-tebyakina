@@ -2,7 +2,7 @@
 
 	@if (anime$ | async; as animeList) {
 
-		<table mat-table class="dashboard__table" [dataSource]="animeList">
+		<table mat-table class="dashboard__table" [dataSource]="animeList" [trackBy]="trackByAnime">
 
 			<ng-container matColumnDef={{columnsHeaders.Image}}>
 				<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Image}} </th>
