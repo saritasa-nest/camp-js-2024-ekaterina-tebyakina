@@ -16,8 +16,8 @@ export type AnimeDto = {
 };
 
 export type AiredDto = {
-	start: string;
-	end: string;
+	start: string | null;
+	end: string | null;
 };
 
 export enum AnimeStatusDto {
