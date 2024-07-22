@@ -1,16 +1,15 @@
-import { Component, inject, TrackByFunction } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { ApiService } from '@js-camp/angular/core/services/api.service';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
-import { Anime } from '@js-camp/core/models/anime';
 
 /** Column headers to be displayed in table. */
 export enum ColumnsHeaders {
 	Image = 'Image',
 	EnglishTitle = 'English title',
-	TitleJpn = 'Japanese title',
+	JapaneseTitle = 'Japanese title',
 	AiredStart = 'Aired starts with',
 	Type = 'type',
 	Status = 'status',
