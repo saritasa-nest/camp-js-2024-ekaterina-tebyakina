@@ -1,4 +1,3 @@
-// import { StatusModel } from '../dtos/anime.dto';
 import { Immerable, OmitImmerable } from './immerable';
 
 /** Anime model. */
