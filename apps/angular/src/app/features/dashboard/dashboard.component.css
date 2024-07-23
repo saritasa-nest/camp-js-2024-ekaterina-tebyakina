@@ -21,12 +21,14 @@
 }
 
 .dashboard__title {
+	justify-content: center;
 	text-transform: uppercase;
 	font-size: var(--font-size-title-s);
 	text-align: center;
 }
 
 .dashboard__content {
+	justify-content: center;
 	font-size: var(--font-size-content-s);
 	text-align: center;
 }
