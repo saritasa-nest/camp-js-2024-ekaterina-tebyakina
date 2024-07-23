@@ -7,7 +7,7 @@ import { AppConfig } from '../utils/app-config';
 const appConfig = new AppConfig();
 
 /**
- * Adds header Api-Key to a request.
+ * Add header Api-Key to a request.
  * @param req - Request.
  * @param next - Request handler function.
  * @returns Request with Api-Key.

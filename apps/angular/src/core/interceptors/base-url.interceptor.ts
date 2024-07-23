@@ -7,7 +7,7 @@ import { AppConfig } from '../utils/app-config';
 const appConfig = new AppConfig();
 
 /**
- * Adds base url to a request.
+ * Add base url to a request.
  * @param req - Request.
  * @param next - Request handler function.
  * @returns Request with base url.
