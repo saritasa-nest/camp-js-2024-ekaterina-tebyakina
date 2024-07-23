@@ -46,10 +46,8 @@ export class DashboardComponent {
 		return item.id;
 	}
 
-	/** Getter for column headers enum to access enum from html. */
-	protected get columnsHeaders(): typeof ColumnsHeaders {
-		return ColumnsHeaders;
-	}
+	/** Property containing enum with column headers. */
+	protected readonly columnsHeaders = ColumnsHeaders;
 
 	/** List of column headers. */
 	protected readonly columnsToDisplay = Object.values(ColumnsHeaders);
