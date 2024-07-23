@@ -1,13 +1,3 @@
-:host {
-	/* Variables for table font sizes */
-	--font-size-title-s: 12px;
-	--font-size-title-m: 14px;
-	--font-size-title-l: 16px;
-	--font-size-content-s: 10px;
-	--font-size-content-m: 12px;
-	--font-size-content-l: 14px;
-}
-
 .dashboard {
 	padding: var(--space-m);
 }
@@ -23,13 +13,13 @@
 .dashboard__title {
 	justify-content: center;
 	text-transform: uppercase;
-	font-size: var(--font-size-title-s);
+	font-size: var(--font-size-sm);
 	text-align: center;
 }
 
 .dashboard__content {
 	justify-content: center;
-	font-size: var(--font-size-content-s);
+	font-size: var(--font-size-xs);
 	text-align: center;
 }
 
@@ -48,11 +38,11 @@
 
 @media (min-width: 786px) {
 	.dashboard__title {
-		font-size: var(--font-size-title-m);
+		font-size: var(--font-size-base);
 	}
 
 	.dashboard__content {
-		font-size: var(--font-size-content-m);
+		font-size: var(--font-size-sm);
 	}
 }
 
@@ -63,10 +53,10 @@
 	}
 
 	.dashboard__title {
-		font-size: var(--font-size-title-l);
+		font-size: var(--font-size-md);
 	}
 
 	.dashboard__content {
-		font-size: var(--font-size-content-l);
+		font-size: var(--font-size-base);
 	}
 }
