@@ -1,24 +1,24 @@
 /** Anime DTO. */
-export type AnimeDto = {
-	readonly id: number;
-	readonly created: string;
-	readonly modified: string;
-	readonly title_eng: string;
-	readonly title_jpn: string;
-	readonly image: string;
-	readonly aired: AiredDto;
-	readonly type: AnimeTypeDto;
-	readonly status: AnimeStatusDto;
-	readonly score: number;
-	readonly user_score: number;
-	readonly studios: readonly number[];
-	readonly genres: readonly number[];
-};
+export type AnimeDto = Readonly<{
+	id: number;
+	created: string;
+	modified: string;
+	title_eng: string;
+	title_jpn: string;
+	image: string;
+	aired: AiredDto;
+	type: AnimeTypeDto;
+	status: AnimeStatusDto;
+	score: number;
+	user_score: number;
+	studios: readonly number[];
+	genres: readonly number[];
+}>;
 
-export type AiredDto = {
+export type AiredDto = Readonly<{
 	start: string | null;
 	end: string | null;
-};
+}>;
 
 export enum AnimeStatusDto {
 	Airing = 'AIRING',

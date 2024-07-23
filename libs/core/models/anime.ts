@@ -65,10 +65,10 @@ export class Anime extends Immerable {
 export type Aired = {
 
 	/** Date, when aired started. */
-	start: Date | null;
+	readonly start: Date | null;
 
 	/** Date, when aired ended. */
-	end: Date | null;
+	readonly end: Date | null;
 };
 
 /** Anime status. */
