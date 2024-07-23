@@ -1,7 +1,5 @@
 <div class="dashboard">
-
 	@if (anime$ | async; as animeList) {
-
 		<mat-table class="dashboard__table" [dataSource]="animeList" [trackBy]="trackByAnime">
 
 			<ng-container matColumnDef={{columnsHeaders.Image}}>
@@ -42,9 +40,7 @@
 			<mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
 
 		</mat-table>
-
 	} @else {
 		<camp-progress-bar/>
 	}
-
 </div>
