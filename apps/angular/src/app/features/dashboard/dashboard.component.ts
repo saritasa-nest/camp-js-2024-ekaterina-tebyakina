@@ -11,8 +11,8 @@ export enum ColumnsHeaders {
 	EnglishTitle = 'English title',
 	JapaneseTitle = 'Japanese title',
 	AiredStart = 'Aired starts with',
-	Type = 'type',
-	Status = 'status',
+	Type = 'Type',
+	Status = 'Status',
 }
 
 /** Dashboard component. Contains table with list of anime. */
