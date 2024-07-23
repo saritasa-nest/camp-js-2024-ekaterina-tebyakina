@@ -1,6 +1,6 @@
 import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
@@ -12,7 +12,7 @@ import { Anime } from '@js-camp/core/models/anime';
 @Injectable({ providedIn: 'root' })
 export class ApiService {
 
-	public constructor(private http: HttpClient) {}
+	private readonly http = inject(HttpClient);
 
 	/** Gets anime list. */
 	public getAnime(): Observable<Anime[]> {
