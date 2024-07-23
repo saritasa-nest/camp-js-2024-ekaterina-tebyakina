@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { ApiService } from '@js-camp/angular/core/services/api.service';
+import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
@@ -31,10 +31,10 @@ export enum ColumnsHeaders {
 })
 export class DashboardComponent {
 
-	private readonly apiService = inject(ApiService);
+	private readonly animeApiService = inject(AnimeApiService);
 
 	/** Stream of anime. */
-	protected readonly anime$ = this.apiService.getAnime();
+	protected readonly anime$ = this.animeApiService.getList();
 
 	/**
 	 * Track by function for anime list.

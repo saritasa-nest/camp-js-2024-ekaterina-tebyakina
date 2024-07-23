@@ -8,14 +8,14 @@ import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 
 import { Anime } from '@js-camp/core/models/anime';
 
-/** API Access Service. */
+/** Anime API Access Service. */
 @Injectable({ providedIn: 'root' })
-export class ApiService {
+export class AnimeApiService {
 
 	private readonly http = inject(HttpClient);
 
 	/** Gets anime list. */
-	public getAnime(): Observable<Anime[]> {
+	public getList(): Observable<Anime[]> {
 		return this.http.get<PaginationDto<AnimeDto>>('anime/anime/').pipe(
 			map(pageItem => pageItem.results),
 			map(results => results.map((anime: AnimeDto) => AnimeMapper.fromDto(anime))),
