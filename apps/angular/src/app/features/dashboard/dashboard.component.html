@@ -1,5 +1,5 @@
 <div class="dashboard">
-	@if (anime$ | async; as animeList) {
+	@if (animeList$ | async; as animeList) {
 		<mat-table class="dashboard__table" [dataSource]="animeList" [trackBy]="trackByAnime">
 
 			<ng-container matColumnDef={{columnsHeaders.Image}}>

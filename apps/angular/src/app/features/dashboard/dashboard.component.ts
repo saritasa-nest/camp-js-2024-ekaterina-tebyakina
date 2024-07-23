@@ -35,7 +35,7 @@ export class DashboardComponent {
 	private readonly animeApiService = inject(AnimeApiService);
 
 	/** Stream of anime. */
-	protected readonly anime$ = this.animeApiService.getList();
+	protected readonly animeList$ = this.animeApiService.getList();
 
 	/**
 	 * Track by function for anime list.
