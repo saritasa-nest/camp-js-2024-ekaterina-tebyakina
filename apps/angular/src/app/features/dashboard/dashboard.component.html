@@ -16,12 +16,12 @@
 
 			<ng-container matColumnDef={{columnsHeaders.EnglishTitle}}>
 				<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.EnglishTitle}} </th>
-				<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.titleEng | empty}}</td>
+				<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.englishTitle | empty}}</td>
 			</ng-container>
 
 			<ng-container matColumnDef={{columnsHeaders.JapaneseTitle}}>
 				<th mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.JapaneseTitle}}</th>
-				<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.titleJpn | empty}} </td>
+				<td mat-cell *matCellDef="let element" class="dashboard__content"> {{element.japaneseTitle | empty}} </td>
 			</ng-container>
 
 			<ng-container matColumnDef={{columnsHeaders.AiredStart}}>
