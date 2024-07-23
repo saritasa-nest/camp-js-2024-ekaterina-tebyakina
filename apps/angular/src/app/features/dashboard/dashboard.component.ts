@@ -4,6 +4,7 @@ import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.servic
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
+import { Anime } from '@js-camp/core/models/anime';
 
 /** Column headers to be displayed in table. */
 export enum ColumnsHeaders {
@@ -42,7 +43,7 @@ export class DashboardComponent {
 	 * @param item - Item of anime list.
 	 * @returns Item's id.
 	 */
-	protected trackByAnime(index: number, item: { id: number; }): number {
+	protected trackByAnime(index: number, item: Anime): number {
 		return item.id;
 	}
 
