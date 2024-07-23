@@ -17,8 +17,7 @@ export class AnimeApiService {
 	/** Gets anime list. */
 	public getList(): Observable<Anime[]> {
 		return this.http.get<PaginationDto<AnimeDto>>('anime/anime/').pipe(
-			map(pageItem => pageItem.results),
-			map(results => results.map((anime: AnimeDto) => AnimeMapper.fromDto(anime))),
+			map(({ results }) => results.map((anime: AnimeDto) => AnimeMapper.fromDto(anime))),
 		);
 	}
 }
