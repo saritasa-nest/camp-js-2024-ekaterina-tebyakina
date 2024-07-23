@@ -20,4 +20,11 @@
 	--background-contrast-color: black;
 	--error-color: red;
 	--border-color: #00000026;
+
+	/* Variables for spaces */
+	--space-xs: 8px;
+	--space-s: calc(var(--space-xs) * 2);
+	--space-m: calc(var(--space-xs) * 3);
+	--space-l: calc(var(--space-xs) * 4);
+	--space-xl: calc(var(--space-xs) * 5);
 }
