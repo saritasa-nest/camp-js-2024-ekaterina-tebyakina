@@ -6,17 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 	standalone: true,
 })
 export class EmptyPipe implements PipeTransform {
-	/** @inheritdoc */
-	public transform(
-		value: string | null | undefined,
-		placeholder?: string
-	): string;
-
-	/** @inheritdoc */
-	public transform(
-		value: number | null | undefined,
-		placeholder?: string
-	): number | string;
 
 	/**
 	 * Transforms the specified empty string or nullable value into the specified placeholder.
