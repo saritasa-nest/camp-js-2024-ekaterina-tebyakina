@@ -17,7 +17,7 @@ export class EmptyPipe implements PipeTransform {
 	 */
 	public transform(
 		value: number | string | null | undefined,
-		placeholder = DEFAULT_PLACEHOLDER,
+		placeholder: string = DEFAULT_PLACEHOLDER,
 	): string | number {
 
 		if (value == null || value === '') {
