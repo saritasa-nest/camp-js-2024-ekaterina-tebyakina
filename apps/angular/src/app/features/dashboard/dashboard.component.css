@@ -20,7 +20,12 @@
 .dashboard__content {
 	justify-content: center;
 	font-size: var(--font-size-xs);
-	text-align: center;
+}
+
+.content__text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .cover__wrapper {

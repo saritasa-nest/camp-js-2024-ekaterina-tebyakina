@@ -15,12 +15,20 @@
 
 			<ng-container matColumnDef={{columnsHeaders.EnglishTitle}}>
 				<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.EnglishTitle}} </mat-header-cell>
-				<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.englishTitle | empty}}</mat-cell>
+				<mat-cell *matCellDef="let element" class="dashboard__content">
+					<p class="content__text">
+						{{element.englishTitle | empty}}
+					</p>
+				</mat-cell>
 			</ng-container>
 
 			<ng-container matColumnDef={{columnsHeaders.JapaneseTitle}}>
 				<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.JapaneseTitle}}</mat-header-cell>
-				<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.japaneseTitle | empty}} </mat-cell>
+				<mat-cell *matCellDef="let element" class="dashboard__content content">
+					<p class="content__text">
+						{{element.japaneseTitle | empty}}
+					</p>
+				</mat-cell>
 			</ng-container>
 
 			<ng-container matColumnDef={{columnsHeaders.AiredStart}}>
