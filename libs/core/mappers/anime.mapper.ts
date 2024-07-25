@@ -1,5 +1,9 @@
-import { AiredDto, AnimeDto, AnimeStatusDto, AnimeTypeDto } from '../dtos/anime.dto';
-import { Aired, Anime, AnimeStatus, AnimeType } from '../models/anime';
+import { AnimeDto } from '../dtos/anime.dto';
+import { Anime } from '../models/anime';
+
+import { fromAiredDto } from './aired.mapper';
+import { fromStatusDto } from './anime-status.mapper';
+import { fromTypeDto } from './anime-type.mapper';
 
 export namespace AnimeMapper {
 
@@ -23,46 +27,6 @@ export namespace AnimeMapper {
 			studios: dto.studios,
 			genres: dto.genres,
 		});
-	}
-
-	/**
-	 * Map aired dto to model.
-	 * @param aired - Aired dto.
-	 * @returns Aired model.
-	 */
-	export function fromAiredDto(aired: AiredDto): Aired {
-		return {
-			start: aired.start ? new Date(aired.start) : null,
-			end: aired.end ? new Date(aired.end) : null,
-		};
-	}
-
-	/** Type of anime type enum's keys. */
-	export type TypeKey = keyof typeof AnimeTypeDto;
-
-	/**
-	 * Map type dto.
-	 * @param type  - Type dto.
-	 * @returns Type model.
-	 */
-	export function fromTypeDto(type: AnimeTypeDto): AnimeType {
-		const keyId = Object.values(AnimeTypeDto).indexOf(type);
-		const enumKey = Object.keys(AnimeTypeDto)[keyId] as TypeKey;
-		return AnimeType[enumKey];
-	}
-
-	/** Type of anime status enum's keys. */
-	export type StatusKey = keyof typeof AnimeStatusDto;
-
-	/**
-	 * Map status dto.
-	 * @param status  - Status dto.
-	 * @returns Status model.
-	 */
-	export function fromStatusDto(status: AnimeStatusDto): AnimeStatus {
-		const keyId = Object.values(AnimeStatusDto).indexOf(status);
-		const enumKey = Object.keys(AnimeStatusDto)[keyId] as StatusKey;
-		return AnimeStatus[enumKey];
 	}
 
 }
