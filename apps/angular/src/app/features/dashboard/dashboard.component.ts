@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { toTypeDto } from '@js-camp/core/mappers/anime-type.mapper';
 import { AnimeTypeDto } from '@js-camp/core/dtos/anime-type.dto';
+import { ActivatedRoute, Router } from '@angular/router';
 
 /** Column headers to be displayed in table. */
 export enum ColumnsHeaders {
@@ -50,7 +51,20 @@ export enum ColumnsHeaders {
 		ProgressBarComponent,
 	],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+
+	private readonly route = inject(ActivatedRoute);
+
+	private readonly router = inject(Router);
+
+	/** */
+	public ngOnInit(): void {
+		this.route.queryParams
+			.subscribe(params => {
+				console.log(params);
+				this.animeListPage$ = this.animeApiService.getPage(params);
+			});
+	}
 
 	/** */
 	protected types = new FormControl();
@@ -61,7 +75,7 @@ export class DashboardComponent {
 	/** */
 	protected onSelect(): void {
 		// TODO: Use EventEmitter with form value
-		console.log(this.types.value);
+
 		const typesArr = this.types.value as AnimeType[];
 		let typesDtoArr: AnimeTypeDto[] = [];
 
@@ -69,8 +83,14 @@ export class DashboardComponent {
 			typesDtoArr = typesArr.map(type => toTypeDto(type));
 		}
 		const typesString = typesDtoArr.join(',');
-		console.log(typesDtoArr.join(','));
-		this.animeListPage$ = this.animeApiService.getPage({ type__in: typesString });
+
+		this.router.navigate(
+			[''],
+			{
+				queryParams: { type__in: typesString },
+				queryParamsHandling: 'merge',
+			},
+		);
 	}
 
 	/** */
@@ -80,24 +100,20 @@ export class DashboardComponent {
 
 	/** */
 	protected onSubmit(): void {
-		// TODO: Use EventEmitter with form value
-		console.log(this.searchForm.value.term);
-		this.animeListPage$ = this.animeApiService.getPage({ search: String(this.searchForm.value.term) });
+
+		this.router.navigate(
+			[''],
+			{
+				queryParams: { search: String(this.searchForm.value.term) },
+				queryParamsHandling: 'merge',
+			},
+		);
 	}
 
 	/** */
 	protected searchKeywordFilter = new FormControl();
 
 	private readonly animeApiService = inject(AnimeApiService);
-
-	/** Stream of anime. */
-	// protected readonly animeList$ = this.animeApiService.getList();
-
-	/** */
-	protected page = 0;
-
-	/** */
-	protected pageSize = 25;
 
 	/** */
 	protected animeListPage$ = this.animeApiService.getPage({});
@@ -107,9 +123,14 @@ export class DashboardComponent {
 	 * @param event - Page.
 	 */
 	protected pageChanged(event: PageEvent): void {
-		this.page = event.pageIndex;
-		this.pageSize = event.pageSize;
-		this.animeListPage$ = this.animeApiService.getPage({ page: event.pageIndex, pageSize: event.pageSize });
+
+		this.router.navigate(
+			[''],
+			{
+				queryParams: { page: event.pageIndex, pageSize: event.pageSize },
+				queryParamsHandling: 'merge',
+			},
+		);
 	}
 
 	/**
@@ -135,13 +156,10 @@ export class DashboardComponent {
 		status: '',
 	};
 
-	// dataSource = new MatTableDataSource();
-
 	/** Announce the change in sort state for assistive technology.
 	 * @param sortState - Anime list item id.
 	 */
 	protected sortData(sortState: Sort): void {
-		console.log(sortState);
 
 		let sortField: keyof typeof this.sortOrder;
 
@@ -159,8 +177,6 @@ export class DashboardComponent {
 				sortField = 'status';
 		}
 
-		// console.log(sortField);
-
 		switch (sortState.direction) {
 			case 'asc':
 				this.sortOrder[sortField] = sortField;
@@ -171,8 +187,6 @@ export class DashboardComponent {
 			default:
 				this.sortOrder[sortField] = '';
 		}
-
-		// console.log(Object.values(this.sortOrder));
 
 		let orderString = '';
 		Object.values(this.sortOrder).forEach(item => {
@@ -186,8 +200,12 @@ export class DashboardComponent {
 			}
 		});
 
-		// const orderString = Object.values(this.sortOrder).join(',');
-		// console.log(orderString);
-		this.animeListPage$ = this.animeApiService.getPage({ page: this.page, pageSize: this.pageSize, ordering: orderString });
+		this.router.navigate(
+			[''],
+			{
+				queryParams: { ordering: orderString },
+				queryParamsHandling: 'merge',
+			},
+		);
 	}
 }

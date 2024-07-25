@@ -36,13 +36,13 @@ export class AnimeApiService {
 			.set('search', search)
 			.set('type__in', type__in);
 
-		console.log('pageParams', pageParams);
+		// console.log('pageParams', pageParams);
 
 		return this.http.get<PaginationDto<AnimeDto>>('anime/anime/', {
 			params: pageParams,
 		}).pipe(
 			map(res => PaginationMapper.fromDto(res, page, pageSize, AnimeMapper.fromDto)),
-			tap(res => console.log(res)),
+			// tap(res => console.log(res)),
 		);
 	}
 }
