@@ -1,3 +1,5 @@
+import { Aired } from './aired';
+import { AnimeStatus } from './anime-status';
 import { Immerable, OmitImmerable } from './immerable';
 
 /** Anime model. */
@@ -58,35 +60,6 @@ export class Anime extends Immerable {
 		this.studios = data.studios;
 		this.genres = data.genres;
 	}
-}
-
-/** The dates on which aired started and ended. */
-export type Aired = {
-
-	/** Date, when aired started. */
-	readonly start: Date | null;
-
-	/** Date, when aired ended. */
-	readonly end: Date | null;
-};
-
-/** Anime status. */
-export enum AnimeStatus {
-	Airing = 'Airing',
-	Finished = 'Finished',
-	NotYetAired = 'Not yet aired',
-}
-
-/** Anime type. */
-export enum AnimeType {
-	Movie = 'Movie',
-	Music = 'Music',
-	ONA = 'ONA',
-	OVA = 'OVA',
-	Promotional = 'Promotional videos',
-	Special = 'Special',
-	TV = 'TV',
-	Unknown = 'Unknown',
 }
 
 type AnimeConstructorData = OmitImmerable<Anime>;
