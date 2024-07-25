@@ -1,10 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { Anime } from '@js-camp/core/models/anime';
+import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 
@@ -29,6 +34,11 @@ export enum ColumnsHeaders {
 		MatPaginator,
 		MatSort,
 		MatSortModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatButtonModule,
+		MatIconModule,
+		ReactiveFormsModule,
 		AsyncPipe,
 		DatePipe,
 		EmptyPipe,
@@ -38,6 +48,21 @@ export enum ColumnsHeaders {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent {
+
+	/** */
+	protected searchForm = new FormGroup({
+		term: new FormControl(''),
+	});
+
+	/** */
+	protected onSubmit(): void {
+		// TODO: Use EventEmitter with form value
+		console.log(this.searchForm.value.term);
+		this.animeListPage$ = this.animeApiService.getPage({search: String(this.searchForm.value.term)});
+	}
+
+	/** */
+	protected searchKeywordFilter = new FormControl();
 
 	private readonly animeApiService = inject(AnimeApiService);
 
