@@ -42,3 +42,14 @@ export namespace AnimeTypeMapper {
 		return ANIME_TYPE_MAP_TO_DTO[type];
 	}
 }
+
+/**
+ * Map type dto.
+ * @param type  - Type dto.
+ * @returns Type model.
+ */
+export function toTypeDto(type: AnimeType): AnimeTypeDto {
+	const keyId = Object.values(AnimeType).indexOf(type);
+	const enumKey = Object.keys(AnimeType)[keyId] as TypeKey;
+	return AnimeTypeDto[enumKey];
+}

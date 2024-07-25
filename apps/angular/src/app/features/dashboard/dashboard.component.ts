@@ -12,6 +12,10 @@ import { Anime } from '@js-camp/core/models/anime';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
+import { MatSelectModule } from '@angular/material/select';
+import { AnimeType } from '@js-camp/core/models/anime-type';
+import { toTypeDto } from '@js-camp/core/mappers/anime-type.mapper';
+import { AnimeTypeDto } from '@js-camp/core/dtos/anime-type.dto';
 
 /** Column headers to be displayed in table. */
 export enum ColumnsHeaders {
@@ -38,6 +42,7 @@ export enum ColumnsHeaders {
 		MatInputModule,
 		MatButtonModule,
 		MatIconModule,
+		MatSelectModule,
 		ReactiveFormsModule,
 		AsyncPipe,
 		DatePipe,
@@ -50,6 +55,27 @@ export enum ColumnsHeaders {
 export class DashboardComponent {
 
 	/** */
+	protected types = new FormControl();
+
+	/** */
+	protected typesList = Object.values(AnimeType);
+
+	/** */
+	protected onSelect(): void {
+		// TODO: Use EventEmitter with form value
+		console.log(this.types.value);
+		const typesArr = this.types.value as AnimeType[];
+		let typesDtoArr: AnimeTypeDto[] = [];
+
+		if (typesArr) {
+			typesDtoArr = typesArr.map(type => toTypeDto(type));
+		}
+		const typesString = typesDtoArr.join(',');
+		console.log(typesDtoArr.join(','));
+		this.animeListPage$ = this.animeApiService.getPage({ type__in: typesString });
+	}
+
+	/** */
 	protected searchForm = new FormGroup({
 		term: new FormControl(''),
 	});
@@ -58,7 +84,7 @@ export class DashboardComponent {
 	protected onSubmit(): void {
 		// TODO: Use EventEmitter with form value
 		console.log(this.searchForm.value.term);
-		this.animeListPage$ = this.animeApiService.getPage({search: String(this.searchForm.value.term)});
+		this.animeListPage$ = this.animeApiService.getPage({ search: String(this.searchForm.value.term) });
 	}
 
 	/** */
@@ -134,6 +160,7 @@ export class DashboardComponent {
 			default:
 				sortField = 'status';
 		}
+
 		// console.log(sortField);
 
 		switch (sortState.direction) {
@@ -163,6 +190,6 @@ export class DashboardComponent {
 
 		// const orderString = Object.values(this.sortOrder).join(',');
 		// console.log(orderString);
-		this.animeListPage$ = this.animeApiService.getPage({page: this.page, pageSize: this.pageSize, ordering: orderString});
+		this.animeListPage$ = this.animeApiService.getPage({ page: this.page, pageSize: this.pageSize, ordering: orderString });
 	}
 }
