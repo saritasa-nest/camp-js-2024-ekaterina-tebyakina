@@ -5,6 +5,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { Anime } from '@js-camp/core/models/anime';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 /** Column headers to be displayed in table. */
 export enum ColumnsHeaders {
@@ -24,6 +25,7 @@ export enum ColumnsHeaders {
 	styleUrl: './dashboard.component.css',
 	imports: [
 		MatTableModule,
+		MatPaginator,
 		AsyncPipe,
 		DatePipe,
 		EmptyPipe,
@@ -35,7 +37,26 @@ export class DashboardComponent {
 	private readonly animeApiService = inject(AnimeApiService);
 
 	/** Stream of anime. */
-	protected readonly animeList$ = this.animeApiService.getList();
+	// protected readonly animeList$ = this.animeApiService.getList();
+
+	/** */
+	protected page = 0;
+
+	/** */
+	protected pageSize = 25;
+
+	/** */
+	protected animeListPage$ = this.animeApiService.getPage({});
+
+	/**
+	 * Page.
+	 * @param event - Page.
+	 */
+	protected pageChanged(event: PageEvent): void {
+		this.page = event.pageIndex;
+		this.pageSize = event.pageSize;
+		this.animeListPage$ = this.animeApiService.getPage({ page: event.pageIndex, pageSize: event.pageSize });
+	}
 
 	/**
 	 * Track by function for anime list.

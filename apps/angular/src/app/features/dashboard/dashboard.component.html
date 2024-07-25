@@ -1,55 +1,64 @@
 <div class="dashboard">
-	@if (animeList$ | async; as animeList) {
-		<mat-table class="dashboard__table" [dataSource]="animeList" [trackBy]="trackByAnime">
+	@if (animeListPage$ | async; as animeListPage) {
+		<div class="dashboard__table-wrapper">
+			<mat-table class="dashboard__table" [dataSource]="animeListPage.results" [trackBy]="trackByAnime">
 
-			<ng-container matColumnDef={{columnsHeaders.Image}}>
-				<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Image}} </mat-header-cell>
-				<mat-cell *matCellDef="let element" class="dashboard__content cover">
-					<div class="cover__wrapper">
-						<img [src]="element.image"
-								 [alt]="element.japaneseTitle ? element.japaneseTitle + ' cover' : 'Anime cover'"
-								 class="cover__image">
-					</div>
-				</mat-cell>
-			</ng-container>
+				<ng-container matColumnDef={{columnsHeaders.Image}}>
+					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Image}} </mat-header-cell>
+					<mat-cell *matCellDef="let element" class="dashboard__content cover">
+						<div class="cover__wrapper">
+							<img [src]="element.image"
+									 [alt]="element.japaneseTitle ? element.japaneseTitle + ' cover' : 'Anime cover'"
+									 class="cover__image">
+						</div>
+					</mat-cell>
+				</ng-container>
 
-			<ng-container matColumnDef={{columnsHeaders.EnglishTitle}}>
-				<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.EnglishTitle}} </mat-header-cell>
-				<mat-cell *matCellDef="let element" class="dashboard__content">
-					<p class="content__text">
-						{{element.englishTitle | empty}}
-					</p>
-				</mat-cell>
-			</ng-container>
+				<ng-container matColumnDef={{columnsHeaders.EnglishTitle}}>
+					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.EnglishTitle}} </mat-header-cell>
+					<mat-cell *matCellDef="let element" class="dashboard__content">
+						<p class="content__text">
+							{{element.englishTitle | empty}}
+						</p>
+					</mat-cell>
+				</ng-container>
 
-			<ng-container matColumnDef={{columnsHeaders.JapaneseTitle}}>
-				<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.JapaneseTitle}}</mat-header-cell>
-				<mat-cell *matCellDef="let element" class="dashboard__content content">
-					<p class="content__text">
-						{{element.japaneseTitle | empty}}
-					</p>
-				</mat-cell>
-			</ng-container>
+				<ng-container matColumnDef={{columnsHeaders.JapaneseTitle}}>
+					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.JapaneseTitle}}</mat-header-cell>
+					<mat-cell *matCellDef="let element" class="dashboard__content content">
+						<p class="content__text">
+							{{element.japaneseTitle | empty}}
+						</p>
+					</mat-cell>
+				</ng-container>
 
-			<ng-container matColumnDef={{columnsHeaders.AiredStart}}>
-				<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.AiredStart}} </mat-header-cell>
-				<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.aired.start | date: "mediumDate" | empty}} </mat-cell>
-			</ng-container>
+				<ng-container matColumnDef={{columnsHeaders.AiredStart}}>
+					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.AiredStart}} </mat-header-cell>
+					<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.aired.start | date: "mediumDate" | empty}} </mat-cell>
+				</ng-container>
 
-			<ng-container matColumnDef={{columnsHeaders.Type}}>
-				<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Type}} </mat-header-cell>
-				<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.type | empty}} </mat-cell>
-			</ng-container>
+				<ng-container matColumnDef={{columnsHeaders.Type}}>
+					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Type}} </mat-header-cell>
+					<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.type | empty}} </mat-cell>
+				</ng-container>
 
-			<ng-container matColumnDef={{columnsHeaders.Status}}>
-				<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Status}} </mat-header-cell>
-				<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.status | empty}} </mat-cell>
-			</ng-container>
+				<ng-container matColumnDef={{columnsHeaders.Status}}>
+					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Status}} </mat-header-cell>
+					<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.status | empty}} </mat-cell>
+				</ng-container>
 
-			<mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-			<mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+				<mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+				<mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
 
-		</mat-table>
+			</mat-table>
+			<mat-paginator [length]="animeListPage.pagesCount"
+										 [pageSize]="animeListPage.pageSize"
+										 [pageIndex]="animeListPage.pageIndex"
+										 [pageSizeOptions]="[10, 25, 50]"
+										 (page)="pageChanged($event)"
+										 aria-label="Select page">
+			</mat-paginator>
+		</div>
 	} @else {
 		<camp-progress-bar/>
 	}
