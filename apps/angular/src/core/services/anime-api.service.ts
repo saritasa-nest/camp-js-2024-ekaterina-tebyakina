@@ -28,12 +28,13 @@ export class AnimeApiService {
  * @param param0 getPage.
  * @returns getPage.
  */
-	public getPage({page = 0, pageSize = 25, ordering = '', search = ''}): Observable<Pagination<Anime>> {
+	public getPage({page = 0, pageSize = 25, ordering = '', search = '', type__in=''}): Observable<Pagination<Anime>> {
 		const pageParams = new HttpParams()
 			.set('limit', pageSize)
 			.set('offset', page * pageSize)
 			.set('ordering', ordering)
-			.set('search', search);
+			.set('search', search)
+			.set('type__in', type__in);
 
 		console.log('pageParams', pageParams);
 

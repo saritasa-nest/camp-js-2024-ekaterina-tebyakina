@@ -1,23 +1,34 @@
 <div class="dashboard">
-	<form [formGroup]="searchForm"
-				(ngSubmit)="onSubmit()"
-				class="dashboard__search-form search-form">
-		<mat-form-field class="search search-form-field"
-										appearance="outline">
-			<mat-label>Search </mat-label>
-			<input matInput
-						 formControlName="term"
-						 placeholder="Type to Search"
-						 class="search-form__input"/>
+
+	<div class="dashboard__search">
+		<mat-form-field>
+			<mat-label>Types</mat-label>
+			<mat-select [formControl]="types" multiple (selectionChange)="onSelect()">
+				@for (type of typesList; track type) {
+					<mat-option [value]="type">{{type}}</mat-option>
+				}
+			</mat-select>
 		</mat-form-field>
-		<button mat-raised-button
-						extended
-						type="submit"
-						class="search-form__button">
-			<mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="search"></mat-icon>
-			Search
-		</button>
-	</form>
+		<form [formGroup]="searchForm"
+					(ngSubmit)="onSubmit()"
+					class="dashboard__search-form search-form">
+			<mat-form-field class="search search-form-field"
+											appearance="outline">
+				<mat-label>Attack on Titan</mat-label>
+				<input matInput
+							 formControlName="term"
+							 placeholder="Type to Search"
+							 class="search-form__input"/>
+			</mat-form-field>
+			<button mat-raised-button
+							extended
+							type="submit"
+							class="search-form__button">
+				<mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="search"></mat-icon>
+				Search
+			</button>
+		</form>
+	</div>
 
 	@if (animeListPage$ | async; as animeListPage) {
 		<div class="dashboard__table-wrapper">

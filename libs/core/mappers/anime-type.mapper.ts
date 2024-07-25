@@ -14,3 +14,14 @@ export function fromTypeDto(type: AnimeTypeDto): AnimeType {
 	const enumKey = Object.keys(AnimeTypeDto)[keyId] as TypeKey;
 	return AnimeType[enumKey];
 }
+
+/**
+ * Map type dto.
+ * @param type  - Type dto.
+ * @returns Type model.
+ */
+export function toTypeDto(type: AnimeType): AnimeTypeDto {
+	const keyId = Object.values(AnimeType).indexOf(type);
+	const enumKey = Object.keys(AnimeType)[keyId] as TypeKey;
+	return AnimeTypeDto[enumKey];
+}

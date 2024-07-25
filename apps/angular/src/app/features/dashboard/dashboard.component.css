@@ -2,6 +2,13 @@
 	padding: var(--space-m);
 }
 
+.dashboard__search {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--space-s);
+}
+
 .search-form {
 	display: flex;
 	flex-direction: row;
