@@ -6,6 +6,7 @@ import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { Anime } from '@js-camp/core/models/anime';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 
 /** Column headers to be displayed in table. */
 export enum ColumnsHeaders {
@@ -26,6 +27,8 @@ export enum ColumnsHeaders {
 	imports: [
 		MatTableModule,
 		MatPaginator,
+		MatSort,
+		MatSortModule,
 		AsyncPipe,
 		DatePipe,
 		EmptyPipe,
@@ -76,4 +79,65 @@ export class DashboardComponent {
 	/** List of column headers. */
 	protected readonly columnsToDisplay = Object.values(ColumnsHeaders);
 
+	/** */
+	protected sortOrder = {
+		title_eng: '',
+		aired__startswith: '',
+		status: '',
+	};
+
+	// dataSource = new MatTableDataSource();
+
+	/** Announce the change in sort state for assistive technology.
+	 * @param sortState - Anime list item id.
+	 */
+	protected sortData(sortState: Sort): void {
+		console.log(sortState);
+
+		let sortField: keyof typeof this.sortOrder;
+
+		switch (sortState.active) {
+			case 'English title':
+				sortField = 'title_eng';
+				break;
+			case 'Aired starts with':
+				sortField = 'aired__startswith';
+				break;
+			case 'Status':
+				sortField = 'status';
+				break;
+			default:
+				sortField = 'status';
+		}
+		// console.log(sortField);
+
+		switch (sortState.direction) {
+			case 'asc':
+				this.sortOrder[sortField] = sortField;
+				break;
+			case 'desc':
+				this.sortOrder[sortField] = `-${sortField}`;
+				break;
+			default:
+				this.sortOrder[sortField] = '';
+		}
+
+		// console.log(Object.values(this.sortOrder));
+
+		let orderString = '';
+		Object.values(this.sortOrder).forEach(item => {
+			if (item) {
+				if (orderString) {
+					orderString = `${orderString},${item}`;
+				} else {
+					orderString = item;
+				}
+
+			}
+		});
+
+		// const orderString = Object.values(this.sortOrder).join(',');
+		// console.log(orderString);
+		this.animeListPage$ = this.animeApiService.getPage({page: this.page, pageSize: this.pageSize, ordering: orderString});
+	}
 }
