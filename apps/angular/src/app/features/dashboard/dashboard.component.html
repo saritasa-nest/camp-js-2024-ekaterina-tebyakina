@@ -1,7 +1,11 @@
 <div class="dashboard">
 	@if (animeListPage$ | async; as animeListPage) {
 		<div class="dashboard__table-wrapper">
-			<mat-table class="dashboard__table" [dataSource]="animeListPage.results" [trackBy]="trackByAnime">
+			<mat-table class="dashboard__table"
+								 [dataSource]="animeListPage.results"
+								 [trackBy]="trackByAnime"
+								 matSort
+								 (matSortChange)="sortData($event)">
 
 				<ng-container matColumnDef={{columnsHeaders.Image}}>
 					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Image}} </mat-header-cell>
@@ -15,7 +19,9 @@
 				</ng-container>
 
 				<ng-container matColumnDef={{columnsHeaders.EnglishTitle}}>
-					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.EnglishTitle}} </mat-header-cell>
+					<mat-header-cell *matHeaderCellDef
+														mat-sort-header
+														class="dashboard__title"> {{columnsHeaders.EnglishTitle}} </mat-header-cell>
 					<mat-cell *matCellDef="let element" class="dashboard__content">
 						<p class="content__text">
 							{{element.englishTitle | empty}}
@@ -33,7 +39,9 @@
 				</ng-container>
 
 				<ng-container matColumnDef={{columnsHeaders.AiredStart}}>
-					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.AiredStart}} </mat-header-cell>
+					<mat-header-cell *matHeaderCellDef
+														mat-sort-header
+														class="dashboard__title"> {{columnsHeaders.AiredStart}} </mat-header-cell>
 					<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.aired.start | date: "mediumDate" | empty}} </mat-cell>
 				</ng-container>
 
@@ -43,7 +51,9 @@
 				</ng-container>
 
 				<ng-container matColumnDef={{columnsHeaders.Status}}>
-					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Status}} </mat-header-cell>
+					<mat-header-cell *matHeaderCellDef
+														mat-sort-header
+														class="dashboard__title"> {{columnsHeaders.Status}} </mat-header-cell>
 					<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.status | empty}} </mat-cell>
 				</ng-container>
 
