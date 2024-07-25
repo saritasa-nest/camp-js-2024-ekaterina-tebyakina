@@ -1,5 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+const DEFAULT_PLACEHOLDER = '\u2014';
+
 /** Pipe for alternative representation of empty value. */
 @Pipe({
 	name: 'empty',
@@ -15,11 +17,11 @@ export class EmptyPipe implements PipeTransform {
 	 */
 	public transform(
 		value: number | string | null | undefined,
-		placeholder?: string,
+		placeholder = DEFAULT_PLACEHOLDER,
 	): string | number {
-		const placeholderValue = placeholder ?? '\u2014';
+
 		if (value == null || value === '') {
-			return placeholderValue;
+			return placeholder;
 		}
 
 		return value;
