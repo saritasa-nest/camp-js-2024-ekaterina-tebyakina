@@ -1,4 +1,24 @@
 <div class="dashboard">
+	<form [formGroup]="searchForm"
+				(ngSubmit)="onSubmit()"
+				class="dashboard__search-form search-form">
+		<mat-form-field class="search search-form-field"
+										appearance="outline">
+			<mat-label>Search </mat-label>
+			<input matInput
+						 formControlName="term"
+						 placeholder="Type to Search"
+						 class="search-form__input"/>
+		</mat-form-field>
+		<button mat-raised-button
+						extended
+						type="submit"
+						class="search-form__button">
+			<mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="search"></mat-icon>
+			Search
+		</button>
+	</form>
+
 	@if (animeListPage$ | async; as animeListPage) {
 		<div class="dashboard__table-wrapper">
 			<mat-table class="dashboard__table"

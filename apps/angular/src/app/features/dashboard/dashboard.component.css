@@ -2,6 +2,17 @@
 	padding: var(--space-m);
 }
 
+.search-form {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--space-s);
+}
+
+.search-form__button {
+	margin-bottom: 20px;
+}
+
 .dashboard__table-wrapper {
 	box-shadow:
 		inset 0 5px 5px -3px rgb(0 0 0 / 20%),
