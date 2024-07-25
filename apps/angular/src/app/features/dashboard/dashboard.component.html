@@ -6,7 +6,9 @@
 				<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Image}} </mat-header-cell>
 				<mat-cell *matCellDef="let element" class="dashboard__content cover">
 					<div class="cover__wrapper">
-						<img [src]="element.image" [alt]="element.titleJpn + ' cover' | empty: 'Anime cover'" class="cover__image">
+						<img [src]="element.image"
+								 [alt]="element.japaneseTitle ? element.japaneseTitle + ' cover' : 'Anime cover'"
+								 class="cover__image">
 					</div>
 				</mat-cell>
 			</ng-container>
