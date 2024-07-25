@@ -43,7 +43,7 @@ export class DashboardComponent {
 	 * @param item - Item of anime list.
 	 * @returns Item's id.
 	 */
-	protected trackByAnime(index: number, item: Anime): number {
+	protected trackByAnime(index: number, item: Anime): Anime['id'] {
 		return item.id;
 	}
 
