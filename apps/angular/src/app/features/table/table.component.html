@@ -1,10 +1,12 @@
-@if (pageData) {
+@if (pageData && ordering) {
 	<div class="table-wrapper">
 		<mat-table class="table"
 							 [dataSource]="pageData.results"
 							 [trackBy]="trackByAnime"
 							 matSort
 							 (matSortChange)="sortData($event)"
+							 [matSortActive]="ordering.active"
+							 [matSortDirection]="ordering.direction"
 							 >
 
 			<ng-container matColumnDef={{columnsHeaders.Image}}>
@@ -71,3 +73,4 @@
 	</div>
 
 }
+

@@ -49,8 +49,6 @@ export class AnimeApiService {
 			params: pageParams,
 		}).pipe(
 			map(res => PaginationMapper.fromDto(res, pageIndex, pageSize, AnimeMapper.fromDto)),
-
-			// tap(res => console.log(res)),
 		);
 	}
 }
