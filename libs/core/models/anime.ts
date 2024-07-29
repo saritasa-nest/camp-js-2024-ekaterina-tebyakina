@@ -1,5 +1,6 @@
 import { Aired } from './aired';
 import { AnimeStatus } from './anime-status';
+import { AnimeType } from './anime-type';
 import { Immerable, OmitImmerable } from './immerable';
 
 /** Anime model. */
@@ -27,7 +28,7 @@ export class Anime extends Immerable {
 	public readonly aired: Aired;
 
 	/** Anime type. */
-	public readonly type: string;
+	public readonly type: AnimeType;
 
 	/** Anime status. */
 	public readonly status: AnimeStatus;

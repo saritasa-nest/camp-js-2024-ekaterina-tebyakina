@@ -1,9 +1,9 @@
 import { AnimeDto } from '../dtos/anime.dto';
 import { Anime } from '../models/anime';
 
-import { fromAiredDto } from './aired.mapper';
-import { fromStatusDto } from './anime-status.mapper';
-import { fromTypeDto } from './anime-type.mapper';
+import { AiredMapper } from './aired.mapper';
+import { AnimeStatusMapper } from './anime-status.mapper';
+import { AnimeTypeMapper } from './anime-type.mapper';
 
 export namespace AnimeMapper {
 
@@ -19,9 +19,9 @@ export namespace AnimeMapper {
 			englishTitle: dto.title_eng,
 			japaneseTitle: dto.title_jpn,
 			image: dto.image,
-			aired: fromAiredDto(dto.aired),
-			type: fromTypeDto(dto.type),
-			status: fromStatusDto(dto.status),
+			aired: AiredMapper.fromAiredDto(dto.aired),
+			type: AnimeTypeMapper.fromTypeDto(dto.type),
+			status: AnimeStatusMapper.fromStatusDto(dto.status),
 			score: dto.score,
 			userScore: dto.user_score,
 			studios: dto.studios,
