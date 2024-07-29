@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { Anime } from '@js-camp/core/models/anime';
@@ -28,6 +28,7 @@ export enum ColumnsHeaders {
 		DatePipe,
 		EmptyPipe,
 		ProgressBarComponent,
+		NgOptimizedImage,
 	],
 })
 export class DashboardComponent {

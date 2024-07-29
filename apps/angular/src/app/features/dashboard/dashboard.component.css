@@ -20,6 +20,7 @@
 .dashboard__content {
 	justify-content: center;
 	font-size: var(--font-size-xs);
+	padding: var(--space-xs) 0;
 }
 
 .content__text {
@@ -29,12 +30,11 @@
 }
 
 .cover__wrapper {
+	position: relative;
 	display: flex;
 	justify-content: center;
-	padding: var(--space-xs) 0;
 	width: 150px;
 	height: 150px;
-	margin: 0 auto;
 }
 
 .cover__image {
