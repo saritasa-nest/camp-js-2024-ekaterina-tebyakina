@@ -1,29 +1,23 @@
-import { Component, inject, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, switchMap } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { EMPTY, Observable, switchMap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { QueryParamsDto } from '@js-camp/core/dtos/query-params.dto';
-import { QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 
+import { OrderingParamService } from '@js-camp/angular/core/services/ordering-param.service';
+
+import { AsyncPipe } from '@angular/common';
+
+import { TypeParamService } from '@js-camp/angular/core/services/type-param.service';
+
 import { TableComponent } from '../table/table.component';
 import { DataRetrievalFormComponent } from '../data-retrieval-form/data-retrieval-form.component';
-import { TableSortService } from '@js-camp/angular/core/services/table-sort.service';
-
-/** Column headers to be displayed in table. */
-export enum ColumnsHeaders {
-	Image = 'Image',
-	EnglishTitle = 'English title',
-	JapaneseTitle = 'Japanese title',
-	AiredStart = 'Aired starts with',
-	Type = 'Type',
-	Status = 'Status',
-}
 
 /** Column headers to be displayed in table. */
 export enum ParamsNames {
@@ -40,14 +34,14 @@ export enum ParamsNames {
 	standalone: true,
 	templateUrl: './dashboard.component.html',
 	styleUrl: './dashboard.component.css',
-	// changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		ProgressBarComponent,
 		TableComponent,
 		DataRetrievalFormComponent,
+		AsyncPipe,
 	],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
 
 	private readonly route = inject(ActivatedRoute);
 
@@ -55,60 +49,84 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 	private readonly animeApiService = inject(AnimeApiService);
 
-	private readonly queryParamsService = inject(QueryParamsService);
+	private readonly orderingParamService = inject(OrderingParamService);
+
+	private readonly typeParamService = inject(TypeParamService);
 
 	/** */
-	protected params: QueryParamsDto = {
-		offset: 0,
-		limit: 25,
-	};
+	protected offset = 0;
+
+	/** */
+	protected limit = 25;
+
+	/** */
+	protected search = '';
+
+	/** */
+	protected type: AnimeType[] = [];
 
 	/** */
 	protected ordering: Sort = { active: '', direction: '' };
 
 	/** */
-	protected animeListPage?: Pagination<Anime>;
+	protected animeListPage$: Observable<Pagination<Anime>> = EMPTY;
 
-	/** */
-	public animeSubscription?: Subscription;
+	private getValuesFromParams(params: Params): void {
+		if ('offset' in params) {
+			this.offset = params['offset'];
+		}
 
-	private readonly tableSortService = inject(TableSortService);
+		if ('limit' in params) {
+			this.limit = params['limit'];
+		}
+
+		if ('search' in params) {
+			this.search = params['search'];
+		}
+
+		if ('type' in params) {
+			this.type = this.typeParamService.composeTypeArray(params['type']);
+		}
+
+		if ('ordering' in params) {
+			this.ordering = this.orderingParamService.composeOrderingState(params['ordering']);
+		}
+	}
+
+	private defaultParams: QueryParamsDto = {
+		limit: 25,
+		offset: 0,
+	};
 
 	/** Subscribes on route parameters when the component is initialized. */
 	public ngOnInit(): void {
 
-		this.route.queryParams.pipe(
+		this.animeListPage$ = this.route.queryParams.pipe(
 			switchMap(params => {
-
-				Object.assign(this.params, params);
-				if ('ordering' in params) {
-					this.ordering = this.tableSortService.fromOrderingString(params['ordering']);
-					// console.log(this.ordering)
-				}
-
-				return this.animeApiService.getPage(this.params);
+				this.getValuesFromParams(params);
+				return this.animeApiService.getPage(params as QueryParamsDto);
 			}),
-		)
-			.subscribe(res => {
-				this.animeListPage = res;
-			});
-	}
-
-	/** Subscribes on route parameters when the component is initialized. */
-	public ngOnDestroy(): void {
-		this.animeSubscription?.unsubscribe();
+		);
 	}
 
 	/** */
 	protected setTypeSelect(event: AnimeType[]): void {
 
-		const typesString = this.queryParamsService.composeTypeParam(event);
+		const queryParams: QueryParamsDto = { ...this.defaultParams };
+
+		queryParams[ParamsNames.Type] = this.typeParamService.composeTypeString(event);
+
+		if (this.ordering) {
+			queryParams[ParamsNames.Ordering] = this.orderingParamService.composeOrderingString(this.ordering);
+		}
+		if (this.search) {
+			queryParams[ParamsNames.Search] = this.search;
+		}
 
 		this.router.navigate(
 			[''],
 			{
-				queryParams: { [ParamsNames.Type]: typesString },
-				queryParamsHandling: 'merge',
+				queryParams,
 			},
 		);
 	}
@@ -116,16 +134,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	/** */
 	protected setSearchSubmit(event: string): void {
 
-		const queryParams: QueryParamsDto = {
-			offset: 0,
-			limit: 25,
-		};
+		const queryParams: QueryParamsDto = { ...this.defaultParams };
 
-		if (ParamsNames.Type in this.params) {
-			queryParams[ParamsNames.Type] = this.params[ParamsNames.Type] as string;
+		if (this.type.length > 0) {
+			queryParams[ParamsNames.Type] = this.typeParamService.composeTypeString(this.type);
 		}
-		if (ParamsNames.Ordering in this.params) {
-			queryParams[ParamsNames.Ordering] = this.params[ParamsNames.Ordering] as string;
+		if (this.ordering) {
+			queryParams[ParamsNames.Ordering] = this.orderingParamService.composeOrderingString(this.ordering);
 		}
 		queryParams[ParamsNames.Search] = event;
 
@@ -171,7 +186,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	 */
 	public setOrdering(sortState: Sort): void {
 
-		const orderString = this.queryParamsService.composeOrderingParam(sortState);
+		const orderString = this.orderingParamService.composeOrderingString(sortState);
 
 		this.router.navigate(
 			[''],

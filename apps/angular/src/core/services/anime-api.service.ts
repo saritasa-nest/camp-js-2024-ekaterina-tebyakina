@@ -30,20 +30,13 @@ export class AnimeApiService {
 	 * @returns GetPage.
 	 */
 	public getPage(params: QueryParamsDto): Observable<Pagination<Anime>> {
+
 		const pageParams = new HttpParams()
 			.appendAll(params);
-
-		// .set('limit', params?.limit)
-		// .set('offset', params.offset)
-		// .set('ordering', params.ordering)
-		// .set('search', params.search)
-		// .set('type__in', params.type__in);
 
 		const pageIndex = params.offset / params.limit;
 
 		const pageSize = params.limit;
-
-		// console.log('pageParams', pageParams);
 
 		return this.http.get<PaginationDto<AnimeDto>>('anime/anime/', {
 			params: pageParams,

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { fromSortingColumnsDto, SortingColumnsDto } from '@js-camp/angular/app/features/table/table.component';
-import { toSortingColumnsDto } from '@js-camp/core/mappers/sorting-columns.mapper';
 import { SortingColumns } from '@js-camp/core/models/sorting-columns';
+import { ColumnsMapper } from '@js-camp/core/mappers/sorting-columns.mapper';
+import { SortingColumnsDto } from '@js-camp/core/dtos/sorting-columns.dto';
 
 /** Anime API Access Service. */
 @Injectable({ providedIn: 'root' })
-export class TableSortService {
+export class OrderingParamService {
 
 	/**
 	 * AnimeType.
@@ -18,7 +18,7 @@ export class TableSortService {
 		let orderString = '';
 
 		if (sortState) {
-			const sortField = toSortingColumnsDto(sortState.active as SortingColumns);
+			const sortField = ColumnsMapper.toSortingColumnsDto(sortState.active as SortingColumns);
 
 			switch (sortState.direction) {
 				case 'asc':
@@ -40,7 +40,7 @@ export class TableSortService {
 	 * @param ordering - AnimeType.
 	 * @returns AnimeType.
 	 */
-	public fromOrderingString(ordering: string): Sort {
+	public composeOrderingState(ordering: string): Sort {
 
 		const sortState: Sort = { active: '', direction: '' };
 
@@ -49,12 +49,12 @@ export class TableSortService {
 		}
 
 		if (ordering[0] === '-') {
-			sortState.active = fromSortingColumnsDto(ordering.slice(1) as SortingColumnsDto);
+			sortState.active = ColumnsMapper.fromSortingColumnsDto(ordering.slice(1) as SortingColumnsDto);
 			sortState.direction = 'desc';
 			return sortState;
 		}
 
-		sortState.active = fromSortingColumnsDto(ordering as SortingColumnsDto);
+		sortState.active = ColumnsMapper.fromSortingColumnsDto(ordering as SortingColumnsDto);
 		sortState.direction = 'asc';
 
 		return sortState;
