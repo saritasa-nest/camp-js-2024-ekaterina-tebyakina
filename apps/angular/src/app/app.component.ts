@@ -10,8 +10,4 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 	standalone: true,
 	imports: [RouterModule, MatToolbarModule],
 })
-export class AppComponent {
-
-	/** Name of application. */
-	public appName = 'Anime app';
-}
+export class AppComponent {}
