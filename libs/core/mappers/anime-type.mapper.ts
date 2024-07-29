@@ -1,16 +1,24 @@
 import { AnimeTypeDto } from '../dtos/anime-type.dto';
 import { AnimeType } from '../models/anime-type';
 
-/** Type of anime type enum's keys. */
-export type TypeKey = keyof typeof AnimeTypeDto;
+export namespace AnimeTypeMapper {
+	const animeTypeDtoMap: Readonly<Record<AnimeTypeDto, AnimeType>> = {
+		[AnimeTypeDto.Movie]: AnimeType.Movie,
+		[AnimeTypeDto.Music]: AnimeType.Music,
+		[AnimeTypeDto.ONA]: AnimeType.ONA,
+		[AnimeTypeDto.OVA]: AnimeType.OVA,
+		[AnimeTypeDto.Promotional]: AnimeType.Promotional,
+		[AnimeTypeDto.Special]: AnimeType.Special,
+		[AnimeTypeDto.TV]: AnimeType.TV,
+		[AnimeTypeDto.Unknown]: AnimeType.Unknown,
+	};
 
-/**
- * Map type dto.
- * @param type  - Type dto.
- * @returns Type model.
- */
-export function fromTypeDto(type: AnimeTypeDto): AnimeType {
-	const keyId = Object.values(AnimeTypeDto).indexOf(type);
-	const enumKey = Object.keys(AnimeTypeDto)[keyId] as TypeKey;
-	return AnimeType[enumKey];
+	/**
+	 * Map type dto.
+	 * @param type  - Type dto.
+	 * @returns Type model.
+	 */
+	export function fromTypeDto(type: AnimeTypeDto): AnimeType {
+		return animeTypeDtoMap[type];
+	}
 }
