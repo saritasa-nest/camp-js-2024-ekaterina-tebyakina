@@ -1,19 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { SortingColumnsDto } from '@js-camp/core/dtos/sorting-columns.dto';
+import { fromSortingColumnsDto, SortingColumnsDto } from '@js-camp/angular/app/features/table/table.component';
 import { toSortingColumnsDto } from '@js-camp/core/mappers/sorting-columns.mapper';
 import { SortingColumns } from '@js-camp/core/models/sorting-columns';
 
 /** Anime API Access Service. */
 @Injectable({ providedIn: 'root' })
 export class TableSortService {
-
-	/** */
-	protected sortOrder: Record<SortingColumnsDto, string> = {
-		[SortingColumnsDto.EnglishTitle]: '',
-		[SortingColumnsDto.AiredStart]: '',
-		[SortingColumnsDto.Status]: '',
-	};
 
 	/**
 	 * AnimeType.
@@ -22,28 +15,48 @@ export class TableSortService {
 	 */
 	public composeOrderingString(sortState: Sort): string {
 
-		console.log(sortState);
+		let orderString = '';
 
 		if (sortState) {
-
 			const sortField = toSortingColumnsDto(sortState.active as SortingColumns);
-console.log(sortField);
+
 			switch (sortState.direction) {
 				case 'asc':
-					this.sortOrder[sortField] = sortField;
+					orderString = sortField;
 					break;
 				case 'desc':
-					this.sortOrder[sortField] = `-${sortField}`;
+					orderString = `-${sortField}`;
 					break;
 				default:
-					this.sortOrder[sortField] = '';
+					orderString = '';
 			}
-
-			const orderString = Object.values(this.sortOrder).filter(item => item)
-				.join(',');
-
-			return orderString;
 		}
-		return '';
+
+		return orderString;
+	}
+
+	/**
+	 * AnimeType.
+	 * @param ordering - AnimeType.
+	 * @returns AnimeType.
+	 */
+	public fromOrderingString(ordering: string): Sort {
+
+		const sortState: Sort = { active: '', direction: '' };
+
+		if (ordering === '') {
+			return sortState;
+		}
+
+		if (ordering[0] === '-') {
+			sortState.active = fromSortingColumnsDto(ordering.slice(1) as SortingColumnsDto);
+			sortState.direction = 'desc';
+			return sortState;
+		}
+
+		sortState.active = fromSortingColumnsDto(ordering as SortingColumnsDto);
+		sortState.direction = 'asc';
+
+		return sortState;
 	}
 }

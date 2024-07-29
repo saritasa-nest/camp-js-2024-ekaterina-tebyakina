@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { ProgressBarComponent } from '@js-camp/angular/shared/components/progres
 
 import { TableComponent } from '../table/table.component';
 import { DataRetrievalFormComponent } from '../data-retrieval-form/data-retrieval-form.component';
+import { TableSortService } from '@js-camp/angular/core/services/table-sort.service';
 
 /** Column headers to be displayed in table. */
 export enum ColumnsHeaders {
@@ -39,6 +40,7 @@ export enum ParamsNames {
 	standalone: true,
 	templateUrl: './dashboard.component.html',
 	styleUrl: './dashboard.component.css',
+	// changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		ProgressBarComponent,
 		TableComponent,
@@ -63,14 +65,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	};
 
 	/** */
+	protected ordering: Sort = { active: '', direction: '' };
+
+	/** */
 	protected animeListPage?: Pagination<Anime>;
-
-	public constructor() {
-
-	}
 
 	/** */
 	public animeSubscription?: Subscription;
+
+	private readonly tableSortService = inject(TableSortService);
 
 	/** Subscribes on route parameters when the component is initialized. */
 	public ngOnInit(): void {
@@ -79,6 +82,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 			switchMap(params => {
 
 				Object.assign(this.params, params);
+				if ('ordering' in params) {
+					this.ordering = this.tableSortService.fromOrderingString(params['ordering']);
+					// console.log(this.ordering)
+				}
 
 				return this.animeApiService.getPage(this.params);
 			}),
@@ -94,7 +101,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	}
 
 	/** */
-	protected onTypeSelect(event: AnimeType[]): void {
+	protected setTypeSelect(event: AnimeType[]): void {
 
 		const typesString = this.queryParamsService.composeTypeParam(event);
 
@@ -108,7 +115,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	}
 
 	/** */
-	protected onSearchSubmit(event: string): void {
+	protected setSearchSubmit(event: string): void {
 
 		const queryParams: QueryParamsDto = {
 			offset: 0,

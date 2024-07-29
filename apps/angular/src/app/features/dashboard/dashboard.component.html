@@ -1,10 +1,11 @@
 <div class="dashboard">
 
-	<camp-data-retrieval-form (typeSelectEvent)="onTypeSelect($event)"
-														(searchEvent)="onSearchSubmit($event)"/>
+	<camp-data-retrieval-form (typeSelectEvent)="setTypeSelect($event)"
+														(searchEvent)="setSearchSubmit($event)"/>
 
 	@if (animeListPage) {
 		<camp-table [pageData]="animeListPage"
+								[ordering]="ordering"
 								(sortEvent)="setOrdering($event)"
 								(paginationEvent)="setPage($event)" />
 	} @else {

@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { Component, EventEmitter, Input, Output, ViewChild, OnInit } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/core/models/anime';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
+import { MatSort, Sort, MatSortModule, SortDirection, MatSortable } from '@angular/material/sort';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { Pagination } from '@js-camp/core/models/pagination';
@@ -15,6 +15,28 @@ export enum ColumnsHeaders {
 	AiredStart = 'Aired starts with',
 	Type = 'Type',
 	Status = 'Status',
+}
+
+/** Column headers to be displayed in table. */
+export enum SortingColumnsDto {
+	EnglishTitle = 'title_eng',
+	AiredStart = 'aired__startswith',
+	Status = 'status',
+}
+
+const sortingColumnsDtoMap: Readonly<Record<SortingColumnsDto, ColumnsHeaders>> = {
+	[SortingColumnsDto.EnglishTitle]: ColumnsHeaders.EnglishTitle,
+	[SortingColumnsDto.AiredStart]: ColumnsHeaders.AiredStart,
+	[SortingColumnsDto.Status]: ColumnsHeaders.Status,
+};
+
+/**
+ * SortingColumnsDto.
+ * @param enumKey SortingColumnsDto.
+ * @returns SortingColumnsDto.
+ */
+export function fromSortingColumnsDto(enumKey: SortingColumnsDto): ColumnsHeaders {
+	return sortingColumnsDtoMap[enumKey];
 }
 
 /** Dashboard component. Contains table with list of anime. */
@@ -33,10 +55,20 @@ export enum ColumnsHeaders {
 		EmptyPipe,
 	],
 })
-export class TableComponent {
+export class TableComponent implements OnInit {
+
+	/** Subscribes on route parameters when the component is initialized. */
+	public ngOnInit(): void {
+		// if (this.ordering) {
+		// 	this.ordering.active = fromSortingColumnsDto(this.ordering.active as SortingColumnsDto);
+		// }
+	}
 
 	/** */
 	@Input() public pageData?: Pagination<Anime>;
+
+	/** */
+	@Input() public ordering?: Sort;
 
 	/**
 	 * Track by function for anime list.
