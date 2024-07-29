@@ -1,10 +1,10 @@
-import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { AppConfig } from '../utils/app-config';
+import { inject } from '@angular/core';
 
-const appConfig = new AppConfig();
+import { AppConfig } from '../utils/app-config';
 
 /**
  * Add base url to a request.
@@ -12,7 +12,8 @@ const appConfig = new AppConfig();
  * @param next - Request handler function.
  * @returns Request with base url.
  */
-export const baseUrlInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
+export function baseUrlInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+	const appConfig = inject(AppConfig);
 	const reqWithBaseUrl = req.clone({ url: `${appConfig.baseApiURL}/${req.url}` });
 	return next(reqWithBaseUrl);
-};
+}
