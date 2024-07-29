@@ -1,105 +1,12 @@
 <div class="dashboard">
 
-	<div class="dashboard__search">
-		<mat-form-field>
-			<mat-label>Types</mat-label>
-			<mat-select [formControl]="types" multiple (selectionChange)="onSelect()">
-				@for (type of typesList; track type) {
-					<mat-option [value]="type">{{type}}</mat-option>
-				}
-			</mat-select>
-		</mat-form-field>
-		<form [formGroup]="searchForm"
-					(ngSubmit)="onSubmit()"
-					class="dashboard__search-form search-form">
-			<mat-form-field class="search search-form-field"
-											appearance="outline">
-				<mat-label>Attack on Titan</mat-label>
-				<input matInput
-							 formControlName="term"
-							 placeholder="Type to Search"
-							 class="search-form__input"/>
-			</mat-form-field>
-			<button mat-raised-button
-							extended
-							type="submit"
-							class="search-form__button">
-				<mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="search"></mat-icon>
-				Search
-			</button>
-		</form>
-	</div>
+	<camp-data-retrieval-form (typeSelectEvent)="onTypeSelect($event)"
+														(searchEvent)="onSearchSubmit($event)"/>
 
-	@if (animeListPage$ | async; as animeListPage) {
-		<div class="dashboard__table-wrapper">
-			<mat-table class="dashboard__table"
-								 [dataSource]="animeListPage.results"
-								 [trackBy]="trackByAnime"
-								 matSort
-								 (matSortChange)="sortData($event)">
-
-				<ng-container matColumnDef={{columnsHeaders.Image}}>
-					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Image}} </mat-header-cell>
-					<mat-cell *matCellDef="let element" class="dashboard__content cover">
-						<div class="cover__wrapper">
-							<img [src]="element.image"
-									 [alt]="element.japaneseTitle ? element.japaneseTitle + ' cover' : 'Anime cover'"
-									 class="cover__image">
-						</div>
-					</mat-cell>
-				</ng-container>
-
-				<ng-container matColumnDef={{columnsHeaders.EnglishTitle}}>
-					<mat-header-cell *matHeaderCellDef
-														mat-sort-header
-														class="dashboard__title"> {{columnsHeaders.EnglishTitle}} </mat-header-cell>
-					<mat-cell *matCellDef="let element" class="dashboard__content">
-						<p class="content__text">
-							{{element.englishTitle | empty}}
-						</p>
-					</mat-cell>
-				</ng-container>
-
-				<ng-container matColumnDef={{columnsHeaders.JapaneseTitle}}>
-					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.JapaneseTitle}}</mat-header-cell>
-					<mat-cell *matCellDef="let element" class="dashboard__content content">
-						<p class="content__text">
-							{{element.japaneseTitle | empty}}
-						</p>
-					</mat-cell>
-				</ng-container>
-
-				<ng-container matColumnDef={{columnsHeaders.AiredStart}}>
-					<mat-header-cell *matHeaderCellDef
-														mat-sort-header
-														class="dashboard__title"> {{columnsHeaders.AiredStart}} </mat-header-cell>
-					<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.aired.start | date: "mediumDate" | empty}} </mat-cell>
-				</ng-container>
-
-				<ng-container matColumnDef={{columnsHeaders.Type}}>
-					<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.Type}} </mat-header-cell>
-					<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.type | empty}} </mat-cell>
-				</ng-container>
-
-				<ng-container matColumnDef={{columnsHeaders.Status}}>
-					<mat-header-cell *matHeaderCellDef
-														mat-sort-header
-														class="dashboard__title"> {{columnsHeaders.Status}} </mat-header-cell>
-					<mat-cell *matCellDef="let element" class="dashboard__content"> {{element.status | empty}} </mat-cell>
-				</ng-container>
-
-				<mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-				<mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
-
-			</mat-table>
-			<mat-paginator [length]="animeListPage.pagesCount"
-										 [pageSize]="animeListPage.pageSize"
-										 [pageIndex]="animeListPage.pageIndex"
-										 [pageSizeOptions]="[10, 25, 50]"
-										 (page)="pageChanged($event)"
-										 aria-label="Select page">
-			</mat-paginator>
-		</div>
+	@if (animeListPage) {
+		<camp-table [pageData]="animeListPage"
+								(sortEvent)="setOrdering($event)"
+								(paginationEvent)="setPage($event)" />
 	} @else {
 		<camp-progress-bar/>
 	}

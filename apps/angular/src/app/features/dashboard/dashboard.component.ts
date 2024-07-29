@@ -1,22 +1,18 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
-import { AsyncPipe, DatePipe } from '@angular/common';
-import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
-import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
-import { Anime } from '@js-camp/core/models/anime';
-import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
-import { MatSelectModule } from '@angular/material/select';
-import { AnimeType } from '@js-camp/core/models/anime-type';
-import { toTypeDto } from '@js-camp/core/mappers/anime-type.mapper';
-import { AnimeTypeDto } from '@js-camp/core/dtos/anime-type.dto';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription, switchMap } from 'rxjs';
+import { Anime } from '@js-camp/core/models/anime';
+import { AnimeType } from '@js-camp/core/models/anime-type';
+import { Pagination } from '@js-camp/core/models/pagination';
+import { QueryParamsDto } from '@js-camp/core/dtos/query-params.dto';
+import { QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
+import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
+import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
+
+import { TableComponent } from '../table/table.component';
+import { DataRetrievalFormComponent } from '../data-retrieval-form/data-retrieval-form.component';
 
 /** Column headers to be displayed in table. */
 export enum ColumnsHeaders {
@@ -28,6 +24,15 @@ export enum ColumnsHeaders {
 	Status = 'Status',
 }
 
+/** Column headers to be displayed in table. */
+export enum ParamsNames {
+	Limit = 'limit',
+	Offset = 'offset',
+	Search = 'search',
+	Type = 'type__in',
+	Ordering = 'ordering',
+}
+
 /** Dashboard component. Contains table with list of anime. */
 @Component({
 	selector: 'camp-dashboard',
@@ -35,99 +40,109 @@ export enum ColumnsHeaders {
 	templateUrl: './dashboard.component.html',
 	styleUrl: './dashboard.component.css',
 	imports: [
-		MatTableModule,
-		MatPaginator,
-		MatSort,
-		MatSortModule,
-		MatFormFieldModule,
-		MatInputModule,
-		MatButtonModule,
-		MatIconModule,
-		MatSelectModule,
-		ReactiveFormsModule,
-		AsyncPipe,
-		DatePipe,
-		EmptyPipe,
 		ProgressBarComponent,
+		TableComponent,
+		DataRetrievalFormComponent,
 	],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
 	private readonly route = inject(ActivatedRoute);
 
 	private readonly router = inject(Router);
 
+	private readonly animeApiService = inject(AnimeApiService);
+
+	private readonly queryParamsService = inject(QueryParamsService);
+
 	/** */
+	protected params: QueryParamsDto = {
+		offset: 0,
+		limit: 25,
+	};
+
+	/** */
+	protected animeListPage?: Pagination<Anime>;
+
+	public constructor() {
+
+	}
+
+	/** */
+	public animeSubscription?: Subscription;
+
+	/** Subscribes on route parameters when the component is initialized. */
 	public ngOnInit(): void {
-		this.route.queryParams
-			.subscribe(params => {
-				console.log(params);
-				this.animeListPage$ = this.animeApiService.getPage(params);
+
+		this.route.queryParams.pipe(
+			switchMap(params => {
+
+				Object.assign(this.params, params);
+
+				return this.animeApiService.getPage(this.params);
+			}),
+		)
+			.subscribe(res => {
+				this.animeListPage = res;
 			});
 	}
 
-	/** */
-	protected types = new FormControl();
+	/** Subscribes on route parameters when the component is initialized. */
+	public ngOnDestroy(): void {
+		this.animeSubscription?.unsubscribe();
+	}
 
 	/** */
-	protected typesList = Object.values(AnimeType);
+	protected onTypeSelect(event: AnimeType[]): void {
+
+		const typesString = this.queryParamsService.composeTypeParam(event);
+
+		this.router.navigate(
+			[''],
+			{
+				queryParams: { [ParamsNames.Type]: typesString },
+				queryParamsHandling: 'merge',
+			},
+		);
+	}
 
 	/** */
-	protected onSelect(): void {
-		// TODO: Use EventEmitter with form value
+	protected onSearchSubmit(event: string): void {
 
-		const typesArr = this.types.value as AnimeType[];
-		let typesDtoArr: AnimeTypeDto[] = [];
+		const queryParams: QueryParamsDto = {
+			offset: 0,
+			limit: 25,
+		};
 
-		if (typesArr) {
-			typesDtoArr = typesArr.map(type => toTypeDto(type));
+		if (ParamsNames.Type in this.params) {
+			queryParams[ParamsNames.Type] = this.params[ParamsNames.Type] as string;
 		}
-		const typesString = typesDtoArr.join(',');
+		if (ParamsNames.Ordering in this.params) {
+			queryParams[ParamsNames.Ordering] = this.params[ParamsNames.Ordering] as string;
+		}
+		queryParams[ParamsNames.Search] = event;
 
 		this.router.navigate(
 			[''],
 			{
-				queryParams: { type__in: typesString },
-				queryParamsHandling: 'merge',
+				queryParams,
 			},
 		);
 	}
-
-	/** */
-	protected searchForm = new FormGroup({
-		term: new FormControl(''),
-	});
-
-	/** */
-	protected onSubmit(): void {
-
-		this.router.navigate(
-			[''],
-			{
-				queryParams: { search: String(this.searchForm.value.term) },
-				queryParamsHandling: 'merge',
-			},
-		);
-	}
-
-	/** */
-	protected searchKeywordFilter = new FormControl();
-
-	private readonly animeApiService = inject(AnimeApiService);
-
-	/** */
-	protected animeListPage$ = this.animeApiService.getPage({});
 
 	/**
 	 * Page.
 	 * @param event - Page.
 	 */
-	protected pageChanged(event: PageEvent): void {
+	protected setPage(event: PageEvent): void {
+
+		const limit = event.pageSize;
+		const offset = event.pageIndex * event.pageSize;
 
 		this.router.navigate(
 			[''],
 			{
-				queryParams: { page: event.pageIndex, pageSize: event.pageSize },
+				queryParams: { [ParamsNames.Offset]: offset, [ParamsNames.Limit]: limit },
 				queryParamsHandling: 'merge',
 			},
 		);
@@ -143,62 +158,13 @@ export class DashboardComponent implements OnInit {
 		return item.id;
 	}
 
-	/** Property containing enum with column headers. */
-	protected readonly columnsHeaders = ColumnsHeaders;
-
-	/** List of column headers. */
-	protected readonly columnsToDisplay = Object.values(ColumnsHeaders);
-
-	/** */
-	protected sortOrder = {
-		title_eng: '',
-		aired__startswith: '',
-		status: '',
-	};
-
-	/** Announce the change in sort state for assistive technology.
-	 * @param sortState - Anime list item id.
+	/**
+	 * 1.
+	 * @param sortState - 1.
 	 */
-	protected sortData(sortState: Sort): void {
+	public setOrdering(sortState: Sort): void {
 
-		let sortField: keyof typeof this.sortOrder;
-
-		switch (sortState.active) {
-			case 'English title':
-				sortField = 'title_eng';
-				break;
-			case 'Aired starts with':
-				sortField = 'aired__startswith';
-				break;
-			case 'Status':
-				sortField = 'status';
-				break;
-			default:
-				sortField = 'status';
-		}
-
-		switch (sortState.direction) {
-			case 'asc':
-				this.sortOrder[sortField] = sortField;
-				break;
-			case 'desc':
-				this.sortOrder[sortField] = `-${sortField}`;
-				break;
-			default:
-				this.sortOrder[sortField] = '';
-		}
-
-		let orderString = '';
-		Object.values(this.sortOrder).forEach(item => {
-			if (item) {
-				if (orderString) {
-					orderString = `${orderString},${item}`;
-				} else {
-					orderString = item;
-				}
-
-			}
-		});
+		const orderString = this.queryParamsService.composeOrderingParam(sortState);
 
 		this.router.navigate(
 			[''],
@@ -208,4 +174,5 @@ export class DashboardComponent implements OnInit {
 			},
 		);
 	}
+
 }
