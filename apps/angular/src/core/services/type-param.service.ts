@@ -1,22 +1,17 @@
-import { inject, Injectable } from '@angular/core';
-import { Sort } from '@angular/material/sort';
+import { Injectable } from '@angular/core';
 import { toTypeDto } from '@js-camp/core/mappers/anime-type.mapper';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 
-import { TableSortService } from './table-sort.service';
-
 /** Anime API Access Service. */
 @Injectable({ providedIn: 'root' })
-export class QueryParamsService {
-
-	private readonly tableSortService = inject(TableSortService);
+export class TypeParamService {
 
 	/**
 	 * AnimeType.
 	 * @param typesArr - AnimeType.
 	 * @returns AnimeType.
 	 */
-	public composeTypeParam(typesArr: AnimeType[]): string {
+	public composeTypeString(typesArr: AnimeType[]): string {
 		if (typesArr) {
 			const typesDtoArr = typesArr.map(type => toTypeDto(type));
 			return typesDtoArr.join(',');
@@ -26,10 +21,11 @@ export class QueryParamsService {
 
 	/**
 	 * AnimeType.
-	 * @param sortState - AnimeType.
+	 * @param typesString - AnimeType.
 	 * @returns AnimeType.
 	 */
-	public composeOrderingParam(sortState: Sort): string {
-		return this.tableSortService.composeOrderingString(sortState);
+	public composeTypeArray(typesString: string): AnimeType[] {
+		return typesString.split(',') as AnimeType[];
 	}
+
 }

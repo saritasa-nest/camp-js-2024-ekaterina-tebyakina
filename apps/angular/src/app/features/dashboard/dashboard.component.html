@@ -1,9 +1,10 @@
 <div class="dashboard">
 
 	<camp-data-retrieval-form (typeSelectEvent)="setTypeSelect($event)"
-														(searchEvent)="setSearchSubmit($event)"/>
+														(searchEvent)="setSearchSubmit($event)"
+														[searchTerm]="search"/>
 
-	@if (animeListPage) {
+	@if (animeListPage$ | async; as animeListPage) {
 		<camp-table [pageData]="animeListPage"
 								[ordering]="ordering"
 								(sortEvent)="setOrdering($event)"

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, ChangeDetectorRef, AfterViewInit, AfterContentInit } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -39,9 +39,9 @@ export class DataRetrievalFormComponent {
 	}
 
 	/** Search form. */
-	protected searchForm = new FormGroup({
-		term: new FormControl(''),
-	});
+	// protected searchForm = new FormGroup({
+	// 	term: new FormControl(''),
+	// });
 
 	/** */
 	@Output() public searchEvent = new EventEmitter<string>();
@@ -50,4 +50,45 @@ export class DataRetrievalFormComponent {
 	protected onSearchSubmit(): void {
 		this.searchEvent.emit(String(this.searchForm.value.term));
 	}
+
+	/** Search form. */
+	protected searchForm: FormGroup = new FormGroup({
+		term: new FormControl(''),
+	});
+
+	/** */
+	// @Input() public searchTerm = '';
+
+	// Child component
+	@Input() public set searchTerm(value: string) {
+		// This setter function will execute whenever parent input `searchText` is changed.
+		console.log(value); // New value from parent
+		this.searchForm.controls['term'].setValue(value);
+		this.cdr.detectChanges();
+	}
+
+	public constructor(private cdr: ChangeDetectorRef) {
+		// this.searchForm = new FormGroup({
+		// 	term: new FormControl(''),
+		// });
+	}
+
+	/** Subscribes on route parameters when the component is initialized. */
+	// public ngAfterContentInit(): void {
+	// 	console.log(this.searchTerm);
+	// 	this.searchForm.setValue({
+	// 		term: this.searchTerm,
+	// 	});
+	// 	this.cdr.detectChanges();
+
+	// 	// this.searchForm.get('term')?.setValue(this.searchTerm);
+	// 	// patchValue(this.searchTerm);
+	// }
+
+	/** */
+	// public ngAfterViewInit(): void {
+	// 	this.searchForm.setValue({
+	// 		term: this.searchTerm,
+	// 	});
+	// }
 }

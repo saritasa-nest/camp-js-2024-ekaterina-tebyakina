@@ -4,24 +4,24 @@ import { Immerable, OmitImmerable } from './immerable';
 export class QueryParams extends Immerable {
 
 	/** Offset. */
-	public readonly page: string;
+	public readonly offset: number;
 
 	/** Limit. */
-	public readonly pageSize: string;
+	public readonly limit: number;
 
 	/** Search. */
-	public readonly search: string;
+	public readonly search?: string;
 
 	/** Name. */
-	public readonly type: string;
+	public readonly type?: string;
 
 	/** Name. */
-	public readonly ordering: string;
+	public readonly ordering?: string;
 
 	public constructor(data: QueryParamsConstructorData) {
 		super();
-		this.page = data.page;
-		this.pageSize = data.pageSize;
+		this.offset = data.offset;
+		this.limit = data.limit;
 		this.search = data.search;
 		this.type = data.type;
 		this.ordering = data.ordering;
