@@ -1,13 +1,23 @@
 import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 
-import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
+import { AppComponent } from './app/app.component';
+import { appRoutes } from './app/app.routes';
+import { baseUrlInterceptor } from './core/interceptors/base-url.interceptor';
+import { apiKeyInterceptor } from './core/interceptors/api-key.interceptor';
 
 if (environment.production) {
 	enableProdMode();
 }
 
-platformBrowserDynamic()
-	.bootstrapModule(AppModule)
-	.catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+	providers: [
+		provideRouter(appRoutes),
+		provideAnimationsAsync(),
+		provideHttpClient(withInterceptors([baseUrlInterceptor, apiKeyInterceptor]), withFetch()),
+	],
+}).catch(err => console.error(err));

@@ -1,22 +1,28 @@
 :root {
-  /*
-    Please use the following template to add new variables, dark/light valuations are optional.
-    --<name>-color: <color>;
-    --<name>-contrast-color: <contrast-color>;
-    --<name>-dark-color: <dark-color>;
-    --<name>-dark-contrast-color: <dark-contrast-color>;
-    --<name>-light-color: <light-color>;
-    --<name>-light-contrast-color: <light-contrast-color>;
-  */
+	/** Prevalent color in the application */
+	--primary-color: rgb(249 115 22);
+	--primary-contrast-color: rgb(255 255 255);
+	--primary-dark-color: rgb(234 88 12);
+	--primary-dark-contrast-color: rgb(255 255 255);
+	--primary-light-color: rgb(251 146 60);
+	--primary-light-contrast-color: rgb(0 0 0);
+	--background-color: rgb(255 255 255);
+	--background-contrast-color: rgb(0 0 0);
+	--error-color: rgb(255 0 0);
+	--border-color: rgb(0 0 0 / 15%);
 
-  /** Prevalent color in the application */
-  --primary-color: #f97316;
-  --primary-contrast-color: white;
-  --primary-dark-color: #ea580c;
-  --primary-dark-contrast-color: white;
-  --primary-light-color: #fb923c;
-  --primary-light-contrast-color: black;
-  --background-color: white;
-  --background-contrast-color: black;
-  --error-color: red;
+	/* Variables for spaces */
+	--space-xs: 8px;
+	--space-s: calc(var(--space-xs) * 2);
+	--space-m: calc(var(--space-xs) * 3);
+	--space-l: calc(var(--space-xs) * 4);
+	--space-xl: calc(var(--space-xs) * 5);
+
+	/* Variables for font sizes */
+	--font-size-xs: 0.83rem;
+	--font-size-sm: 0.88rem;
+	--font-size-base: 1rem;
+	--font-size-md: 1.125rem;
+	--font-size-lg: 1.25rem;
+	--font-size-xl: 1.5rem;
 }
