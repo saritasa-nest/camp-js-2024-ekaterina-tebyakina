@@ -1,15 +1,21 @@
 <div class="dashboard">
 
-	<camp-data-retrieval-form (typeSelectEvent)="setTypeSelect($event)"
-														(searchEvent)="setSearchSubmit($event)"
-														[searchTerm]="search"/>
+	@if (animeParams$ | async; as animeParams) {
 
-	@if (animeListPage$ | async; as animeListPage) {
+		<camp-filter-form (typeSelectEvent)="setTypeSelect($event)"
+											(searchEvent)="setSearchSubmit($event)"
+											[searchValue]="animeParams.search"
+											[typesValue]="animeParams.type"/>
+
+		@if (animeListPage$ | async; as animeListPage) {
 		<camp-table [pageData]="animeListPage"
-								[ordering]="ordering"
+								[ordering]="animeParams.ordering"
 								(sortEvent)="setOrdering($event)"
 								(paginationEvent)="setPage($event)" />
-	} @else {
+		} @else {
 		<camp-progress-bar/>
+		}
+
 	}
+
 </div>

@@ -10,13 +10,13 @@ export class QueryParams extends Immerable {
 	public readonly limit: number;
 
 	/** Search. */
-	public readonly search?: string;
+	public readonly search: string;
 
 	/** Name. */
-	public readonly type?: string;
+	public readonly type: string;
 
 	/** Name. */
-	public readonly ordering?: string;
+	public readonly ordering: string;
 
 	public constructor(data: QueryParamsConstructorData) {
 		super();
