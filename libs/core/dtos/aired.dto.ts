@@ -1,4 +1,4 @@
-export type AiredDto = Readonly<{
-	start: string | null;
-	end: string | null;
-}>;
+export type AiredDto = {
+	readonly start: string | null;
+	readonly end: string | null;
+};
