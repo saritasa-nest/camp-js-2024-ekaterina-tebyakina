@@ -1,26 +1,19 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { combineLatest, EMPTY, map, Observable, of, switchMap, tap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EMPTY, Observable, of, Subscription, switchMap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { QueryParamsDto } from '@js-camp/core/dtos/query-params.dto';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 
-import { OrderingParamService } from '@js-camp/angular/core/services/ordering-param.service';
-
 import { AsyncPipe } from '@angular/common';
-
-import { TypeParamService } from '@js-camp/angular/core/services/type-param.service';
-
-import { Subscription } from 'react-redux';
+import { QueryParams, QueryParamsDto, QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
 
 import { TableComponent } from '../table/table.component';
 import { DataRetrievalFormComponent } from '../filter-form/filter-form.component';
-import { QueryParams, QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
 
 /** Column headers to be displayed in table. */
 export enum ParamsNames {
@@ -45,7 +38,7 @@ export enum ParamsNames {
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
 	private readonly route = inject(ActivatedRoute);
 
@@ -55,20 +48,22 @@ export class DashboardComponent implements OnInit {
 
 	private readonly queryParamsService = inject(QueryParamsService);
 
-	private readonly orderingParamService = inject(OrderingParamService);
-
-	private readonly typeParamService = inject(TypeParamService);
-
-	private defaultParams: QueryParamsDto = {
-		limit: 25,
-		offset: 0,
-	};
+	private subs: Subscription[] = [];
 
 	/** */
 	protected animeListPage$: Observable<Pagination<Anime>> = EMPTY;
 
 	/** */
 	protected animeParams$: Observable<QueryParams> = EMPTY;
+
+	/** */
+	protected queryParams: QueryParams = {
+		offset: 0,
+		limit: 25,
+		search: '',
+		type: [],
+		ordering: { active: '', direction: '' },
+	};
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
@@ -77,30 +72,36 @@ export class DashboardComponent implements OnInit {
 			switchMap(params => of(this.queryParamsService.fromQueryParams(params))),
 		);
 
+		this.subs.push(this.animeParams$.subscribe(params => {
+			this.queryParams = params;
+		}));
+
 		this.animeListPage$ = this.route.queryParams.pipe(
 			switchMap(params => this.animeApiService.getPage(params as QueryParamsDto)),
 		);
 
 	}
 
+	/** @inheritdoc */
+	public ngOnDestroy(): void {
+		this.subs.forEach(sub => {
+			sub.unsubscribe();
+		});
+	}
+
 	/** */
 	protected setTypeSelect(event: AnimeType[]): void {
 
-		const queryParams: QueryParamsDto = { ...this.defaultParams };
+		const queryParams = { ...this.queryParams };
 
-		queryParams[ParamsNames.Type] = this.typeParamService.composeTypeString(event);
-
-		// if (this.ordering) {
-		// 	queryParams[ParamsNames.Ordering] = this.orderingParamService.composeOrderingString(this.ordering);
-		// }
-		// if (this.search) {
-		// 	queryParams[ParamsNames.Search] = this.search;
-		// }
+		queryParams.type = event;
+		queryParams.limit = 25;
+		queryParams.offset = 0;
 
 		this.router.navigate(
 			[''],
 			{
-				queryParams,
+				queryParams: this.queryParamsService.toQueryParams(queryParams),
 			},
 		);
 	}
@@ -108,22 +109,16 @@ export class DashboardComponent implements OnInit {
 	/** */
 	protected setSearchSubmit(event: string): void {
 
-		// console.log(this.animeParams)
+		const queryParams = { ...this.queryParams };
 
-		const queryParams: QueryParamsDto = { ...this.defaultParams };
-
-		// if (this.type.length > 0) {
-		// 	queryParams[ParamsNames.Type] = this.typeParamService.composeTypeString(this.type);
-		// }
-		// if (this.ordering) {
-		// 	queryParams[ParamsNames.Ordering] = this.orderingParamService.composeOrderingString(this.ordering);
-		// }
-		queryParams[ParamsNames.Search] = event;
+		queryParams.search = event;
+		queryParams.limit = 25;
+		queryParams.offset = 0;
 
 		this.router.navigate(
 			[''],
 			{
-				queryParams,
+				queryParams: this.queryParamsService.toQueryParams(queryParams),
 			},
 		);
 	}
@@ -134,13 +129,34 @@ export class DashboardComponent implements OnInit {
 	 */
 	protected setPage(event: PageEvent): void {
 
-		const limit = event.pageSize;
-		const offset = event.pageIndex * event.pageSize;
+		const queryParams = { ...this.queryParams };
+
+		queryParams.limit = event.pageSize;
+		queryParams.offset = event.pageIndex * event.pageSize;
 
 		this.router.navigate(
 			[''],
 			{
-				queryParams: { [ParamsNames.Offset]: offset, [ParamsNames.Limit]: limit },
+				queryParams: this.queryParamsService.toQueryParams(queryParams),
+				queryParamsHandling: 'merge',
+			},
+		);
+	}
+
+	/**
+	 * 1.
+	 * @param sortState - 1.
+	 */
+	public setOrdering(sortState: Sort): void {
+
+		const queryParams = { ...this.queryParams };
+
+		queryParams.ordering = sortState;
+
+		this.router.navigate(
+			[''],
+			{
+				queryParams: this.queryParamsService.toQueryParams(queryParams),
 				queryParamsHandling: 'merge',
 			},
 		);
@@ -155,22 +171,4 @@ export class DashboardComponent implements OnInit {
 	protected trackByAnime(index: number, item: Anime): Anime['id'] {
 		return item.id;
 	}
-
-	/**
-	 * 1.
-	 * @param sortState - 1.
-	 */
-	public setOrdering(sortState: Sort): void {
-
-		const orderString = this.orderingParamService.composeOrderingString(sortState);
-
-		this.router.navigate(
-			[''],
-			{
-				queryParams: { ordering: orderString },
-				queryParamsHandling: 'merge',
-			},
-		);
-	}
-
 }
