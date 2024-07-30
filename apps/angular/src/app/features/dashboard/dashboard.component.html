@@ -2,16 +2,18 @@
 
 	@if (animeParams$ | async; as animeParams) {
 
-		<camp-filter-form (typeSelectEvent)="setTypeSelect($event)"
-											(searchEvent)="setSearchSubmit($event)"
+		<camp-filter-form (typeSelectEvent)="onTypeChange($event)"
+											(searchEvent)="onSearchChange($event)"
 											[searchValue]="animeParams.search"
 											[typesValue]="animeParams.type"/>
 
 		@if (animeListPage$ | async; as animeListPage) {
 		<camp-table [pageData]="animeListPage"
 								[ordering]="animeParams.ordering"
-								(sortEvent)="setOrdering($event)"
-								(paginationEvent)="setPage($event)" />
+								[limit]="animeParams.limit"
+								[offset]="animeParams.offset"
+								(sortEvent)="onOrderingChange($event)"
+								(paginationEvent)="onPageChange($event)"/>
 		} @else {
 		<camp-progress-bar/>
 		}

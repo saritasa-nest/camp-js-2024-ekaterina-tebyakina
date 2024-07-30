@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
 import { EMPTY, Observable, of, Subscription, switchMap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
@@ -10,19 +10,14 @@ import { ProgressBarComponent } from '@js-camp/angular/shared/components/progres
 import { AnimeType } from '@js-camp/core/models/anime-type';
 
 import { AsyncPipe } from '@angular/common';
-import { QueryParams, QueryParamsDto, QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
+import { QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
+
+import { QueryParams } from '@js-camp/core/models/query-params';
+
+import { QueryParamsDto } from '@js-camp/core/dtos/query-params.dto';
 
 import { TableComponent } from '../table/table.component';
 import { DataRetrievalFormComponent } from '../filter-form/filter-form.component';
-
-/** Column headers to be displayed in table. */
-export enum ParamsNames {
-	Limit = 'limit',
-	Offset = 'offset',
-	Search = 'search',
-	Type = 'type__in',
-	Ordering = 'ordering',
-}
 
 /** Dashboard component. Contains table with list of anime. */
 @Component({
@@ -30,13 +25,13 @@ export enum ParamsNames {
 	standalone: true,
 	templateUrl: './dashboard.component.html',
 	styleUrl: './dashboard.component.css',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		ProgressBarComponent,
 		TableComponent,
 		DataRetrievalFormComponent,
 		AsyncPipe,
 	],
-	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
@@ -50,20 +45,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 	private subs: Subscription[] = [];
 
-	/** */
+	/** Stream of anime page. */
 	protected animeListPage$: Observable<Pagination<Anime>> = EMPTY;
 
-	/** */
+	/** Stream of anime page params. */
 	protected animeParams$: Observable<QueryParams> = EMPTY;
 
-	/** */
-	protected queryParams: QueryParams = {
-		offset: 0,
-		limit: 25,
-		search: '',
-		type: [],
-		ordering: { active: '', direction: '' },
-	};
+	/** Anime page params. */
+	protected queryParams: QueryParams = this.queryParamsService.defaultQueryParams;
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
@@ -89,77 +78,73 @@ export class DashboardComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	/** */
-	protected setTypeSelect(event: AnimeType[]): void {
-
-		const queryParams = { ...this.queryParams };
-
-		queryParams.type = event;
-		queryParams.limit = 25;
-		queryParams.offset = 0;
-
+	private navigate(queryParams: QueryParams, queryParamsHandling: QueryParamsHandling): void {
 		this.router.navigate(
 			[''],
 			{
 				queryParams: this.queryParamsService.toQueryParams(queryParams),
-			},
-		);
-	}
-
-	/** */
-	protected setSearchSubmit(event: string): void {
-
-		const queryParams = { ...this.queryParams };
-
-		queryParams.search = event;
-		queryParams.limit = 25;
-		queryParams.offset = 0;
-
-		this.router.navigate(
-			[''],
-			{
-				queryParams: this.queryParamsService.toQueryParams(queryParams),
+				queryParamsHandling,
 			},
 		);
 	}
 
 	/**
-	 * Page.
-	 * @param event - Page.
+	 * Triggers when the list of selected anime types is changed.
+	 * Forms a new query parameters object with new type list and navigate with these parameters.
+	 * @param event - List of selected anime types.
 	 */
-	protected setPage(event: PageEvent): void {
+	protected onTypeChange(event: AnimeType[]): void {
+
+		const queryParams = { ...this.queryParams };
+
+		queryParams.type = event;
+		queryParams.offset = 0;
+
+		this.navigate(queryParams, '');
+	}
+
+	/**
+	 * Triggers when search term is changed.
+	 * Forms a new query parameters object with a new search term and navigate with these parameters.
+	 * @param event - List of selected anime types.
+	 */
+	protected onSearchChange(event: string): void {
+
+		const queryParams = { ...this.queryParams };
+
+		queryParams.search = event;
+		queryParams.offset = 0;
+
+		this.navigate(queryParams, '');
+	}
+
+	/**
+	 * Triggers when pagination is changed.
+	 * Forms a new query parameters object with a new pagination data and navigate with these parameters.
+	 * @param event - List of selected anime types.
+	 */
+	protected onPageChange(event: PageEvent): void {
 
 		const queryParams = { ...this.queryParams };
 
 		queryParams.limit = event.pageSize;
 		queryParams.offset = event.pageIndex * event.pageSize;
 
-		this.router.navigate(
-			[''],
-			{
-				queryParams: this.queryParamsService.toQueryParams(queryParams),
-				queryParamsHandling: 'merge',
-			},
-		);
+		this.navigate(queryParams, 'merge');
 	}
 
 	/**
-	 * 1.
-	 * @param sortState - 1.
+	 * Triggers when ordering is changed.
+	 * Forms a new query parameters object with a new ordering data and navigate with these parameters.
+	 * @param event - List of selected anime types.
 	 */
-	public setOrdering(sortState: Sort): void {
+	public onOrderingChange(event: Sort): void {
 
 		const queryParams = { ...this.queryParams };
 
-		queryParams.ordering = sortState;
+		queryParams.ordering = event;
 
-		this.router.navigate(
-			[''],
-			{
-				queryParams: this.queryParamsService.toQueryParams(queryParams),
-				queryParamsHandling: 'merge',
-			},
-		);
+		this.navigate(queryParams, 'merge');
 	}
 
 	/**

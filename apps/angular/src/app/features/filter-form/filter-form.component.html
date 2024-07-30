@@ -1,4 +1,4 @@
-<div class="data-retrieval-form">
+<div class="filter-form">
 	<mat-form-field>
 		<mat-label>Types</mat-label>
 		<mat-select [formControl]="typesControl" multiple (selectionChange)="onTypeSelect()">
@@ -9,10 +9,10 @@
 	</mat-form-field>
 	<form [formGroup]="searchForm"
 				(ngSubmit)="onSearchSubmit()"
-				class="data-retrieval-form__search-form search-form">
+				class="filter-form__search-form search-form">
 		<mat-form-field class="search search-form-field"
 										appearance="outline">
-			<mat-label>Attack on Titan</mat-label>
+			<mat-label>Anime title</mat-label>
 			<input matInput
 						 formControlName="term"
 						 placeholder="Type to Search"

@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/core/models/anime';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { Pagination } from '@js-camp/core/models/pagination';
 
@@ -17,12 +17,13 @@ export enum ColumnsHeaders {
 	Status = 'Status',
 }
 
-/** Dashboard component. Contains table with list of anime. */
+/** Anime table component. */
 @Component({
 	selector: 'camp-table',
 	standalone: true,
 	templateUrl: './table.component.html',
 	styleUrl: './table.component.css',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		MatTableModule,
 		MatPaginator,
@@ -31,15 +32,36 @@ export enum ColumnsHeaders {
 		AsyncPipe,
 		DatePipe,
 		EmptyPipe,
+		NgOptimizedImage,
 	],
 })
-export class TableComponent {
+export class TableComponent implements OnInit {
 
-	/** */
+	/** Anime list page data. */
 	@Input() public pageData?: Pagination<Anime>;
 
-	/** */
+	/** Sorting ordering settings. */
 	@Input() public ordering?: Sort;
+
+	/** Limit of anime for one page. */
+	@Input() public limit = 25;
+
+	/** Offset of anime list. */
+	@Input() public offset = 0;
+
+	/** Index of current page. */
+	protected pageIndex = 0;
+
+	/** Pages count. */
+	protected pagesCount = 0;
+
+	/** @inheritdoc */
+	public ngOnInit(): void {
+		this.pageIndex = this.offset / this.limit;
+		if (this.pageData) {
+			this.pagesCount = this.pageData.count / this.limit;
+		}
+	}
 
 	/**
 	 * Track by function for anime list.
@@ -57,25 +79,26 @@ export class TableComponent {
 	/** List of column headers. */
 	protected readonly columnsToDisplay = Object.values(ColumnsHeaders);
 
-	/** */
+	/** Event of pagination change. */
 	@Output() public paginationEvent = new EventEmitter<PageEvent>();
 
 	/**
-	 * Page.
-	 * @param event - Page.
+	 * Pagination changing handler.
+	 * @param event - Pagination settings.
 	 */
-	protected pageChanged(event: PageEvent): void {
+	protected onPageChanged(event: PageEvent): void {
 		this.paginationEvent.emit(event);
 	}
 
-	/** */
+	/** Event of table sorting. */
 	@Output() public sortEvent = new EventEmitter<Sort>();
 
-	/** Announce the change in sort state for assistive technology.
-	 * @param sortState - Anime list item id.
+	/**
+	 * Handler for changes in sorting settings.
+	 * @param event - Sorting settings.
 	 */
-	protected sortData(sortState: Sort): void {
-		this.sortEvent.emit(sortState);
+	protected onSortData(event: Sort): void {
+		this.sortEvent.emit(event);
 	}
 
 }

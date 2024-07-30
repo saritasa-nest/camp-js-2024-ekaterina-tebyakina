@@ -1,18 +1,20 @@
+import { ParamsNamesDto } from './params-names.dto';
+
 /** Params DTO. */
 export type QueryParamsDto = {
 
 	/** Offset. */
-	offset: number;
+	[ParamsNamesDto.Limit]: number;
 
 	/** Limit. */
-	limit: number;
+	[ParamsNamesDto.Offset]: number;
 
 	/** Search. */
-	search?: string;
+	[ParamsNamesDto.Search]: string;
 
 	/** Type. */
-	type__in?: string;
+	[ParamsNamesDto.Type]: string;
 
 	/** Ordering. */
-	ordering?: string;
+	[ParamsNamesDto.Ordering]: string;
 };

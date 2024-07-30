@@ -17,31 +17,20 @@ export class AnimeApiService {
 
 	private readonly http = inject(HttpClient);
 
-	/** Gets anime list. */
-	public getList(): Observable<Anime[]> {
-		return this.http.get<PaginationDto<AnimeDto>>('anime/anime/').pipe(
-			map(({ results }) => results.map(anime => AnimeMapper.fromDto(anime))),
-		);
-	}
-
 	/**
-	 * GetPage.
-	 * @param params GetPage.
-	 * @returns GetPage.
+	 * Get page of anime list.
+	 * @param params - Params for request.
+	 * @returns Page of anime list.
 	 */
 	public getPage(params: QueryParamsDto): Observable<Pagination<Anime>> {
 
 		const pageParams = new HttpParams()
 			.appendAll(params);
 
-		const pageIndex = params.offset / params.limit;
-
-		const pageSize = params.limit;
-
 		return this.http.get<PaginationDto<AnimeDto>>('anime/anime/', {
 			params: pageParams,
 		}).pipe(
-			map(res => PaginationMapper.fromDto(res, pageIndex, pageSize, AnimeMapper.fromDto)),
+			map(res => PaginationMapper.fromDto(res, AnimeMapper.fromDto)),
 		);
 	}
 }

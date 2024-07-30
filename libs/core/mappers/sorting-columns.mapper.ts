@@ -14,7 +14,7 @@ export namespace ColumnsMapper {
 	 * @param column SortingColumnsDto.
 	 * @returns SortingColumnsDto.
 	 */
-	export function fromSortingColumnsDto(column: SortingColumnsDto): SortingColumns {
+	export function fromDto(column: SortingColumnsDto): SortingColumns {
 		return sortingColumnsDtoMap[column];
 	}
 
@@ -29,7 +29,7 @@ export namespace ColumnsMapper {
 	 * @param column SortingColumnsDto.
 	 * @returns SortingColumnsDto.
 	 */
-	export function toSortingColumnsDto(column: SortingColumns): SortingColumnsDto {
+	export function toDto(column: SortingColumns): SortingColumnsDto {
 		return sortingColumnsMap[column];
 	}
 
