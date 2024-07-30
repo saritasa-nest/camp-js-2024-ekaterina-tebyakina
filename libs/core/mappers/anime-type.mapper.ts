@@ -18,7 +18,7 @@ export namespace AnimeTypeMapper {
 	 * @param type  - Type dto.
 	 * @returns Type model.
 	 */
-	export function fromTypeDto(type: AnimeTypeDto): AnimeType {
+	export function fromDto(type: AnimeTypeDto): AnimeType {
 		return animeTypeDtoMap[type];
 	}
 }

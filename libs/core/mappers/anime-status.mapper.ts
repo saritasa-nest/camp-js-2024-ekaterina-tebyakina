@@ -13,7 +13,7 @@ export namespace AnimeStatusMapper {
 	 * @param status  - Status dto.
 	 * @returns Status model.
 	 */
-	export function fromStatusDto(status: AnimeStatusDto): AnimeStatus {
+	export function fromDto(status: AnimeStatusDto): AnimeStatus {
 		return animeStatusDtoMap[status];
 	}
 }
