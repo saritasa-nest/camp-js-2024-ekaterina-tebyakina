@@ -16,7 +16,7 @@
 
 			<ng-container matColumnDef={{columnsHeaders.EnglishTitle}}>
 				<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.EnglishTitle}} </mat-header-cell>
-				<mat-cell *matCellDef="let element" class="dashboard__content">
+				<mat-cell *matCellDef="let element" class="dashboard__content" title={{element.englishTitle}}>
 					<p class="content__text">
 						{{element.englishTitle | empty}}
 					</p>
@@ -25,7 +25,7 @@
 
 			<ng-container matColumnDef={{columnsHeaders.JapaneseTitle}}>
 				<mat-header-cell *matHeaderCellDef class="dashboard__title"> {{columnsHeaders.JapaneseTitle}}</mat-header-cell>
-				<mat-cell *matCellDef="let element" class="dashboard__content content">
+				<mat-cell *matCellDef="let element" class="dashboard__content content" title={{element.japaneseTitle}}>
 					<p class="content__text">
 						{{element.japaneseTitle | empty}}
 					</p>
