@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
@@ -30,6 +30,7 @@ export enum ColumnsHeaders {
 		ProgressBarComponent,
 		NgOptimizedImage,
 	],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent {
 
