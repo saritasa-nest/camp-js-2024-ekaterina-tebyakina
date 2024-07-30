@@ -1,60 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 
-import { AnimeType } from '@js-camp/core/models/anime-type';
-import { Sort } from '@angular/material/sort';
 import { Params } from '@angular/router';
 
-import { TypeParamService } from './type-param.service';
+import { QueryParams } from '@js-camp/core/models/query-params';
+import { ParamsNamesDto } from '@js-camp/core/dtos/params-names.dto';
+import { QueryParamsDto } from '@js-camp/core/dtos/query-params.dto';
+
 import { OrderingParamService } from './ordering-param.service';
+import { TypeParamService } from './type-param.service';
 
-/** */
-export enum ParamsNames {
-	Limit = 'limit',
-	Offset = 'offset',
-	Search = 'search',
-	Type = 'type__in',
-	Ordering = 'ordering',
-}
-
-/** */
-export type QueryParamsDto = {
-
-	/** Offset. */
-	[ParamsNames.Limit]: number;
-
-	/** Limit. */
-	[ParamsNames.Offset]: number;
-
-	/** Search. */
-	[ParamsNames.Search]: string;
-
-	/** Type. */
-	[ParamsNames.Type]: string;
-
-	/** Ordering. */
-	[ParamsNames.Ordering]: string;
-};
-
-/** Params. */
-export type QueryParams = {
-
-	/** Offset. */
-	offset: number;
-
-	/** Limit. */
-	limit: number;
-
-	/** Search. */
-	search: string;
-
-	/** Type. */
-	type: AnimeType[];
-
-	/** Ordering. */
-	ordering: Sort;
-};
-
-/** Anime API Access Service. */
+/** Query params service. */
 @Injectable({ providedIn: 'root' })
 export class QueryParamsService {
 
@@ -62,62 +17,65 @@ export class QueryParamsService {
 
 	private typeParamService = inject(TypeParamService);
 
+	/** Default query params. */
+	public defaultQueryParams: QueryParams = {
+		offset: 0,
+		limit: 25,
+		search: '',
+		type: [],
+		ordering: { active: '', direction: '' },
+	};
+
 	/**
 	 * Maps dto to model.
-	 * @param params Genre dto.
+	 * @param params Query params.
 	 */
 	public fromQueryParams(params: Params): QueryParams {
-		const queryParams: QueryParams = {
-			offset: 0,
-			limit: 25,
-			search: '',
-			type: [],
-			ordering: { active: '', direction: '' },
-		};
-		if (ParamsNames.Offset in params) {
-			queryParams.offset = params[ParamsNames.Offset];
+		const queryParams: QueryParams = { ...this.defaultQueryParams };
+		if (ParamsNamesDto.Offset in params) {
+			queryParams.offset = params[ParamsNamesDto.Offset];
 		}
-		if (ParamsNames.Limit in params) {
-			queryParams.limit = params[ParamsNames.Limit];
+		if (ParamsNamesDto.Limit in params) {
+			queryParams.limit = params[ParamsNamesDto.Limit];
 		}
-		if (ParamsNames.Search in params) {
-			queryParams.search = params[ParamsNames.Search];
+		if (ParamsNamesDto.Search in params) {
+			queryParams.search = params[ParamsNamesDto.Search];
 		}
-		if (ParamsNames.Type in params) {
-			queryParams.type = this.typeParamService.composeTypeArray(params[ParamsNames.Type]);
+		if (ParamsNamesDto.Type in params) {
+			queryParams.type = this.typeParamService.composeTypeArray(params[ParamsNamesDto.Type]);
 		}
-		if (ParamsNames.Ordering in params) {
-			queryParams.ordering = this.orderingParamService.composeOrderingState(params[ParamsNames.Ordering]);
+		if (ParamsNamesDto.Ordering in params) {
+			queryParams.ordering = this.orderingParamService.composeOrderingState(params[ParamsNamesDto.Ordering]);
 		}
 		return queryParams;
 	}
 
 	/**
-	 * Maps dto to model.
-	 * @param params Genre dto.
+	 * Maps model to dto.
+	 * @param params Query params.
 	 */
 	public toQueryParams(params: Params): QueryParamsDto {
 		const queryParams: QueryParamsDto = {
-			[ParamsNames.Offset]: 0,
-			[ParamsNames.Limit]: 25,
-			[ParamsNames.Search]: '',
-			[ParamsNames.Type]: '',
-			[ParamsNames.Ordering]: '',
+			[ParamsNamesDto.Offset]: 0,
+			[ParamsNamesDto.Limit]: 25,
+			[ParamsNamesDto.Search]: '',
+			[ParamsNamesDto.Type]: '',
+			[ParamsNamesDto.Ordering]: '',
 		};
 		if ('offset' in params) {
-			queryParams[ParamsNames.Offset] = params['offset'];
+			queryParams[ParamsNamesDto.Offset] = params['offset'];
 		}
 		if ('limit' in params) {
-			queryParams[ParamsNames.Limit] = params['limit'];
+			queryParams[ParamsNamesDto.Limit] = params['limit'];
 		}
 		if ('search' in params) {
-			queryParams[ParamsNames.Search] = params['search'];
+			queryParams[ParamsNamesDto.Search] = params['search'];
 		}
 		if ('type' in params) {
-			queryParams[ParamsNames.Type] = this.typeParamService.composeTypeString(params['type']);
+			queryParams[ParamsNamesDto.Type] = this.typeParamService.composeTypeString(params['type']);
 		}
 		if ('ordering' in params) {
-			queryParams[ParamsNames.Ordering] = this.orderingParamService.composeOrderingString(params['ordering']);
+			queryParams[ParamsNamesDto.Ordering] = this.orderingParamService.composeOrderingString(params['ordering']);
 		}
 		return queryParams;
 	}

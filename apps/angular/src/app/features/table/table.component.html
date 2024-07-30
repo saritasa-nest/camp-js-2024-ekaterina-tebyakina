@@ -4,7 +4,7 @@
 							 [dataSource]="pageData.results"
 							 [trackBy]="trackByAnime"
 							 matSort
-							 (matSortChange)="sortData($event)"
+							 (matSortChange)="onSortData($event)"
 							 [matSortActive]="ordering.active"
 							 [matSortDirection]="ordering.direction"
 							 >
@@ -13,7 +13,8 @@
 				<mat-header-cell *matHeaderCellDef class="table__title"> {{columnsHeaders.Image}} </mat-header-cell>
 				<mat-cell *matCellDef="let element" class="table__content cover">
 					<div class="cover__wrapper">
-						<img [src]="element.image"
+						<img [ngSrc]="element.image"
+								 fill
 								 [alt]="element.japaneseTitle ? element.japaneseTitle + ' cover' : 'Anime cover'"
 								 class="cover__image">
 					</div>
@@ -24,7 +25,7 @@
 				<mat-header-cell *matHeaderCellDef
 													mat-sort-header
 													class="table__title"> {{columnsHeaders.EnglishTitle}} </mat-header-cell>
-				<mat-cell *matCellDef="let element" class="table__content">
+				<mat-cell *matCellDef="let element" class="table__content" title={{element.englishTitle}}>
 					<p class="content__text">
 						{{element.englishTitle | empty}}
 					</p>
@@ -33,7 +34,7 @@
 
 			<ng-container matColumnDef={{columnsHeaders.JapaneseTitle}}>
 				<mat-header-cell *matHeaderCellDef class="table__title"> {{columnsHeaders.JapaneseTitle}}</mat-header-cell>
-				<mat-cell *matCellDef="let element" class="table__content content">
+				<mat-cell *matCellDef="let element" class="table__content content" title={{element.japaneseTitle}}>
 					<p class="content__text">
 						{{element.japaneseTitle | empty}}
 					</p>
@@ -63,13 +64,12 @@
 			<mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
 
 		</mat-table>
-		<mat-paginator [length]="pageData.pagesCount"
-									 [pageSize]="pageData.pageSize"
-									 [pageIndex]="pageData.pageIndex"
+		<mat-paginator [length]="pagesCount"
+									 [pageSize]="limit"
+									 [pageIndex]="pageIndex"
 									 [pageSizeOptions]="[10, 25, 50]"
-									 (page)="pageChanged($event)"
-									 aria-label="Select page">
-		</mat-paginator>
+									 (page)="onPageChanged($event)"
+									 aria-label="Select page"/>
 	</div>
 
 }

@@ -1,31 +1,30 @@
-import { Immerable, OmitImmerable } from './immerable';
+import { AnimeType } from './anime-type';
 
-/** Genre. */
-export class QueryParams extends Immerable {
+/** */
+export type Sort = {
+
+	/** */
+	active: string;
+
+	/** */
+	direction: '' | 'asc' | 'desc';
+};
+
+/** Params. */
+export type QueryParams = {
 
 	/** Offset. */
-	public readonly offset: number;
+	offset: number;
 
 	/** Limit. */
-	public readonly limit: number;
+	limit: number;
 
 	/** Search. */
-	public readonly search: string;
+	search: string;
 
-	/** Name. */
-	public readonly type: string;
+	/** Type. */
+	type: AnimeType[];
 
-	/** Name. */
-	public readonly ordering: string;
-
-	public constructor(data: QueryParamsConstructorData) {
-		super();
-		this.offset = data.offset;
-		this.limit = data.limit;
-		this.search = data.search;
-		this.type = data.type;
-		this.ordering = data.ordering;
-	}
-}
-
-type QueryParamsConstructorData = OmitImmerable<QueryParams>;
+	/** Ordering. */
+	ordering: Sort;
+};

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectorRef, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 	standalone: true,
 	templateUrl: './filter-form.component.html',
 	styleUrl: './filter-form.component.css',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		ReactiveFormsModule,
 		MatFormFieldModule,
@@ -21,42 +22,41 @@ import { MatSelectModule } from '@angular/material/select';
 		MatIconModule,
 		MatSelectModule,
 	],
-	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataRetrievalFormComponent implements OnInit {
 
-	/** */
+	/** Initial value for anime types control. */
 	@Input() public typesValue: AnimeType[] = [];
 
-	/** Types select control. */
+	/** Anime types selection control. */
 	protected typesControl = new FormControl();
 
-	/** */
+	/** List of permissible values for types select control. */
 	protected typesList = Object.values(AnimeType);
 
-	/** */
+	/** Event of anime type selection. */
 	@Output() public typeSelectEvent = new EventEmitter<AnimeType[]>();
 
-	/** */
+	/** Anime type selection handler. */
 	protected onTypeSelect(): void {
 		this.typeSelectEvent.emit(this.typesControl.value);
 	}
 
-	/** */
-	@Output() public searchEvent = new EventEmitter<string>();
-
-	/** */
-	protected onSearchSubmit(): void {
-		this.searchEvent.emit(String(this.searchForm.value.term));
-	}
+	/** Initial value for search control. */
+	@Input() public searchValue = '';
 
 	/** Search form. */
 	protected searchForm: FormGroup = new FormGroup({
 		term: new FormControl(''),
 	});
 
-	/** */
-	@Input() public searchValue = '';
+	/** Event of search form submitting. */
+	@Output() public searchEvent = new EventEmitter<string>();
+
+	/** Search form submitting handler. */
+	protected onSearchSubmit(): void {
+		this.searchEvent.emit(String(this.searchForm.value.term));
+	}
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
