@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { toTypeDto } from '@js-camp/core/mappers/anime-type.mapper';
+import { AnimeTypeDto } from '@js-camp/core/dtos/anime-type.dto';
+import { AnimeTypeMapper } from '@js-camp/core/mappers/anime-type.mapper';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 
 /** Anime API Access Service. */
@@ -13,7 +14,7 @@ export class TypeParamService {
 	 */
 	public composeTypeString(typesArr: AnimeType[]): string {
 		if (typesArr) {
-			const typesDtoArr = typesArr.map(type => toTypeDto(type));
+			const typesDtoArr = typesArr.map(type => AnimeTypeMapper.toDto(type));
 			return typesDtoArr.join(',');
 		}
 		return '';
@@ -25,7 +26,8 @@ export class TypeParamService {
 	 * @returns AnimeType.
 	 */
 	public composeTypeArray(typesString: string): AnimeType[] {
-		return typesString.split(',') as AnimeType[];
+		const typesArr = typesString.split(',') ?? [];
+		return typesArr.map(type => AnimeTypeMapper.fromDto(type as AnimeTypeDto));
 	}
 
 }

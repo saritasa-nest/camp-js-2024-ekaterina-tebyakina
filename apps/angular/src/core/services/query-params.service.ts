@@ -16,6 +16,25 @@ export enum ParamsNames {
 	Ordering = 'ordering',
 }
 
+/** */
+export type QueryParamsDto = {
+
+	/** Offset. */
+	[ParamsNames.Limit]: number;
+
+	/** Limit. */
+	[ParamsNames.Offset]: number;
+
+	/** Search. */
+	[ParamsNames.Search]: string;
+
+	/** Type. */
+	[ParamsNames.Type]: string;
+
+	/** Ordering. */
+	[ParamsNames.Ordering]: string;
+};
+
 /** Params. */
 export type QueryParams = {
 
@@ -55,20 +74,50 @@ export class QueryParamsService {
 			type: [],
 			ordering: { active: '', direction: '' },
 		};
+		if (ParamsNames.Offset in params) {
+			queryParams.offset = params[ParamsNames.Offset];
+		}
+		if (ParamsNames.Limit in params) {
+			queryParams.limit = params[ParamsNames.Limit];
+		}
+		if (ParamsNames.Search in params) {
+			queryParams.search = params[ParamsNames.Search];
+		}
+		if (ParamsNames.Type in params) {
+			queryParams.type = this.typeParamService.composeTypeArray(params[ParamsNames.Type]);
+		}
+		if (ParamsNames.Ordering in params) {
+			queryParams.ordering = this.orderingParamService.composeOrderingState(params[ParamsNames.Ordering]);
+		}
+		return queryParams;
+	}
+
+	/**
+	 * Maps dto to model.
+	 * @param params Genre dto.
+	 */
+	public toQueryParams(params: Params): QueryParamsDto {
+		const queryParams: QueryParamsDto = {
+			[ParamsNames.Offset]: 0,
+			[ParamsNames.Limit]: 25,
+			[ParamsNames.Search]: '',
+			[ParamsNames.Type]: '',
+			[ParamsNames.Ordering]: '',
+		};
 		if ('offset' in params) {
-			queryParams.offset = params['offset'];
+			queryParams[ParamsNames.Offset] = params['offset'];
 		}
 		if ('limit' in params) {
-			queryParams.limit = params['limit'];
+			queryParams[ParamsNames.Limit] = params['limit'];
 		}
 		if ('search' in params) {
-			queryParams.search = params['search'];
+			queryParams[ParamsNames.Search] = params['search'];
 		}
-		if ('type__in' in params) {
-			queryParams.type = this.typeParamService.composeTypeArray(params['type__in']);
+		if ('type' in params) {
+			queryParams[ParamsNames.Type] = this.typeParamService.composeTypeString(params['type']);
 		}
 		if ('ordering' in params) {
-			queryParams.ordering = this.orderingParamService.composeOrderingState(params['ordering']);
+			queryParams[ParamsNames.Ordering] = this.orderingParamService.composeOrderingString(params['ordering']);
 		}
 		return queryParams;
 	}
