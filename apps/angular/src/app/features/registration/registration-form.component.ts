@@ -5,6 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormFieldsService } from '@js-camp/angular/core/services/form-fields.service';
+import { Registration } from '@js-camp/core/models/registration';
+import { AuthorizationApiService } from '@js-camp/angular/core/services/authorization-api.service';
 
 /** Component with form for registration. */
 @Component({
@@ -23,20 +25,30 @@ import { FormFieldsService } from '@js-camp/angular/core/services/form-fields.se
 })
 export class RegistrationFormComponent {
 
-	private readonly formFieldsService = inject(FormFieldsService);
+	private formFieldsService = inject(FormFieldsService);
+
+	private authorizationApiService = inject(AuthorizationApiService);
 
 	/** Form for registration. */
 	public registrationForm = new FormGroup({
-		email: new FormControl('', [Validators.required, Validators.email]),
-		firstName: new FormControl('', [Validators.required]),
-		lastName: new FormControl('', [Validators.required]),
-		password: new FormControl('', [Validators.required]),
-		retypedPassword: new FormControl('', [Validators.required]),
+		email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
+		firstName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+		lastName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+		password: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+		retypedPassword: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
 	}, { validators: this.formFieldsService.matchFieldsValidator('password', 'retypedPassword') });
 
 	/** */
 	protected onRegistrationSubmit(): void {
-		console.warn(this.registrationForm.value);
+		const formData = this.registrationForm.getRawValue();
+
+		const registrationData = new Registration({
+			email: formData.email,
+			firstName: formData.firstName,
+			lastName: formData.lastName,
+			password: formData.password,
+		});
+		this.authorizationApiService.register(registrationData);
 	}
 
 }
