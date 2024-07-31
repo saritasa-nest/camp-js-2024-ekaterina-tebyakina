@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, RouterLink } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 /** Main component of application. */
@@ -8,6 +8,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.css'],
 	standalone: true,
-	imports: [RouterModule, MatToolbarModule],
+	imports: [
+		MatToolbarModule,
+		RouterModule,
+		RouterLink,
+	],
 })
 export class AppComponent {}

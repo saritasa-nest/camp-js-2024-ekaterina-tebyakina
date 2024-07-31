@@ -1,4 +1,8 @@
 <mat-toolbar class="header">
-  <h1>Anime app</h1>
+  <a [routerLink]="['/']" class="header__logo-link header__link">Anime app</a>
+	<nav class="header__nav">
+		<a [routerLink]="['/registration']" class="header__link">Registration</a>
+		<a [routerLink]="['/login']" class="header__link">Authorization</a>
+	</nav>
 </mat-toolbar>
 <router-outlet></router-outlet>

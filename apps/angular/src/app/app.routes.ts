@@ -8,4 +8,14 @@ export const appRoutes: Routes = [
 		path: '',
 		component: AnimeDashboardComponent,
 	},
+	{
+		path: 'login',
+		loadComponent: () => import('./features/login/login-form.component')
+			.then(c => c.LoginFormComponent),
+	},
+	{
+		path: 'registration',
+		loadComponent: () => import('./features/registration/registration-form.component')
+			.then(c => c.RegistrationFormComponent),
+	},
 ];
