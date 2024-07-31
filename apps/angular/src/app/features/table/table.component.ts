@@ -6,16 +6,8 @@ import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { Pagination } from '@js-camp/core/models/pagination';
-
-/** Column headers to be displayed in table. */
-export enum ColumnsHeaders {
-	Image = 'Image',
-	EnglishTitle = 'English title',
-	JapaneseTitle = 'Japanese title',
-	AiredStart = 'Aired starts with',
-	Type = 'Type',
-	Status = 'Status',
-}
+import { ColumnsHeaders } from '@js-camp/core/models/columns-headers';
+import { ColumnsIndexes } from '@js-camp/core/models/columns-indexes';
 
 /** Anime table component. */
 @Component({
@@ -59,7 +51,7 @@ export class TableComponent implements OnInit {
 	public ngOnInit(): void {
 		this.pageIndex = this.offset / this.limit;
 		if (this.pageData) {
-			this.pagesCount = this.pageData.count / this.limit;
+			this.pagesCount = Math.ceil(this.pageData.count / this.limit);
 		}
 	}
 
@@ -76,8 +68,11 @@ export class TableComponent implements OnInit {
 	/** Property containing enum with column headers. */
 	protected readonly columnsHeaders = ColumnsHeaders;
 
+	/** Property containing enum with column indexes. */
+	protected readonly columnsIndexes = ColumnsIndexes;
+
 	/** List of column headers. */
-	protected readonly columnsToDisplay = Object.values(ColumnsHeaders);
+	protected readonly columnsToDisplay = Object.values(ColumnsIndexes);
 
 	/** Event of pagination change. */
 	@Output() public paginationEvent = new EventEmitter<PageEvent>();

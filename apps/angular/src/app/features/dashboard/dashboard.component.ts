@@ -10,14 +10,16 @@ import { ProgressBarComponent } from '@js-camp/angular/shared/components/progres
 import { AnimeType } from '@js-camp/core/models/anime-type';
 
 import { AsyncPipe } from '@angular/common';
-import { QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
 
 import { QueryParams } from '@js-camp/core/models/query-params';
 
 import { QueryParamsDto } from '@js-camp/core/dtos/query-params.dto';
 
+import { AnimeSort } from '@js-camp/core/models/anime-sort';
+
 import { TableComponent } from '../table/table.component';
-import { DataRetrievalFormComponent } from '../filter-form/filter-form.component';
+import { FilterFormComponent } from '../filter-form/filter-form.component';
+import { QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
 
 /** Dashboard component. Contains table with list of anime. */
 @Component({
@@ -29,7 +31,7 @@ import { DataRetrievalFormComponent } from '../filter-form/filter-form.component
 	imports: [
 		ProgressBarComponent,
 		TableComponent,
-		DataRetrievalFormComponent,
+		FilterFormComponent,
 		AsyncPipe,
 	],
 })
@@ -41,8 +43,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 	private readonly animeApiService = inject(AnimeApiService);
 
-	private readonly queryParamsService = inject(QueryParamsService);
-
 	private subs: Subscription[] = [];
 
 	/** Stream of anime page. */
@@ -52,13 +52,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	protected animeParams$: Observable<QueryParams> = EMPTY;
 
 	/** Anime page params. */
-	protected queryParams: QueryParams = this.queryParamsService.defaultQueryParams;
+	protected queryParams: QueryParams = {
+		offset: 0,
+		limit: 25,
+		search: '',
+		type: [],
+		ordering: { active: '', direction: '' },
+	};
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
 
 		this.animeParams$ = this.route.queryParams.pipe(
-			switchMap(params => of(this.queryParamsService.fromQueryParams(params))),
+			switchMap(params => of(QueryParamsMapper.fromDto(params))),
 		);
 
 		this.subs.push(this.animeParams$.subscribe(params => {
@@ -82,7 +88,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 		this.router.navigate(
 			[''],
 			{
-				queryParams: this.queryParamsService.toQueryParams(queryParams),
+				queryParams: QueryParamsMapper.toDto(queryParams),
 				queryParamsHandling,
 			},
 		);
@@ -142,7 +148,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 		const queryParams = { ...this.queryParams };
 
-		queryParams.ordering = event;
+		queryParams.ordering = event as AnimeSort;
 
 		this.navigate(queryParams, 'merge');
 	}

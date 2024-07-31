@@ -1,6 +1,9 @@
 /** Column headers to be displayed in table. */
-export enum SortingColumns {
+export enum ColumnsHeaders {
+	Image = 'Image',
 	EnglishTitle = 'English title',
+	JapaneseTitle = 'Japanese title',
 	AiredStart = 'Aired starts with',
+	Type = 'Type',
 	Status = 'Status',
 }

@@ -9,7 +9,7 @@
 							 [matSortDirection]="ordering.direction"
 							 >
 
-			<ng-container matColumnDef={{columnsHeaders.Image}}>
+			<ng-container matColumnDef={{columnsIndexes.Image}}>
 				<mat-header-cell *matHeaderCellDef class="table__title"> {{columnsHeaders.Image}} </mat-header-cell>
 				<mat-cell *matCellDef="let element" class="table__content cover">
 					<div class="cover__wrapper">
@@ -21,7 +21,7 @@
 				</mat-cell>
 			</ng-container>
 
-			<ng-container matColumnDef={{columnsHeaders.EnglishTitle}}>
+			<ng-container matColumnDef={{columnsIndexes.EnglishTitle}}>
 				<mat-header-cell *matHeaderCellDef
 													mat-sort-header
 													class="table__title"> {{columnsHeaders.EnglishTitle}} </mat-header-cell>
@@ -32,7 +32,7 @@
 				</mat-cell>
 			</ng-container>
 
-			<ng-container matColumnDef={{columnsHeaders.JapaneseTitle}}>
+			<ng-container matColumnDef={{columnsIndexes.JapaneseTitle}}>
 				<mat-header-cell *matHeaderCellDef class="table__title"> {{columnsHeaders.JapaneseTitle}}</mat-header-cell>
 				<mat-cell *matCellDef="let element" class="table__content content" title={{element.japaneseTitle}}>
 					<p class="content__text">
@@ -41,19 +41,19 @@
 				</mat-cell>
 			</ng-container>
 
-			<ng-container matColumnDef={{columnsHeaders.AiredStart}}>
+			<ng-container matColumnDef={{columnsIndexes.AiredStart}}>
 				<mat-header-cell *matHeaderCellDef
 													mat-sort-header
 													class="table__title"> {{columnsHeaders.AiredStart}} </mat-header-cell>
 				<mat-cell *matCellDef="let element" class="table__content"> {{element.aired.start | date: "mediumDate" | empty}} </mat-cell>
 			</ng-container>
 
-			<ng-container matColumnDef={{columnsHeaders.Type}}>
+			<ng-container matColumnDef={{columnsIndexes.Type}}>
 				<mat-header-cell *matHeaderCellDef class="table__title"> {{columnsHeaders.Type}} </mat-header-cell>
 				<mat-cell *matCellDef="let element" class="table__content"> {{element.type | empty}} </mat-cell>
 			</ng-container>
 
-			<ng-container matColumnDef={{columnsHeaders.Status}}>
+			<ng-container matColumnDef={{columnsIndexes.Status}}>
 				<mat-header-cell *matHeaderCellDef
 													mat-sort-header
 													class="table__title"> {{columnsHeaders.Status}} </mat-header-cell>

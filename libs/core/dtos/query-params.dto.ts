@@ -4,17 +4,17 @@ import { ParamsNamesDto } from './params-names.dto';
 export type QueryParamsDto = {
 
 	/** Offset. */
-	[ParamsNamesDto.Limit]: number;
+	[ParamsNamesDto.Limit]?: number;
 
 	/** Limit. */
-	[ParamsNamesDto.Offset]: number;
+	[ParamsNamesDto.Offset]?: number;
 
 	/** Search. */
-	[ParamsNamesDto.Search]: string;
+	[ParamsNamesDto.Search]?: string;
 
 	/** Type. */
-	[ParamsNamesDto.Type]: string;
+	[ParamsNamesDto.Type]?: string;
 
 	/** Ordering. */
-	[ParamsNamesDto.Ordering]: string;
+	[ParamsNamesDto.Ordering]?: string;
 };

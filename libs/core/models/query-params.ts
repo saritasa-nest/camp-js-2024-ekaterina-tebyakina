@@ -1,14 +1,5 @@
+import { AnimeSort } from './anime-sort';
 import { AnimeType } from './anime-type';
-
-/** */
-export type Sort = {
-
-	/** */
-	active: string;
-
-	/** */
-	direction: '' | 'asc' | 'desc';
-};
 
 /** Params. */
 export type QueryParams = {
@@ -26,5 +17,5 @@ export type QueryParams = {
 	type: AnimeType[];
 
 	/** Ordering. */
-	ordering: Sort;
+	ordering: AnimeSort;
 };

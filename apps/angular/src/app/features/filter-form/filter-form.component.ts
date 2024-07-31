@@ -23,7 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 		MatSelectModule,
 	],
 })
-export class DataRetrievalFormComponent implements OnInit {
+export class FilterFormComponent implements OnInit {
 
 	/** Initial value for anime types control. */
 	@Input() public typesValue: AnimeType[] = [];
