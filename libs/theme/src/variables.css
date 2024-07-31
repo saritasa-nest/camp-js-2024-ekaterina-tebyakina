@@ -10,6 +10,8 @@
 	--background-contrast-color: rgb(0 0 0);
 	--error-color: rgb(255 0 0);
 	--border-color: rgb(0 0 0 / 15%);
+	--text-color: var(--primary-light-contrast-color);
+	--active-link-color: var(--primary-color);
 
 	/* Variables for spaces */
 	--space-xs: 8px;
@@ -25,4 +27,10 @@
 	--font-size-md: 1.125rem;
 	--font-size-lg: 1.25rem;
 	--font-size-xl: 1.5rem;
+
+	/* Variables for font weights */
+	--font-weight-regular: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
 }
