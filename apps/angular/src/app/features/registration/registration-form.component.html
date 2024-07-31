@@ -1,0 +1,74 @@
+<div class="registration-form-wrapper">
+	<h2 class="registration-header">Registration</h2>
+	<form class="registration-form"
+				[formGroup]="registrationForm"
+				(ngSubmit)="onRegistrationSubmit()">
+
+		<mat-form-field appearance="outline" class="registration-form__field">
+			<mat-label>Email</mat-label>
+			<input matInput
+						 placeholder="ivan.pupkin@gmail.com"
+						 formControlName="email"
+						 type="email">
+			@if (registrationForm.get('email')?.hasError('required') && registrationForm.get('email')?.touched) {
+				<mat-error>Email is required.</mat-error>
+			} @else if (registrationForm.get('email')?.hasError('email') && registrationForm.get('email')?.touched) {
+				<mat-error>Enter a valid email address.</mat-error>
+			}
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" class="registration-form__field">
+			<mat-label>First Name</mat-label>
+			<input matInput
+						 placeholder="Ivan"
+						 formControlName="firstName"
+						 type="text">
+			@if (registrationForm.get('firstName')?.hasError('required') && registrationForm.get('firstName')?.touched) {
+				<mat-error>First name is required.</mat-error>
+			}
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" class="registration-form__field">
+			<mat-label>Last Name</mat-label>
+			<input matInput
+						 placeholder="Pupkin"
+						 type="text">
+			@if (registrationForm.get('lastName')?.hasError('required') && registrationForm.get('lastName')?.touched) {
+				<mat-error>Last name is required.</mat-error>
+			}
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" class="registration-form__field">
+			<mat-label>Password</mat-label>
+			<input matInput
+						 placeholder="veryStrongPassW0rd"
+						 formControlName="password"
+						 type="password">
+			@if (registrationForm.get('password')?.hasError('required') && registrationForm.get('password')?.touched) {
+				<mat-error>Password is required.</mat-error>
+			} @else if (registrationForm.get('password')?.hasError('mustMatch') && registrationForm.get('password')?.touched) {
+				<mat-error>Passwords must match.</mat-error>
+			}
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" class="registration-form__field">
+			<mat-label> Repeat the password</mat-label>
+			<input matInput
+						 placeholder="veryStrongPassW0rd"
+						 formControlName="retypedPassword"
+						 type="password">
+			@if (registrationForm.get('retypedPassword')?.hasError('required') && registrationForm.get('retypedPassword')?.touched) {
+				<mat-error>Retyped password is required.</mat-error>
+			} @else if (registrationForm.get('retypedPassword')?.hasError('mustMatch') && registrationForm.get('retypedPassword')?.touched) {
+				<mat-error>Passwords must match.</mat-error>
+			}
+		</mat-form-field>
+
+		<div class="example-button-row">
+			<button mat-raised-button
+							type="submit"
+							[disabled]="!registrationForm.valid">Register</button>
+		</div>
+
+	</form>
+</div>
