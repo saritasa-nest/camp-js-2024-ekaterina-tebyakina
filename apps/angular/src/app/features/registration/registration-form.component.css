@@ -1,0 +1,27 @@
+.registration-form-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	padding: var(--space-xl);
+}
+
+.registration-header {
+	font-size: var(--font-size-xl);
+}
+
+.registration-form {
+	min-width: 360px;
+	padding: var(--space-m);
+	border-radius: 24px;
+	border: 2px var(--border-color) solid;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-s);
+	align-items: center;
+}
+
+.registration-form__field {
+	width: 100%;
+}
