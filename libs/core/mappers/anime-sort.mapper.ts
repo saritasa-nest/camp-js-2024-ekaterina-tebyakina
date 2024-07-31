@@ -9,6 +9,8 @@ export namespace AnimeSortMapper {
 
 	const DESCENDING_PREFIX = '-';
 
+	const DESCENDING_PREFIX = '-';
+
 	/**
 	 * Map object with active field and sorting direction to ordering param.
 	 * @param ordering - Object with settings for sort.

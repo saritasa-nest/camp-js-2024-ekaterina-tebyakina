@@ -1,12 +1,9 @@
 <div class="dashboard">
-
 	@if (animeParams$ | async; as animeParams) {
-
 		<camp-filter-form (typeSelectEvent)="onTypeChange($event)"
 											(searchEvent)="onSearchChange($event)"
 											[searchValue]="animeParams.search"
 											[typesValue]="animeParams.type"/>
-
 		@if (animeListPage$ | async; as animeListPage) {
 		<camp-table [pageData]="animeListPage"
 								[ordering]="animeParams.ordering"
@@ -17,7 +14,5 @@
 		} @else {
 		<camp-progress-bar/>
 		}
-
 	}
-
 </div>

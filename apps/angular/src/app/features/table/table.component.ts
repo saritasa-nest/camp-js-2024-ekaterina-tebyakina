@@ -37,10 +37,10 @@ export enum ColumnsHeaders {
 })
 export class TableComponent implements OnInit {
 
-	/** Anime list page data. */
+	/** Anime page data. */
 	@Input() public pageData?: Pagination<Anime>;
 
-	/** Sorting ordering settings. */
+	/** Ordering settings for sort. */
 	@Input() public ordering?: Sort;
 
 	/** Limit of anime for one page. */

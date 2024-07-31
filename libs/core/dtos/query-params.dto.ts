@@ -1,6 +1,4 @@
-import { ParamsNamesDto } from './params-names.dto';
-
-/** Params DTO. */
+/** Params DTO. Data for query params and params for request to the server. */
 export type QueryParamsDto = {
 
 	/** Offset. */

@@ -7,7 +7,10 @@ import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { MatSelectModule } from '@angular/material/select';
 
-/** Dashboard component. Contains table with list of anime. */
+/**
+ * Filter form component.
+ * Contains control for choosing the type of anime and form for searching by anime title.
+ */
 @Component({
 	selector: 'camp-filter-form',
 	standalone: true,
