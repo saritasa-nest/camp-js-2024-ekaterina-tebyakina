@@ -9,7 +9,7 @@ import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.servic
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 
 import { QueryParams } from '@js-camp/core/models/query-params';
 
@@ -34,6 +34,7 @@ import { FilterFormComponent } from '../filter-form/filter-form.component';
 		TableComponent,
 		FilterFormComponent,
 		AsyncPipe,
+		NgOptimizedImage,
 	],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
