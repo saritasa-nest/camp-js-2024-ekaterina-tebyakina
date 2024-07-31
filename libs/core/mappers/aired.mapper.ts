@@ -4,7 +4,7 @@ import { Aired } from '../models/aired';
 export namespace AiredMapper {
 
 	/**
-	 * Map aired dto to model.
+	 * Map aired dto to model. Converts strings to dates.
 	 * @param aired - Aired dto.
 	 * @returns Aired model.
 	 */

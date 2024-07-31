@@ -11,7 +11,7 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { QueryParamsDto } from '@js-camp/core/dtos/query-params.dto';
 
-/** Anime API Access Service. */
+/** Anime API access service. */
 @Injectable({ providedIn: 'root' })
 export class AnimeApiService {
 
@@ -30,7 +30,7 @@ export class AnimeApiService {
 		return this.http.get<PaginationDto<AnimeDto>>('anime/anime/', {
 			params: pageParams,
 		}).pipe(
-			map(res => PaginationMapper.fromDto(res, AnimeMapper.fromDto)),
+			map(result => PaginationMapper.fromDto(result, AnimeMapper.fromDto)),
 		);
 	}
 }

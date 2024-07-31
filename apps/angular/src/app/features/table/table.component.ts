@@ -29,10 +29,10 @@ import { ColumnsIndexes } from '@js-camp/core/models/columns-indexes';
 })
 export class TableComponent implements OnInit {
 
-	/** Anime list page data. */
+	/** Anime page data. */
 	@Input() public pageData?: Pagination<Anime>;
 
-	/** Sorting ordering settings. */
+	/** Ordering settings for sort. */
 	@Input() public ordering?: Sort;
 
 	/** Limit of anime for one page. */
@@ -71,7 +71,7 @@ export class TableComponent implements OnInit {
 	/** Property containing enum with column indexes. */
 	protected readonly columnsIndexes = ColumnsIndexes;
 
-	/** List of column headers. */
+	/** List of column indexes. */
 	protected readonly columnsToDisplay = Object.values(ColumnsIndexes);
 
 	/** Event of pagination change. */

@@ -5,12 +5,13 @@ export namespace GenreMapper {
 
 	/**
 	 * Maps dto to model.
-	 * @param dto Genre dto.
+	 * @param genre Genre dto.
+	 * @returns Genre model.
 	 */
-	export function fromDto(dto: GenreDto): Genre {
+	export function fromDto(genre: GenreDto): Genre {
 		return new Genre({
-			id: dto.id,
-			name: dto.name,
+			id: genre.id,
+			name: genre.name,
 		});
 	}
 }

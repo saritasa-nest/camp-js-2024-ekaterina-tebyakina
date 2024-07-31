@@ -5,18 +5,17 @@ export namespace PaginationMapper {
 
 	/**
 	 * Maps dto to model.
-	 * @param pageIndex Pagination dto.
-	 * @param pageSize Pagination dto.
-	 * @param dto Pagination dto.
-	 * @param mapper Pagination dto.
+	 * @param pagination - Pagination dto.
+	 * @param mapper - Mapper function for results field.
+	 * @returns Pagination model.
 	 */
-	export function fromDto<I, O>(dto: PaginationDto<I>, mapper: (dto: I) => O): Pagination<O> {
+	export function fromDto<I, O>(pagination: PaginationDto<I>, mapper: (dto: I) => O): Pagination<O> {
 
 		return new Pagination<O>({
-			count: dto.count,
-			next: dto.next,
-			previous: dto.previous,
-			results: dto.results.map(item => mapper(item)),
+			count: pagination.count,
+			next: pagination.next,
+			previous: pagination.previous,
+			results: pagination.results.map(item => mapper(item)),
 		});
 	}
 

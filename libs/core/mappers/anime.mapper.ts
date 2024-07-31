@@ -9,23 +9,24 @@ export namespace AnimeMapper {
 
 	/**
 	 * Maps dto to model.
-	 * @param dto - Anime dto.
+	 * @param anime - Anime dto.
+	 * @returns Anime model.
 	 */
-	export function fromDto(dto: AnimeDto): Anime {
+	export function fromDto(anime: AnimeDto): Anime {
 		return new Anime({
-			id: dto.id,
-			created: new Date(dto.created),
-			modified: new Date(dto.modified),
-			englishTitle: dto.title_eng,
-			japaneseTitle: dto.title_jpn,
-			image: dto.image,
-			aired: AiredMapper.fromDto(dto.aired),
-			type: AnimeTypeMapper.fromDto(dto.type),
-			status: AnimeStatusMapper.fromDto(dto.status),
-			score: dto.score,
-			userScore: dto.user_score,
-			studios: dto.studios,
-			genres: dto.genres,
+			id: anime.id,
+			created: new Date(anime.created),
+			modified: new Date(anime.modified),
+			englishTitle: anime.title_eng,
+			japaneseTitle: anime.title_jpn,
+			image: anime.image,
+			aired: AiredMapper.fromDto(anime.aired),
+			type: AnimeTypeMapper.fromDto(anime.type),
+			status: AnimeStatusMapper.fromDto(anime.status),
+			score: anime.score,
+			userScore: anime.user_score,
+			studios: anime.studios,
+			genres: anime.genres,
 		});
 	}
 

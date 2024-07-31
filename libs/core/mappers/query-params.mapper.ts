@@ -1,5 +1,4 @@
 import { AnimeTypeDto } from '../dtos/anime-type.dto';
-import { ParamsNamesDto } from '../dtos/params-names.dto';
 import { QueryParamsDto } from '../dtos/query-params.dto';
 import { QueryParams } from '../models/query-params';
 
@@ -9,11 +8,11 @@ import { AnimeTypeMapper } from './anime-type.mapper';
 export namespace QueryParamsMapper {
 
 	/**
-	 * Map aired dto to model.
-	 * @param dto - Aired dto.
-	 * @returns Aired model.
+	 * Map query params dto to model.
+	 * @param params - Query params.
+	 * @returns Model with query params data for UI.
 	 */
-	export function fromDto(dto: QueryParamsDto): QueryParams {
+	export function fromDto(params: QueryParamsDto): QueryParams {
 		const queryParams: QueryParams = {
 			offset: 0,
 			limit: 25,
@@ -21,42 +20,40 @@ export namespace QueryParamsMapper {
 			type: [],
 			ordering: { active: '', direction: '' },
 		};
-		if (dto[ParamsNamesDto.Offset]) {
-			queryParams.offset = dto[ParamsNamesDto.Offset];
+		if (params.offset) {
+			queryParams.offset = params.offset;
 		}
-		if (dto[ParamsNamesDto.Limit]) {
-			queryParams.limit = dto[ParamsNamesDto.Limit];
+		if (params.limit) {
+			queryParams.limit = params.limit;
 		}
-		if (dto[ParamsNamesDto.Search]) {
-			queryParams.search = dto[ParamsNamesDto.Search];
+		if (params.search) {
+			queryParams.search = params.search;
 		}
-		if (dto[ParamsNamesDto.Type]) {
-			queryParams.type = dto[ParamsNamesDto.Type].split(',').map(type => AnimeTypeMapper.fromDto(type as AnimeTypeDto));
+		if (params.type__in) {
+			queryParams.type = params.type__in.split(',').map(type => AnimeTypeMapper.fromDto(type as AnimeTypeDto));
 		}
-		if (dto[ParamsNamesDto.Ordering]) {
-			queryParams.ordering = AnimeSortMapper.fromDto(dto[ParamsNamesDto.Ordering]);
+		if (params.ordering) {
+			queryParams.ordering = AnimeSortMapper.fromDto(params.ordering);
 		}
 		return queryParams;
 	}
 
 	/**
-	 * Map aired dto to model.
-	 * @param model - Aired dto.
-	 * @returns Aired model.
+	 * Map model to query params.
+	 * @param params - Object with data for query params.
+	 * @returns Query params.
 	 */
-	export function toDto(model: QueryParams): QueryParamsDto {
+	export function toDto(params: QueryParams): QueryParamsDto {
+		const { offset, limit, search } = params;
+
 		const queryParams: QueryParamsDto = {
-			[ParamsNamesDto.Offset]: 0,
-			[ParamsNamesDto.Limit]: 25,
-			[ParamsNamesDto.Search]: '',
-			[ParamsNamesDto.Type]: '',
-			[ParamsNamesDto.Ordering]: '',
+			offset,
+			limit,
+			search,
 		};
-		queryParams[ParamsNamesDto.Offset] = model.offset;
-		queryParams[ParamsNamesDto.Limit] = model.limit;
-		queryParams[ParamsNamesDto.Search] = model.search;
-		queryParams[ParamsNamesDto.Type] = model.type.map(type => AnimeTypeMapper.toDto(type)).join(',');
-		queryParams[ParamsNamesDto.Ordering] = AnimeSortMapper.toDto(model.ordering);
+
+		queryParams.type__in = params.type.map(animeType => AnimeTypeMapper.toDto(animeType)).join(',');
+		queryParams.ordering = AnimeSortMapper.toDto(params.ordering);
 
 		return queryParams;
 	}

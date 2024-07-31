@@ -17,11 +17,12 @@ import { QueryParamsDto } from '@js-camp/core/dtos/query-params.dto';
 
 import { AnimeSort } from '@js-camp/core/models/anime-sort';
 
-import { TableComponent } from '../table/table.component';
-import { FilterFormComponent } from '../filter-form/filter-form.component';
 import { QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
 
-/** Dashboard component. Contains table with list of anime. */
+import { TableComponent } from '../table/table.component';
+import { FilterFormComponent } from '../filter-form/filter-form.component';
+
+/** Dashboard component. Contains table and form components. */
 @Component({
 	selector: 'camp-dashboard',
 	standalone: true,
@@ -112,7 +113,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	/**
 	 * Triggers when search term is changed.
 	 * Forms a new query parameters object with a new search term and navigate with these parameters.
-	 * @param event - List of selected anime types.
+	 * @param event - Search term.
 	 */
 	protected onSearchChange(event: string): void {
 
@@ -127,7 +128,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	/**
 	 * Triggers when pagination is changed.
 	 * Forms a new query parameters object with a new pagination data and navigate with these parameters.
-	 * @param event - List of selected anime types.
+	 * @param event - Pagination settings.
 	 */
 	protected onPageChange(event: PageEvent): void {
 
@@ -142,7 +143,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	/**
 	 * Triggers when ordering is changed.
 	 * Forms a new query parameters object with a new ordering data and navigate with these parameters.
-	 * @param event - List of selected anime types.
+	 * @param event - Ordering settings.
 	 */
 	public onOrderingChange(event: Sort): void {
 
@@ -151,15 +152,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
 		queryParams.ordering = event as AnimeSort;
 
 		this.navigate(queryParams, 'merge');
-	}
-
-	/**
-	 * Track by function for anime list.
-	 * @param index - Anime list item id.
-	 * @param item - Item of anime list.
-	 * @returns Item's id.
-	 */
-	protected trackByAnime(index: number, item: Anime): Anime['id'] {
-		return item.id;
 	}
 }

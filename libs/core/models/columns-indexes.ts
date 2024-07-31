@@ -1,4 +1,4 @@
-/** Column headers to be displayed in table. */
+/** Column indexes to be table columns. */
 export enum ColumnsIndexes {
 	Image = 'image',
 	EnglishTitle = 'title_eng',

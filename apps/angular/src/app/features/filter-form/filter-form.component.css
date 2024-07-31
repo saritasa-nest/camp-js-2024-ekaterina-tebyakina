@@ -1,3 +1,7 @@
+:host {
+	--button-margin-bottom: 20px;
+}
+
 .filter-form {
 	display: flex;
 	flex-direction: row;
@@ -13,5 +17,7 @@
 }
 
 .search-form__button {
-	margin-bottom: 20px;
+	/* Used margin, because mat-form-field component creates an empty component of this height from below itself.
+	Which makes it difficult to align the mat-form-field and the button relative to each other  */
+	margin-bottom: var(--button-margin-bottom);
 }
