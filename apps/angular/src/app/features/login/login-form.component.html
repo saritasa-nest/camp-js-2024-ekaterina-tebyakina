@@ -1,3 +1,40 @@
-<div class="login-form">
+<div class="login-form-wrapper">
+	<h2 class="login-header">Login</h2>
+	<form class="login-form"
+				[formGroup]="loginForm"
+				(ngSubmit)="onLoginSubmit()">
 
+		<mat-form-field appearance="outline" class="login-form__field">
+			<mat-label>Email</mat-label>
+			<input matInput
+						 placeholder="ivan.pupkin@gmail.com"
+						 formControlName="email"
+						 type="email">
+			@if (loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched) {
+				<mat-error>Email is required.</mat-error>
+			} @else if (loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched) {
+				<mat-error>Enter a valid email address.</mat-error>
+			}
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" class="login-form__field">
+			<mat-label>Password</mat-label>
+			<input matInput
+						 placeholder="veryStrongPassW0rd"
+						 formControlName="password"
+						 type="password">
+			@if (loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched) {
+				<mat-error>Password is required.</mat-error>
+			}
+		</mat-form-field>
+
+		@if (loginForm.hasError('serverError') && loginForm.dirty) {
+			<mat-error>{{loginForm.getError('serverError')}}</mat-error>
+		}
+
+		<button mat-raised-button
+						type="submit"
+						[disabled]="loginForm.invalid">Login</button>
+
+	</form>
 </div>
