@@ -9,7 +9,7 @@ export namespace PaginationMapper {
 	 * @param mapper - Mapper function for results field.
 	 * @returns Pagination model.
 	 */
-	export function fromDto<I, O>(pagination: PaginationDto<I>, mapper: (dto: I) => O): Pagination<O> {
+	export function fromDto<TDto, TModel>(pagination: PaginationDto<TDto>, mapper: (dto: TDto) => TModel): Pagination<TModel> {
 
 		return new Pagination<O>({
 			count: pagination.count,
