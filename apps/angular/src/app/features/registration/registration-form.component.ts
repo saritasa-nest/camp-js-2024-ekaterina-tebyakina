@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormFieldsService } from '@js-camp/angular/core/services/form-fields.service';
@@ -18,7 +17,6 @@ import { AuthorizationApiService } from '@js-camp/angular/core/services/authoriz
 	imports: [
 		ReactiveFormsModule,
 		MatFormFieldModule,
-		MatIconModule,
 		MatInputModule,
 		MatButtonModule,
 	],
@@ -30,7 +28,7 @@ export class RegistrationFormComponent {
 	private authorizationApiService = inject(AuthorizationApiService);
 
 	/** Form for registration. */
-	public registrationForm = new FormGroup({
+	protected registrationForm = new FormGroup({
 		email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
 		firstName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
 		lastName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
