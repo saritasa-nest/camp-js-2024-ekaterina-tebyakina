@@ -46,15 +46,15 @@ export namespace QueryParamsMapper {
 	export function toDto(params: QueryParams): QueryParamsDto {
 		const { offset, limit, search } = params;
 
-		const queryParams: QueryParamsDto = {
+		const types = params.type.map(animeType => AnimeTypeMapper.toDto(animeType)).join(',');
+		const ordering = AnimeSortMapper.toDto(params.ordering);
+
+		return  {
 			offset,
 			limit,
 			search,
+			ordering,
+			type_in: types,
 		};
-
-		queryParams.type__in = params.type.map(animeType => AnimeTypeMapper.toDto(animeType)).join(',');
-		queryParams.ordering = AnimeSortMapper.toDto(params.ordering);
-
-		return queryParams;
 	}
 }
