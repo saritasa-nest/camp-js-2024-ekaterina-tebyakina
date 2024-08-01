@@ -66,7 +66,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	public ngOnInit(): void {
 
 		this.animeParams$ = this.route.queryParams.pipe(
-			switchMap(params => of(QueryParamsMapper.fromDto(params))),
+			map(params => QueryParamsMapper.fromDto(params)),
 		);
 
 		this.subs.push(this.animeParams$.subscribe(params => {
