@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 			this.queryParams = params;
 		}));
 
-		this.animeListPage$ = this.route.queryParams.pipe(
+		this.animeListPage$ = this.animeParams$.pipe(
 			switchMap(params => this.animeApiService.getPage(params as QueryParamsDto)),
 		);
 
