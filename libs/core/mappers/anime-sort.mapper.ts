@@ -1,6 +1,7 @@
 import { AnimeSortDto } from '../dtos/anime-sort.dto';
 import { AnimeSort } from '../models/anime-sort';
-import { ColumnsIndexes } from '../models/columns-indexes';
+import { AnimeColumnsIndexes } from '../models/anime-columns-indexes';
+import { checkIsEnumMember } from '../utils/chek-is-enum.util';
 
 export namespace AnimeSortMapper {
 
@@ -13,20 +14,30 @@ export namespace AnimeSortMapper {
 	 */
 	export function fromDto(ordering: AnimeSortDto): AnimeSort {
 
-		const sortState: AnimeSort = { active: '', direction: '' };
+		const sortState: AnimeSort = { sortField: '', direction: '' };
 
 		if (ordering === '') {
 			return sortState;
 		}
 
 		if (ordering[0] === '-') {
-			sortState.active = ordering.slice(1) as ColumnsIndexes;
-			sortState.direction = 'desc';
-			return sortState;
+
+			const sortField = ordering.slice(1);
+
+			if (checkIsEnumMember(sortField, AnimeColumnsIndexes)) {
+				return {
+					sortField,
+					direction: 'desc',
+				};
+			}
 		}
 
-		sortState.active = ordering as ColumnsIndexes;
-		sortState.direction = 'asc';
+		if (checkIsEnumMember(ordering, AnimeColumnsIndexes)) {
+			return {
+				sortField: ordering,
+				direction: 'asc',
+			};
+		}
 
 		return sortState;
 	}
@@ -41,7 +52,7 @@ export namespace AnimeSortMapper {
 		let orderString = '';
 
 		if (ordering) {
-			const sortField = ordering.active;
+			const { sortField } = ordering;
 
 			switch (ordering.direction) {
 				case 'asc':
