@@ -23,12 +23,8 @@ export namespace AnimeQueryParamsMapper {
 		}
 
 		const filterParams: AnimeFilterParams = {
-			pageIndex: (params.pageIndex && (typeof params.pageIndex === 'number') && params.pageIndex >= 0) ?
-				params.pageIndex : DEFAULT_PAGE_INDEX,
-
-			pageSize: (params.pageSize && (typeof params.pageSize === 'number') && params.pageSize > 0) ?
-				params.pageSize : DEFAULT_PAGE_SIZE,
-
+			pageIndex: (params.pageIndex && params.pageIndex > 0) ? Number(params.pageIndex) : DEFAULT_PAGE_INDEX,
+			pageSize: (params.pageSize && params.pageSize > 0) ? Number(params.pageSize) : DEFAULT_PAGE_SIZE,
 			searchTerm: params.searchTerm ? params.searchTerm : DEFAULT_SEARCH_TERM,
 			selectedTypes,
 			sortingSettings: params.sortingSettings ? AnimeSortMapper.fromString(params.sortingSettings) : DEFAULT_SORT_SETTINGS,
