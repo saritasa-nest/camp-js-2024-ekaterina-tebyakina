@@ -8,7 +8,7 @@ import {
 	DEFAULT_SORT_SETTINGS,
 	DEFAULT_TYPE,
 } from '../models/anime-filter-params';
-import { checkIsEnumMember } from '../utils/chek-is-enum.util';
+import { checkIsEnumMember } from '../utils/check-is-enum.util';
 
 import { AnimeSortMapper } from './anime-sort.mapper';
 import { AnimeTypeMapper } from './anime-type.mapper';

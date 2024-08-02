@@ -1,7 +1,7 @@
 import { AnimeSortDto } from '../dtos/anime-sort.dto';
 import { AnimeSort } from '../models/anime-sort';
 import { AnimeColumnsIndexes } from '../models/anime-columns-indexes';
-import { checkIsEnumMember } from '../utils/chek-is-enum.util';
+import { checkIsEnumMember } from '../utils/check-is-enum.util';
 
 export namespace AnimeSortMapper {
 
