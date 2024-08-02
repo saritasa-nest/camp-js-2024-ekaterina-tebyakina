@@ -1,10 +1,9 @@
-import { AnimeTypeDto } from '../dtos/anime-type.dto';
 import { AnimeFilterParams, DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE, DEFAULT_SEARCH_TERM, DEFAULT_SORT_SETTINGS, DEFAULT_TYPE } from '../models/anime-filter-params';
 import { AnimeQueryParams } from '../models/anime-query-params';
+import { AnimeType } from '../models/anime-type';
 import { checkIsEnumMember } from '../utils/check-is-enum.util';
 
 import { AnimeSortMapper } from './anime-sort.mapper';
-import { AnimeTypeMapper } from './anime-type.mapper';
 
 export namespace AnimeQueryParamsMapper {
 
@@ -18,18 +17,21 @@ export namespace AnimeQueryParamsMapper {
 		let selectedTypes = DEFAULT_TYPE;
 		if (params.selectedTypes) {
 			const typesArray = params.selectedTypes.split(',');
-			const filteredArray = typesArray.filter(item => checkIsEnumMember(item, AnimeTypeDto));
 
-			// Using ‘as’ to avoid typescript error, but the type is checked by the checkIsEnumMember function previously.
-			selectedTypes = filteredArray.map(type => AnimeTypeMapper.fromDto(type as AnimeTypeDto));
+			// Using ‘as’ to avoid typescript error, but the type is checked by the checkIsEnumMember function.
+			selectedTypes = typesArray.filter(item => checkIsEnumMember(item, AnimeType)) as AnimeType[];
 		}
 
 		const filterParams: AnimeFilterParams = {
-			pageIndex: params.pageIndex ? params.pageIndex : DEFAULT_PAGE_INDEX,
-			pageSize: params.pageSize ? params.pageSize : DEFAULT_PAGE_SIZE,
+			pageIndex: (params.pageIndex && (typeof params.pageIndex === 'number') && params.pageIndex >= 0) ?
+				params.pageIndex : DEFAULT_PAGE_INDEX,
+
+			pageSize: (params.pageSize && (typeof params.pageSize === 'number') && params.pageSize > 0) ?
+				params.pageSize : DEFAULT_PAGE_SIZE,
+
 			searchTerm: params.searchTerm ? params.searchTerm : DEFAULT_SEARCH_TERM,
 			selectedTypes,
-			sortingSettings: params.sortingSettings ? AnimeSortMapper.fromDto(params.sortingSettings) : DEFAULT_SORT_SETTINGS,
+			sortingSettings: params.sortingSettings ? AnimeSortMapper.fromString(params.sortingSettings) : DEFAULT_SORT_SETTINGS,
 		};
 
 		return filterParams;
@@ -47,9 +49,9 @@ export namespace AnimeQueryParamsMapper {
 			...(params.pageSize && { pageSize: params.pageSize }),
 			...(params.searchTerm !== undefined && params.searchTerm !== null && { searchTerm: params.searchTerm }),
 			...(params.selectedTypes && {
-				selectedTypes: params.selectedTypes.map(animeType => AnimeTypeMapper.toDto(animeType)).join(','),
+				selectedTypes: params.selectedTypes.join(','),
 			}),
-			...(params.sortingSettings && { sortingSettings: AnimeSortMapper.toDto(params.sortingSettings) }),
+			...(params.sortingSettings && { sortingSettings: AnimeSortMapper.toString(params.sortingSettings) }),
 		};
 	}
 }
