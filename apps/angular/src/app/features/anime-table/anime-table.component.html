@@ -1,12 +1,12 @@
-@if (pageData && ordering) {
+@if (pageData && sortingSettings) {
 	<div class="table-wrapper">
 		<mat-table class="table"
 							 [dataSource]="pageData.results"
 							 [trackBy]="trackByAnime"
 							 matSort
 							 (matSortChange)="onSortData($event)"
-							 [matSortActive]="ordering.active"
-							 [matSortDirection]="ordering.direction"
+							 [matSortActive]="sortingSettings.sortField"
+							 [matSortDirection]="sortingSettings.direction"
 							 >
 
 			<ng-container matColumnDef={{columnsIndexes.Image}}>
@@ -65,9 +65,9 @@
 
 		</mat-table>
 		<mat-paginator [length]="pagesCount"
-									 [pageSize]="limit"
+									 [pageSize]="pageSize"
 									 [pageIndex]="pageIndex"
-									 [pageSizeOptions]="[10, 25, 50]"
+									 [pageSizeOptions]="pageSizeOptions"
 									 (page)="onPageChanged($event)"
 									 aria-label="Select page"/>
 	</div>

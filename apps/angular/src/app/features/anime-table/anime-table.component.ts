@@ -6,15 +6,20 @@ import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { ColumnsHeaders } from '@js-camp/core/models/columns-headers';
-import { ColumnsIndexes } from '@js-camp/core/models/columns-indexes';
+import { AnimeColumnsHeaders } from '@js-camp/core/models/anime-columns-headers';
+import { AnimeColumnsIndexes } from '@js-camp/core/models/anime-columns-indexes';
+import { AnimeSort } from '@js-camp/core/models/anime-sort';
+import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/core/models/anime-filter-params';
+
+const DEFAULT_PAGES_COUNT = 0;
+const DEFAULT_SIZE_OPTIONS = [10, 25, 50];
 
 /** Anime table component. */
 @Component({
-	selector: 'camp-table',
+	selector: 'camp-anime-table',
 	standalone: true,
-	templateUrl: './table.component.html',
-	styleUrl: './table.component.css',
+	templateUrl: './anime-table.component.html',
+	styleUrl: './anime-table.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		MatTableModule,
@@ -27,31 +32,39 @@ import { ColumnsIndexes } from '@js-camp/core/models/columns-indexes';
 		NgOptimizedImage,
 	],
 })
-export class TableComponent implements OnInit {
+export class AnimeTableComponent implements OnInit {
 
 	/** Anime page data. */
 	@Input() public pageData?: Pagination<Anime>;
 
-	/** Ordering settings for sort. */
-	@Input() public ordering?: Sort;
+	/** Settings for sort. Contains data about sort column and direction of sort. */
+	@Input() public sortingSettings?: AnimeSort;
 
 	/** Limit of anime for one page. */
-	@Input() public limit = 25;
-
-	/** Offset of anime list. */
-	@Input() public offset = 0;
+	@Input() public pageSize = DEFAULT_PAGE_SIZE;
 
 	/** Index of current page. */
-	protected pageIndex = 0;
+	@Input() public pageIndex = DEFAULT_PAGE_INDEX;
 
 	/** Pages count. */
-	protected pagesCount = 0;
+	protected pagesCount = DEFAULT_PAGES_COUNT;
+
+	/** Possible page size values. */
+	protected pageSizeOptions = DEFAULT_SIZE_OPTIONS;
+
+	/** Property containing enum with column headers. */
+	protected readonly columnsHeaders = AnimeColumnsHeaders;
+
+	/** Property containing enum with column indexes. */
+	protected readonly columnsIndexes = AnimeColumnsIndexes;
+
+	/** List of column indexes. */
+	protected readonly columnsToDisplay = Object.values(AnimeColumnsIndexes);
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.pageIndex = this.offset / this.limit;
 		if (this.pageData) {
-			this.pagesCount = Math.ceil(this.pageData.count / this.limit);
+			this.pagesCount = Math.ceil(this.pageData.count / this.pageSize);
 		}
 	}
 
@@ -64,15 +77,6 @@ export class TableComponent implements OnInit {
 	protected trackByAnime(index: number, item: Anime): Anime['id'] {
 		return item.id;
 	}
-
-	/** Property containing enum with column headers. */
-	protected readonly columnsHeaders = ColumnsHeaders;
-
-	/** Property containing enum with column indexes. */
-	protected readonly columnsIndexes = ColumnsIndexes;
-
-	/** List of column indexes. */
-	protected readonly columnsToDisplay = Object.values(ColumnsIndexes);
 
 	/** Event of pagination change. */
 	@Output() public paginationEvent = new EventEmitter<PageEvent>();
