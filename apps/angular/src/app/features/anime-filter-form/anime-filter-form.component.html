@@ -1,0 +1,24 @@
+<div class="filter-form-wrapper">
+	@if (animeFilterFormGroup) {
+		<form [formGroup]="animeFilterFormGroup" class="filter-form">
+			<mat-form-field>
+				<mat-label>Types</mat-label>
+				<mat-select multiple
+										formControlName="types">
+					@for (type of typesList; track type) {
+						<mat-option [value]="type">{{type}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+				<mat-form-field class="search search-form-field"
+												appearance="outline">
+					<mat-label>Anime title</mat-label>
+					<input matInput
+								 formControlName="search"
+								 placeholder="Type to Search"
+								 class="search-form__input"
+								 type="search"/>
+				</mat-form-field>
+		</form>
+	}
+</div>
