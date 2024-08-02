@@ -26,7 +26,14 @@ export namespace AnimeFilterParamsMapper {
 	 */
 	export function fromDto(params: AnimeFilterParamsDto): AnimeFilterParams {
 
-		const pageIndex = (params.offset && params.limit) ? (params.offset / params.limit) : DEFAULT_PAGE_INDEX;
+		let pageIndex = DEFAULT_PAGE_INDEX;
+		if (params.offset && params.limit &&
+			(typeof params.offset === 'number') &&
+			(typeof params.limit === 'number') &&
+			params.offset >= 0 && params.limit > 0
+		) {
+			pageIndex = params.offset / params.limit;
+		}
 
 		let selectedTypes = DEFAULT_TYPE;
 		if (params.type__in) {
@@ -39,7 +46,8 @@ export namespace AnimeFilterParamsMapper {
 
 		const filterParams: AnimeFilterParams = {
 			pageIndex,
-			pageSize: params.limit ? params.limit : DEFAULT_PAGE_SIZE,
+			pageSize: (params.limit && (typeof params.limit === 'number') && params.limit > 0) ?
+				params.limit : DEFAULT_PAGE_SIZE,
 			searchTerm: params.search ? params.search : DEFAULT_SEARCH_TERM,
 			selectedTypes,
 			sortingSettings: params.ordering ? AnimeSortMapper.fromDto(params.ordering) : DEFAULT_SORT_SETTINGS,
