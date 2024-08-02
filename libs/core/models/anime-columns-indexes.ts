@@ -1,5 +1,5 @@
 /** Column indexes to be table columns. */
-export enum ColumnsIndexes {
+export enum AnimeColumnsIndexes {
 	Image = 'image',
 	EnglishTitle = 'title_eng',
 	JapaneseTitle = 'title_jpn',
