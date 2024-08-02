@@ -11,7 +11,7 @@ export namespace PaginationMapper {
 	 */
 	export function fromDto<TDto, TModel>(pagination: PaginationDto<TDto>, mapper: (dto: TDto) => TModel): Pagination<TModel> {
 
-		return new Pagination<O>({
+		return new Pagination<TModel>({
 			count: pagination.count,
 			next: pagination.next,
 			previous: pagination.previous,
