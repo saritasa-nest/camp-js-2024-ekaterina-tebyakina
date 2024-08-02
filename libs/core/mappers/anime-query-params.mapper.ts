@@ -1,6 +1,7 @@
 import { AnimeTypeDto } from '../dtos/anime-type.dto';
 import { AnimeFilterParams, DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE, DEFAULT_SEARCH_TERM, DEFAULT_SORT_SETTINGS, DEFAULT_TYPE } from '../models/anime-filter-params';
 import { AnimeQueryParams } from '../models/anime-query-params';
+import { checkIsEnumMember } from '../utils/check-is-enum.util';
 
 import { AnimeSortMapper } from './anime-sort.mapper';
 import { AnimeTypeMapper } from './anime-type.mapper';
@@ -13,12 +14,21 @@ export namespace AnimeQueryParamsMapper {
 	 * @returns Model with anime filter params data for UI.
 	 */
 	export function fromQueryParams(params: Partial<AnimeQueryParams>): AnimeFilterParams {
+
+		let selectedTypes = DEFAULT_TYPE;
+		if (params.selectedTypes) {
+			const typesArray = params.selectedTypes.split(',');
+			const filteredArray = typesArray.filter(item => checkIsEnumMember(item, AnimeTypeDto));
+
+			// Using ‘as’ to avoid typescript error, but the type is checked by the checkIsEnumMember function previously.
+			selectedTypes = filteredArray.map(type => AnimeTypeMapper.fromDto(type as AnimeTypeDto));
+		}
+
 		const filterParams: AnimeFilterParams = {
 			pageIndex: params.pageIndex ? params.pageIndex : DEFAULT_PAGE_INDEX,
 			pageSize: params.pageSize ? params.pageSize : DEFAULT_PAGE_SIZE,
 			searchTerm: params.searchTerm ? params.searchTerm : DEFAULT_SEARCH_TERM,
-			selectedTypes: params.selectedTypes ? params.selectedTypes.split(',')
-				.map(type => AnimeTypeMapper.fromDto(type as AnimeTypeDto)) : DEFAULT_TYPE,
+			selectedTypes,
 			sortingSettings: params.sortingSettings ? AnimeSortMapper.fromDto(params.sortingSettings) : DEFAULT_SORT_SETTINGS,
 		};
 
