@@ -46,6 +46,12 @@ export class AnimeTableComponent implements OnInit {
 	/** Index of current page. */
 	@Input() public pageIndex = DEFAULT_PAGE_INDEX;
 
+	/** Event of pagination change. */
+	@Output() public paginationEvent = new EventEmitter<PageEvent>();
+
+	/** Event of table sorting. */
+	@Output() public sortEvent = new EventEmitter<Sort>();
+
 	/** Pages count. */
 	protected pagesCount = DEFAULT_PAGES_COUNT;
 
@@ -78,9 +84,6 @@ export class AnimeTableComponent implements OnInit {
 		return item.id;
 	}
 
-	/** Event of pagination change. */
-	@Output() public paginationEvent = new EventEmitter<PageEvent>();
-
 	/**
 	 * Pagination changing handler.
 	 * @param event - Pagination settings.
@@ -88,9 +91,6 @@ export class AnimeTableComponent implements OnInit {
 	protected onPageChanged(event: PageEvent): void {
 		this.paginationEvent.emit(event);
 	}
-
-	/** Event of table sorting. */
-	@Output() public sortEvent = new EventEmitter<Sort>();
 
 	/**
 	 * Handler for changes in sorting settings.

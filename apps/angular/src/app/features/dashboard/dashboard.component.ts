@@ -34,17 +34,17 @@ import { MaterialSortMapper } from './material-sort.mapper';
 })
 export class DashboardComponent implements OnInit {
 
-	private readonly route = inject(ActivatedRoute);
-
-	private readonly router = inject(Router);
-
-	private readonly animeApiService = inject(AnimeApiService);
-
 	/** Stream of anime page. */
 	protected animeListPage$: Observable<Pagination<Anime>> = EMPTY;
 
 	/** Stream of anime filter params. */
 	protected animeParams$: Observable<AnimeFilterParams> = EMPTY;
+
+	private readonly route = inject(ActivatedRoute);
+
+	private readonly router = inject(Router);
+
+	private readonly animeApiService = inject(AnimeApiService);
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
