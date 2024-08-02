@@ -1,14 +1,14 @@
 <div class="dashboard">
 	@if (animeParams$ | async; as animeParams) {
-		<camp-filter-form (typeSelectEvent)="onTypeChange($event)"
+		<camp-anime-filter-form (typeSelectEvent)="onTypeChange($event)"
 											(searchEvent)="onSearchChange($event)"
-											[searchValue]="animeParams.search"
-											[typesValue]="animeParams.type"/>
+											[searchValue]="animeParams.searchTerm"
+											[typesValue]="animeParams.selectedTypes"/>
 		@if (animeListPage$ | async; as animeListPage) {
-		<camp-table [pageData]="animeListPage"
-								[ordering]="animeParams.ordering"
-								[limit]="animeParams.limit"
-								[offset]="animeParams.offset"
+		<camp-anime-table [pageData]="animeListPage"
+								[sortingSettings]="animeParams.sortingSettings"
+								[pageSize]="animeParams.pageSize"
+								[pageIndex]="animeParams.pageIndex"
 								(sortEvent)="onOrderingChange($event)"
 								(paginationEvent)="onPageChange($event)"/>
 		} @else {

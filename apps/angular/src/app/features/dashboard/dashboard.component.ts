@@ -1,23 +1,21 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
-import { EMPTY, Observable, of, Subscription, switchMap } from 'rxjs';
+import { EMPTY, map, Observable, switchMap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { AnimeType } from '@js-camp/core/models/anime-type';
+import { DEFAULT_PAGE_INDEX, AnimeFilterParams } from '@js-camp/core/models/anime-filter-params';
+import { AnimeQueryParamsMapper } from '@js-camp/core/mappers/anime-query-params.mapper';
 
-import { AsyncPipe } from '@angular/common';
-import { QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
+import { AnimeTableComponent } from '../anime-table/anime-table.component';
+import { AnimeFilterFormComponent } from '../anime-filter-form/anime-filter-form.component';
 
-import { QueryParams } from '@js-camp/core/models/query-params';
-
-import { QueryParamsDto } from '@js-camp/core/dtos/query-params.dto';
-
-import { TableComponent } from '../table/table.component';
-import { DataRetrievalFormComponent } from '../filter-form/filter-form.component';
+import { MaterialSortMapper } from './material-sort.mapper';
 
 /** Dashboard component. Contains table and form components. */
 @Component({
@@ -28,12 +26,12 @@ import { DataRetrievalFormComponent } from '../filter-form/filter-form.component
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		ProgressBarComponent,
-		TableComponent,
-		DataRetrievalFormComponent,
+		AnimeTableComponent,
+		AnimeFilterFormComponent,
 		AsyncPipe,
 	],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
 
 	private readonly route = inject(ActivatedRoute);
 
@@ -41,51 +39,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 	private readonly animeApiService = inject(AnimeApiService);
 
-	private readonly queryParamsService = inject(QueryParamsService);
-
-	private subs: Subscription[] = [];
-
 	/** Stream of anime page. */
 	protected animeListPage$: Observable<Pagination<Anime>> = EMPTY;
 
-	/** Stream of anime page params. */
-	protected animeParams$: Observable<QueryParams> = EMPTY;
-
-	/** Anime page params. */
-	protected queryParams: QueryParams = this.queryParamsService.defaultQueryParams;
+	/** Stream of anime filter params. */
+	protected animeParams$: Observable<AnimeFilterParams> = EMPTY;
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
 
 		this.animeParams$ = this.route.queryParams.pipe(
-			switchMap(params => of(this.queryParamsService.fromQueryParams(params))),
+			map(params => AnimeQueryParamsMapper.fromQueryParams(params)),
 		);
 
-		this.subs.push(this.animeParams$.subscribe(params => {
-			this.queryParams = params;
-		}));
-
-		this.animeListPage$ = this.route.queryParams.pipe(
-			switchMap(params => this.animeApiService.getPage(params as QueryParamsDto)),
+		this.animeListPage$ = this.animeParams$.pipe(
+			switchMap(params => this.animeApiService.getPage(params)),
 		);
 
-	}
-
-	/** @inheritdoc */
-	public ngOnDestroy(): void {
-		this.subs.forEach(sub => {
-			sub.unsubscribe();
-		});
-	}
-
-	private navigate(queryParams: QueryParams, queryParamsHandling: QueryParamsHandling): void {
-		this.router.navigate(
-			[''],
-			{
-				queryParams: this.queryParamsService.toQueryParams(queryParams),
-				queryParamsHandling,
-			},
-		);
 	}
 
 	/**
@@ -95,12 +65,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	 */
 	protected onTypeChange(event: AnimeType[]): void {
 
-		const queryParams = { ...this.queryParams };
+		const filterParams: Partial<AnimeFilterParams> = {
+			selectedTypes: event,
+			pageIndex: DEFAULT_PAGE_INDEX,
+		};
 
-		queryParams.type = event;
-		queryParams.offset = 0;
-
-		this.navigate(queryParams, '');
+		this.navigate(filterParams, 'merge');
 	}
 
 	/**
@@ -110,12 +80,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	 */
 	protected onSearchChange(event: string): void {
 
-		const queryParams = { ...this.queryParams };
+		const filterParams: Partial<AnimeFilterParams> = {
+			searchTerm: event,
+			pageIndex: DEFAULT_PAGE_INDEX,
+		};
 
-		queryParams.search = event;
-		queryParams.offset = 0;
-
-		this.navigate(queryParams, '');
+		this.navigate(filterParams, 'merge');
 	}
 
 	/**
@@ -125,12 +95,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	 */
 	protected onPageChange(event: PageEvent): void {
 
-		const queryParams = { ...this.queryParams };
+		const filterParams: Partial<AnimeFilterParams> = {
+			pageSize: event.pageSize,
+			pageIndex: event.pageIndex,
+		};
 
-		queryParams.limit = event.pageSize;
-		queryParams.offset = event.pageIndex * event.pageSize;
-
-		this.navigate(queryParams, 'merge');
+		this.navigate(filterParams, 'merge');
 	}
 
 	/**
@@ -138,12 +108,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	 * Forms a new query parameters object with a new ordering data and navigate with these parameters.
 	 * @param event - Ordering settings.
 	 */
-	public onOrderingChange(event: Sort): void {
+	protected onOrderingChange(event: Sort): void {
 
-		const queryParams = { ...this.queryParams };
+		const filterParams: Partial<AnimeFilterParams> = {
+			sortingSettings: MaterialSortMapper.fromMaterialSort(event),
+		};
 
-		queryParams.ordering = event;
+		this.navigate(filterParams, 'merge');
+	}
 
-		this.navigate(queryParams, 'merge');
+	private navigate(params: Partial<AnimeFilterParams>, queryParamsHandling: QueryParamsHandling): void {
+		this.router.navigate(
+			[''],
+			{
+				queryParams: AnimeQueryParamsMapper.toQueryParams(params),
+				queryParamsHandling,
+			},
+		);
 	}
 }
