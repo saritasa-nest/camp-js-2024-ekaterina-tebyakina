@@ -11,7 +11,6 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { AnimeParams } from '@js-camp/core/models/anime-params';
 import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
-import { UrlConfigService } from './url-config.service';
 
 import { UrlConfigService } from './url-config.service';
 
