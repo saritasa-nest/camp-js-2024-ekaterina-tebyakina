@@ -15,7 +15,7 @@
 					<div class="cover__wrapper">
 						<img [ngSrc]="element.image"
 								 fill
-								 [alt]="element.japaneseTitle ? element.japaneseTitle + ' cover' : 'Anime cover'"
+								 [alt]="(element.japaneseTitle ?? 'Anime') + ' cover'"
 								 class="cover__image">
 					</div>
 				</mat-cell>

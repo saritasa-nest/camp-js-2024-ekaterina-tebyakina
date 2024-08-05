@@ -30,7 +30,7 @@ export namespace AnimeColumnsIndexesMapper {
 	};
 
 	/**
-	 * Map anime columns indexes dto.
+	 * Map anime columns indexes model.
 	 * @param index  - Anime columns indexes dto.
 	 * @returns Anime columns indexes model.
 	 */

@@ -60,7 +60,7 @@ export class AnimeDashboardComponent {
 	/**
 	 * Triggers when the list of selected anime types or search term are changed.
 	 * Forms a new query parameters object with new type list and a new search term and navigate with these parameters.
-	 * @param event - List of selected anime types.
+	 * @param event - Object of selected anime filters.
 	 */
 	protected onAnimeFiltersChange(event: Partial<AnimeFilters>): void {
 

@@ -11,7 +11,7 @@ export namespace AnimeParamsMapper {
 	const DEFAULT_SEARCH = '';
 
 	/**
-	 * Map  anime filter params model to dto.
+	 * Map anime filter params model to dto.
 	 * @param params - Model with anime filter params for UI.
 	 * @returns Anime filter params dto.
 	 */

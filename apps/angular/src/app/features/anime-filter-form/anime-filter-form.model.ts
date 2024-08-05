@@ -14,7 +14,7 @@ export type AnimeFilterForm = {
 /** Type of parameters of the form initialization function. */
 export type AnimeFilterFormParams = {
 
-	/** From builder for form. */
+	/** Form builder for form. */
 	readonly formBuilder: NonNullableFormBuilder;
 
 	/** Initial value for types form control. */
