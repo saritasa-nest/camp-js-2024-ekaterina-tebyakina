@@ -1,7 +1,6 @@
 <div class="dashboard">
 	@if (animeParams$ | async; as animeParams) {
-		<camp-anime-filter-form (typeSelectEvent)="onTypeChange($event)"
-											(searchEvent)="onSearchChange($event)"
+		<camp-anime-filter-form (animeFiltersEvent)="onAnimeFiltersChange($event)"
 											[searchValue]="animeParams.searchTerm"
 											[typesValue]="animeParams.selectedTypes"/>
 		@if (animeListPage$ | async; as animeListPage) {

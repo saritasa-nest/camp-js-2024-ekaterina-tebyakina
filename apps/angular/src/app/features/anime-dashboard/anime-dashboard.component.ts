@@ -1,16 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
-import { EMPTY, map, Observable, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, Observable, switchMap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
-import { AnimeType } from '@js-camp/core/models/anime-type';
-import { DEFAULT_PAGE_INDEX, AnimeFilterParams } from '@js-camp/core/models/anime-filter-params';
+import { DEFAULT_PAGE_INDEX, AnimeParams } from '@js-camp/core/models/anime-params';
 import { AnimeQueryParamsMapper } from '@js-camp/core/mappers/anime-query-params.mapper';
+
+import { AnimeFilters } from '@js-camp/core/models/anime-filters';
 
 import { AnimeTableComponent } from '../anime-table/anime-table.component';
 import { AnimeFilterFormComponent } from '../anime-filter-form/anime-filter-form.component';
@@ -19,10 +20,10 @@ import { MaterialSortMapper } from './material-sort.mapper';
 
 /** Dashboard component. Contains table and form components. */
 @Component({
-	selector: 'camp-dashboard',
+	selector: 'camp-anime-dashboard',
 	standalone: true,
-	templateUrl: './dashboard.component.html',
-	styleUrl: './dashboard.component.css',
+	templateUrl: './anime-dashboard.component.html',
+	styleUrl: './anime-dashboard.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		ProgressBarComponent,
@@ -32,13 +33,13 @@ import { MaterialSortMapper } from './material-sort.mapper';
 		NgOptimizedImage,
 	],
 })
-export class DashboardComponent implements OnInit {
+export class AnimeDashboardComponent {
 
 	/** Stream of anime page. */
-	protected animeListPage$: Observable<Pagination<Anime>> = EMPTY;
+	protected readonly animeListPage$: Observable<Pagination<Anime>>;
 
 	/** Stream of anime filter params. */
-	protected animeParams$: Observable<AnimeFilterParams> = EMPTY;
+	protected readonly animeParams$: Observable<AnimeParams>;
 
 	private readonly route = inject(ActivatedRoute);
 
@@ -46,9 +47,7 @@ export class DashboardComponent implements OnInit {
 
 	private readonly animeApiService = inject(AnimeApiService);
 
-	/** @inheritdoc */
-	public ngOnInit(): void {
-
+	public constructor() {
 		this.animeParams$ = this.route.queryParams.pipe(
 			map(params => AnimeQueryParamsMapper.fromQueryParams(params)),
 		);
@@ -56,37 +55,22 @@ export class DashboardComponent implements OnInit {
 		this.animeListPage$ = this.animeParams$.pipe(
 			switchMap(params => this.animeApiService.getPage(params)),
 		);
-
 	}
 
 	/**
-	 * Triggers when the list of selected anime types is changed.
-	 * Forms a new query parameters object with new type list and navigate with these parameters.
+	 * Triggers when the list of selected anime types or search term are changed.
+	 * Forms a new query parameters object with new type list and a new search term and navigate with these parameters.
 	 * @param event - List of selected anime types.
 	 */
-	protected onTypeChange(event: AnimeType[]): void {
+	protected onAnimeFiltersChange(event: Partial<AnimeFilters>): void {
 
-		const filterParams: Partial<AnimeFilterParams> = {
-			selectedTypes: event,
+		const filterParams: Partial<AnimeParams> = {
+			selectedTypes: event.types,
+			searchTerm: event.search,
 			pageIndex: DEFAULT_PAGE_INDEX,
 		};
 
-		this.navigate(filterParams, 'merge');
-	}
-
-	/**
-	 * Triggers when search term is changed.
-	 * Forms a new query parameters object with a new search term and navigate with these parameters.
-	 * @param event - Search term.
-	 */
-	protected onSearchChange(event: string): void {
-
-		const filterParams: Partial<AnimeFilterParams> = {
-			searchTerm: event,
-			pageIndex: DEFAULT_PAGE_INDEX,
-		};
-
-		this.navigate(filterParams, 'merge');
+		this.navigate(filterParams);
 	}
 
 	/**
@@ -96,12 +80,12 @@ export class DashboardComponent implements OnInit {
 	 */
 	protected onPageChange(event: PageEvent): void {
 
-		const filterParams: Partial<AnimeFilterParams> = {
+		const filterParams: Partial<AnimeParams> = {
 			pageSize: event.pageSize,
 			pageIndex: event.pageIndex,
 		};
 
-		this.navigate(filterParams, 'merge');
+		this.navigate(filterParams);
 	}
 
 	/**
@@ -111,19 +95,19 @@ export class DashboardComponent implements OnInit {
 	 */
 	protected onOrderingChange(event: Sort): void {
 
-		const filterParams: Partial<AnimeFilterParams> = {
+		const filterParams: Partial<AnimeParams> = {
 			sortingSettings: MaterialSortMapper.fromMaterialSort(event),
 		};
 
-		this.navigate(filterParams, 'merge');
+		this.navigate(filterParams);
 	}
 
-	private navigate(params: Partial<AnimeFilterParams>, queryParamsHandling: QueryParamsHandling): void {
+	private navigate(params: Partial<AnimeParams>): void {
 		this.router.navigate(
 			[''],
 			{
 				queryParams: AnimeQueryParamsMapper.toQueryParams(params),
-				queryParamsHandling,
+				queryParamsHandling: 'merge',
 			},
 		);
 	}

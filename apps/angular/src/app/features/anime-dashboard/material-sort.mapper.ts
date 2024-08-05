@@ -1,5 +1,7 @@
 import { Sort } from '@angular/material/sort';
-import { AnimeSort } from '@js-camp/core/models/anime-sort';
+import { AnimeColumnsIndexes } from '@js-camp/core/models/anime-columns-indexes';
+import { AnimeSort, SortingDirection } from '@js-camp/core/models/anime-sort';
+import { checkIsEnumMember } from '@js-camp/core/utils/check-is-enum.util';
 
 export namespace MaterialSortMapper {
 
@@ -11,8 +13,10 @@ export namespace MaterialSortMapper {
 	export function fromMaterialSort(sortSetting: Sort): AnimeSort {
 
 		return {
-			sortField: sortSetting.active,
-			direction: sortSetting.direction,
+			sortField: checkIsEnumMember(sortSetting.active, AnimeColumnsIndexes) ?
+				sortSetting.active as AnimeColumnsIndexes : AnimeColumnsIndexes.Status,
+			direction: checkIsEnumMember(sortSetting.direction, SortingDirection) ?
+				sortSetting.direction as SortingDirection : SortingDirection.None,
 		};
 	}
 
