@@ -2,7 +2,7 @@ import { AnimeStatusDto } from '../dtos/anime-status.dto';
 import { AnimeStatus } from '../models/anime-status';
 
 export namespace AnimeStatusMapper {
-	const animeStatusDtoMap: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
+	const ANIME_STATUS_MAP_TO_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
 		[AnimeStatusDto.Airing]: AnimeStatus.Airing,
 		[AnimeStatusDto.Finished]: AnimeStatus.Finished,
 		[AnimeStatusDto.NotYetAired]: AnimeStatus.NotYetAired,
@@ -14,6 +14,6 @@ export namespace AnimeStatusMapper {
 	 * @returns Status model.
 	 */
 	export function fromDto(status: AnimeStatusDto): AnimeStatus {
-		return animeStatusDtoMap[status];
+		return ANIME_STATUS_MAP_TO_DTO[status];
 	}
 }

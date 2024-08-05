@@ -1,4 +1,4 @@
-import { AnimeFilterParams, DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE, DEFAULT_SEARCH_TERM, DEFAULT_SORT_SETTINGS, DEFAULT_TYPE } from '../models/anime-filter-params';
+import { AnimeParams, DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE, DEFAULT_SEARCH_TERM, DEFAULT_SORT_SETTINGS, DEFAULT_TYPE } from '../models/anime-params';
 import { AnimeQueryParams } from '../models/anime-query-params';
 import { AnimeType } from '../models/anime-type';
 import { checkIsEnumMember } from '../utils/check-is-enum.util';
@@ -12,7 +12,7 @@ export namespace AnimeQueryParamsMapper {
 	 * @param params - Query params.
 	 * @returns Model with anime filter params data for UI.
 	 */
-	export function fromQueryParams(params: Partial<AnimeQueryParams>): AnimeFilterParams {
+	export function fromQueryParams(params: Partial<AnimeQueryParams>): AnimeParams {
 
 		let selectedTypes = DEFAULT_TYPE;
 		if (params.selectedTypes) {
@@ -22,7 +22,7 @@ export namespace AnimeQueryParamsMapper {
 			selectedTypes = typesArray.filter(item => checkIsEnumMember(item, AnimeType)) as AnimeType[];
 		}
 
-		const filterParams: AnimeFilterParams = {
+		const filterParams: AnimeParams = {
 			pageIndex: (params.pageIndex && params.pageIndex > 0) ? Number(params.pageIndex) : DEFAULT_PAGE_INDEX,
 			pageSize: (params.pageSize && params.pageSize > 0) ? Number(params.pageSize) : DEFAULT_PAGE_SIZE,
 			searchTerm: params.searchTerm ? params.searchTerm : DEFAULT_SEARCH_TERM,
@@ -38,7 +38,7 @@ export namespace AnimeQueryParamsMapper {
 	 * @param params - Model with anime filter params data for UI.
 	 * @returns Query params.
 	 */
-	export function toQueryParams(params: Partial<AnimeFilterParams>): Partial<AnimeQueryParams> {
+	export function toQueryParams(params: Partial<AnimeParams>): Partial<AnimeQueryParams> {
 
 		return {
 			...(params.pageIndex && { pageIndex: params.pageIndex }),
