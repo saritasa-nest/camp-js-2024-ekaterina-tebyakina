@@ -1,24 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationApiService } from '@js-camp/angular/core/services/authorization-api.service';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
-/** */
-export type Error = {
+import { Router } from '@angular/router';
 
-	/** */
-	attr: string | null;
+import { ServerError } from '@js-camp/core/dtos/server-error.dto';
 
-	/** */
-	code: string;
-
-	/** */
-	detail: string;
-};
+import { LoginForm } from './login-form-model';
 
 /** Component with form for authorization. */
 @Component({
@@ -34,81 +27,80 @@ export type Error = {
 		MatButtonModule,
 	],
 })
-export class LoginFormComponent implements OnDestroy {
+export class LoginFormComponent implements OnInit, OnDestroy {
+
+	/** Form group for anime filter form. */
+	public loginFormGroup?: FormGroup<LoginForm>;
 
 	private authorizationApiService = inject(AuthorizationApiService);
 
-	private subscriptions: Subscription[] = [];
+	private loginSubscription?: Subscription;
+
+	private readonly router = inject(Router);
+
+	public constructor(private readonly formBuilder: NonNullableFormBuilder, private cdr: ChangeDetectorRef) {}
 
 	/** @inheritdoc */
-	public ngOnDestroy(): void {
-		this.subscriptions.forEach(subscription => {
-			subscription.unsubscribe();
+	public ngOnInit(): void {
+		this.loginFormGroup = LoginForm.initialize({
+			formBuilder: this.formBuilder,
 		});
 	}
 
-	/** Form for login. */
-	protected loginForm = new FormGroup({
-		email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
-		password: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-	});
+	/** @inheritdoc */
+	public ngOnDestroy(): void {
+		if (this.loginSubscription) {
+			this.loginSubscription.unsubscribe();
+		}
+	}
 
 	/** Handle login submit. */
 	protected onLoginSubmit(): void {
-		const formData = this.loginForm.getRawValue();
 
-		this.subscriptions.push(
-			this.authorizationApiService.login(formData)
-				.subscribe({
+		if (this.loginFormGroup) {
+
+			const formData = this.loginFormGroup.getRawValue();
+
+			this.loginSubscription = this.authorizationApiService.login(formData).pipe(
+				tap({
 					next: response => {
-						console.log('Login successful:', response);
 						this.authorizationApiService.saveTokens(response);
+						this.router.navigate(['']);
 					},
 					error: (error: unknown) => {
+						console.warn(error);
 						if (error instanceof HttpErrorResponse) {
-							console.log('Login failed:', error.error.errors);
 							this.handleServerError(error);
 						}
 					},
 				}),
-		);
+			)
+				.subscribe();
+		}
 	}
 
 	private handleServerError(errorResponse: HttpErrorResponse): void {
-		console.log('HttpErrorResponse', errorResponse);
-		if (errorResponse.status !== 200 && errorResponse.error.errors) {
-			// Handle field-specific errors
-			console.log('Login failed:', errorResponse);
+
+		if (errorResponse.error.errors && this.loginFormGroup) {
 
 			const errorsList = errorResponse.error.errors;
-
 			let errorsString = '';
 
-			errorsList.forEach((error: Error) => {
+			errorsList.forEach((error: ServerError) => {
+				if (error.attr && this.loginFormGroup?.contains(error.attr)) {
+					this.loginFormGroup.controls[error.attr as keyof LoginForm].setErrors({ serverError: error.detail });
+					return;
+				}
 				errorsString += `${error.detail}\n`;
 			});
 
-			this.loginForm.setErrors({ serverError: errorsString });
-			this.loginForm.markAllAsTouched();
-			this.loginForm.markAsDirty();
-			console.log(this.loginForm.getError('serverError'));
-			console.log('subs', this.subscriptions);
+			this.loginFormGroup.setErrors({ serverError: errorsString });
+			this.cdr.markForCheck();
 
-			// if (formControl) {
-			// 	formControl.setErrors({ serverError: fieldError.message });
-			// }
-
-			// for (const fieldError of error.error.fieldErrors) {
-			// 	const formControl = this.loginForm.get(fieldError.field);
-			// 	if (formControl) {
-			// 		formControl.setErrors({ serverError: fieldError.message });
-			// 	}
-			// }
 		} else {
-			// General error handling
-			const serverErrorMessage = errorResponse.error.message || 'Registration failed. Please try again.';
-			this.loginForm.setErrors({ serverError: serverErrorMessage });
-			this.loginForm.markAllAsTouched();
+			const serverErrorMessage = errorResponse.error.message || 'Login failed. Please try again.';
+			this.loginFormGroup?.setErrors({ serverError: serverErrorMessage });
+			this.cdr.markForCheck();
 		}
 	}
 }
