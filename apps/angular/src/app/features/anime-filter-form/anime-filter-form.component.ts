@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, OnInit, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { MatSelectModule } from '@angular/material/select';
-import { Subscription } from 'rxjs';
+import { AnimeFilters } from '@js-camp/core/models/anime-filters';
 
 import { AnimeFilterForm } from './anime-filter-form.model';
 
@@ -29,57 +30,52 @@ import { AnimeFilterForm } from './anime-filter-form.model';
 		MatSelectModule,
 	],
 })
-export class AnimeFilterFormComponent implements OnInit, OnDestroy {
-
-	/** Form group for anime filter form. */
-	public animeFilterFormGroup?: FormGroup<AnimeFilterForm>;
+export class AnimeFilterFormComponent implements OnInit {
 
 	/** Initial value for search control. */
 	@Input() public searchValue = '';
 
-	/** Event of search form submitting. */
-	@Output() public searchEvent = new EventEmitter<string>();
-
 	/** Initial value for anime types control. */
 	@Input() public typesValue: AnimeType[] = [];
 
-	/** Event of anime type selection. */
-	@Output() public typeSelectEvent = new EventEmitter<AnimeType[]>();
+	/** Event of anime types or search term changes. */
+	@Output() public animeFiltersEvent = new EventEmitter<Partial<AnimeFilters>>();
+
+	/** Form group for anime filter form. */
+	protected readonly animeFilterFormGroup: FormGroup<AnimeFilterForm>;
 
 	/** List of permissible values for types select control. */
-	protected typesList = Object.values(AnimeType);
+	protected readonly typesList = Object.values(AnimeType);
 
-	private searchChangesSubscription?: Subscription;
+	private readonly destroyRef = inject(DestroyRef);
 
-	private typesChangesSubscription?: Subscription;
+	private readonly formBuilder = inject(NonNullableFormBuilder);
 
-	public constructor(private readonly formBuilder: NonNullableFormBuilder) {}
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
+	public constructor() {
 		this.animeFilterFormGroup = AnimeFilterForm.initialize({
 			formBuilder: this.formBuilder,
 			searchInitialValue: this.searchValue,
 			typesInitialValue: this.typesValue,
 		});
-
-		this.searchChangesSubscription = this.animeFilterFormGroup.get('search')?.valueChanges.subscribe(value => {
-			this.searchEvent.emit(value);
-		});
-
-		this.typesChangesSubscription = this.animeFilterFormGroup.get('types')?.valueChanges.subscribe(value => {
-			this.typeSelectEvent.emit(value);
-		});
 	}
 
 	/** @inheritdoc */
-	public ngOnDestroy(): void {
-		if (this.searchChangesSubscription) {
-			this.searchChangesSubscription.unsubscribe();
+	public ngOnInit(): void {
+		if (this.animeFilterFormGroup) {
+			this.animeFilterFormGroup.controls.search.setValue(this.searchValue);
+			this.animeFilterFormGroup.controls.types.setValue(this.typesValue);
 		}
-		if (this.typesChangesSubscription) {
-			this.typesChangesSubscription.unsubscribe();
-		}
+
+		this.subscribeToFiltersChange();
+	}
+
+	private subscribeToFiltersChange(): void {
+		this.animeFilterFormGroup?.valueChanges.pipe(
+			takeUntilDestroyed(this.destroyRef),
+		)
+			.subscribe(value => {
+				this.animeFiltersEvent.emit(value);
+			});
 	}
 
 }
