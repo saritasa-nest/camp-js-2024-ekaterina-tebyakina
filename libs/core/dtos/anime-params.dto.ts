@@ -1,5 +1,5 @@
 /** Params for request to the server. Contains data about anime list filters. */
-export type AnimeFilterParamsDto = {
+export type AnimeParamsDto = {
 
 	/** Offset. */
 	readonly limit?: number;

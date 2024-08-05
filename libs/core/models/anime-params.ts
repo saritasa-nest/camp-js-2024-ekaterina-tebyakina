@@ -1,4 +1,5 @@
-import { AnimeSort } from './anime-sort';
+import { AnimeColumnsIndexes } from './anime-columns-indexes';
+import { AnimeSort, SortingDirection } from './anime-sort';
 import { AnimeType } from './anime-type';
 
 /** Default value for page index. */
@@ -14,10 +15,10 @@ export const DEFAULT_SEARCH_TERM = '';
 export const DEFAULT_TYPE: AnimeType[] = [];
 
 /** Default value for sort settings. */
-export const DEFAULT_SORT_SETTINGS: AnimeSort = { sortField: '', direction: '' };
+export const DEFAULT_SORT_SETTINGS: AnimeSort = { sortField: AnimeColumnsIndexes.Status, direction: SortingDirection.None };
 
 /** Type of anime filter params. */
-export type AnimeFilterParams = {
+export type AnimeParams = {
 
 	/** Index of current page. */
 	readonly pageIndex: number;

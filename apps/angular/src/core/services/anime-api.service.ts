@@ -9,8 +9,8 @@ import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
-import { AnimeFilterParams } from '@js-camp/core/models/anime-filter-params';
-import { AnimeFilterParamsMapper } from '@js-camp/core/mappers/anime-filter-params.mapper';
+import { AnimeParams } from '@js-camp/core/models/anime-params';
+import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
 
 import { UrlConfigService } from './url-config.service';
 
@@ -27,11 +27,11 @@ export class AnimeApiService {
 	 * @param params - Params for request.
 	 * @returns Page of anime list.
 	 */
-	public getPage(params: AnimeFilterParams): Observable<Pagination<Anime>> {
+	public getPage(params: AnimeParams): Observable<Pagination<Anime>> {
 
-		const pageParams = new HttpParams({ fromObject: AnimeFilterParamsMapper.toDto(params) });
+		const pageParams = new HttpParams({ fromObject: AnimeParamsMapper.toDto(params) });
 
-		return this.http.get<PaginationDto<AnimeDto>>(this.urlConfigService.endpoints.anime, {
+		return this.http.get<PaginationDto<AnimeDto>>(this.urlConfigService.anime.getPage, {
 			params: pageParams,
 		}).pipe(
 			map(result => PaginationMapper.fromDto(result, AnimeMapper.fromDto)),

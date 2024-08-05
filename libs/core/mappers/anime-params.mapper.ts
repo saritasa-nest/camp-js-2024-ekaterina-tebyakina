@@ -1,10 +1,10 @@
-import { AnimeFilterParamsDto } from '../dtos/anime-filter-params.dto';
-import { AnimeFilterParams } from '../models/anime-filter-params';
+import { AnimeParamsDto } from '../dtos/anime-params.dto';
+import { AnimeParams } from '../models/anime-params';
 
 import { AnimeSortMapper } from './anime-sort.mapper';
 import { AnimeTypeMapper } from './anime-type.mapper';
 
-export namespace AnimeFilterParamsMapper {
+export namespace AnimeParamsMapper {
 
 	const DEFAULT_OFFSET = 0;
 	const DEFAULT_LIMIT = 25;
@@ -15,7 +15,7 @@ export namespace AnimeFilterParamsMapper {
 	 * @param params - Model with anime filter params for UI.
 	 * @returns Anime filter params dto.
 	 */
-	export function toDto(params: Partial<AnimeFilterParams>): AnimeFilterParamsDto {
+	export function toDto(params: Partial<AnimeParams>): AnimeParamsDto {
 
 		return {
 			offset: params.pageSize && params.pageIndex ? (params.pageSize * params.pageIndex) : DEFAULT_OFFSET,
