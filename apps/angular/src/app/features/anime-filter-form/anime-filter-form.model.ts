@@ -15,13 +15,13 @@ export type AnimeFilterForm = {
 export type AnimeFilterFormParams = {
 
 	/** From builder for form. */
-	formBuilder: NonNullableFormBuilder;
+	readonly formBuilder: NonNullableFormBuilder;
 
 	/** Initial value for types form control. */
-	typesInitialValue: AnimeType[];
+	readonly typesInitialValue: AnimeType[];
 
 	/** Initial value for search form control. */
-	searchInitialValue: string;
+	readonly searchInitialValue: string;
 };
 
 export namespace AnimeFilterForm {
