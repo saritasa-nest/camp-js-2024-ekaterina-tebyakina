@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 export class UrlConfigService {
 
 	/** Object with parts of the url requests. */
-	public readonly endpoints = {
-		anime: 'anime/anime/',
+	public readonly anime = {
+		getPage: 'anime/anime/',
 	};
 }
