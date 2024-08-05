@@ -9,7 +9,7 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeColumnsHeaders } from '@js-camp/core/models/anime-columns-headers';
 import { AnimeColumnsIndexes } from '@js-camp/core/models/anime-columns-indexes';
 import { AnimeSort } from '@js-camp/core/models/anime-sort';
-import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/core/models/anime-filter-params';
+import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/core/models/anime-params';
 
 const DEFAULT_PAGES_COUNT = 0;
 const DEFAULT_SIZE_OPTIONS = [10, 25, 50];
@@ -56,13 +56,13 @@ export class AnimeTableComponent implements OnInit {
 	protected pagesCount = DEFAULT_PAGES_COUNT;
 
 	/** Possible page size values. */
-	protected pageSizeOptions = DEFAULT_SIZE_OPTIONS;
+	protected readonly pageSizeOptions = DEFAULT_SIZE_OPTIONS;
 
 	/** Property containing enum with column headers. */
 	protected readonly columnsHeaders = AnimeColumnsHeaders;
 
 	/** Property containing enum with column indexes. */
-	protected readonly columnsIndexes = AnimeColumnsIndexes;
+	protected readonly columns = AnimeColumnsIndexes;
 
 	/** List of column indexes. */
 	protected readonly columnsToDisplay = Object.values(AnimeColumnsIndexes);
@@ -88,7 +88,7 @@ export class AnimeTableComponent implements OnInit {
 	 * Pagination changing handler.
 	 * @param event - Pagination settings.
 	 */
-	protected onPageChanged(event: PageEvent): void {
+	protected onPageChange(event: PageEvent): void {
 		this.paginationEvent.emit(event);
 	}
 
