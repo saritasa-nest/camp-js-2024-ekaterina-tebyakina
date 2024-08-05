@@ -1,5 +1,11 @@
-/** */
-export type SortDirection = '' | 'asc' | 'desc';
+import { AnimeColumnsIndexes } from './anime-columns-indexes';
+
+/** Direction of anime sort. */
+export enum SortingDirection {
+	Ascending = 'asc',
+	Descending = 'desc',
+	None = '',
+}
 
 /**
  * Sort settings for UI.
@@ -8,8 +14,8 @@ export type SortDirection = '' | 'asc' | 'desc';
 export type AnimeSort = {
 
 	/** Selected field for sort. */
-	readonly sortField: string;
+	readonly sortField: AnimeColumnsIndexes;
 
 	/** Selected direction of sort. */
-	readonly direction: SortDirection;
+	readonly direction: SortingDirection;
 };

@@ -1,9 +1,9 @@
 /** Column indexes to be table columns. */
 export enum AnimeColumnsIndexes {
 	Image = 'image',
-	EnglishTitle = 'title_eng',
-	JapaneseTitle = 'title_jpn',
-	AiredStart = 'aired__startswith',
+	EnglishTitle = 'titleEng',
+	JapaneseTitle = 'titleJpn',
+	AiredStart = 'airedStartsWith',
 	Type = 'type',
 	Status = 'status',
 }

@@ -1,9 +1,13 @@
 import { AnimeSortDto } from '../dtos/anime-sort.dto';
-import { AnimeSort, SortDirection } from '../models/anime-sort';
+import { AnimeSort, SortingDirection } from '../models/anime-sort';
 import { AnimeColumnsIndexes } from '../models/anime-columns-indexes';
 import { checkIsEnumMember } from '../utils/check-is-enum.util';
 
+import { AnimeColumnsIndexesMapper } from './anime-columns-indexes.mapper';
+
 export namespace AnimeSortMapper {
+
+	const DESCENDING_PREFIX = '-';
 
 	/**
 	 * Map ordering param from string to object that can be used in UI.
@@ -14,20 +18,20 @@ export namespace AnimeSortMapper {
 	 */
 	export function fromDto(ordering: AnimeSortDto): AnimeSort {
 
-		const sortState: AnimeSort = { sortField: '', direction: '' };
+		const sortState: AnimeSort = { sortField: AnimeColumnsIndexes.Status, direction: SortingDirection.None };
 
 		if (ordering === '') {
 			return sortState;
 		}
 
-		if (ordering[0] === '-') {
+		if (ordering[0] === DESCENDING_PREFIX) {
 
 			const sortField = ordering.slice(1);
 
 			if (checkIsEnumMember(sortField, AnimeColumnsIndexes)) {
 				return {
 					sortField,
-					direction: 'desc',
+					direction: SortingDirection.Descending,
 				};
 			}
 		}
@@ -35,7 +39,7 @@ export namespace AnimeSortMapper {
 		if (checkIsEnumMember(ordering, AnimeColumnsIndexes)) {
 			return {
 				sortField: ordering,
-				direction: 'asc',
+				direction: SortingDirection.Ascending,
 			};
 		}
 
@@ -49,24 +53,13 @@ export namespace AnimeSortMapper {
 	 */
 	export function toDto(ordering: AnimeSort): AnimeSortDto {
 
-		let orderString = '';
+		const { sortField, direction } = ordering;
 
-		if (ordering) {
-			const { sortField } = ordering;
-
-			switch (ordering.direction) {
-				case 'asc':
-					orderString = sortField;
-					break;
-				case 'desc':
-					orderString = `-${sortField}`;
-					break;
-				default:
-					orderString = '';
-			}
+		if (direction === '') {
+			return '';
 		}
 
-		return orderString;
+		return direction === 'asc' ? AnimeColumnsIndexesMapper.toDto(sortField) : `${DESCENDING_PREFIX}${sortField}`;
 	}
 
 	/**
@@ -76,27 +69,9 @@ export namespace AnimeSortMapper {
 	 */
 	export function toString(sortSettings: AnimeSort): string {
 
-		let sortSettingsString = '';
+		const { sortField, direction } = sortSettings;
 
-		if (sortSettings) {
-			const { sortField, direction } = sortSettings;
-			sortSettingsString = `${sortField},${direction}`;
-		}
-
-		return sortSettingsString;
-	}
-
-	/**
-	 * Check whether a string is a type of Direction.
-	 * @param value - String for check.
-	 * @returns Result, true if string is a type of Direction.
-	 */
-	export function checkIsDirection(value: string): boolean {
-
-		if (value === 'asc' || value === 'desc' || value === '') {
-			return true;
-		}
-		return false;
+		return sortSettings ? `${sortField},${direction}` : '';
 	}
 
 	/**
@@ -106,14 +81,17 @@ export namespace AnimeSortMapper {
 	 */
 	export function fromString(sortSettingsString: string): AnimeSort {
 
-		const sortSettings: AnimeSort = { sortField: '', direction: '' };
+		const sortSettings: AnimeSort = { sortField: AnimeColumnsIndexes.Status, direction: SortingDirection.None };
 
 		if (sortSettingsString) {
 			const sortSettingsArray = sortSettingsString.split(',');
-			return {
-				sortField: sortSettingsArray[0] ? sortSettingsArray[0] : '',
-				direction: sortSettingsArray[1] && checkIsDirection(sortSettingsArray[1]) ? sortSettingsArray[1] as SortDirection : '',
-			};
+
+			if (checkIsEnumMember(sortSettingsArray[0], AnimeColumnsIndexes) && checkIsEnumMember(sortSettingsArray[1], SortingDirection)) {
+				return {
+					sortField: sortSettingsArray[0],
+					direction: sortSettingsArray[1],
+				};
+			}
 		}
 
 		return sortSettings;
