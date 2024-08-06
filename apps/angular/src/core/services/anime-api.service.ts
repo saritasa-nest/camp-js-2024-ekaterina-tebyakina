@@ -11,11 +11,15 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { QueryParamsDto } from '@js-camp/core/dtos/query-params.dto';
 
+import { UrlConfigService } from './url-config.service';
+
 /** Anime API access service. */
 @Injectable({ providedIn: 'root' })
 export class AnimeApiService {
 
 	private readonly http = inject(HttpClient);
+
+	private readonly urlConfigService = inject(UrlConfigService);
 
 	/**
 	 * Get page of anime list.
@@ -27,7 +31,7 @@ export class AnimeApiService {
 		const pageParams = new HttpParams()
 			.appendAll(params);
 
-		return this.http.get<PaginationDto<AnimeDto>>('anime/anime/', {
+		return this.http.get<PaginationDto<AnimeDto>>(this.urlConfigService.anime.getPage, {
 			params: pageParams,
 		}).pipe(
 			map(result => PaginationMapper.fromDto(result, AnimeMapper.fromDto)),

@@ -11,28 +11,7 @@
 	padding: 0 var(--space-m);
 }
 
-.header__nav {
-	display: flex;
-	flex-direction: row;
-	justify-content: end;
-	gap: var(--space-s);
-}
-
 .header__logo-link {
 	font-size: var(--font-size-xl);
 	font-weight: var(--font-weight-medium);
-}
-
-.header__link {
-	font-size: var(--font-size-md);
-	text-decoration: none;
-	color: var(--text-color);
-}
-
-.header__link:active {
-	color: var(--active-link-color);
-}
-
-.header__link:hover {
-	text-decoration: underline;
 }

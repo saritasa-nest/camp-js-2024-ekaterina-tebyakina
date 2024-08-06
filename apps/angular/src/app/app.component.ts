@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { RouterModule, RouterLink } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
+import { AuthorizationMenuComponent } from './features/authorization-menu/authorization-menu.component';
+
 /** Main component of application. */
 @Component({
 	selector: 'camp-root',
@@ -12,6 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 		MatToolbarModule,
 		RouterModule,
 		RouterLink,
+		AuthorizationMenuComponent,
 	],
 })
 export class AppComponent {}

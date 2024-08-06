@@ -1,24 +1,63 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import { inject } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { AuthorizationApiService } from '../services/authorization-api.service';
+import { LocalStorageService } from '../services/local-storage.service';
+import { ServerErrorStatus } from '@js-camp/core/models/serverErrorStatus';
 
 /**
- * Add header Api-Key to a request.
+ * Add header Authorization to a request.
  * @param req - Request.
  * @param next - Request handler function.
- * @returns Request with Api-Key.
+ * @returns Request with Authorization header.
  */
-export function authorizationInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+export function authorizationInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 
-	const accessToken = localStorage.getItem('accessToken');
+	const authService = inject(AuthorizationApiService);
 
-	if (accessToken) {
-		const reqWithToken = req.clone({
-			headers: req.headers.set('Authorization', accessToken),
-		});
+	const localStorageService = inject(LocalStorageService);
 
-		// return next(reqWithToken);
-	}
+	return localStorageService.getAccessToken().pipe(
+    switchMap((accessToken) => {
+      if (accessToken) {
+        const reqWithToken = addToken(request, accessToken);
+        return next(reqWithToken);
+      }
 
-	return next(req);
+      return next(request).pipe(
+        catchError((error) => {
+          if (error.status == ServerErrorStatus.Unauthorized) {
+            return handleTokenExpired(request, next);
+          }
+          return throwError(() => error);
+        })
+      );
+    })
+  );
+
+	function addToken(request: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
+    return request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+	function handleTokenExpired(request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+
+		return authService.refreshAccessToken().pipe(
+      switchMap(() => localStorageService.getAccessToken()),
+      switchMap((newAccessToken) => {
+        if (newAccessToken) {
+          return next(addToken(request, newAccessToken));
+        }
+        return next(request);
+      }),
+      catchError((error) => {
+        console.error('Error handling expired access token:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 }

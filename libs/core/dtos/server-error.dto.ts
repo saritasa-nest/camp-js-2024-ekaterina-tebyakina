@@ -1,12 +1,12 @@
 /** */
-export type ServerError = {
+export type ServerErrorDto = {
 
 	/** */
-	attr: string | null;
+	readonly attr: string | null;
 
 	/** */
-	code: string;
+	readonly code: string;
 
 	/** */
-	detail: string;
+	readonly detail: string;
 };
