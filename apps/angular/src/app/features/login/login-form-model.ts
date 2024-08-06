@@ -10,24 +10,14 @@ export type LoginForm = {
 	readonly password: FormControl<string>;
 };
 
-/** Type of parameters of the form initialization function. */
-export type LoginFormParams = {
-
-	/** From builder for form. */
-	formBuilder: NonNullableFormBuilder;
-
-};
-
 export namespace LoginForm {
 
 	/**
-	 * Function for initializing anime form filter.
+	 * Function for initializing login form.
 	 * @param formBuilder - From builder for form.
 	 * @returns Login form.
 	 */
-	export function initialize({
-		formBuilder,
-	}: LoginFormParams): FormGroup<LoginForm> {
+	export function initialize(formBuilder: NonNullableFormBuilder): FormGroup<LoginForm> {
 		return formBuilder.group({
 			email: formBuilder.control('', [Validators.required, Validators.email]),
 			password: formBuilder.control('', [Validators.required]),

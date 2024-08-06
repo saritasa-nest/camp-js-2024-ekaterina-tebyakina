@@ -20,24 +20,14 @@ export type RegistrationForm = {
 	readonly retypedPassword: FormControl<string>;
 };
 
-/** Type of parameters of the form initialization function. */
-export type RegistrationFormParams = {
-
-	/** From builder for form. */
-	formBuilder: NonNullableFormBuilder;
-
-};
-
 export namespace RegistrationForm {
 
 	/**
-	 * Function for initializing anime form filter.
+	 * Function for initializing registration form.
 	 * @param formBuilder - From builder for form.
 	 * @returns Registration form.
 	 */
-	export function initialize({
-		formBuilder,
-	}: RegistrationFormParams): FormGroup<RegistrationForm> {
+	export function initialize(formBuilder: NonNullableFormBuilder): FormGroup<RegistrationForm> {
 		return formBuilder.group({
 			email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
 			firstName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),

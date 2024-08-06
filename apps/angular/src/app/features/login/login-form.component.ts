@@ -1,15 +1,17 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationApiService } from '@js-camp/angular/core/services/authorization-api.service';
-import { Subscription, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { Router } from '@angular/router';
 
-import { ServerError } from '@js-camp/core/dtos/server-error.dto';
+import { ServerErrorDto } from '@js-camp/core/dtos/server-error.dto';
+import { ServerErrorMapper } from '@js-camp/core/mappers/server-error.mapper';
 
 import { LoginForm } from './login-form-model';
 
@@ -27,80 +29,62 @@ import { LoginForm } from './login-form-model';
 		MatButtonModule,
 	],
 })
-export class LoginFormComponent implements OnInit, OnDestroy {
+export class LoginFormComponent {
 
-	/** Form group for anime filter form. */
-	public loginFormGroup?: FormGroup<LoginForm>;
+	/** Form group for login form. */
+	public readonly loginFormGroup: FormGroup<LoginForm>;
 
-	private authorizationApiService = inject(AuthorizationApiService);
+	private readonly authorizationApiService = inject(AuthorizationApiService);
 
-	private loginSubscription?: Subscription;
+	private readonly formBuilder = inject(NonNullableFormBuilder);
+
+	private readonly destroyRef = inject(DestroyRef);
+
+	private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
 	private readonly router = inject(Router);
 
-	public constructor(private readonly formBuilder: NonNullableFormBuilder, private cdr: ChangeDetectorRef) {}
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		this.loginFormGroup = LoginForm.initialize({
-			formBuilder: this.formBuilder,
-		});
+	public constructor() {
+		this.loginFormGroup = LoginForm.initialize(this.formBuilder);
 	}
 
-	/** @inheritdoc */
-	public ngOnDestroy(): void {
-		if (this.loginSubscription) {
-			this.loginSubscription.unsubscribe();
-		}
-	}
-
-	/** Handle login submit. */
+	/** Handle login form submit. */
 	protected onLoginSubmit(): void {
 
-		if (this.loginFormGroup) {
+		const formData = this.loginFormGroup.getRawValue();
 
-			const formData = this.loginFormGroup.getRawValue();
+		this.authorizationApiService.login(formData).pipe(
+			takeUntilDestroyed(this.destroyRef),
+			tap({
+				next: () => {
+					this.router.navigate(['']);
+				},
+				error: (error: unknown) => {
+					console.warn(error);
+					if (error instanceof HttpErrorResponse) {
+						this.handleServerError(error);
+					}
+				},
+			}),
+		)
+			.subscribe();
 
-			this.loginSubscription = this.authorizationApiService.login(formData).pipe(
-				tap({
-					next: response => {
-						this.authorizationApiService.saveTokens(response);
-						this.router.navigate(['']);
-					},
-					error: (error: unknown) => {
-						console.warn(error);
-						if (error instanceof HttpErrorResponse) {
-							this.handleServerError(error);
-						}
-					},
-				}),
-			)
-				.subscribe();
-		}
 	}
 
 	private handleServerError(errorResponse: HttpErrorResponse): void {
 
-		if (errorResponse.error.errors && this.loginFormGroup) {
+		let errorsString = '';
 
-			const errorsList = errorResponse.error.errors;
-			let errorsString = '';
+		errorResponse.error.errors.forEach((errorDto: ServerErrorDto) => {
+			const error = ServerErrorMapper.fromDto(errorDto);
+			if (error.attribute && this.loginFormGroup.contains(error.attribute)) {
+				this.loginFormGroup.controls[error.attribute as keyof LoginForm].setErrors({ serverError: error.detail });
+				return;
+			}
+			errorsString += `${error.detail}\n`;
+		});
 
-			errorsList.forEach((error: ServerError) => {
-				if (error.attr && this.loginFormGroup?.contains(error.attr)) {
-					this.loginFormGroup.controls[error.attr as keyof LoginForm].setErrors({ serverError: error.detail });
-					return;
-				}
-				errorsString += `${error.detail}\n`;
-			});
-
-			this.loginFormGroup.setErrors({ serverError: errorsString });
-			this.cdr.markForCheck();
-
-		} else {
-			const serverErrorMessage = errorResponse.error.message || 'Login failed. Please try again.';
-			this.loginFormGroup?.setErrors({ serverError: serverErrorMessage });
-			this.cdr.markForCheck();
-		}
+		this.loginFormGroup.setErrors({ serverError: errorsString });
+		this.changeDetectorRef.markForCheck();
 	}
 }

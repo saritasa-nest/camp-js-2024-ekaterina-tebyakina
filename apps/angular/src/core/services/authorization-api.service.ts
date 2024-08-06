@@ -4,7 +4,9 @@ import { Registration } from '@js-camp/core/models/registration';
 import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
 import { AuthorizationTokens } from '@js-camp/core/models/authorization-tokens';
 import { Login } from '@js-camp/core/models/login';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { LocalStorageService } from './local-storage.service';
+import { UrlConfigService } from './url-config.service';
 
 /** Authorization API access service. */
 @Injectable({ providedIn: 'root' })
@@ -12,64 +14,56 @@ export class AuthorizationApiService {
 
 	private readonly http = inject(HttpClient);
 
+	private readonly urlConfigService = inject(UrlConfigService);
+
+	private readonly localStorageService = inject(LocalStorageService);
+
 	/**
-	 * Get page of anime list.
-	 * @param registrationData - Params for request.
-	 * @returns Page of anime list.
+	 * Registers a user.
+	 * @param registrationData - Date about the user required to create a profile.
+	 * @returns Authorization tokens.
 	 */
 	public register(registrationData: Registration): Observable<AuthorizationTokens> {
-		return this.http.post<AuthorizationTokens>('auth/register/', RegistrationMapper.toDto(registrationData)).pipe(
+		console.log(RegistrationMapper.toDto(registrationData));
+		return this.http.post<AuthorizationTokens>(this.urlConfigService.authorization.register,
+			RegistrationMapper.toDto(registrationData)).pipe(
+			tap(response => this.localStorageService.saveTokens(response)),
 			catchError(error => this.handleError(error)),
 		);
 	}
 
 	/**
-	 * Get page of anime list.
-	 * @param loginData - Params for request.
-	 * @returns Page of anime list.
+	 * Authorizes a user.
+	 * @param loginData - Date about the user required to log in.
+	 * @returns Authorization tokens.
 	 */
 	public login(loginData: Login): Observable<AuthorizationTokens> {
-		return this.http.post<AuthorizationTokens>('auth/login/', loginData).pipe(
+		return this.http.post<AuthorizationTokens>(this.urlConfigService.authorization.login, loginData).pipe(
+			tap(response => this.localStorageService.saveTokens(response)),
 			catchError(error => this.handleError(error)),
 		);
 	}
 
-	/**
-	 * Get page of anime list.
-	 * @param tokens - Params for request.
-	 * @returns Page of anime list.
-	 */
-	public saveTokens(tokens: AuthorizationTokens): void {
-		localStorage.setItem('accessToken', tokens.access);
-		localStorage.setItem('refreshToken', tokens.refresh);
-	}
-
-	public refreshAccessToken(): Observable<any> {
-    const refreshToken = localStorage.getItem('refreshToken');
-    return this.http.post<AuthorizationTokens>('auth/token/refresh', { refreshToken }).pipe(
-      tap((response) => {
-        localStorage.setItem('accessToken', response.access);
-      }),
-      catchError(error => this.handleError(error))
-    );
+	public refreshAccessToken(): Observable<AuthorizationTokens> {
+    return this.localStorageService.getRefreshToken().pipe(
+			switchMap(refreshToken => {
+				if (refreshToken) {
+					return this.http.post<AuthorizationTokens>(this.urlConfigService.authorization.refresh, { refresh: refreshToken }).pipe(
+						tap(response => this.localStorageService.saveTokens(response)),
+						catchError(error => this.handleError(error))
+					);
+				}
+				return throwError(() => new Error('Failed to refresh token'));
+			}),
+			catchError(error => this.handleError(error)),
+		);
   }
 
   public logout(): void {
-    // Your logout logic here
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    this.localStorageService.removeTokens();
   }
 
-	/**
-	 * Get page of anime list.
-	 * @returns Page of anime list.
-	 */
-	public getAuthorizationToken(): string | null {
-		const accessToken = localStorage.getItem('accessToken');
-		return accessToken;
-	}
-
-	private handleError(error: HttpErrorResponse): Observable<never> {
-		return throwError(() => error);
+	private handleError(errorResponse: HttpErrorResponse): Observable<never> {
+		return throwError(() => errorResponse);
 	}
 }

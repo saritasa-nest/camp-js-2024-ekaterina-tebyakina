@@ -12,6 +12,7 @@
 	--border-color: rgb(0 0 0 / 15%);
 	--text-color: var(--primary-light-contrast-color);
 	--active-link-color: var(--primary-color);
+	--primary-background-color: var(--primary-contrast-color);
 
 	/* Variables for spaces */
 	--space-xs: 8px;

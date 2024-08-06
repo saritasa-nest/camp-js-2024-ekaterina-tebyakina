@@ -1,14 +1,16 @@
 <div class="login-form-wrapper">
 	<h2 class="login-header">Login</h2>
 	@if (loginFormGroup) {
-		<form class="login-form" [formGroup]="loginFormGroup" (ngSubmit)="onLoginSubmit()">
+		<form class="login-form"
+					[formGroup]="loginFormGroup"
+					(ngSubmit)="onLoginSubmit()">
 
 			<mat-form-field appearance="outline" class="login-form__field">
 				<mat-label>Email</mat-label>
 				<input matInput
-							placeholder="ivan.pupkin@gmail.com"
-							formControlName="email"
-							type="email">
+							 type="email"
+							 placeholder="ivan.pupkin@gmail.com"
+							 formControlName="email">
 				@if (loginFormGroup.get('email')?.hasError('required') && loginFormGroup.get('email')?.touched) {
 					<mat-error>Email is required.</mat-error>
 				} @else if (loginFormGroup.get('email')?.hasError('email') && loginFormGroup.get('email')?.touched) {
@@ -19,9 +21,9 @@
 			<mat-form-field appearance="outline" class="login-form__field">
 				<mat-label>Password</mat-label>
 				<input matInput
-							placeholder="veryStrongPassW0rd"
-							formControlName="password"
-							type="password">
+							 type="password"
+							 placeholder="veryStrongPassW0rd"
+							 formControlName="password">
 				@if (loginFormGroup.get('password')?.hasError('required') && loginFormGroup.get('password')?.touched) {
 					<mat-error>Password is required.</mat-error>
 				}

@@ -2,21 +2,19 @@
 	<h2 class="registration-header">Registration</h2>
 	@if (registrationFormGroup) {
 		<form class="registration-form"
-				[formGroup]="registrationFormGroup"
-				(ngSubmit)="onRegistrationSubmit()">
+					[formGroup]="registrationFormGroup"
+					(ngSubmit)="onRegistrationSubmit()">
 
 			<mat-form-field appearance="outline" class="registration-form__field">
 				<mat-label>Email</mat-label>
 				<input matInput
-							placeholder="ivan.pupkin@gmail.com"
-							formControlName="email"
-							type="email">
-				@if (registrationFormGroup.get('email')?.touched) {
-					@if (registrationFormGroup.get('email')?.hasError('required')) {
-						<mat-error>Email is required.</mat-error>
-					} @else if (registrationFormGroup.get('email')?.hasError('email')) {
-						<mat-error>Enter a valid email address.</mat-error>
-					}
+							 type="email"
+							 placeholder="ivan.pupkin@gmail.com"
+							 formControlName="email">
+				@if (registrationFormGroup.get('email')?.hasError('required') && registrationFormGroup.get('email')?.touched) {
+					<mat-error>Email is required.</mat-error>
+				} @else if (registrationFormGroup.get('email')?.hasError('email') && registrationFormGroup.get('email')?.touched) {
+					<mat-error>Enter a valid email address.</mat-error>
 				}
 				@if (registrationFormGroup.get('email')?.hasError('serverError')) {
 					<mat-error>{{registrationFormGroup.get('email')?.getError('serverError')}}</mat-error>
@@ -26,13 +24,12 @@
 			<mat-form-field appearance="outline" class="registration-form__field">
 				<mat-label>First Name</mat-label>
 				<input matInput
-							placeholder="Ivan"
-							formControlName="firstName"
-							type="text">
-				@if (registrationFormGroup.get('firstName')?.touched) {
-					@if (registrationFormGroup.get('firstName')?.hasError('required')) {
-						<mat-error>First name is required.</mat-error>
-					}
+							 type="text"
+							 placeholder="Ivan"
+							 formControlName="firstName"
+							>
+				@if (registrationFormGroup.get('firstName')?.touched && registrationFormGroup.get('firstName')?.hasError('required')) {
+					<mat-error>First name is required.</mat-error>
 				}
 				@if (registrationFormGroup.get('firstName')?.hasError('serverError')) {
 					<mat-error>{{registrationFormGroup.get('firstName')?.getError('serverError')}}</mat-error>
@@ -42,13 +39,11 @@
 			<mat-form-field appearance="outline" class="registration-form__field">
 				<mat-label>Last Name</mat-label>
 				<input matInput
-							placeholder="Pupkin"
-							formControlName="lastName"
-							type="text">
-				@if (registrationFormGroup.get('lastName')?.touched) {
-					@if (registrationFormGroup.get('lastName')?.hasError('required')) {
+							 type="text"
+							 placeholder="Pupkin"
+							 formControlName="lastName">
+				@if (registrationFormGroup.get('lastName')?.touched && registrationFormGroup.get('lastName')?.hasError('required')) {
 						<mat-error>Last name is required.</mat-error>
-					}
 				}
 				@if (registrationFormGroup.get('lastName')?.hasError('serverError')) {
 					<mat-error>{{registrationFormGroup.get('lastName')?.getError('serverError')}}</mat-error>
@@ -58,13 +53,11 @@
 			<mat-form-field appearance="outline" class="registration-form__field">
 				<mat-label>Password</mat-label>
 				<input matInput
-							placeholder="veryStrongPassW0rd"
-							formControlName="password"
-							type="password">
-				@if (registrationFormGroup.get('password')?.touched) {
-					@if (registrationFormGroup.get('password')?.hasError('required')) {
-						<mat-error>Password is required.</mat-error>
-					}
+							 type="password"
+							 placeholder="veryStrongPassW0rd"
+							 formControlName="password">
+				@if (registrationFormGroup.get('password')?.touched && registrationFormGroup.get('password')?.hasError('required')) {
+					<mat-error>Password is required.</mat-error>
 				}
 				@if (registrationFormGroup.get('password')?.hasError('serverError')) {
 					<mat-error>{{registrationFormGroup.get('password')?.getError('serverError')}}</mat-error>
@@ -74,15 +67,14 @@
 			<mat-form-field appearance="outline" class="registration-form__field">
 				<mat-label> Repeat the password</mat-label>
 				<input matInput
-							placeholder="veryStrongPassW0rd"
-							formControlName="retypedPassword"
-							type="password">
-				@if (registrationFormGroup.get('retypedPassword')?.touched) {
-					@if (registrationFormGroup.get('retypedPassword')?.hasError('required')) {
-						<mat-error>Retyped password is required.</mat-error>
-					} @else if (registrationFormGroup.get('retypedPassword')?.hasError('mustMatch')) {
-						<mat-error>Passwords must match.</mat-error>
-					}
+							 type="password"
+							 placeholder="veryStrongPassW0rd"
+							 formControlName="retypedPassword"
+							 type="password">
+				@if (registrationFormGroup.get('retypedPassword')?.touched && registrationFormGroup.get('retypedPassword')?.hasError('required')) {
+					<mat-error>Retyped password is required.</mat-error>
+				} @else if (registrationFormGroup.get('retypedPassword')?.hasError('mustMatch')) {
+					<mat-error>Passwords must match.</mat-error>
 				}
 			</mat-form-field>
 
