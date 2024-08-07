@@ -13,7 +13,7 @@ export class UrlConfigService {
 	public readonly authorization = {
 		register: 'auth/register/',
 		login: 'auth/login/',
-		refresh: 'auth/token/refresh',
+		refresh: 'auth/token/refresh/',
 	};
 
 	/** Object with parts of the url requests for user endpoints. */
