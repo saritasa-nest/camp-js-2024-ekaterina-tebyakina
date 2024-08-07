@@ -62,8 +62,7 @@ export class AuthorizationMenuComponent implements OnInit {
 				next: () => {
 					this.isLoggedIn$.next(true);
 				},
-				error: (error: unknown) => {
-					console.error('Error fetching user:', error);
+				error: () => {
 					this.isLoggedIn$.next(false);
 				},
 			});
