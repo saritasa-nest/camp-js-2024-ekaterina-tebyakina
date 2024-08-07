@@ -3,7 +3,7 @@ import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, finalize, map, Observable, shareReplay, switchMap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
@@ -41,6 +41,9 @@ export class AnimeDashboardComponent {
 	/** Stream of anime filter params. */
 	protected readonly animeParams$: Observable<AnimeParams>;
 
+	/** Loading state to show progress bar. */
+	protected readonly isLoading$ = new BehaviorSubject<boolean>(true);
+
 	private readonly route = inject(ActivatedRoute);
 
 	private readonly router = inject(Router);
@@ -50,10 +53,16 @@ export class AnimeDashboardComponent {
 	public constructor() {
 		this.animeParams$ = this.route.queryParams.pipe(
 			map(params => AnimeQueryParamsMapper.fromQueryParams(params)),
+			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 
 		this.animeListPage$ = this.animeParams$.pipe(
-			switchMap(params => this.animeApiService.getPage(params)),
+			switchMap(params => {
+				this.isLoading$.next(true);
+				return this.animeApiService.getPage(params).pipe(
+					finalize(() => this.isLoading$.next(false)),
+				);
+			}),
 		);
 	}
 
