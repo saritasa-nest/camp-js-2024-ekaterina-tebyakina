@@ -7,14 +7,14 @@ import { AppConfig } from '../utils/app-config';
 
 /**
  * Add header Api-Key to a request.
- * @param request - Request.
+ * @param req - Request.
  * @param next - Request handler function.
  * @returns Request with Api-Key.
  */
-export function apiKeyInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+export function apiKeyInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	const appConfig = inject(AppConfig);
-	const reqWithApiKey = request.clone({
-		headers: request.headers.set('Api-Key', appConfig.apiKey),
+	const reqWithApiKey = req.clone({
+		headers: req.headers.set('Api-Key', appConfig.apiKey),
 	});
 
 	return next(reqWithApiKey);
