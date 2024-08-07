@@ -9,8 +9,9 @@ import { AnimeType } from '@js-camp/core/models/anime-type';
 import { MatSelectModule } from '@angular/material/select';
 import { AnimeFilters } from '@js-camp/core/models/anime-filters';
 
-import { AnimeFilterForm } from './anime-filter-form.model';
 import { throttleTime } from 'rxjs';
+
+import { AnimeFilterForm } from './anime-filter-form.model';
 
 /**
  * Filter form component.
