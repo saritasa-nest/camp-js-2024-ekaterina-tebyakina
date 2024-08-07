@@ -25,6 +25,7 @@ export class AuthorizationMenuComponent implements OnInit {
 	/** Shows whether the user is logged in. */
 	public isLoggedIn$: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(false);
 
+	/** Enum with paths for link. */
 	protected readonly routerPaths = RouterPaths;
 
 	private readonly usersApiService = inject(UserApiService);
@@ -39,11 +40,12 @@ export class AuthorizationMenuComponent implements OnInit {
 	public ngOnInit(): void {
 		this.localStorageService.onTokenChange().pipe(
 			takeUntilDestroyed(this.destroyRef),
-		).subscribe(() => {
-			this.updateHeaderLinks();
-		});
+		)
+			.subscribe(() => {
+				this.updateIsLoggedIn();
+			});
 
-		this.updateHeaderLinks();
+		this.updateIsLoggedIn();
 	}
 
 	/** Handle click on log out button. */
@@ -51,17 +53,19 @@ export class AuthorizationMenuComponent implements OnInit {
 		this.authApiService.logout();
 	}
 
-	private updateHeaderLinks(): void {
+	/** Updates the value of the isLoggedIn subject. */
+	private updateIsLoggedIn(): void {
 		this.usersApiService.getCurrentUser().pipe(
 			takeUntilDestroyed(this.destroyRef),
-		).subscribe({
-			next: () => {
-				this.isLoggedIn$.next(true);
-			},
-			error: err => {
-				console.error('Error fetching user:', err);
-				this.isLoggedIn$.next(false);
-			}
-		});
+		)
+			.subscribe({
+				next: () => {
+					this.isLoggedIn$.next(true);
+				},
+				error: (error: unknown) => {
+					console.error('Error fetching user:', error);
+					this.isLoggedIn$.next(false);
+				},
+			});
 	}
 }
