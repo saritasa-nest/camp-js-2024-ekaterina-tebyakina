@@ -45,7 +45,7 @@ export class AnimeFilterFormComponent implements OnInit {
 	protected readonly animeFilterFormGroup: FormGroup<AnimeFilterForm>;
 
 	/** List of permissible values for types select control. */
-	protected readonly typesList = Object.values(AnimeType);
+	protected readonly animeTypes = Object.values(AnimeType);
 
 	private readonly destroyRef = inject(DestroyRef);
 

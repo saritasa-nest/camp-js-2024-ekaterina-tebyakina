@@ -5,7 +5,7 @@
 				<mat-label>Types</mat-label>
 				<mat-select multiple
 										formControlName="types">
-					@for (type of typesList; track type) {
+					@for (type of animeTypes; track type) {
 						<mat-option [value]="type">{{type}}</mat-option>
 					}
 				</mat-select>
