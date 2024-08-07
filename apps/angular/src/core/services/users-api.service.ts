@@ -32,10 +32,7 @@ export class UserApiService {
 				}
 				return of(UserMapper.fromDto(result));
 			}),
-			catchError((error: unknown) => {
-				console.error('Failed to get current user', error);
-				return throwError(() => new Error('Failed to get current user'));
-			}),
+			catchError((error: unknown) => throwError(() => error)),
 		);
 	}
 }

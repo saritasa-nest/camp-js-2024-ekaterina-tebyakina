@@ -62,7 +62,6 @@ export class LoginFormComponent {
 					this.router.navigate([this.routerPaths.Main]);
 				},
 				error: (error: unknown) => {
-					console.warn(error);
 					if (error instanceof HttpErrorResponse) {
 						this.handleServerError(error);
 					}
