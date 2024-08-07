@@ -4,15 +4,13 @@ import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { Registration } from '@js-camp/core/models/registration';
+import { RegistrationData } from '@js-camp/core/models/registration-data';
 import { AuthorizationApiService } from '@js-camp/angular/core/services/authorization-api.service';
-
 import { tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-
-import { ServerErrorMapper } from '@js-camp/core/mappers/server-error.mapper';
-import { ServerErrorDto } from '@js-camp/core/dtos/server-error.dto';
+import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
+import { ServerError } from '@js-camp/core/models/server-error';
 
 import { RegistrationForm } from './registration-form-model';
 
@@ -35,6 +33,9 @@ export class RegistrationFormComponent {
 	/** Form group for registration form. */
 	public readonly registrationFormGroup: FormGroup<RegistrationForm>;
 
+	/** Enum with paths for link. */
+	protected readonly routerPaths = RouterPaths;
+
 	private readonly authorizationApiService = inject(AuthorizationApiService);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -52,20 +53,13 @@ export class RegistrationFormComponent {
 	/** Handle registration submit. */
 	protected onRegistrationSubmit(): void {
 
-		const formData = this.registrationFormGroup.getRawValue();
+		const formData = new RegistrationData(this.registrationFormGroup.getRawValue());
 
-		const registrationData = new Registration({
-			email: formData.email,
-			firstName: formData.firstName,
-			lastName: formData.lastName,
-			password: formData.password,
-		});
-
-		this.authorizationApiService.register(registrationData).pipe(
+		this.authorizationApiService.register(formData).pipe(
 			takeUntilDestroyed(this.destroyRef),
 			tap({
 				next: () => {
-					this.router.navigate(['']);
+					this.router.navigate([this.routerPaths.Main]);
 				},
 				error: (error: unknown) => {
 					if (error instanceof HttpErrorResponse) {
@@ -81,8 +75,7 @@ export class RegistrationFormComponent {
 	private handleServerError(errorResponse: HttpErrorResponse): void {
 		let errorsString = '';
 
-		errorResponse.error.errors.forEach((errorDto: ServerErrorDto) => {
-			const error = ServerErrorMapper.fromDto(errorDto);
+		errorResponse.error.errors.forEach((error: ServerError) => {
 			if (error.attribute && this.registrationFormGroup?.contains(error.attribute)) {
 				this.registrationFormGroup.controls[error.attribute as keyof RegistrationForm].setErrors({ serverError: error.detail });
 				return;

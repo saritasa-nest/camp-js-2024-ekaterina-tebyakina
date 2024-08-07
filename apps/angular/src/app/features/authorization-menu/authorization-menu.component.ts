@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { UserApiService } from '@js-camp/angular/core/services/users-api.service';
 import { BehaviorSubject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -33,8 +33,6 @@ export class AuthorizationMenuComponent implements OnInit {
 
 	private readonly localStorageService = inject(LocalStorageService);
 
-	private readonly router = inject(Router);
-
 	private readonly destroyRef = inject(DestroyRef);
 
 	/** @inheritdoc */
@@ -51,7 +49,6 @@ export class AuthorizationMenuComponent implements OnInit {
 	/** Handle click on log out button. */
 	protected onLogoutClick(): void {
 		this.authApiService.logout();
-		this.router.navigate([this.routerPaths.Main]);
 	}
 
 	private updateHeaderLinks(): void {

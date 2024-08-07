@@ -8,12 +8,12 @@ import { AppConfig } from '../utils/app-config';
 
 /**
  * Add base url to a request.
- * @param req - Request.
+ * @param request - Request.
  * @param next - Request handler function.
  * @returns Request with base url.
  */
-export function baseUrlInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+export function baseUrlInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	const appConfig = inject(AppConfig);
-	const reqWithBaseUrl = req.clone({ url: `${appConfig.baseApiURL}/${req.url}` });
+	const reqWithBaseUrl = request.clone({ url: `${appConfig.baseApiURL}/${request.url}` });
 	return next(reqWithBaseUrl);
 }

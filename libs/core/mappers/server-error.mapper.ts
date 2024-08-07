@@ -16,7 +16,6 @@ export namespace ServerErrorMapper {
 		const attribute = checkIsEnumMember(error.attr, ServerErrorAttributeDto) ? ServerErrorAttributeMapper.fromDto(error.attr) : null;
 		return new ServerError({
 			attribute,
-			code: error.code,
 			detail: error.detail,
 		});
 	}
