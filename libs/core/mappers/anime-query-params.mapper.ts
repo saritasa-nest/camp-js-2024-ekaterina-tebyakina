@@ -22,8 +22,10 @@ export namespace AnimeQueryParamsMapper {
 			selectedTypes = typesArray.filter(item => checkIsEnumMember(item, AnimeType)) as AnimeType[];
 		}
 
+		const pageIndex = Number(params.pageIndex);
+
 		const filterParams: AnimeParams = {
-			pageIndex: (params.pageIndex && params.pageIndex > 0) ? Number(params.pageIndex) : DEFAULT_PAGE_INDEX,
+			pageIndex: (!Number.isNaN(pageIndex) && pageIndex >= 0) ? pageIndex : DEFAULT_PAGE_INDEX,
 			pageSize: (params.pageSize && params.pageSize > 0) ? Number(params.pageSize) : DEFAULT_PAGE_SIZE,
 			searchTerm: params.searchTerm ? params.searchTerm : DEFAULT_SEARCH_TERM,
 			selectedTypes,
@@ -41,7 +43,7 @@ export namespace AnimeQueryParamsMapper {
 	export function toQueryParams(params: Partial<AnimeParams>): Partial<AnimeQueryParams> {
 
 		return {
-			...(params.pageIndex && { pageIndex: params.pageIndex }),
+			...((typeof params.pageIndex === 'number') && { pageIndex: params.pageIndex }),
 			...(params.pageSize && { pageSize: params.pageSize }),
 			...(params.searchTerm !== undefined && params.searchTerm !== null && { searchTerm: params.searchTerm }),
 			...(params.selectedTypes && {

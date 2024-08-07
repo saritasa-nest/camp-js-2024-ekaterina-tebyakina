@@ -89,6 +89,10 @@ export class AnimeTableComponent implements OnInit {
 	 * @param event - Pagination settings.
 	 */
 	protected onPageChange(event: PageEvent): void {
+		if (this.pageSize !== event.pageSize) {
+			event.pageIndex = 0;
+		}
+
 		this.paginationEvent.emit(event);
 	}
 
