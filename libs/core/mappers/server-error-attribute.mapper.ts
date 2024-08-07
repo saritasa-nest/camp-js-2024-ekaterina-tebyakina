@@ -12,7 +12,7 @@ export namespace ServerErrorAttributeMapper {
 	};
 
 	/**
-	 * Map attribute dto.
+	 * Map error attribute dto.
 	 * @param attribute  - Attribute dto.
 	 * @returns Attribute model.
 	 */

@@ -1,10 +1,10 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 
-import { catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { AuthorizationApiService } from '../services/authorization-api.service';
 import { LocalStorageService } from '../services/local-storage.service';
-import { ServerErrorStatus } from '@js-camp/core/models/serverErrorStatus';
+import { ServerErrorStatus } from '@js-camp/core/models/server-error-status';
 
 /**
  * Add header Authorization to a request.

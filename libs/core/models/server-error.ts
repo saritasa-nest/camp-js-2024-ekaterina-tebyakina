@@ -1,12 +1,12 @@
 import { Immerable, OmitImmerable } from './immerable';
 
-/** Genre. */
+/** Type for error from server. */
 export class ServerError extends Immerable {
 
-	/** Attribute. */
+	/** Error's attribute. The form field whose value caused the error. */
 	public readonly attribute: string | null;
 
-	/** Detail. */
+	/** Details about the error in the form of a message. */
 	public readonly detail: string;
 
 	public constructor(data: ServerErrorConstructorData) {
