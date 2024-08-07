@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { AnimeFilters } from '@js-camp/core/models/anime-filters';
 
 import { AnimeFilterForm } from './anime-filter-form.model';
+import { throttleTime } from 'rxjs';
 
 /**
  * Filter form component.
@@ -71,6 +72,7 @@ export class AnimeFilterFormComponent implements OnInit {
 
 	private subscribeToFiltersChange(): void {
 		this.animeFilterFormGroup?.valueChanges.pipe(
+			throttleTime(300),
 			takeUntilDestroyed(this.destroyRef),
 		)
 			.subscribe(value => {
