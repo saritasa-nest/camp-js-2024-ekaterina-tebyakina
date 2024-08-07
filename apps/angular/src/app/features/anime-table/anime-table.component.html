@@ -64,7 +64,7 @@
 			<mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
 
 		</mat-table>
-		<mat-paginator [length]="pagesCount"
+		<mat-paginator [length]="pageData.count"
 									 [pageSize]="pageSize"
 									 [pageIndex]="pageIndex"
 									 [pageSizeOptions]="pageSizeOptions"
