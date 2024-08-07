@@ -1,5 +1,5 @@
 /** Column headers to be displayed in table. */
-export enum ColumnsHeaders {
+export enum AnimeColumnsHeaders {
 	Image = 'Image',
 	EnglishTitle = 'English title',
 	JapaneseTitle = 'Japanese title',

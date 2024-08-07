@@ -2,13 +2,13 @@ import { Routes } from '@angular/router';
 
 import { RouterPaths } from '../core/model/router-paths';
 
-import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { AnimeDashboardComponent } from './features/anime-dashboard/anime-dashboard.component';
 
 /** Routes object. */
 export const appRoutes: Routes = [
 	{
 		path: RouterPaths.Main,
-		component: DashboardComponent,
+		component: AnimeDashboardComponent,
 	},
 	{
 		path: RouterPaths.Login,

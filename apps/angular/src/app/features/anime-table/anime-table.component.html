@@ -1,27 +1,27 @@
-@if (pageData && ordering) {
+@if (pageData && sortingSettings) {
 	<div class="table-wrapper">
 		<mat-table class="table"
 							 [dataSource]="pageData.results"
 							 [trackBy]="trackByAnime"
 							 matSort
 							 (matSortChange)="onSortData($event)"
-							 [matSortActive]="ordering.active"
-							 [matSortDirection]="ordering.direction"
+							 [matSortActive]="sortingSettings.sortField"
+							 [matSortDirection]="sortingSettings.direction"
 							 >
 
-			<ng-container matColumnDef={{columnsIndexes.Image}}>
+			<ng-container matColumnDef={{columns.Image}}>
 				<mat-header-cell *matHeaderCellDef class="table__title"> {{columnsHeaders.Image}} </mat-header-cell>
 				<mat-cell *matCellDef="let element" class="table__content cover">
 					<div class="cover__wrapper">
 						<img [ngSrc]="element.image"
 								 fill
-								 [alt]="element.japaneseTitle ? element.japaneseTitle + ' cover' : 'Anime cover'"
+								 [alt]="(element.japaneseTitle ?? 'Anime') + ' cover'"
 								 class="cover__image">
 					</div>
 				</mat-cell>
 			</ng-container>
 
-			<ng-container matColumnDef={{columnsIndexes.EnglishTitle}}>
+			<ng-container matColumnDef={{columns.EnglishTitle}}>
 				<mat-header-cell *matHeaderCellDef
 													mat-sort-header
 													class="table__title"> {{columnsHeaders.EnglishTitle}} </mat-header-cell>
@@ -32,7 +32,7 @@
 				</mat-cell>
 			</ng-container>
 
-			<ng-container matColumnDef={{columnsIndexes.JapaneseTitle}}>
+			<ng-container matColumnDef={{columns.JapaneseTitle}}>
 				<mat-header-cell *matHeaderCellDef class="table__title"> {{columnsHeaders.JapaneseTitle}}</mat-header-cell>
 				<mat-cell *matCellDef="let element" class="table__content content" title={{element.japaneseTitle}}>
 					<p class="content__text">
@@ -41,19 +41,19 @@
 				</mat-cell>
 			</ng-container>
 
-			<ng-container matColumnDef={{columnsIndexes.AiredStart}}>
+			<ng-container matColumnDef={{columns.AiredStart}}>
 				<mat-header-cell *matHeaderCellDef
 													mat-sort-header
 													class="table__title"> {{columnsHeaders.AiredStart}} </mat-header-cell>
 				<mat-cell *matCellDef="let element" class="table__content"> {{element.aired.start | date: "mediumDate" | empty}} </mat-cell>
 			</ng-container>
 
-			<ng-container matColumnDef={{columnsIndexes.Type}}>
+			<ng-container matColumnDef={{columns.Type}}>
 				<mat-header-cell *matHeaderCellDef class="table__title"> {{columnsHeaders.Type}} </mat-header-cell>
 				<mat-cell *matCellDef="let element" class="table__content"> {{element.type | empty}} </mat-cell>
 			</ng-container>
 
-			<ng-container matColumnDef={{columnsIndexes.Status}}>
+			<ng-container matColumnDef={{columns.Status}}>
 				<mat-header-cell *matHeaderCellDef
 													mat-sort-header
 													class="table__title"> {{columnsHeaders.Status}} </mat-header-cell>
@@ -65,10 +65,10 @@
 
 		</mat-table>
 		<mat-paginator [length]="pagesCount"
-									 [pageSize]="limit"
+									 [pageSize]="pageSize"
 									 [pageIndex]="pageIndex"
-									 [pageSizeOptions]="[10, 25, 50]"
-									 (page)="onPageChanged($event)"
+									 [pageSizeOptions]="pageSizeOptions"
+									 (page)="onPageChange($event)"
 									 aria-label="Select page"/>
 	</div>
 }

@@ -1,35 +1,13 @@
 import { AnimeSortDto } from '../dtos/anime-sort.dto';
-import { AnimeSort } from '../models/anime-sort';
-import { ColumnsIndexes } from '../models/columns-indexes';
+import { AnimeSort, SortingDirection } from '../models/anime-sort';
+import { AnimeColumnsIndexes } from '../models/anime-columns-indexes';
+import { checkIsEnumMember } from '../utils/check-is-enum.util';
+
+import { AnimeColumnsIndexesMapper } from './anime-columns-indexes.mapper';
 
 export namespace AnimeSortMapper {
 
-	/**
-	 * Map ordering param from string to object that can be used in UI.
-	 * @param ordering - Ordering settings. String with a field, selected for sort.
-	 * It may have a hyphen at the beginning if the sorting is reverse.
-	 * Or it can be an empty string if the sorting field is not selected.
-	 * @returns Object with active field and sorting direction.
-	 */
-	export function fromDto(ordering: AnimeSortDto): AnimeSort {
-
-		const sortState: AnimeSort = { active: '', direction: '' };
-
-		if (ordering === '') {
-			return sortState;
-		}
-
-		if (ordering[0] === '-') {
-			sortState.active = ordering.slice(1) as ColumnsIndexes;
-			sortState.direction = 'desc';
-			return sortState;
-		}
-
-		sortState.active = ordering as ColumnsIndexes;
-		sortState.direction = 'asc';
-
-		return sortState;
-	}
+	const DESCENDING_PREFIX = '-';
 
 	/**
 	 * Map object with active field and sorting direction to ordering param.
@@ -38,24 +16,50 @@ export namespace AnimeSortMapper {
 	 */
 	export function toDto(ordering: AnimeSort): AnimeSortDto {
 
-		let orderString = '';
+		const { sortField, direction } = ordering;
 
-		if (ordering) {
-			const sortField = ordering.active;
+		if (direction === '') {
+			return '';
+		}
 
-			switch (ordering.direction) {
-				case 'asc':
-					orderString = sortField;
-					break;
-				case 'desc':
-					orderString = `-${sortField}`;
-					break;
-				default:
-					orderString = '';
+		const sortFieldDto = AnimeColumnsIndexesMapper.toDto(sortField);
+
+		return direction === 'asc' ? sortFieldDto : `${DESCENDING_PREFIX}${sortFieldDto}`;
+	}
+
+	/**
+	 * Map object with active field and sorting direction to string.
+	 * @param sortSettings - Object with settings for sort.
+	 * @returns String with settings for sort. Contains settings separated by commas.
+	 */
+	export function toString(sortSettings: AnimeSort): string {
+
+		const { sortField, direction } = sortSettings;
+
+		return sortSettings ? `${sortField},${direction}` : '';
+	}
+
+	/**
+	 * Map string with settings for sort to object that can be used in UI.
+	 * @param sortSettingsString - String with settings for sort separated by commas.
+	 * @returns Object with active field and sorting direction.
+	 */
+	export function fromString(sortSettingsString: string): AnimeSort {
+
+		const sortSettings: AnimeSort = { sortField: AnimeColumnsIndexes.Status, direction: SortingDirection.None };
+
+		if (sortSettingsString) {
+			const sortSettingsArray = sortSettingsString.split(',');
+
+			if (checkIsEnumMember(sortSettingsArray[0], AnimeColumnsIndexes) && checkIsEnumMember(sortSettingsArray[1], SortingDirection)) {
+				return {
+					sortField: sortSettingsArray[0],
+					direction: sortSettingsArray[1],
+				};
 			}
 		}
 
-		return orderString;
+		return sortSettings;
 	}
 
 }

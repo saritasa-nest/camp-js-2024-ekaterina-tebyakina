@@ -1,0 +1,17 @@
+<div class="dashboard">
+	@if (animeParams$ | async; as animeParams) {
+		<camp-anime-filter-form (animeFiltersEvent)="onAnimeFiltersChange($event)"
+											[searchValue]="animeParams.searchTerm"
+											[typesValue]="animeParams.selectedTypes"/>
+		@if (animeListPage$ | async; as animeListPage) {
+		<camp-anime-table [pageData]="animeListPage"
+								[sortingSettings]="animeParams.sortingSettings"
+								[pageSize]="animeParams.pageSize"
+								[pageIndex]="animeParams.pageIndex"
+								(sortEvent)="onOrderingChange($event)"
+								(paginationEvent)="onPageChange($event)"/>
+		} @else {
+		<camp-progress-bar/>
+		}
+	}
+</div>
