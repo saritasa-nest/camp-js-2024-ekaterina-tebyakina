@@ -25,15 +25,14 @@ export function authorizationInterceptor(request: HttpRequest<unknown>, next: Ht
         return next(reqWithToken);
       }
 
-      return next(request).pipe(
-        catchError((error) => {
-          if (error.status == ServerErrorStatus.Unauthorized) {
-            return handleTokenExpired(request, next);
-          }
-          return throwError(() => error);
-        })
-      );
-    })
+      return next(request);
+    }),
+		catchError((error) => {
+			if (error.status == ServerErrorStatus.Unauthorized) {
+				return handleTokenExpired(request, next);
+			}
+			return throwError(() => error);
+		})
   );
 
 	function addToken(request: HttpRequest<unknown>, token: string): HttpRequest<unknown> {

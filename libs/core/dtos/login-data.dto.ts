@@ -1,5 +1,5 @@
 /** Data for user authorization. */
-export type Login = {
+export type LoginDataDto = {
 
 	/** Email that the user registered with. */
 	readonly email: string;

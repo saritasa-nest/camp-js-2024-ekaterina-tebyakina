@@ -1,14 +1,14 @@
-import { RegistrationDto } from '../dtos/registration.dto';
-import { Registration } from '../models/registration';
+import { RegistrationDataDto } from '../dtos/registration-data.dto';
+import { RegistrationData } from '../models/registration-data';
 
-export namespace RegistrationMapper {
+export namespace RegistrationDataMapper {
 
 	/**
 	 * Maps dto to model.
 	 * @param registration Registration model.
 	 * @returns Registration dto.
 	 */
-	export function toDto(registration: Registration): RegistrationDto {
+	export function toDto(registration: RegistrationData): RegistrationDataDto {
 		// Disable eslint because these properties must be written in snake case.
 		return {
 			email: registration.email,

@@ -7,11 +7,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationApiService } from '@js-camp/angular/core/services/authorization-api.service';
 import { tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-
 import { Router } from '@angular/router';
-
-import { ServerErrorDto } from '@js-camp/core/dtos/server-error.dto';
-import { ServerErrorMapper } from '@js-camp/core/mappers/server-error.mapper';
+import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
+import { LoginData } from '@js-camp/core/models/login-data';
+import { ServerError } from '@js-camp/core/models/server-error';
 
 import { LoginForm } from './login-form-model';
 
@@ -34,6 +33,9 @@ export class LoginFormComponent {
 	/** Form group for login form. */
 	public readonly loginFormGroup: FormGroup<LoginForm>;
 
+	/** Enum with paths for link. */
+	protected readonly routerPaths = RouterPaths;
+
 	private readonly authorizationApiService = inject(AuthorizationApiService);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -51,13 +53,13 @@ export class LoginFormComponent {
 	/** Handle login form submit. */
 	protected onLoginSubmit(): void {
 
-		const formData = this.loginFormGroup.getRawValue();
+		const formData = new LoginData(this.loginFormGroup.getRawValue());
 
 		this.authorizationApiService.login(formData).pipe(
 			takeUntilDestroyed(this.destroyRef),
 			tap({
 				next: () => {
-					this.router.navigate(['']);
+					this.router.navigate([this.routerPaths.Main]);
 				},
 				error: (error: unknown) => {
 					console.warn(error);
@@ -75,8 +77,7 @@ export class LoginFormComponent {
 
 		let errorsString = '';
 
-		errorResponse.error.errors.forEach((errorDto: ServerErrorDto) => {
-			const error = ServerErrorMapper.fromDto(errorDto);
+		errorResponse.error.errors.forEach((error: ServerError) => {
 			if (error.attribute && this.loginFormGroup.contains(error.attribute)) {
 				this.loginFormGroup.controls[error.attribute as keyof LoginForm].setErrors({ serverError: error.detail });
 				return;

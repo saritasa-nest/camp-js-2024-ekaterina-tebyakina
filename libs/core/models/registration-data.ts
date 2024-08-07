@@ -1,7 +1,7 @@
 import { Immerable, OmitImmerable } from './immerable';
 
 /** User data for registration. */
-export class Registration extends Immerable {
+export class RegistrationData extends Immerable {
 
 	/** Email. */
 	public readonly email: string;
@@ -24,4 +24,4 @@ export class Registration extends Immerable {
 	}
 }
 
-type RegistrationConstructorData = OmitImmerable<Registration>;
+type RegistrationConstructorData = OmitImmerable<RegistrationData>;
