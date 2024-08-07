@@ -1,4 +1,4 @@
-/** Registration data DTO. */
+/** User data for registration. */
 export type RegistrationDataDto = {
 	readonly email: string;
 	readonly first_name: string;

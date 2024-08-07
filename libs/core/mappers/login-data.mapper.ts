@@ -5,8 +5,8 @@ export namespace LoginDataMapper {
 
 	/**
 	 * Maps dto to model.
-	 * @param loginData User data for log in model.
-	 * @returns User data for log in dto.
+	 * @param loginData User data model for log in.
+	 * @returns User data dto for log in.
 	 */
 	export function toDto(loginData: LoginData): LoginDataDto {
 		return {

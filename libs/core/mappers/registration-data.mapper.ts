@@ -5,8 +5,8 @@ export namespace RegistrationDataMapper {
 
 	/**
 	 * Maps dto to model.
-	 * @param registration Registration model.
-	 * @returns Registration dto.
+	 * @param registration Data model for registration.
+	 * @returns Data dto for registration.
 	 */
 	export function toDto(registration: RegistrationData): RegistrationDataDto {
 		// Disable eslint because these properties must be written in snake case.

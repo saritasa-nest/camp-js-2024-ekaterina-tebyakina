@@ -2,14 +2,16 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { RegistrationData } from '@js-camp/core/models/registration-data';
 import { RegistrationDataMapper } from '@js-camp/core/mappers/registration-data.mapper';
-import { AuthorizationTokens } from '@js-camp/core/models/authorization-tokens';
-import { catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { AuthorizationTokensDto } from '@js-camp/core/dtos/authorization-tokens.dto';
+import { catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
 import { UrlConfigService } from './url-config.service';
 import { ServerErrorDto } from '@js-camp/core/dtos/server-error.dto';
 import { ServerErrorMapper } from '@js-camp/core/mappers/server-error.mapper';
 import { LoginData } from '@js-camp/core/models/login-data';
 import { LoginDataMapper } from '@js-camp/core/mappers/login-data.mapper';
+import { AuthorizationTokens } from '@js-camp/core/models/authorization-tokens';
+import { AuthorizationTokensMapper } from '@js-camp/core/mappers/authorization-tokens.mapper';
 
 /** Authorization API access service. */
 @Injectable({ providedIn: 'root' })
@@ -27,10 +29,11 @@ export class AuthorizationApiService {
 	 * @returns Authorization tokens.
 	 */
 	public register(registrationData: RegistrationData): Observable<AuthorizationTokens> {
-		return this.http.post<AuthorizationTokens>(this.urlConfigService.authorization.register,
+		return this.http.post<AuthorizationTokensDto>(this.urlConfigService.authorization.register,
 			RegistrationDataMapper.toDto(registrationData)).pipe(
-			tap(response => this.localStorageService.saveTokens(response)),
-			catchError(error => this.handleError(error)),
+				map(response => AuthorizationTokensMapper.fromDto(response)),
+				tap(response => this.localStorageService.saveTokens(response)),
+				catchError(error => this.handleError(error)),
 		);
 	}
 
@@ -40,10 +43,11 @@ export class AuthorizationApiService {
 	 * @returns Authorization tokens.
 	 */
 	public login(loginData: LoginData): Observable<AuthorizationTokens> {
-		return this.http.post<AuthorizationTokens>(this.urlConfigService.authorization.login,
+		return this.http.post<AuthorizationTokensDto>(this.urlConfigService.authorization.login,
 			LoginDataMapper.toDto(loginData)).pipe(
-			tap(response => this.localStorageService.saveTokens(response)),
-			catchError(error => this.handleError(error)),
+				map(response => AuthorizationTokensMapper.fromDto(response)),
+				tap(response => this.localStorageService.saveTokens(response)),
+				catchError(error => this.handleError(error)),
 		);
 	}
 
@@ -51,9 +55,11 @@ export class AuthorizationApiService {
     return this.localStorageService.getRefreshToken().pipe(
 			switchMap(refreshToken => {
 				if (refreshToken) {
-					return this.http.post<AuthorizationTokens>(this.urlConfigService.authorization.refresh, { refresh: refreshToken }).pipe(
-						tap(response => this.localStorageService.saveTokens(response)),
-						catchError(error => throwError(() => error))
+					return this.http.post<AuthorizationTokensDto>(this.urlConfigService.authorization.refresh,
+						{ refresh: refreshToken }).pipe(
+							map(response => AuthorizationTokensMapper.fromDto(response)),
+							tap(response => this.localStorageService.saveTokens(response)),
+							catchError(error => throwError(() => error))
 					);
 				}
 				return throwError(() => new Error('Failed to refresh token'));
