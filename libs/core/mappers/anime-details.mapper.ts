@@ -10,12 +10,12 @@ import { GenreMapper } from './genre.mapper';
 import { SeasonMapper } from './season.mapper';
 import { StudioMapper } from './studio.mapper';
 
-export namespace AnimeMapper {
+export namespace AnimeDetailsMapper {
 
 	/**
 	 * Maps dto to model.
-	 * @param anime - Anime dto.
-	 * @returns Anime model.
+	 * @param anime - Anime details dto.
+	 * @returns Anime details model.
 	 */
 	export function fromDto(anime: AnimeDetailsDto): AnimeDetails {
 		return new AnimeDetails({

@@ -1,4 +1,4 @@
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
@@ -12,8 +12,11 @@ import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { AnimeParams } from '@js-camp/core/models/anime-params';
 import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
 
-import { UrlConfigService } from './url-config.service';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime-details.dto';
+import { AnimeDetails } from '@js-camp/core/models/anime-details';
+import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
+
+import { UrlConfigService } from './url-config.service';
 
 /** Anime API access service. */
 @Injectable({ providedIn: 'root' })
@@ -43,10 +46,9 @@ export class AnimeApiService {
 	 * Get an anime.
 	 * @param id - Anime's index.
 	 */
-	public getAnime(id: Anime['id']): Observable<unknown> {
-		// eslint-disable-next-line rxjs/no-ignored-observable
+	public getAnime(id: Anime['id']): Observable<AnimeDetails> {
 		return this.http.get<AnimeDetailsDto>(`${this.urlConfigService.anime.getAnime}${id}/`).pipe(
-			tap(result => console.log(result)),
+			map(result => AnimeDetailsMapper.fromDto(result)),
 		);
 	}
 }

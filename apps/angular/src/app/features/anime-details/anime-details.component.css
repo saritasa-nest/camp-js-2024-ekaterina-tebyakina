@@ -1,0 +1,33 @@
+.anime-details {
+	padding: var(--space-xl);
+}
+
+.anime-details__header {
+	font-size: var(--font-size-xl);
+	font-weight: var(--font-weight-medium);
+	text-align: center;
+}
+
+.anime-details__content {
+	display: flex;
+	flex-direction: row;
+}
+
+.cover__wrapper {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	width: 500px;
+	height: 500px;
+}
+
+.cover__image {
+	padding: var(--space-m) 0;
+	width: 100%;
+	height: auto;
+	object-fit: contain;
+}
+
+.value__part {
+	padding-right: var(--space-xs);
+}
