@@ -61,7 +61,7 @@
 			</ng-container>
 
 			<mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-			<mat-row *matRowDef="let row; columns: columnsToDisplay; let dataIndex = dataSource" (click)="onRowSelect(row)"></mat-row>
+			<mat-row *matRowDef="let row; columns: columnsToDisplay" (click)="onRowSelect(row)"></mat-row>
 
 		</mat-table>
 		<mat-paginator [length]="pagesCount"

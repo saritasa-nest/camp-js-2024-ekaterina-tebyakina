@@ -9,7 +9,8 @@
 								 fill
 								 priority
 								 [alt]="anime.japaneseTitle + ' cover'"
-								 class="cover__image">
+								 class="cover__image"
+								 (click)="openDialog(anime.image, anime.japaneseTitle + ' cover')">
 					</div>
 				</section>
 				<section class="anime-details__info">
@@ -80,7 +81,26 @@
 						</mat-list-item>
 					</mat-list>
 				</section>
+				<section class="anime-details__trailer">
+					@if(anime.trailerYoutubeId) {
+						<div class="video-container">
+							<iframe width="560" height="315"
+											[src]="sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube-nocookie.com/embed/' + anime.trailerYoutubeId)"
+											frameborder="0"
+											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+											allowfullscreen>
+							</iframe>
+						</div>
+
+					}
+				</section>
 			</section>
+
+<!-- <youtube-player
+				[videoId]="anime.trailerYoutubeId"
+				>
+				</youtube-player> -->
+
 		</article>
 	</div>
 }

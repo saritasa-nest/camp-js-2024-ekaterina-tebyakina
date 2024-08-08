@@ -4,13 +4,17 @@
 											[searchValue]="animeParams.searchTerm"
 											[typesValue]="animeParams.selectedTypes"/>
 		@if (animeListPage$ | async; as animeListPage) {
-		<camp-anime-table [pageData]="animeListPage"
-								[sortingSettings]="animeParams.sortingSettings"
-								[pageSize]="animeParams.pageSize"
-								[pageIndex]="animeParams.pageIndex"
-								(sortEvent)="onOrderingChange($event)"
-								(paginationEvent)="onPageChange($event)"
-								(animeSelectEvent)="onAnimeSelect($event)"/>
+			@if (isLoading$ | async) {
+				<camp-progress-bar/>
+			} @else {
+				<camp-anime-table [pageData]="animeListPage"
+				[sortingSettings]="animeParams.sortingSettings"
+				[pageSize]="animeParams.pageSize"
+				[pageIndex]="animeParams.pageIndex"
+				(sortEvent)="onOrderingChange($event)"
+				(paginationEvent)="onPageChange($event)"
+				(animeSelectEvent)="onAnimeSelect($event)"/>
+			}
 		} @else {
 		<camp-progress-bar/>
 		}
