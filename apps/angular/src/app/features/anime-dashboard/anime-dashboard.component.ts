@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, Location, NgOptimizedImage } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +12,8 @@ import { DEFAULT_PAGE_INDEX, AnimeParams } from '@js-camp/core/models/anime-para
 import { AnimeQueryParamsMapper } from '@js-camp/core/mappers/anime-query-params.mapper';
 
 import { AnimeFilters } from '@js-camp/core/models/anime-filters';
+
+import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
 
 import { AnimeTableComponent } from '../anime-table/anime-table.component';
 import { AnimeFilterFormComponent } from '../anime-filter-form/anime-filter-form.component';
@@ -44,6 +46,8 @@ export class AnimeDashboardComponent {
 	private readonly route = inject(ActivatedRoute);
 
 	private readonly router = inject(Router);
+
+	private readonly location = inject(Location);
 
 	private readonly animeApiService = inject(AnimeApiService);
 
@@ -103,9 +107,17 @@ export class AnimeDashboardComponent {
 		this.navigate(filterParams);
 	}
 
+	/**
+	 * Triggers when an anime is selected.
+	 * @param event - Selected anime index.
+	 */
+	protected onAnimeSelect(event: number): void {
+		this.router.navigate([this.router.url, event]);
+	}
+
 	private navigate(params: Partial<AnimeParams>): void {
 		this.router.navigate(
-			[''],
+			[RouterPaths.Main],
 			{
 				queryParams: AnimeQueryParamsMapper.toQueryParams(params),
 				queryParamsHandling: 'merge',

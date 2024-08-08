@@ -8,8 +8,16 @@ import { AnimeDashboardComponent } from './features/anime-dashboard/anime-dashbo
 export const appRoutes: Routes = [
 	{
 		path: RouterPaths.Main,
-		component: AnimeDashboardComponent,
+		children: [
+			{ path: '', component: AnimeDashboardComponent },
+			{
+				path: ':id',
+				loadComponent: () => import('./features/anime-details/anime-details.component')
+					.then(c => c.AnimeDatailsComponent),
+			},
+		],
 	},
+
 	{
 		path: RouterPaths.Login,
 		loadComponent: () => import('./features/login/login-form.component')
@@ -20,4 +28,5 @@ export const appRoutes: Routes = [
 		loadComponent: () => import('./features/registration/registration-form.component')
 			.then(c => c.RegistrationFormComponent),
 	},
+	{ path: '**', redirectTo: RouterPaths.Main },
 ];

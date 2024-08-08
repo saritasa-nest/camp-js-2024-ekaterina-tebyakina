@@ -52,6 +52,9 @@ export class AnimeTableComponent implements OnInit {
 	/** Event of table sorting. */
 	@Output() public sortEvent = new EventEmitter<Sort>();
 
+	/** Event of anime selecting. */
+	@Output() public animeSelectEvent = new EventEmitter<number>();
+
 	/** Pages count. */
 	protected pagesCount = DEFAULT_PAGES_COUNT;
 
@@ -98,6 +101,14 @@ export class AnimeTableComponent implements OnInit {
 	 */
 	protected onSortData(event: Sort): void {
 		this.sortEvent.emit(event);
+	}
+
+	/**
+	 * Handle click on row.
+	 * @param event - Selected anime.
+	 */
+	protected onRowSelect(event: Anime): void {
+		this.animeSelectEvent.emit(event.id);
 	}
 
 }

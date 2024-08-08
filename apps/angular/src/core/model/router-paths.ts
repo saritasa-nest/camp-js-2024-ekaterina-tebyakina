@@ -1,6 +1,6 @@
 /** Paths for router and links. */
 export enum RouterPaths {
-	Main = '',
+	Main = 'anime',
 	Registration = 'registration',
 	Login = 'login',
 }

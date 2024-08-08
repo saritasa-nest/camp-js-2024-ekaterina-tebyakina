@@ -1,3 +1,5 @@
+import { GenreTypeDto } from './genre-type.dto';
+
 /** Genre DTO. */
 export type GenreDto = {
 
@@ -14,5 +16,5 @@ export type GenreDto = {
 	readonly modified: string;
 
 	/** DTO type. */
-	readonly type: 'GENRES';
+	readonly type: GenreTypeDto;
 };
