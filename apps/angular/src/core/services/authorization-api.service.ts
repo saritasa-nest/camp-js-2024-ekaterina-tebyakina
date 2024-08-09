@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
 import { RegistrationData } from '@js-camp/core/models/registration-data';
 import { RegistrationDataMapper } from '@js-camp/core/mappers/registration-data.mapper';
 import { AuthorizationTokensDto } from '@js-camp/core/dtos/authorization-tokens.dto';
@@ -12,6 +12,8 @@ import { LoginDataMapper } from '@js-camp/core/mappers/login-data.mapper';
 import { AuthorizationTokens } from '@js-camp/core/models/authorization-tokens';
 import { AuthorizationTokensMapper } from '@js-camp/core/mappers/authorization-tokens.mapper';
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { UrlConfigService } from './url-config.service';
 import { LocalStorageService } from './local-storage.service';
 
@@ -20,6 +22,8 @@ import { LocalStorageService } from './local-storage.service';
 export class AuthorizationApiService {
 
 	private readonly http = inject(HttpClient);
+
+	private readonly destroyRef = inject(DestroyRef);
 
 	private readonly urlConfigService = inject(UrlConfigService);
 
@@ -87,6 +91,18 @@ export class AuthorizationApiService {
 	/** Remove user authorization data. */
 	public logout(): void {
 		this.localStorageService.removeTokens();
+	}
+
+	/** Check is current user authenticated. */
+	public isAuthenticated(): boolean {
+		let isAuthenticated = false;
+		this.localStorageService.getAccessToken().pipe(
+			takeUntilDestroyed(this.destroyRef),
+		)
+			.subscribe(value => {
+				isAuthenticated = !!value;
+			});
+		return isAuthenticated;
 	}
 
 	private handleError(errorResponse: HttpErrorResponse): Observable<never> {

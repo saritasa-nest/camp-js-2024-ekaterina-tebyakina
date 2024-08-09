@@ -3,25 +3,25 @@ import { NgOptimizedImage } from '@angular/common';
 import { DialogRef, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 import { FormsModule } from '@angular/forms';
 
-/** */
-export type DialogData = {
+/** Type of data for dialog. */
+type DialogData = {
 
-	/** */
+	/** Image url. */
 	src: string;
 
-	/** */
+	/** String for image alt. */
 	alt: string;
 };
 
-/** */
+/** Popup for anime cover. */
 @Component({
-	selector: 'camp-dialog',
-	templateUrl: 'dialog.component.html',
-	styleUrl: 'dialog.component.css',
+	selector: 'camp-image-dialog',
+	templateUrl: 'image-dialog.component.html',
+	styleUrl: 'image-dialog.component.css',
 	standalone: true,
 	imports: [FormsModule, DialogModule, NgOptimizedImage],
 })
-export class DialogComponent {
+export class ImageDialogComponent {
 
 	public constructor(
 		public dialogRef: DialogRef<string>,

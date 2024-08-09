@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 
 import { RouterPaths } from '../core/model/router-paths';
 
+import { authorizationGuard } from '../core/guards/authentication.guard';
+
 import { AnimeDashboardComponent } from './features/anime-dashboard/anime-dashboard.component';
 
 /** Routes object. */
@@ -12,6 +14,7 @@ export const appRoutes: Routes = [
 			{ path: '', component: AnimeDashboardComponent },
 			{
 				path: ':id',
+				canActivate: [authorizationGuard],
 				loadComponent: () => import('./features/anime-details/anime-details.component')
 					.then(c => c.AnimeDatailsComponent),
 			},

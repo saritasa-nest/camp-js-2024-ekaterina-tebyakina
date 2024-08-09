@@ -1,66 +1,72 @@
 @if(anime$ | async; as anime) {
-	<div class="anime-details-wrapper">
 		<article class="anime-details">
 			<h2 class="anime-details__header">{{anime.englishTitle ? anime.englishTitle : anime.japaneseTitle}}</h2>
 			<section class="anime-details__content">
 				<section class="anime-details__cover cover">
 					<div class="cover__wrapper">
-						<img [ngSrc]="anime.image"
-								 fill
+						<img fill
 								 priority
-								 [alt]="anime.japaneseTitle + ' cover'"
 								 class="cover__image"
-								 (click)="openDialog(anime.image, anime.japaneseTitle + ' cover')">
+								 [ngSrc]="anime.image"
+								 [alt]="(anime.japaneseTitle || 'Anime') + ' cover'"
+								 (click)="openDialog(anime.image, (anime.japaneseTitle || 'Anime') + ' cover')">
 					</div>
 				</section>
-				<section class="anime-details__info">
-					<mat-list class="anime-details__info__list">
-						<mat-list-item class="anime-details__info-field">
-							<span matListItemTitle class="anime-details__info-field__name">English title</span>
-							<span matListItemLine class="anime-details__info-field__value">{{anime.englishTitle | empty}}</span>
+				<section class="anime-details__information">
+					<mat-list>
+						<mat-list-item>
+							<span matListItemTitle >English title</span>
+							<span matListItemLine>{{anime.englishTitle | empty}}</span>
 						</mat-list-item>
 						<mat-list-item>
-							<span matListItemTitle class="anime-details__info-field__name">Japanese title</span>
-							<span matListItemLine class="anime-details__info-field__value">{{anime.japaneseTitle | empty}}</span>
+							<span matListItemTitle>Japanese title</span>
+							<span matListItemLine>{{anime.japaneseTitle | empty}}</span>
 						</mat-list-item>
 						<mat-list-item>
-							<span matListItemTitle class="anime-details__info-field__name">Airing</span>
-							<span matListItemLine class="anime-details__info-field__value">{{anime.airing}}</span>
+							<span matListItemTitle>Airing</span>
+							@if(anime.airing) {
+								<span matListItemLine>Is airing now</span>
+							} @else {
+								<span matListItemLine>Is not airing</span>
+							}
 						</mat-list-item>
 						<mat-list-item>
-							<span matListItemTitle class="anime-details__info-field__name">Aired started with</span>
-							<span matListItemLine class="anime-details__info-field__value">{{anime.aired.start | date: "mediumDate" | empty}}</span>
+							<span matListItemTitle>Aired started with</span>
+							<span matListItemLine>{{anime.aired.start | date: "mediumDate" | empty}}</span>
 						</mat-list-item>
 						<mat-list-item>
-							<span matListItemTitle class="anime-details__info-field__name">Aired ended</span>
-							<span matListItemLine class="anime-details__info-field__value">{{anime.aired.end | date: "mediumDate" | empty}}</span>
+							<span matListItemTitle>Aired ended</span>
+							<span matListItemLine>{{anime.aired.end | date: "mediumDate" | empty}}</span>
 						</mat-list-item>
 						<mat-list-item>
-							<span matListItemTitle class="anime-details__info-field__name">Type</span>
-							<span matListItemLine class="anime-details__info-field__value">{{anime.type}}</span>
+							<span matListItemTitle >Type</span>
+							<span matListItemLine>{{anime.type}}</span>
 						</mat-list-item>
 						<mat-list-item>
-							<span matListItemTitle class="anime-details__info-field__name">Status</span>
-							<span matListItemLine class="anime-details__info-field__value">{{anime.status}}</span>
+							<span matListItemTitle >Status</span>
+							<span matListItemLine>{{anime.status}}</span>
 						</mat-list-item>
 						<mat-list-item>
-							<span matListItemTitle class="anime-details__info-field__name">Rating</span>
-							<span matListItemLine class="anime-details__info-field__value">{{anime.rating}}</span>
+							<span matListItemTitle>Rating</span>
+							<span matListItemLine>{{anime.rating}}</span>
 						</mat-list-item>
 						<mat-list-item>
-							<span matListItemTitle class="anime-details__info-field__name">Source</span>
-							<span matListItemLine class="anime-details__info-field__value">{{anime.source}}</span>
+							<span matListItemTitle>Source</span>
+							<span matListItemLine>{{anime.source}}</span>
 						</mat-list-item>
 						<mat-list-item>
-							<span matListItemTitle class="anime-details__info-field__name">Season</span>
-							<span matListItemLine class="anime-details__info-field__value">{{anime.season}}</span>
+							<span matListItemTitle>Season</span>
+							<span matListItemLine>{{anime.season}}</span>
 						</mat-list-item>
 						<mat-list-item>
-							<span matListItemTitle class="anime-details__info-field__name">Studios</span>
-							<span matListItemLine class="anime-details__info-field__value value">
+							<span matListItemTitle>Studios</span>
+							<span matListItemLine>
 								@if (anime.studiosData.length > 0) {
-									@for (studio of anime.studiosData; track studio.id) {
-										<span class="value__part">{{studio.name}}</span>
+									@for (studio of anime.studiosData; track studio.id; let last = $last) {
+										<span>{{studio.name}}</span>
+										@if(!last) {
+											<span>,&nbsp;</span>
+										}
 									}
 								} @else {
 									<span>&mdash;</span>
@@ -68,11 +74,14 @@
 							</span>
 						</mat-list-item>
 						<mat-list-item>
-							<span matListItemTitle class="anime-details__info-field__name">Genres</span>
-							<span matListItemLine class="anime-details__info-field__value value">
+							<span matListItemTitle>Genres</span>
+							<span matListItemLine>
 								@if (anime.genresData.length > 0) {
-									@for (genre of anime.genresData; track genre.id) {
-										<span class="value__part">{{genre.name}}</span>
+									@for (genre of anime.genresData; track genre.id; let last = $last) {
+										<span>{{genre.name}}</span>
+										@if(!last) {
+											<span>,&nbsp;</span>
+										}
 									}
 								} @else {
 									<span>&mdash;</span>
@@ -83,24 +92,15 @@
 				</section>
 				<section class="anime-details__trailer">
 					@if(anime.trailerYoutubeId) {
-						<div class="video-container">
-							<iframe width="560" height="315"
-											[src]="sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube-nocookie.com/embed/' + anime.trailerYoutubeId)"
-											frameborder="0"
-											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-											allowfullscreen>
-							</iframe>
-						</div>
-
+						<iframe allowfullscreen
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+										frameborder="0"
+										[width]="playerWidth"
+										[height]="playerHeight"
+										[src]="sanitizer.bypassSecurityTrustResourceUrl(videoUrl + anime.trailerYoutubeId)">
+						</iframe>
 					}
 				</section>
 			</section>
-
-<!-- <youtube-player
-				[videoId]="anime.trailerYoutubeId"
-				>
-				</youtube-player> -->
-
 		</article>
-	</div>
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { Observable } from 'rxjs';
@@ -6,11 +6,15 @@ import { JsonPipe, AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { MatListModule } from '@angular/material/list';
-import { Dialog, DialogRef, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Dialog, DialogModule } from '@angular/cdk/dialog';
+import { DomSanitizer } from '@angular/platform-browser';
 import { YoutubePlayerComponent } from 'ngx-youtube-player';
 
-import { DialogComponent } from '../dialog/dialog.component';
+import { ImageDialogComponent } from '../dialog/image-dialog.component';
+
+const PLAYER_WIDTH = 840;
+const PLAYER_HEIGHT = 472;
+const VIDEO_URL = 'https://www.youtube-nocookie.com/embed/';
 
 /** Component with details for an anime. */
 @Component({
@@ -35,12 +39,21 @@ export class AnimeDatailsComponent {
 	/** Details about an anime. */
 	protected readonly anime$: Observable<AnimeDetails>;
 
+	/** Player width. */
+	protected readonly playerWidth = PLAYER_WIDTH;
+
+	/** Player height. */
+	protected readonly playerHeight = PLAYER_HEIGHT;
+
+	/** Anime trailer base url. */
+	protected readonly videoUrl = VIDEO_URL;
+
+	/** Helps preventing Cross Site Scripting Security bugs (XSS).*/
+	protected readonly sanitizer = inject(DomSanitizer);
+
 	private readonly activatedRoute = inject(ActivatedRoute);
 
 	private readonly animeApiService = inject(AnimeApiService);
-
-	/** */
-	protected readonly sanitizer = inject(DomSanitizer);
 
 	public constructor(public dialog: Dialog) {
 		const animeId = this.activatedRoute.snapshot.params['id'];
@@ -49,13 +62,13 @@ export class AnimeDatailsComponent {
 
 	/**
 	 * DialogComponent.
-	 * @param imageUrl - Url to image.
-	 * @param alt - Url to image.
+	 * @param src - Url to image.
+	 * @param alt - String for image alt.
 	 */
-	public openDialog(imageUrl: string, alt: string): void {
-		this.dialog.open<string>(DialogComponent, {
+	public openDialog(src: string, alt: string): void {
+		this.dialog.open<string>(ImageDialogComponent, {
 			data: {
-				src: imageUrl,
+				src,
 				alt,
 			},
 		});

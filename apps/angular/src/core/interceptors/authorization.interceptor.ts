@@ -16,7 +16,7 @@ import { LocalStorageService } from '../services/local-storage.service';
  */
 export function authorizationInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 
-	const authService = inject(AuthorizationApiService);
+	const authorizationService = inject(AuthorizationApiService);
 
 	const localStorageService = inject(LocalStorageService);
 
@@ -60,7 +60,7 @@ export function authorizationInterceptor(req: HttpRequest<unknown>, next: HttpHa
 	 */
 	function handleTokenExpired(request: HttpRequest<unknown>): Observable<HttpEvent<unknown>> {
 
-		return authService.refreshAccessToken().pipe(
+		return authorizationService.refreshAccessToken().pipe(
 			switchMap(() => localStorageService.getAccessToken()),
 			switchMap(newAccessToken => {
 				if (newAccessToken) {
@@ -70,6 +70,7 @@ export function authorizationInterceptor(req: HttpRequest<unknown>, next: HttpHa
 			}),
 			catchError((error: unknown) => {
 				console.error('Error handling expired access token:', error);
+				authorizationService.logout();
 				return throwError(() => error);
 			}),
 		);
