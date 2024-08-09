@@ -7,6 +7,7 @@ import { AsyncPipe } from '@angular/common';
 import { AuthorizationApiService } from '@js-camp/angular/core/services/authorization-api.service';
 import { LocalStorageService } from '@js-camp/angular/core/services/local-storage.service';
 import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
+import { User } from '@js-camp/core/models/user';
 
 /** Component with authorization navigation menu. */
 @Component({
@@ -23,7 +24,7 @@ import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
 export class AuthorizationMenuComponent implements OnInit {
 
 	/** Shows whether the user is logged in. */
-	public isLoggedIn$: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(false);
+	public user$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
 	/** Enum with paths for link. */
 	protected readonly routerPaths = RouterPaths;
@@ -59,11 +60,11 @@ export class AuthorizationMenuComponent implements OnInit {
 			takeUntilDestroyed(this.destroyRef),
 		)
 			.subscribe({
-				next: () => {
-					this.isLoggedIn$.next(true);
+				next: (userData: User) => {
+					this.user$.next(userData);
 				},
 				error: () => {
-					this.isLoggedIn$.next(false);
+					this.user$.next(null);
 				},
 			});
 	}

@@ -1,5 +1,12 @@
 <nav class="authorization-menu">
-	@if (isLoggedIn$ | async; as isLogged) {
+	@if (user$ | async; as user) {
+		<div class="greeting-message">
+			Hi,&nbsp;
+			<span>{{user.firstName}}</span>
+			&nbsp;
+			<span>{{user.lastName}}</span>
+			!
+		</div>
 		<button class="authorization-menu__logout"
 						type="button"
 						(click)="onLogoutClick()">Logout</button>
