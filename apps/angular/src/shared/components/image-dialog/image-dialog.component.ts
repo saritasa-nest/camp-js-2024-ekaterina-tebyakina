@@ -13,7 +13,7 @@ type DialogData = {
 	alt: string;
 };
 
-/** Popup for anime cover. */
+/** Popup with full-size image. */
 @Component({
 	selector: 'camp-image-dialog',
 	templateUrl: 'image-dialog.component.html',

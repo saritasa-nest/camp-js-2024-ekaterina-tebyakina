@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { Observable } from 'rxjs';
 import { JsonPipe, AsyncPipe, DatePipe, NgOptimizedImage, Location } from '@angular/common';
@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ImageDialogComponent } from '../dialog/image-dialog.component';
+import { ImageDialogComponent } from '../../../shared/components/image-dialog/image-dialog.component';
 
 const PLAYER_WIDTH = 840;
 const PLAYER_HEIGHT = 472;
