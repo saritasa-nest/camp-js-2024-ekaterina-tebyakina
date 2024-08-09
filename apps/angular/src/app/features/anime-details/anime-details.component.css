@@ -1,3 +1,7 @@
+:host {
+	--subsection-width: 420px;
+}
+
 .go-back-button__container {
 	padding: var(--space-m) var(--space-xl) 0 var(--space-xl);
 }
@@ -25,16 +29,30 @@
 	gap: var(--space-m);
 }
 
+.subsection {
+	max-width: var(--subsection-width);
+}
+
+.synopsis__header {
+	font-size: var(--font-size-md);
+	font-weight: var(--font-weight-medium);
+}
+
+.synopsis__text {
+	font-size: var(--font-size-base);
+	text-align: justify;
+}
+
 .cover {
-	padding: var(--space-m) 0;
+	padding: var(--space-s) 0;
 }
 
 .cover__wrapper {
 	position: relative;
 	display: flex;
 	justify-content: center;
-	width: 300px;
-	height: 300px;
+	width: var(--subsection-width);
+	height: var(--subsection-width);
 	border-radius: 8px;
 	box-shadow: 5px 5px 10px 5px var(--shadow-color);
 }
@@ -45,10 +63,11 @@
 	object-fit: contain;
 }
 
-.anime-details__trailer {
+.anime-details__content__trailer {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	align-content: center;
 	flex-grow: 1;
+	padding: var(--space-s) 0;
 }

@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ImageDialogComponent } from '../../../shared/components/image-dialog/image-dialog.component';
+import { ImageDialogComponent } from '@js-camp/angular/shared/components/image-dialog/image-dialog.component';
 
 const PLAYER_WIDTH = 840;
 const PLAYER_HEIGHT = 472;

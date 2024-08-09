@@ -10,18 +10,24 @@
 		</div>
 		<article class="anime-details">
 			<h2 class="anime-details__header">{{anime.englishTitle ? anime.englishTitle : anime.japaneseTitle}}</h2>
-			<section class="anime-details__content">
-				<section class="anime-details__cover cover">
-					<div class="cover__wrapper">
-						<img fill
-								priority
-								class="cover__image"
-								[ngSrc]="anime.image"
-								[alt]="(anime.japaneseTitle || 'Anime') + ' cover'"
-								(click)="onOpenDialog(anime.image, (anime.japaneseTitle || 'Anime') + ' cover')">
-					</div>
-				</section>
-				<section class="anime-details__information">
+			<div class="anime-details__content">
+				<div class="anime-details__content__subsection subsection">
+					<section class="subsection__cover cover">
+						<div class="cover__wrapper">
+							<img fill
+									priority
+									class="cover__image"
+									[ngSrc]="anime.image"
+									[alt]="(anime.japaneseTitle || 'Anime') + ' cover'"
+									(click)="onOpenDialog(anime.image, (anime.japaneseTitle || 'Anime') + ' cover')">
+						</div>
+					</section>
+					<section class="subsection__synopsis synopsis">
+						<h3 class="synopsis__header">Synopsis:</h3>
+						<div class="synopsis__text">{{anime.synopsis | empty}}</div>
+					</section>
+				</div>
+				<section>
 					<mat-list>
 						<mat-list-item>
 							<span matListItemTitle >English title</span>
@@ -99,7 +105,7 @@
 						</mat-list-item>
 					</mat-list>
 				</section>
-				<section class="anime-details__trailer">
+				<section class="anime-details__content__trailer">
 					@if(anime.trailerYoutubeId) {
 						<iframe allowfullscreen
 										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -110,6 +116,6 @@
 						</iframe>
 					}
 				</section>
-			</section>
+			</div>
 		</article>
 }
