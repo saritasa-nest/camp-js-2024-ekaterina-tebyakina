@@ -1,15 +1,24 @@
 @if(anime$ | async; as anime) {
+		<div class="go-back-button__container">
+			<button mat-raised-button
+						type="button"
+						class="go-back-button"
+						(click)="onGoBack()">
+			<mat-icon class="go-back-button__icon">arrow_back</mat-icon>
+			Go back
+		</button>
+		</div>
 		<article class="anime-details">
 			<h2 class="anime-details__header">{{anime.englishTitle ? anime.englishTitle : anime.japaneseTitle}}</h2>
 			<section class="anime-details__content">
 				<section class="anime-details__cover cover">
 					<div class="cover__wrapper">
 						<img fill
-								 priority
-								 class="cover__image"
-								 [ngSrc]="anime.image"
-								 [alt]="(anime.japaneseTitle || 'Anime') + ' cover'"
-								 (click)="openDialog(anime.image, (anime.japaneseTitle || 'Anime') + ' cover')">
+								priority
+								class="cover__image"
+								[ngSrc]="anime.image"
+								[alt]="(anime.japaneseTitle || 'Anime') + ' cover'"
+								(click)="onOpenDialog(anime.image, (anime.japaneseTitle || 'Anime') + ' cover')">
 					</div>
 				</section>
 				<section class="anime-details__information">

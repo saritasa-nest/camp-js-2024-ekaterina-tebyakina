@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { Observable } from 'rxjs';
-import { JsonPipe, AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
+import { JsonPipe, AsyncPipe, DatePipe, NgOptimizedImage, Location } from '@angular/common';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { MatListModule } from '@angular/material/list';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
-import { YoutubePlayerComponent } from 'ngx-youtube-player';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { ImageDialogComponent } from '../dialog/image-dialog.component';
 
@@ -30,8 +31,9 @@ const VIDEO_URL = 'https://www.youtube-nocookie.com/embed/';
 		JsonPipe,
 		NgOptimizedImage,
 		MatListModule,
+		MatButtonModule,
+		MatIconModule,
 		DialogModule,
-		YoutubePlayerComponent,
 	],
 })
 export class AnimeDatailsComponent {
@@ -51,6 +53,8 @@ export class AnimeDatailsComponent {
 	/** Helps preventing Cross Site Scripting Security bugs (XSS).*/
 	protected readonly sanitizer = inject(DomSanitizer);
 
+	private readonly location = inject(Location);
+
 	private readonly activatedRoute = inject(ActivatedRoute);
 
 	private readonly animeApiService = inject(AnimeApiService);
@@ -60,12 +64,17 @@ export class AnimeDatailsComponent {
 		this.anime$ = this.animeApiService.getAnime(animeId);
 	}
 
+	/** Handle click on go back button. */
+	public onGoBack(): void {
+		this.location.back();
+	}
+
 	/**
-	 * DialogComponent.
+	 * Handle click on anime cover.
 	 * @param src - Url to image.
 	 * @param alt - String for image alt.
 	 */
-	public openDialog(src: string, alt: string): void {
+	public onOpenDialog(src: string, alt: string): void {
 		this.dialog.open<string>(ImageDialogComponent, {
 			data: {
 				src,
