@@ -1,8 +1,9 @@
 <div class="go-back-button__container">
-	<button mat-raised-button
-				type="button"
-				class="go-back-button"
-				(click)="onGoBack()">
+	<button
+		mat-raised-button
+		type="button"
+		class="go-back-button"
+		(click)="onGoBack()">
 	<mat-icon class="go-back-button__icon">arrow_back</mat-icon>
 	Go back
 </button>
@@ -14,15 +15,17 @@
 			<div class="anime-details__content">
 				<div class="anime-details__content__subsection subsection">
 					<section class="subsection__cover cover">
-						<div class="cover__wrapper"
-								 tabindex="0"
-								 (keydown)="onKeyDown($event, anime.image, anime.japaneseTitle || 'Anime' + ' cover')">
-							<img fill
-									priority
-									class="cover__image"
-									[ngSrc]="anime.image"
-									[alt]="(anime.japaneseTitle || 'Anime') + ' cover'"
-									(click)="onOpenDialog(anime.image, (anime.japaneseTitle || 'Anime') + ' cover')">
+						<div
+							class="cover__wrapper"
+							tabindex="0"
+							(keydown)="onKeyDown($event, anime.image, anime.japaneseTitle || 'Anime' + ' cover')">
+							<img
+								fill
+								priority
+								class="cover__image"
+								[ngSrc]="anime.image"
+								[alt]="(anime.japaneseTitle || 'Anime') + ' cover'"
+								(click)="onOpenDialog(anime.image, (anime.japaneseTitle || 'Anime') + ' cover')">
 						</div>
 					</section>
 					<section class="subsection__synopsis synopsis">
@@ -78,7 +81,9 @@
 						</mat-list-item>
 						<mat-list-item class="anime-details__list__item item">
 							<span matListItemTitle>Studios</span>
-							<span matListItemLine class="item__value">
+							<span
+								matListItemLine
+								class="item__value">
 								@if (anime.studiosData.length > 0) {
 									@for (studio of anime.studiosData; track studio.id; let last = $last) {
 										@if(!last) {
@@ -94,7 +99,9 @@
 						</mat-list-item>
 						<mat-list-item class="anime-details__list__item item">
 							<span matListItemTitle>Genres</span>
-							<span matListItemLine class="item__value">
+							<span
+								matListItemLine
+								class="item__value">
 								@if (anime.genresData.length > 0) {
 									@for (genre of anime.genresData; track genre.id; let last = $last) {
 										@if(!last) {
@@ -112,13 +119,14 @@
 				</section>
 				<section class="anime-details__content__trailer">
 					@if(anime.trailerYoutubeId) {
-						<iframe allowfullscreen
-										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-										frameborder="0"
-										[title]="anime.japaneseTitle || 'Anime' + ' cover'"
-										[width]="playerWidth"
-										[height]="playerHeight"
-										[src]="sanitizer.bypassSecurityTrustResourceUrl(videoUrl + anime.trailerYoutubeId)">
+						<iframe
+							allowfullscreen
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							frameborder="0"
+							[title]="anime.japaneseTitle || 'Anime' + ' cover'"
+							[width]="playerWidth"
+							[height]="playerHeight"
+							[src]="sanitizer.bypassSecurityTrustResourceUrl(videoUrl + anime.trailerYoutubeId)">
 						</iframe>
 					}
 				</section>
