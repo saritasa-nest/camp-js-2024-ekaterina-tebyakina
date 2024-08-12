@@ -10,27 +10,33 @@ export namespace MaterialSortMapper {
 	 * @param sortSetting - Anime sort settings.
 	 * @returns Anime sort settings type of AnimeSort.
 	 */
-	export function fromMaterialSort(sortSetting: Sort): AnimeSort {
+	export function from(sortSetting: Sort): AnimeSort {
+		assertIsAnimeColumnsIndexes(sortSetting.active);
+		assertIsSortingDirection(sortSetting.direction);
 
 		return {
-			sortField: checkIsEnumMember(sortSetting.active, AnimeColumnsIndexes) ?
-				sortSetting.active as AnimeColumnsIndexes : AnimeColumnsIndexes.Status,
-			direction: checkIsEnumMember(sortSetting.direction, SortingDirection) ?
-				sortSetting.direction as SortingDirection : SortingDirection.None,
-		};
-	}
-
-	/**
-	 * Map object type of AnimeSort to object type of material Sort.
-	 * @param sortSetting - Anime sort settings.
-	 * @returns Anime sort settings type of material Sort.
-	 */
-	export function toMaterialSort(sortSetting: AnimeSort): Sort {
-
-		return {
-			active: sortSetting.sortField,
+			sortField: sortSetting.active,
 			direction: sortSetting.direction,
 		};
 	}
 
+	/**
+	 * Assert that value is typeof AnimeColumnsIndexes.
+	 * @param value - Value for checking.
+	 */
+	function assertIsAnimeColumnsIndexes(value: unknown): asserts value is AnimeColumnsIndexes {
+		if (!checkIsEnumMember(value, AnimeColumnsIndexes)) {
+			throw new Error('Not a AnimeColumnsIndexes!');
+		}
+	}
+
+	/**
+	 * Assert that value is typeof SortingDirection.
+	 * @param value - Value for checking.
+	 */
+	function assertIsSortingDirection(value: unknown): asserts value is SortingDirection {
+		if (!checkIsEnumMember(value, SortingDirection)) {
+			throw new Error('Not a SortingDirection!');
+		}
+	}
 }
