@@ -1,16 +1,20 @@
 <div class="registration-form-wrapper">
 	<h2 class="registration-header">Registration</h2>
 	@if (registrationFormGroup) {
-		<form class="registration-form"
-					[formGroup]="registrationFormGroup"
-					(ngSubmit)="onRegistrationSubmit()">
+		<form
+			class="registration-form"
+			[formGroup]="registrationFormGroup"
+			(ngSubmit)="onRegistrationSubmit()">
 
-			<mat-form-field appearance="outline" class="registration-form__field">
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field">
 				<mat-label>Email</mat-label>
-				<input matInput
-							 type="email"
-							 placeholder="ivan.pupkin@gmail.com"
-							 formControlName="email">
+				<input
+					matInput
+					type="email"
+					placeholder="ivan.pupkin@gmail.com"
+					formControlName="email">
 				@if (registrationFormGroup.get('email')?.hasError('required') && registrationFormGroup.get('email')?.touched) {
 					<mat-error>Email is required.</mat-error>
 				} @else if (registrationFormGroup.get('email')?.hasError('email') && registrationFormGroup.get('email')?.touched) {
@@ -21,12 +25,15 @@
 				}
 			</mat-form-field>
 
-			<mat-form-field appearance="outline" class="registration-form__field">
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field">
 				<mat-label>First Name</mat-label>
-				<input matInput
-							 type="text"
-							 placeholder="Ivan"
-							 formControlName="firstName"
+				<input
+					matInput
+					type="text"
+					placeholder="Ivan"
+					formControlName="firstName"
 							>
 				@if (registrationFormGroup.get('firstName')?.touched && registrationFormGroup.get('firstName')?.hasError('required')) {
 					<mat-error>First name is required.</mat-error>
@@ -36,12 +43,15 @@
 				}
 			</mat-form-field>
 
-			<mat-form-field appearance="outline" class="registration-form__field">
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field">
 				<mat-label>Last Name</mat-label>
-				<input matInput
-							 type="text"
-							 placeholder="Pupkin"
-							 formControlName="lastName">
+				<input
+					matInput
+					type="text"
+					placeholder="Pupkin"
+					formControlName="lastName">
 				@if (registrationFormGroup.get('lastName')?.touched && registrationFormGroup.get('lastName')?.hasError('required')) {
 						<mat-error>Last name is required.</mat-error>
 				}
@@ -50,12 +60,15 @@
 				}
 			</mat-form-field>
 
-			<mat-form-field appearance="outline" class="registration-form__field">
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field">
 				<mat-label>Password</mat-label>
-				<input matInput
-							 type="password"
-							 placeholder="veryStrongPassW0rd"
-							 formControlName="password">
+				<input
+					matInput
+					type="password"
+					placeholder="veryStrongPassW0rd"
+					formControlName="password">
 				@if (registrationFormGroup.get('password')?.touched && registrationFormGroup.get('password')?.hasError('required')) {
 					<mat-error>Password is required.</mat-error>
 				}
@@ -64,13 +77,16 @@
 				}
 			</mat-form-field>
 
-			<mat-form-field appearance="outline" class="registration-form__field">
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field">
 				<mat-label> Repeat the password</mat-label>
-				<input matInput
-							 type="password"
-							 placeholder="veryStrongPassW0rd"
-							 formControlName="retypedPassword"
-							 type="password">
+				<input
+					matInput
+					type="password"
+					placeholder="veryStrongPassW0rd"
+					formControlName="retypedPassword"
+					type="password">
 				@if (registrationFormGroup.get('retypedPassword')?.touched && registrationFormGroup.get('retypedPassword')?.hasError('required')) {
 					<mat-error>Retyped password is required.</mat-error>
 				} @else if (registrationFormGroup.get('retypedPassword')?.hasError('mustMatch')) {
@@ -82,9 +98,10 @@
 				<mat-error>{{registrationFormGroup.getError('serverError')}}</mat-error>
 			}
 
-			<button mat-raised-button
-							type="submit"
-							[disabled]="registrationFormGroup.invalid">Register</button>
+			<button
+				mat-raised-button
+				type="submit"
+				[disabled]="registrationFormGroup.invalid">Register</button>
 
 		</form>
 	}
