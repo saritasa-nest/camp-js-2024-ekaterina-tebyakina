@@ -1,3 +1,4 @@
+import { inject, Injectable } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, FormGroup } from '@angular/forms';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 
@@ -14,9 +15,6 @@ export type AnimeFilterForm = {
 /** Type of parameters of the form initialization function. */
 export type AnimeFilterFormParams = {
 
-	/** Form builder for form. */
-	readonly formBuilder: NonNullableFormBuilder;
-
 	/** Initial value for types form control. */
 	readonly typesInitialValue: AnimeType[];
 
@@ -24,7 +22,11 @@ export type AnimeFilterFormParams = {
 	readonly searchInitialValue: string;
 };
 
-export namespace AnimeFilterForm {
+/** Service to create a filter form. */
+@Injectable({ providedIn: 'root' })
+export class AnimeFilterFormService {
+
+	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	/**
 	 * Function for initializing anime form filter.
@@ -33,14 +35,13 @@ export namespace AnimeFilterForm {
 	 * @param formBuilder - From builder for form.
 	 * @returns Anime form.
 	 */
-	export function initialize({
-		formBuilder,
+	public initialize({
 		searchInitialValue,
 		typesInitialValue,
 	}: AnimeFilterFormParams): FormGroup<AnimeFilterForm> {
-		return formBuilder.group({
-			types: formBuilder.control(typesInitialValue),
-			search: formBuilder.control(searchInitialValue),
+		return this.formBuilder.group({
+			types: this.formBuilder.control(typesInitialValue),
+			search: this.formBuilder.control(searchInitialValue),
 		});
 	}
 }

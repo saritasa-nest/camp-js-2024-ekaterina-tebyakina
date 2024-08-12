@@ -4,14 +4,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { ReactiveFormsModule, FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { MatSelectModule } from '@angular/material/select';
 import { AnimeFilters } from '@js-camp/core/models/anime-filters';
 
 import { throttleTime } from 'rxjs';
 
-import { AnimeFilterForm } from './anime-filter-form.model';
+import { AnimeFilterForm, AnimeFilterFormService } from './anime-filter-form.service';
 
 /**
  * Filter form component.
@@ -35,13 +35,16 @@ import { AnimeFilterForm } from './anime-filter-form.model';
 export class AnimeFilterFormComponent implements OnInit {
 
 	/** Initial value for search control. */
-	@Input() public searchValue = '';
+	@Input({ required: true })
+	public searchValue = '';
 
 	/** Initial value for anime types control. */
-	@Input() public typesValue: AnimeType[] = [];
+	@Input({ required: true })
+	public typesValue: AnimeType[] = [];
 
 	/** Event of anime types or search term changes. */
-	@Output() public animeFiltersEvent = new EventEmitter<Partial<AnimeFilters>>();
+	@Output()
+	public animeFiltersEvent = new EventEmitter<Partial<AnimeFilters>>();
 
 	/** Form group for anime filter form. */
 	protected readonly animeFilterFormGroup: FormGroup<AnimeFilterForm>;
@@ -49,13 +52,12 @@ export class AnimeFilterFormComponent implements OnInit {
 	/** List of permissible values for types select control. */
 	protected readonly animeTypes = Object.values(AnimeType);
 
+	private readonly animeFilterFormService = inject(AnimeFilterFormService);
+
 	private readonly destroyRef = inject(DestroyRef);
 
-	private readonly formBuilder = inject(NonNullableFormBuilder);
-
 	public constructor() {
-		this.animeFilterFormGroup = AnimeFilterForm.initialize({
-			formBuilder: this.formBuilder,
+		this.animeFilterFormGroup = this.animeFilterFormService.initialize({
 			searchInitialValue: this.searchValue,
 			typesInitialValue: this.typesValue,
 		});

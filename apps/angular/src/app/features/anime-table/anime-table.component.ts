@@ -34,22 +34,28 @@ const DEFAULT_SIZE_OPTIONS = [10, 25, 50];
 export class AnimeTableComponent {
 
 	/** Anime page data. */
-	@Input() public pageData?: Pagination<Anime>;
+	@Input({ required: true })
+	public pageData?: Pagination<Anime>;
 
 	/** Settings for sort. Contains data about sort column and direction of sort. */
-	@Input() public sortingSettings?: AnimeSort;
+	@Input({ required: true })
+	public sortingSettings?: AnimeSort;
 
 	/** Limit of anime for one page. */
-	@Input() public pageSize = DEFAULT_PAGE_SIZE;
+	@Input({ required: true })
+	public pageSize = DEFAULT_PAGE_SIZE;
 
 	/** Index of current page. */
-	@Input() public pageIndex = DEFAULT_PAGE_INDEX;
+	@Input({ required: true })
+	public pageIndex = DEFAULT_PAGE_INDEX;
 
 	/** Event of pagination change. */
-	@Output() public paginationEvent = new EventEmitter<PageEvent>();
+	@Output()
+	public paginationEvent = new EventEmitter<PageEvent>();
 
 	/** Event of table sorting. */
-	@Output() public sortEvent = new EventEmitter<Sort>();
+	@Output()
+	public sortEvent = new EventEmitter<Sort>();
 
 	/** Possible page size values. */
 	protected readonly pageSizeOptions = DEFAULT_SIZE_OPTIONS;
