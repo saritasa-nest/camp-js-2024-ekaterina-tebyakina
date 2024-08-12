@@ -65,10 +65,8 @@ export class AnimeFilterFormComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		if (this.animeFilterFormGroup) {
-			this.animeFilterFormGroup.controls.search.setValue(this.searchValue);
-			this.animeFilterFormGroup.controls.types.setValue(this.typesValue);
-		}
+		this.animeFilterFormGroup.controls.search.setValue(this.searchValue);
+		this.animeFilterFormGroup.controls.types.setValue(this.typesValue);
 
 		this.subscribeToFiltersChange();
 	}
