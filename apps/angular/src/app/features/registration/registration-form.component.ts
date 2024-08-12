@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
 import { ServerError } from '@js-camp/core/models/server-error';
 
-import { RegistrationForm } from './registration-form-model';
+import { RegistrationForm, RegistrationFormService } from './registration-form.service';
 
 /** Component with form for registration. */
 @Component({
@@ -38,7 +38,7 @@ export class RegistrationFormComponent {
 
 	private readonly authorizationApiService = inject(AuthorizationApiService);
 
-	private readonly formBuilder = inject(NonNullableFormBuilder);
+	private readonly registrationFormService = inject(RegistrationFormService);
 
 	private readonly router = inject(Router);
 
@@ -47,7 +47,7 @@ export class RegistrationFormComponent {
 	private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
 	public constructor() {
-		this.registrationFormGroup = RegistrationForm.initialize(this.formBuilder);
+		this.registrationFormGroup = this.registrationFormService.initialize();
 	}
 
 	/** Handle registration submit. */

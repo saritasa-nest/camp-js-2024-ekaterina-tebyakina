@@ -1,3 +1,4 @@
+import { inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, FormGroup, Validators } from '@angular/forms';
 import { matchFieldsValidator } from '@js-camp/angular/core/utils/compare-form-fields.util';
 
@@ -20,20 +21,22 @@ export type RegistrationForm = {
 	readonly retypedPassword: FormControl<string>;
 };
 
-export namespace RegistrationForm {
+/** Registration form management service. */
+export class RegistrationFormService {
+
+	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	/**
 	 * Function for initializing registration form.
-	 * @param formBuilder - From builder for form.
 	 * @returns Registration form.
 	 */
-	export function initialize(formBuilder: NonNullableFormBuilder): FormGroup<RegistrationForm> {
-		return formBuilder.group({
-			email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
-			firstName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-			lastName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-			password: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-			retypedPassword: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+	public initialize(): FormGroup<RegistrationForm> {
+		return this.formBuilder.group({
+			email: this.formBuilder.control('', [Validators.required, Validators.email]),
+			firstName: this.formBuilder.control('', [Validators.required]),
+			lastName: this.formBuilder.control('', [Validators.required]),
+			password: this.formBuilder.control('', [Validators.required]),
+			retypedPassword: this.formBuilder.control('', [Validators.required]),
 		}, { validators: matchFieldsValidator('password', 'retypedPassword') });
 	}
 }

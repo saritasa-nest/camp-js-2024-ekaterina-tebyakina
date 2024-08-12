@@ -12,7 +12,7 @@ import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
 import { LoginData } from '@js-camp/core/models/login-data';
 import { ServerError } from '@js-camp/core/models/server-error';
 
-import { LoginForm } from './login-form-model';
+import { LoginForm, LoginFormService } from './login-form.service';
 
 /** Component with form for authorization. */
 @Component({
@@ -38,6 +38,8 @@ export class LoginFormComponent {
 
 	private readonly authorizationApiService = inject(AuthorizationApiService);
 
+	private readonly loginFormService = inject(LoginFormService);
+
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	private readonly destroyRef = inject(DestroyRef);
@@ -47,7 +49,7 @@ export class LoginFormComponent {
 	private readonly router = inject(Router);
 
 	public constructor() {
-		this.loginFormGroup = LoginForm.initialize(this.formBuilder);
+		this.loginFormGroup = this.loginFormService.initialize();
 	}
 
 	/** Handle login form submit. */
