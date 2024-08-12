@@ -44,7 +44,7 @@ export class AnimeFilterFormComponent implements OnInit {
 
 	/** Event of anime types or search term changes. */
 	@Output()
-	public animeFiltersEvent = new EventEmitter<AnimeFilters>();
+	public readonly animeFiltersEvent = new EventEmitter<AnimeFilters>();
 
 	/** Form group for anime filter form. */
 	protected readonly animeFilterFormGroup: FormGroup<AnimeFilterForm>;
@@ -76,12 +76,12 @@ export class AnimeFilterFormComponent implements OnInit {
 
 	/**
 	 * Assert that value is typeof AnimeFilters.
-	 * @param filters - Object with anime filters.
+	 * @param value - Object with anime filters.
 	 */
-	public isAnimeFilters(filters: Partial<AnimeFilters>): asserts filters is AnimeFilters {
-		const isPartial = !(filters && 'search' in filters && 'types' in filters);
-		if (isPartial) {
-			throw new Error('Not a AnimeFilters!');
+	public isAnimeFilters(value: unknown): asserts value is AnimeFilters {
+		const filters = value as AnimeFilters;
+		if (filters.search === null && filters.types === null) {
+			throw new Error(`${filters} is not a valid AnimeFilters!`);
 		}
 	}
 

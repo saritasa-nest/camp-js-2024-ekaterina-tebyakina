@@ -13,7 +13,7 @@ export type AnimeFilterForm = {
 };
 
 /** Type of parameters of the form initialization function. */
-export type AnimeFilterFormParams = {
+type AnimeFilterFormParams = {
 
 	/** Initial value for types form control. */
 	readonly typesInitialValue: AnimeType[];
@@ -23,7 +23,7 @@ export type AnimeFilterFormParams = {
 };
 
 /** Type of parameters of the form control's updating function. */
-export type UpdateControlsValuesParams = {
+type UpdateControlsValuesParams = {
 
 	/** Form group for updating. */
 	readonly formGroup: FormGroup<AnimeFilterForm>;

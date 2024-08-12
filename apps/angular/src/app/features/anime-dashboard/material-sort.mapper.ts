@@ -26,7 +26,7 @@ export namespace MaterialSortMapper {
 	 */
 	function assertIsAnimeColumnsIndexes(value: unknown): asserts value is AnimeColumnsIndexes {
 		if (!checkIsEnumMember(value, AnimeColumnsIndexes)) {
-			throw new Error('Not a AnimeColumnsIndexes!');
+			throw new Error(`${value} is not a valid AnimeColumnIndex!`);
 		}
 	}
 
@@ -36,7 +36,7 @@ export namespace MaterialSortMapper {
 	 */
 	function assertIsSortingDirection(value: unknown): asserts value is SortingDirection {
 		if (!checkIsEnumMember(value, SortingDirection)) {
-			throw new Error('Not a SortingDirection!');
+			throw new Error(`${value} is not a valid SortingDirection!`);
 		}
 	}
 }
