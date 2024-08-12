@@ -22,6 +22,19 @@ export type AnimeFilterFormParams = {
 	readonly searchInitialValue: string;
 };
 
+/** Type of parameters of the form control's updating function. */
+export type UpdateControlsValuesParams = {
+
+	/** Form group for updating. */
+	readonly formGroup: FormGroup<AnimeFilterForm>;
+
+	/** Initial value for types form control. */
+	readonly typesValue: AnimeType[];
+
+	/** Initial value for search form control. */
+	readonly searchValue: string;
+};
+
 /** Service to create a filter form. */
 @Injectable({ providedIn: 'root' })
 export class AnimeFilterFormService {
@@ -32,7 +45,6 @@ export class AnimeFilterFormService {
 	 * Function for initializing anime form filter.
 	 * @param typesInitialValue - Initial value for types form control.
 	 * @param searchInitialValue - Initial value for search form control.
-	 * @param formBuilder - From builder for form.
 	 * @returns Anime form.
 	 */
 	public initialize({
@@ -43,5 +55,16 @@ export class AnimeFilterFormService {
 			types: this.formBuilder.control(typesInitialValue),
 			search: this.formBuilder.control(searchInitialValue),
 		});
+	}
+
+	/**
+	 * Sets new values for form controls.
+	 * @param formGroup - Form group for updating.
+	 * @param typesValue - New value for types form control.
+	 * @param searchValue - New value for search form control.
+	 */
+	public updateControlsValues({ formGroup, searchValue, typesValue }: UpdateControlsValuesParams): void {
+		formGroup.controls.search.setValue(searchValue);
+		formGroup.controls.types.setValue(typesValue);
 	}
 }

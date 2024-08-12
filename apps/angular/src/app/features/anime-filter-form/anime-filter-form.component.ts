@@ -44,7 +44,7 @@ export class AnimeFilterFormComponent implements OnInit {
 
 	/** Event of anime types or search term changes. */
 	@Output()
-	public animeFiltersEvent = new EventEmitter<Partial<AnimeFilters>>();
+	public animeFiltersEvent = new EventEmitter<AnimeFilters>();
 
 	/** Form group for anime filter form. */
 	protected readonly animeFilterFormGroup: FormGroup<AnimeFilterForm>;
@@ -65,18 +65,33 @@ export class AnimeFilterFormComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.animeFilterFormGroup.controls.search.setValue(this.searchValue);
-		this.animeFilterFormGroup.controls.types.setValue(this.typesValue);
+		this.animeFilterFormService.updateControlsValues({
+			formGroup: this.animeFilterFormGroup,
+			searchValue: this.searchValue,
+			typesValue: this.typesValue,
+		});
 
 		this.subscribeToFiltersChange();
 	}
 
+	/**
+	 * Assert that value is typeof AnimeFilters.
+	 * @param filters - Object with anime filters.
+	 */
+	public isAnimeFilters(filters: Partial<AnimeFilters>): asserts filters is AnimeFilters {
+		const isPartial = !(filters && 'search' in filters && 'types' in filters);
+		if (isPartial) {
+			throw new Error('Not a AnimeFilters!');
+		}
+	}
+
 	private subscribeToFiltersChange(): void {
-		this.animeFilterFormGroup?.valueChanges.pipe(
+		this.animeFilterFormGroup.valueChanges.pipe(
 			throttleTime(300),
 			takeUntilDestroyed(this.destroyRef),
 		)
 			.subscribe(value => {
+				this.isAnimeFilters(value);
 				this.animeFiltersEvent.emit(value);
 			});
 	}

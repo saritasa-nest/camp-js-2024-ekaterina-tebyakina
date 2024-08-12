@@ -70,7 +70,7 @@ export class AnimeDashboardComponent {
 	 * Forms a new query parameters object with new type list and a new search term and navigate with these parameters.
 	 * @param event - Object of selected anime filters.
 	 */
-	protected onAnimeFiltersChange(event: Partial<AnimeFilters>): void {
+	protected onAnimeFiltersChange(event: AnimeFilters): void {
 
 		const filterParams: Partial<AnimeParams> = {
 			selectedTypes: event.types,
