@@ -14,7 +14,7 @@
 	font-size: var(--font-size-md);
 }
 
-.anime-details {
+.anime-details-wrapper {
 	padding: var(--space-m) var(--space-xl);
 }
 
@@ -61,6 +61,21 @@
 	width: 100%;
 	height: auto;
 	object-fit: contain;
+}
+
+.anime-details__list {
+	max-width: 360px;
+}
+
+.anime-details__list__item {
+	/* Used important to override material styles. */
+	height: auto !important;
+}
+
+.item__value {
+	display: flex;
+	flex-wrap: wrap;
+	padding-top: var(--space-xs);
 }
 
 .anime-details__content__trailer {

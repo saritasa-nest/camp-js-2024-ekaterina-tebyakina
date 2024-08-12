@@ -11,6 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { ImageDialogComponent } from '@js-camp/angular/shared/components/image-dialog/image-dialog.component';
 
 const PLAYER_WIDTH = 840;
@@ -34,6 +35,7 @@ const VIDEO_URL = 'https://www.youtube-nocookie.com/embed/';
 		MatButtonModule,
 		MatIconModule,
 		DialogModule,
+		ProgressBarComponent,
 	],
 })
 export class AnimeDatailsComponent {
@@ -65,7 +67,7 @@ export class AnimeDatailsComponent {
 	}
 
 	/** Handle click on go back button. */
-	public onGoBack(): void {
+	protected onGoBack(): void {
 		this.location.back();
 	}
 
@@ -74,12 +76,24 @@ export class AnimeDatailsComponent {
 	 * @param src - Url to image.
 	 * @param alt - String for image alt.
 	 */
-	public onOpenDialog(src: string, alt: string): void {
+	protected onOpenDialog(src: string, alt: string): void {
 		this.dialog.open<string>(ImageDialogComponent, {
 			data: {
 				src,
 				alt,
 			},
 		});
+	}
+
+	/**
+	 * Handle opening image popup using the keyboard.
+	 * @param event - Keydown event.
+	 * @param src - Url to image.
+	 * @param alt - String for image alt.
+	 */
+	protected onKeyDown(event: KeyboardEvent, src: string, alt: string): void {
+		if (event.key === 'Enter') {
+			this.onOpenDialog(src, alt);
+		}
 	}
 }

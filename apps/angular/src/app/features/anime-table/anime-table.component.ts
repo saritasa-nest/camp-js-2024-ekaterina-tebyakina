@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { AsyncPipe, DatePipe, NgOptimizedImage, CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/core/models/anime';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
-import { AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeColumnsHeaders } from '@js-camp/core/models/anime-columns-headers';
@@ -30,6 +30,7 @@ const DEFAULT_SIZE_OPTIONS = [10, 25, 50];
 		DatePipe,
 		EmptyPipe,
 		NgOptimizedImage,
+		CommonModule,
 	],
 })
 export class AnimeTableComponent implements OnInit {
@@ -111,4 +112,14 @@ export class AnimeTableComponent implements OnInit {
 		this.animeSelectEvent.emit(event.id);
 	}
 
+	/**
+	 * Handle selecting a row from a table using the keyboard.
+	 * @param event - Keydown event.
+	 * @param row - Selected anime.
+	 */
+	protected onKeyDown(event: KeyboardEvent, row: Anime): void {
+		if (event.key === 'Enter') {
+			this.onRowSelect(row);
+		}
+	}
 }
