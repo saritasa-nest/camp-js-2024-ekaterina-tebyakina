@@ -28,14 +28,14 @@ export type UpdateControlsValuesParams = {
 	/** Form group for updating. */
 	readonly formGroup: FormGroup<AnimeFilterForm>;
 
-	/** Initial value for types form control. */
+	/** Value for types form control. */
 	readonly typesValue: AnimeType[];
 
-	/** Initial value for search form control. */
+	/** Value for search form control. */
 	readonly searchValue: string;
 };
 
-/** Service to create a filter form. */
+/** Filter form management service. */
 @Injectable({ providedIn: 'root' })
 export class AnimeFilterFormService {
 
