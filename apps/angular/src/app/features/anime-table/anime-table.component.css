@@ -13,6 +13,11 @@
 	width: 100%;
 }
 
+.table__row:hover,
+.table__row:focus {
+	background: var(--hover-color);
+}
+
 .table__title {
 	justify-content: center;
 	text-transform: uppercase;
