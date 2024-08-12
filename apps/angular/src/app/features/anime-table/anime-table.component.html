@@ -7,21 +7,27 @@
 			[trackBy]="trackByAnime"
 			[matSortActive]="sortingSettings.sortField"
 			[matSortDirection]="sortingSettings.direction"
-			(matSortChange)="onSortData($event)">
+			(matSortChange)="onSortData($event)"
+		>
 
 			<ng-container matColumnDef={{columns.Image}}>
 				<mat-header-cell
 					*matHeaderCellDef
-					class="table__title"> {{columnsHeaders.Image}} </mat-header-cell>
+					class="table__title"
+				>
+					{{columnsHeaders.Image}}
+				</mat-header-cell>
 				<mat-cell
 					*matCellDef="let element"
-					class="table__content cover">
+					class="table__content cover"
+				>
 					<div class="cover__wrapper">
 						<img
 							fill
 							class="cover__image"
 							[ngSrc]="element.image"
-							[alt]="(element.japaneseTitle ?? 'Anime') + ' cover'">
+							[alt]="(element.japaneseTitle ?? 'Anime') + ' cover'"
+						>
 					</div>
 				</mat-cell>
 			</ng-container>
@@ -30,11 +36,15 @@
 				<mat-header-cell
 					*matHeaderCellDef
 					mat-sort-header
-					class="table__title"> {{columnsHeaders.EnglishTitle}} </mat-header-cell>
+					class="table__title"
+				>
+					{{columnsHeaders.EnglishTitle}}
+				</mat-header-cell>
 				<mat-cell
 					*matCellDef="let element"
 					class="table__content"
-					title={{element.englishTitle}}>
+					title={{element.englishTitle}}
+				>
 					<p class="content__text">
 						{{element.englishTitle | empty}}
 					</p>
@@ -44,11 +54,15 @@
 			<ng-container matColumnDef={{columns.JapaneseTitle}}>
 				<mat-header-cell
 					*matHeaderCellDef
-					class="table__title"> {{columnsHeaders.JapaneseTitle}}</mat-header-cell>
+					class="table__title"
+				>
+					{{columnsHeaders.JapaneseTitle}}
+				</mat-header-cell>
 				<mat-cell
 					*matCellDef="let element"
 					class="table__content content"
-					title={{element.japaneseTitle}}>
+					title={{element.japaneseTitle}}
+				>
 					<p class="content__text">
 						{{element.japaneseTitle | empty}}
 					</p>
@@ -59,29 +73,47 @@
 				<mat-header-cell
 					*matHeaderCellDef
 					mat-sort-header
-					class="table__title"> {{columnsHeaders.AiredStart}} </mat-header-cell>
+					class="table__title"
+				>
+					{{columnsHeaders.AiredStart}}
+				</mat-header-cell>
 				<mat-cell
 					*matCellDef="let element"
-					class="table__content"> {{element.aired.start | date: "mediumDate" | empty}} </mat-cell>
+					class="table__content"
+				>
+					{{element.aired.start | date: "mediumDate" | empty}}
+				</mat-cell>
 			</ng-container>
 
 			<ng-container matColumnDef={{columns.Type}}>
 				<mat-header-cell
 					*matHeaderCellDef
-					class="table__title"> {{columnsHeaders.Type}} </mat-header-cell>
+					class="table__title"
+				>
+					{{columnsHeaders.Type}}
+				</mat-header-cell>
 				<mat-cell
 					*matCellDef="let element"
-					class="table__content"> {{element.type | empty}} </mat-cell>
+					class="table__content"
+				>
+					{{element.type | empty}}
+				</mat-cell>
 			</ng-container>
 
 			<ng-container matColumnDef={{columns.Status}}>
 				<mat-header-cell
 					*matHeaderCellDef
 					mat-sort-header
-					class="table__title"> {{columnsHeaders.Status}} </mat-header-cell>
+					class="table__title"
+				>
+					{{columnsHeaders.Status}}
+				</mat-header-cell>
 				<mat-cell
 					*matCellDef="let element"
-					class="table__content"> {{element.status | empty}} </mat-cell>
+					class="table__content"
+				>
+					{{element.status | empty}}
+				</mat-cell>
 			</ng-container>
 
 			<mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
@@ -94,7 +126,8 @@
 			[pageSize]="pageSize"
 			[pageIndex]="pageIndex"
 			[pageSizeOptions]="pageSizeOptions"
-			(page)="onPageChange($event)"/>
+			(page)="onPageChange($event)"
+		/>
 	</div>
 }
 
