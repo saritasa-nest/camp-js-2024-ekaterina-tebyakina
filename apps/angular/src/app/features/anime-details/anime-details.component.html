@@ -19,6 +19,7 @@
 						<div
 							class="cover__wrapper"
 							tabindex="0"
+							(click)="onOpenDialog(anime.image, (anime.japaneseTitle || 'Anime') + ' cover')"
 							(keydown)="onKeyDown($event, anime.image, anime.japaneseTitle || 'Anime' + ' cover')"
 						>
 							<img
@@ -27,7 +28,6 @@
 								class="cover__image"
 								[ngSrc]="anime.image"
 								[alt]="(anime.japaneseTitle || 'Anime') + ' cover'"
-								(click)="onOpenDialog(anime.image, (anime.japaneseTitle || 'Anime') + ' cover')"
 							>
 						</div>
 					</section>
@@ -119,7 +119,6 @@
 						<iframe
 							allowfullscreen
 							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-							frameborder="0"
 							[title]="anime.japaneseTitle || 'Anime' + ' cover'"
 							[width]="playerWidth"
 							[height]="playerHeight"
