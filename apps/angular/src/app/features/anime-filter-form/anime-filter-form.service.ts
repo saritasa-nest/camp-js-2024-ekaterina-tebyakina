@@ -3,7 +3,7 @@ import { FormControl, NonNullableFormBuilder, FormGroup } from '@angular/forms';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 
 /** Type for anime filter form group. Contains types for each control. */
-export type AnimeFilterForm = {
+type AnimeFilterForm = {
 
 	/** Type of form control to select the type of anime. */
 	readonly types: FormControl<AnimeType[]>;
@@ -25,9 +25,6 @@ type AnimeFilterFormParams = {
 /** Type of parameters of the form control's updating function. */
 type UpdateControlsValuesParams = {
 
-	/** Form group for updating. */
-	readonly formGroup: FormGroup<AnimeFilterForm>;
-
 	/** Value for types form control. */
 	readonly typesValue: AnimeType[];
 
@@ -40,6 +37,16 @@ type UpdateControlsValuesParams = {
 export class AnimeFilterFormService {
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
+
+	/** Form group for anime filter form. */
+	public readonly form: FormGroup<AnimeFilterForm>;
+
+	public constructor() {
+		this.form = this.initialize({
+			searchInitialValue: '',
+			typesInitialValue: [],
+		});
+	}
 
 	/**
 	 * Function for initializing anime form filter.
@@ -59,12 +66,11 @@ export class AnimeFilterFormService {
 
 	/**
 	 * Sets new values for form controls.
-	 * @param formGroup - Form group for updating.
 	 * @param typesValue - New value for types form control.
 	 * @param searchValue - New value for search form control.
 	 */
-	public updateControlsValues({ formGroup, searchValue, typesValue }: UpdateControlsValuesParams): void {
-		formGroup.controls.search.setValue(searchValue);
-		formGroup.controls.types.setValue(typesValue);
+	public updateControlsValues({ searchValue, typesValue }: UpdateControlsValuesParams): void {
+		this.form.controls.search.setValue(searchValue);
+		this.form.controls.types.setValue(typesValue);
 	}
 }

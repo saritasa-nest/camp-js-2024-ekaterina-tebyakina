@@ -4,14 +4,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { MatSelectModule } from '@angular/material/select';
 import { AnimeFilters } from '@js-camp/core/models/anime-filters';
 
 import { throttleTime } from 'rxjs';
 
-import { AnimeFilterForm, AnimeFilterFormService } from './anime-filter-form.service';
+import { AnimeFilterFormService } from './anime-filter-form.service';
 
 /**
  * Filter form component.
@@ -46,27 +46,17 @@ export class AnimeFilterFormComponent implements OnInit {
 	@Output()
 	public readonly animeFiltersEvent = new EventEmitter<AnimeFilters>();
 
-	/** Form group for anime filter form. */
-	protected readonly animeFilterFormGroup: FormGroup<AnimeFilterForm>;
-
 	/** List of permissible values for types select control. */
 	protected readonly animeTypes = Object.values(AnimeType);
 
-	private readonly animeFilterFormService = inject(AnimeFilterFormService);
+	/** Filter form management service. */
+	protected readonly animeFilterFormService = inject(AnimeFilterFormService);
 
 	private readonly destroyRef = inject(DestroyRef);
-
-	public constructor() {
-		this.animeFilterFormGroup = this.animeFilterFormService.initialize({
-			searchInitialValue: this.searchValue,
-			typesInitialValue: this.typesValue,
-		});
-	}
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.animeFilterFormService.updateControlsValues({
-			formGroup: this.animeFilterFormGroup,
 			searchValue: this.searchValue,
 			typesValue: this.typesValue,
 		});
@@ -86,7 +76,7 @@ export class AnimeFilterFormComponent implements OnInit {
 	}
 
 	private subscribeToFiltersChange(): void {
-		this.animeFilterFormGroup.valueChanges.pipe(
+		this.animeFilterFormService.form.valueChanges.pipe(
 			throttleTime(300),
 			takeUntilDestroyed(this.destroyRef),
 		)
