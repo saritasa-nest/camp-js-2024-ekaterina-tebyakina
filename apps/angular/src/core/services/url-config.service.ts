@@ -20,4 +20,16 @@ export class UrlConfigService {
 	public readonly user = {
 		getCurrentUser: 'users/profile/',
 	};
+
+	/** Object with parts of the url requests for authorization endpoints. */
+	public readonly authorization = {
+		register: 'auth/register/',
+		login: 'auth/login/',
+		refresh: 'auth/token/refresh/',
+	};
+
+	/** Object with parts of the url requests for user endpoints. */
+	public readonly user = {
+		getCurrentUser: 'users/profile/',
+	};
 }

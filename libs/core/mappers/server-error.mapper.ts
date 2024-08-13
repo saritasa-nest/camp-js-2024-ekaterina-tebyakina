@@ -9,7 +9,7 @@ export namespace ServerErrorMapper {
 
 	/**
 	 * Maps dto to model.
-	 * @param error Error dto.
+	 * @param error - Error dto.
 	 * @returns Error model.
 	 */
 	export function fromDto(error: ServerErrorDto): ServerError {

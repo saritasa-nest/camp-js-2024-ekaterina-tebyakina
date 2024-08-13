@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,7 +32,6 @@ import { MaterialSortMapper } from './material-sort.mapper';
 		AnimeTableComponent,
 		AnimeFilterFormComponent,
 		AsyncPipe,
-		NgOptimizedImage,
 	],
 })
 export class AnimeDashboardComponent {
@@ -73,7 +72,7 @@ export class AnimeDashboardComponent {
 	 * Forms a new query parameters object with new type list and a new search term and navigate with these parameters.
 	 * @param event - Object of selected anime filters.
 	 */
-	protected onAnimeFiltersChange(event: Partial<AnimeFilters>): void {
+	protected onAnimeFiltersChange(event: AnimeFilters): void {
 
 		const filterParams: Partial<AnimeParams> = {
 			selectedTypes: event.types,
@@ -107,7 +106,7 @@ export class AnimeDashboardComponent {
 	protected onOrderingChange(event: Sort): void {
 
 		const filterParams: Partial<AnimeParams> = {
-			sortingSettings: MaterialSortMapper.fromMaterialSort(event),
+			sortingSettings: MaterialSortMapper.from(event),
 		};
 
 		this.navigate(filterParams);

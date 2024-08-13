@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AsyncPipe, DatePipe, NgOptimizedImage, CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/core/models/anime';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -11,7 +10,6 @@ import { AnimeColumnsIndexes } from '@js-camp/core/models/anime-columns-indexes'
 import { AnimeSort } from '@js-camp/core/models/anime-sort';
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/core/models/anime-params';
 
-const DEFAULT_PAGES_COUNT = 0;
 const DEFAULT_SIZE_OPTIONS = [10, 25, 50];
 
 /** Anime table component. */
@@ -33,31 +31,31 @@ const DEFAULT_SIZE_OPTIONS = [10, 25, 50];
 		CommonModule,
 	],
 })
-export class AnimeTableComponent implements OnInit {
+export class AnimeTableComponent {
 
 	/** Anime page data. */
-	@Input() public pageData?: Pagination<Anime>;
+	@Input({ required: true })
+	public pageData: Pagination<Anime> | null = null;
 
 	/** Settings for sort. Contains data about sort column and direction of sort. */
-	@Input() public sortingSettings?: AnimeSort;
+	@Input({ required: true })
+	public sortingSettings: AnimeSort | null = null;
 
 	/** Limit of anime for one page. */
-	@Input() public pageSize = DEFAULT_PAGE_SIZE;
+	@Input({ required: true })
+	public pageSize = DEFAULT_PAGE_SIZE;
 
 	/** Index of current page. */
-	@Input() public pageIndex = DEFAULT_PAGE_INDEX;
+	@Input({ required: true })
+	public pageIndex = DEFAULT_PAGE_INDEX;
 
 	/** Event of pagination change. */
-	@Output() public paginationEvent = new EventEmitter<PageEvent>();
+	@Output()
+	public readonly paginationEvent = new EventEmitter<PageEvent>();
 
 	/** Event of table sorting. */
-	@Output() public sortEvent = new EventEmitter<Sort>();
-
-	/** Event of anime selecting. */
-	@Output() public animeSelectEvent = new EventEmitter<number>();
-
-	/** Pages count. */
-	protected pagesCount = DEFAULT_PAGES_COUNT;
+	@Output()
+	public readonly sortEvent = new EventEmitter<Sort>();
 
 	/** Possible page size values. */
 	protected readonly pageSizeOptions = DEFAULT_SIZE_OPTIONS;
@@ -70,13 +68,6 @@ export class AnimeTableComponent implements OnInit {
 
 	/** List of column indexes. */
 	protected readonly columnsToDisplay = Object.values(AnimeColumnsIndexes);
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		if (this.pageData) {
-			this.pagesCount = Math.ceil(this.pageData.count / this.pageSize);
-		}
-	}
 
 	/**
 	 * Track by function for anime list.
@@ -93,6 +84,10 @@ export class AnimeTableComponent implements OnInit {
 	 * @param event - Pagination settings.
 	 */
 	protected onPageChange(event: PageEvent): void {
+		if (this.pageSize !== event.pageSize) {
+			event.pageIndex = 0;
+		}
+
 		this.paginationEvent.emit(event);
 	}
 

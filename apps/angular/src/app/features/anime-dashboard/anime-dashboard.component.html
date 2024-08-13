@@ -1,22 +1,22 @@
+@if (isLoading$ | async) {
+	<camp-progress-bar/>
+}
 <div class="dashboard">
 	@if (animeParams$ | async; as animeParams) {
-		<camp-anime-filter-form (animeFiltersEvent)="onAnimeFiltersChange($event)"
-											[searchValue]="animeParams.searchTerm"
-											[typesValue]="animeParams.selectedTypes"/>
+		<camp-anime-filter-form
+			[searchValue]="animeParams.searchTerm"
+			[typesValue]="animeParams.selectedTypes"
+			(animeFiltersEvent)="onAnimeFiltersChange($event)"
+		/>
 		@if (animeListPage$ | async; as animeListPage) {
-			@if (isLoading$ | async) {
-				<camp-progress-bar/>
-			} @else {
-				<camp-anime-table [pageData]="animeListPage"
-				[sortingSettings]="animeParams.sortingSettings"
-				[pageSize]="animeParams.pageSize"
-				[pageIndex]="animeParams.pageIndex"
-				(sortEvent)="onOrderingChange($event)"
-				(paginationEvent)="onPageChange($event)"
-				(animeSelectEvent)="onAnimeSelect($event)"/>
-			}
-		} @else {
-		<camp-progress-bar/>
+				<camp-anime-table
+					[pageData]="animeListPage"
+					[sortingSettings]="animeParams.sortingSettings"
+					[pageSize]="animeParams.pageSize"
+					[pageIndex]="animeParams.pageIndex"
+					(sortEvent)="onOrderingChange($event)"
+					(paginationEvent)="onPageChange($event)"
+				/>
 		}
 	}
 </div>

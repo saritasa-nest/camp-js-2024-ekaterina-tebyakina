@@ -5,6 +5,11 @@
 	gap: var(--space-s);
 }
 
+.greeting-message {
+	font-size: var(--font-size-md);
+	font-weight: var(--font-weight-medium);
+}
+
 .authorization-menu__link {
 	font-size: var(--font-size-md);
 }

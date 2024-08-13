@@ -4,9 +4,9 @@ import { User } from '../models/user';
 export namespace UserMapper {
 
 	/**
-	 * Maps dto to model.
-	 * @param user Genre dto.
-	 * @returns Genre model.
+	 * Maps user data dto to model.
+	 * @param user - User dto.
+	 * @returns User model.
 	 */
 	export function fromDto(user: UserDto): User {
 		return new User({

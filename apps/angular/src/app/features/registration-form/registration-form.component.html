@@ -1,0 +1,119 @@
+<div class="registration-form-wrapper">
+	<h2 class="registration-header">Registration</h2>
+		<form
+			class="registration-form"
+			[formGroup]="registrationFormService.form"
+			(ngSubmit)="onRegistrationSubmit()"
+		>
+
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field"
+			>
+				<mat-label>Email</mat-label>
+				<input
+					matInput
+					type="email"
+					placeholder="ivan.pupkin@gmail.com"
+					[formControl]="registrationFormService.form.controls.email"
+				>
+				@if (registrationFormService.form.get('email')?.hasError('required') && registrationFormService.form.get('email')?.touched) {
+					<mat-error>Email is required.</mat-error>
+				} @else if (registrationFormService.form.get('email')?.hasError('email') && registrationFormService.form.get('email')?.touched) {
+					<mat-error>Enter a valid email address.</mat-error>
+				}
+				@if (registrationFormService.form.get('email')?.hasError('serverError')) {
+					<mat-error>{{registrationFormService.form.get('email')?.getError('serverError')}}</mat-error>
+				}
+			</mat-form-field>
+
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field"
+			>
+				<mat-label>First Name</mat-label>
+				<input
+					matInput
+					type="text"
+					placeholder="Ivan"
+					[formControl]="registrationFormService.form.controls.firstName"
+				>
+				@if (registrationFormService.form.get('firstName')?.touched && registrationFormService.form.get('firstName')?.hasError('required')) {
+					<mat-error>First name is required.</mat-error>
+				}
+				@if (registrationFormService.form.get('firstName')?.hasError('serverError')) {
+					<mat-error>{{registrationFormService.form.get('firstName')?.getError('serverError')}}</mat-error>
+				}
+			</mat-form-field>
+
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field"
+			>
+				<mat-label>Last Name</mat-label>
+				<input
+					matInput
+					type="text"
+					placeholder="Pupkin"
+					[formControl]="registrationFormService.form.controls.lastName"
+				>
+				@if (registrationFormService.form.get('lastName')?.touched && registrationFormService.form.get('lastName')?.hasError('required')) {
+						<mat-error>Last name is required.</mat-error>
+				}
+				@if (registrationFormService.form.get('lastName')?.hasError('serverError')) {
+					<mat-error>{{registrationFormService.form.get('lastName')?.getError('serverError')}}</mat-error>
+				}
+			</mat-form-field>
+
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field"
+			>
+				<mat-label>Password</mat-label>
+				<input
+					matInput
+					type="password"
+					placeholder="veryStrongPassW0rd"
+					[formControl]="registrationFormService.form.controls.password"
+				>
+				@if (registrationFormService.form.get('password')?.touched && registrationFormService.form.get('password')?.hasError('required')) {
+					<mat-error>Password is required.</mat-error>
+				}
+				@if (registrationFormService.form.get('password')?.hasError('serverError')) {
+					<mat-error>{{registrationFormService.form.get('password')?.getError('serverError')}}</mat-error>
+				}
+			</mat-form-field>
+
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field"
+			>
+				<mat-label> Repeat the password</mat-label>
+				<input
+					matInput
+					type="password"
+					placeholder="veryStrongPassW0rd"
+					[formControl]="registrationFormService.form.controls.retypedPassword"
+					type="password"
+				>
+				@if (registrationFormService.form.get('retypedPassword')?.touched && registrationFormService.form.get('retypedPassword')?.hasError('required')) {
+					<mat-error>Retyped password is required.</mat-error>
+				} @else if (registrationFormService.form.get('retypedPassword')?.hasError('mustMatch')) {
+					<mat-error>Passwords must match.</mat-error>
+				}
+			</mat-form-field>
+
+			@if (registrationFormService.form.hasError('serverError')) {
+				<mat-error>{{registrationFormService.form.getError('serverError')}}</mat-error>
+			}
+
+			<button
+				mat-raised-button
+				type="submit"
+				[disabled]="registrationFormService.form.invalid"
+			>
+				Register
+			</button>
+
+		</form>
+</div>

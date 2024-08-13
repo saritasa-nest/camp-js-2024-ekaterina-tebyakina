@@ -1,5 +1,10 @@
 <mat-toolbar class="header">
-  <a [routerLink]="['/' + routerPaths.Main]" class="header__logo-link header__link">Anime app</a>
+  <a
+		class="header__logo-link header__link"
+		[routerLink]="['/' + routerPaths.Main]"
+	>
+		Anime app
+	</a>
 	<camp-authorization-menu-form/>
 </mat-toolbar>
 <router-outlet></router-outlet>
