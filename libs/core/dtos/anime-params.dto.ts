@@ -1,10 +1,10 @@
 /** Params for request to the server. Contains data about anime list filters. */
 export type AnimeParamsDto = {
 
-	/** Offset. */
+	/** Limit. */
 	readonly limit?: number;
 
-	/** Limit. */
+	/** Offset. */
 	readonly offset?: number;
 
 	/** Search. */

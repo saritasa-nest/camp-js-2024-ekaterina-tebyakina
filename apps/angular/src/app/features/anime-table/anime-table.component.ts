@@ -35,11 +35,11 @@ export class AnimeTableComponent {
 
 	/** Anime page data. */
 	@Input({ required: true })
-	public pageData?: Pagination<Anime>;
+	public pageData: Pagination<Anime> | null = null;
 
 	/** Settings for sort. Contains data about sort column and direction of sort. */
 	@Input({ required: true })
-	public sortingSettings?: AnimeSort;
+	public sortingSettings: AnimeSort | null = null;
 
 	/** Limit of anime for one page. */
 	@Input({ required: true })
@@ -51,11 +51,11 @@ export class AnimeTableComponent {
 
 	/** Event of pagination change. */
 	@Output()
-	public paginationEvent = new EventEmitter<PageEvent>();
+	public readonly paginationEvent = new EventEmitter<PageEvent>();
 
 	/** Event of table sorting. */
 	@Output()
-	public sortEvent = new EventEmitter<Sort>();
+	public readonly sortEvent = new EventEmitter<Sort>();
 
 	/** Possible page size values. */
 	protected readonly pageSizeOptions = DEFAULT_SIZE_OPTIONS;

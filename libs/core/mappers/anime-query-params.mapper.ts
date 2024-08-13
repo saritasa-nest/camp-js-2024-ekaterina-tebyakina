@@ -18,8 +18,7 @@ export namespace AnimeQueryParamsMapper {
 		if (params.selectedTypes) {
 			const typesArray = params.selectedTypes.split(',');
 
-			// Using ‘as’ to avoid typescript error, but the type is checked by the checkIsEnumMember function.
-			selectedTypes = typesArray.filter(item => checkIsEnumMember(item, AnimeType)) as AnimeType[];
+			selectedTypes = typesArray.filter((item): item is AnimeType => checkIsEnumMember(item, AnimeType));
 		}
 
 		const pageIndex = Number(params.pageIndex);
