@@ -53,6 +53,12 @@
 	object-fit: contain;
 }
 
+.cover__image:hover,
+.cover__image:focus {
+	background: var(--hover-color);
+	cursor: pointer;
+}
+
 .synopsis__header {
 	font-size: var(--font-size-md);
 	font-weight: var(--font-weight-medium);
