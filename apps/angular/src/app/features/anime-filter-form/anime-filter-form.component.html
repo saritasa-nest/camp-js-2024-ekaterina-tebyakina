@@ -1,0 +1,28 @@
+<form
+	class="filter-form"
+	[formGroup]="animeFilterFormService.form"
+>
+	<mat-form-field>
+		<mat-label>Types</mat-label>
+		<mat-select
+			multiple
+			[formControl]="animeFilterFormService.form.controls.types"
+		>
+			@for (type of animeTypes; track type) {
+				<mat-option [value]="type">{{type}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+		<mat-form-field
+			class="search"
+			appearance="outline"
+		>
+			<mat-label>Anime title</mat-label>
+			<input
+				matInput
+				placeholder="Type to Search"
+				type="search"
+				[formControl]="animeFilterFormService.form.controls.search"
+			/>
+		</mat-form-field>
+</form>
