@@ -10,13 +10,22 @@
 		<button
 			class="authorization-menu__logout"
 			type="button"
-			(click)="onLogoutClick()">Logout</button>
+			(click)="onLogoutClick()"
+		>
+			Logout
+		</button>
 	} @else {
 		<a
 			class="authorization-menu__link"
-			[routerLink]="['/' + routerPaths.Registration]">Registration</a>
+			[routerLink]="['/' + routerPaths.Registration]"
+		>
+			Registration
+		</a>
 		<a
 			class="authorization-menu__link"
-			[routerLink]="['/' + routerPaths.Login]">Authorization</a>
+			[routerLink]="['/' + routerPaths.Login]"
+		>
+			Authorization
+		</a>
 	}
 </nav>
