@@ -1,6 +1,5 @@
 <div class="registration-form-wrapper">
 	<h2 class="registration-header">Registration</h2>
-	@if (registrationFormService.form) {
 		<form
 			class="registration-form"
 			[formGroup]="registrationFormService.form"
@@ -16,7 +15,7 @@
 					matInput
 					type="email"
 					placeholder="ivan.pupkin@gmail.com"
-					formControlName="email"
+					[formControl]="registrationFormService.form.controls.email"
 				>
 				@if (registrationFormService.form.get('email')?.hasError('required') && registrationFormService.form.get('email')?.touched) {
 					<mat-error>Email is required.</mat-error>
@@ -37,7 +36,7 @@
 					matInput
 					type="text"
 					placeholder="Ivan"
-					formControlName="firstName"
+					[formControl]="registrationFormService.form.controls.firstName"
 				>
 				@if (registrationFormService.form.get('firstName')?.touched && registrationFormService.form.get('firstName')?.hasError('required')) {
 					<mat-error>First name is required.</mat-error>
@@ -56,7 +55,7 @@
 					matInput
 					type="text"
 					placeholder="Pupkin"
-					formControlName="lastName"
+					[formControl]="registrationFormService.form.controls.lastName"
 				>
 				@if (registrationFormService.form.get('lastName')?.touched && registrationFormService.form.get('lastName')?.hasError('required')) {
 						<mat-error>Last name is required.</mat-error>
@@ -75,7 +74,7 @@
 					matInput
 					type="password"
 					placeholder="veryStrongPassW0rd"
-					formControlName="password"
+					[formControl]="registrationFormService.form.controls.password"
 				>
 				@if (registrationFormService.form.get('password')?.touched && registrationFormService.form.get('password')?.hasError('required')) {
 					<mat-error>Password is required.</mat-error>
@@ -94,7 +93,7 @@
 					matInput
 					type="password"
 					placeholder="veryStrongPassW0rd"
-					formControlName="retypedPassword"
+					[formControl]="registrationFormService.form.controls.retypedPassword"
 					type="password"
 				>
 				@if (registrationFormService.form.get('retypedPassword')?.touched && registrationFormService.form.get('retypedPassword')?.hasError('required')) {
@@ -117,5 +116,4 @@
 			</button>
 
 		</form>
-	}
 </div>

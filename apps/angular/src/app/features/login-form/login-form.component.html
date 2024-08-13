@@ -1,6 +1,5 @@
 <div class="login-form-wrapper">
 	<h2 class="login-header">Login</h2>
-	@if (loginFormService.form) {
 		<form
 			class="login-form"
 			[formGroup]="loginFormService.form"
@@ -16,7 +15,7 @@
 					matInput
 					type="email"
 					placeholder="ivan.pupkin@gmail.com"
-					formControlName="email"
+					[formControl]="loginFormService.form.controls.email"
 				>
 				@if (loginFormService.form.get('email')?.hasError('required') && loginFormService.form.get('email')?.touched) {
 					<mat-error>Email is required.</mat-error>
@@ -34,7 +33,7 @@
 					matInput
 					type="password"
 					placeholder="veryStrongPassW0rd"
-					formControlName="password"
+					[formControl]="loginFormService.form.controls.password"
 				>
 				@if (loginFormService.form.get('password')?.hasError('required') && loginFormService.form.get('password')?.touched) {
 					<mat-error>Password is required.</mat-error>
@@ -54,5 +53,4 @@
 			</button>
 
 		</form>
-	}
 </div>

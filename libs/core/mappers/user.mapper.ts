@@ -5,7 +5,7 @@ export namespace UserMapper {
 
 	/**
 	 * Maps user data dto to model.
-	 * @param user User dto.
+	 * @param user - User dto.
 	 * @returns User model.
 	 */
 	export function fromDto(user: UserDto): User {

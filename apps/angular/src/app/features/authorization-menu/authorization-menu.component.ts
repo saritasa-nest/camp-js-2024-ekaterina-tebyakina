@@ -23,7 +23,7 @@ import { User } from '@js-camp/core/models/user';
 })
 export class AuthorizationMenuComponent implements OnInit {
 
-	/** Shows whether the user is logged in. */
+	/** Contains data about current user. */
 	public readonly user$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
 	/** Enum with paths for link. */
@@ -54,7 +54,7 @@ export class AuthorizationMenuComponent implements OnInit {
 		this.authApiService.logout();
 	}
 
-	/** Updates the value of the isLoggedIn subject. */
+	/** Updates the value of the user subject. */
 	private updateUser(): void {
 		this.usersApiService.getCurrentUser().pipe(
 			takeUntilDestroyed(this.destroyRef),

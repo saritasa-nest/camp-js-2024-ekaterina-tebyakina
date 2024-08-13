@@ -5,7 +5,7 @@ export namespace RegistrationDataMapper {
 
 	/**
 	 * Maps dto to model.
-	 * @param registration Data model for registration.
+	 * @param registration - Data model for registration.
 	 * @returns Data dto for registration.
 	 */
 	export function toDto(registration: RegistrationData): RegistrationDataDto {
