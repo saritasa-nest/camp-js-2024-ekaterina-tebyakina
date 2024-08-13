@@ -5,9 +5,9 @@
 		class="go-back-button"
 		(click)="onGoBack()"
 	>
-	<mat-icon class="go-back-button__icon">arrow_back</mat-icon>
-	Go back
-</button>
+		<mat-icon class="go-back-button__icon">arrow_back</mat-icon>
+		Go back
+	</button>
 </div>
 <div class="anime-details-wrapper">
 	@if(anime$ | async; as anime) {
@@ -90,11 +90,7 @@
 							>
 								@if (anime.studiosData.length > 0) {
 									@for (studio of anime.studiosData; track studio.id; let last = $last) {
-										@if(!last) {
-											<span>{{studio.name}},&nbsp;</span>
-										} @else {
-											<span>{{studio.name}}</span>
-										}
+										<span class="item__value__span">{{ studio.name }}{{ !last ? ',' : '' }}</span>
 									}
 								} @else {
 									<span>&mdash;</span>
@@ -109,14 +105,10 @@
 							>
 								@if (anime.genresData.length > 0) {
 									@for (genre of anime.genresData; track genre.id; let last = $last) {
-										@if(!last) {
-											<span>{{genre.name}},&nbsp;</span>
-										} @else {
-											<span>{{genre.name}}</span>
-										}
+										<span class="item__value__span">{{ genre.name }}{{ !last ? ',' : '' }}</span>
 									}
 								} @else {
-									<span>&mdash;</span>
+										<span>&mdash;</span>
 								}
 							</span>
 						</mat-list-item>

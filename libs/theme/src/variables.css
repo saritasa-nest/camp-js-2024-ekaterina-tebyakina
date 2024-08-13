@@ -17,6 +17,7 @@
 	--primary-background-color: var(--primary-contrast-color);
 
 	/* Variables for spaces */
+	--space-xxs: 4px;
 	--space-xs: 8px;
 	--space-s: calc(var(--space-xs) * 2);
 	--space-m: calc(var(--space-xs) * 3);
@@ -30,12 +31,6 @@
 	--font-size-md: 1.125rem;
 	--font-size-lg: 1.25rem;
 	--font-size-xl: 1.5rem;
-
-	/* Variables for font weights */
-	--font-weight-regular: 400;
-	--font-weight-medium: 500;
-	--font-weight-semibold: 600;
-	--font-weight-bold: 700;
 
 	/* Variables for font weights */
 	--font-weight-regular: 400;

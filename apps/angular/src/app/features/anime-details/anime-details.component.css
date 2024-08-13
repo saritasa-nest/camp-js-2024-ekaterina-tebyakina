@@ -75,7 +75,12 @@
 .item__value {
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: first baseline;
 	padding-top: var(--space-xs);
+}
+
+.item__value__span {
+	padding-right: var(--space-xxs);
 }
 
 .anime-details__content__trailer {

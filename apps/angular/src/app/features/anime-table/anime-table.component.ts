@@ -9,6 +9,7 @@ import { AnimeColumnsHeaders } from '@js-camp/core/models/anime-columns-headers'
 import { AnimeColumnsIndexes } from '@js-camp/core/models/anime-columns-indexes';
 import { AnimeSort } from '@js-camp/core/models/anime-sort';
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/core/models/anime-params';
+import { AsyncPipe, DatePipe, NgOptimizedImage, CommonModule } from '@angular/common';
 
 const DEFAULT_SIZE_OPTIONS = [10, 25, 50];
 
@@ -56,6 +57,10 @@ export class AnimeTableComponent {
 	/** Event of table sorting. */
 	@Output()
 	public readonly sortEvent = new EventEmitter<Sort>();
+
+	/** Event of anime selecting. */
+	@Output()
+	public readonly animeSelectEvent = new EventEmitter<number>();
 
 	/** Possible page size values. */
 	protected readonly pageSizeOptions = DEFAULT_SIZE_OPTIONS;
