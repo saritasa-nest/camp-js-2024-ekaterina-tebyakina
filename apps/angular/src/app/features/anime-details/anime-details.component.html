@@ -16,18 +16,16 @@
 			<div class="anime-details__content">
 				<div class="anime-details__content__subsection subsection">
 					<section class="subsection__cover cover">
-						<div
-							class="cover__wrapper"
-							tabindex="0"
-							(click)="onOpenDialog(anime.image, (anime.japaneseTitle || 'Anime') + ' cover')"
-							(keydown)="onKeyDown($event, anime.image, anime.japaneseTitle || 'Anime' + ' cover')"
-						>
+						<div class="cover__wrapper">
 							<img
 								fill
 								priority
 								class="cover__image"
 								[ngSrc]="anime.image"
 								[alt]="(anime.japaneseTitle || 'Anime') + ' cover'"
+								tabindex="0"
+								(click)="onOpenDialog(anime.image, (anime.japaneseTitle || 'Anime') + ' cover')"
+								(keydown)="onKeyDown($event, anime.image, anime.japaneseTitle || 'Anime' + ' cover')"
 							>
 						</div>
 					</section>
