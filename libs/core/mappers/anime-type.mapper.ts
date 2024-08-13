@@ -41,24 +41,4 @@ export namespace AnimeTypeMapper {
 	export function toDto(type: AnimeType): AnimeTypeDto {
 		return ANIME_TYPE_MAP_TO_DTO[type];
 	}
-
-	const animeTypeMap: Readonly<Record<AnimeType, AnimeTypeDto>> = {
-		[AnimeType.Movie]: AnimeTypeDto.Movie,
-		[AnimeType.Music]: AnimeTypeDto.Music,
-		[AnimeType.ONA]: AnimeTypeDto.ONA,
-		[AnimeType.OVA]: AnimeTypeDto.OVA,
-		[AnimeType.Promotional]: AnimeTypeDto.Promotional,
-		[AnimeType.Special]: AnimeTypeDto.Special,
-		[AnimeType.TV]: AnimeTypeDto.TV,
-		[AnimeType.Unknown]: AnimeTypeDto.Unknown,
-	};
-
-	/**
-	 * Map type dto.
-	 * @param type  - Type dto.
-	 * @returns Type model.
-	 */
-	export function toDto(type: AnimeType): AnimeTypeDto {
-		return animeTypeMap[type];
-	}
 }
