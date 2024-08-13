@@ -4,8 +4,8 @@ import { AnimeType } from './anime-type';
 export type AnimeFilters = {
 
 	/** Search term for search by anime. */
-	search: string;
+	readonly search: string;
 
 	/** List of selected anime types. */
-	types: AnimeType[];
+	readonly types: AnimeType[];
 };
