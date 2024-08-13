@@ -1,9 +1,9 @@
 <div class="registration-form-wrapper">
 	<h2 class="registration-header">Registration</h2>
-	@if (registrationFormGroup) {
+	@if (registrationFormService.form) {
 		<form
 			class="registration-form"
-			[formGroup]="registrationFormGroup"
+			[formGroup]="registrationFormService.form"
 			(ngSubmit)="onRegistrationSubmit()"
 		>
 
@@ -18,13 +18,13 @@
 					placeholder="ivan.pupkin@gmail.com"
 					formControlName="email"
 				>
-				@if (registrationFormGroup.get('email')?.hasError('required') && registrationFormGroup.get('email')?.touched) {
+				@if (registrationFormService.form.get('email')?.hasError('required') && registrationFormService.form.get('email')?.touched) {
 					<mat-error>Email is required.</mat-error>
-				} @else if (registrationFormGroup.get('email')?.hasError('email') && registrationFormGroup.get('email')?.touched) {
+				} @else if (registrationFormService.form.get('email')?.hasError('email') && registrationFormService.form.get('email')?.touched) {
 					<mat-error>Enter a valid email address.</mat-error>
 				}
-				@if (registrationFormGroup.get('email')?.hasError('serverError')) {
-					<mat-error>{{registrationFormGroup.get('email')?.getError('serverError')}}</mat-error>
+				@if (registrationFormService.form.get('email')?.hasError('serverError')) {
+					<mat-error>{{registrationFormService.form.get('email')?.getError('serverError')}}</mat-error>
 				}
 			</mat-form-field>
 
@@ -39,11 +39,11 @@
 					placeholder="Ivan"
 					formControlName="firstName"
 				>
-				@if (registrationFormGroup.get('firstName')?.touched && registrationFormGroup.get('firstName')?.hasError('required')) {
+				@if (registrationFormService.form.get('firstName')?.touched && registrationFormService.form.get('firstName')?.hasError('required')) {
 					<mat-error>First name is required.</mat-error>
 				}
-				@if (registrationFormGroup.get('firstName')?.hasError('serverError')) {
-					<mat-error>{{registrationFormGroup.get('firstName')?.getError('serverError')}}</mat-error>
+				@if (registrationFormService.form.get('firstName')?.hasError('serverError')) {
+					<mat-error>{{registrationFormService.form.get('firstName')?.getError('serverError')}}</mat-error>
 				}
 			</mat-form-field>
 
@@ -58,11 +58,11 @@
 					placeholder="Pupkin"
 					formControlName="lastName"
 				>
-				@if (registrationFormGroup.get('lastName')?.touched && registrationFormGroup.get('lastName')?.hasError('required')) {
+				@if (registrationFormService.form.get('lastName')?.touched && registrationFormService.form.get('lastName')?.hasError('required')) {
 						<mat-error>Last name is required.</mat-error>
 				}
-				@if (registrationFormGroup.get('lastName')?.hasError('serverError')) {
-					<mat-error>{{registrationFormGroup.get('lastName')?.getError('serverError')}}</mat-error>
+				@if (registrationFormService.form.get('lastName')?.hasError('serverError')) {
+					<mat-error>{{registrationFormService.form.get('lastName')?.getError('serverError')}}</mat-error>
 				}
 			</mat-form-field>
 
@@ -77,11 +77,11 @@
 					placeholder="veryStrongPassW0rd"
 					formControlName="password"
 				>
-				@if (registrationFormGroup.get('password')?.touched && registrationFormGroup.get('password')?.hasError('required')) {
+				@if (registrationFormService.form.get('password')?.touched && registrationFormService.form.get('password')?.hasError('required')) {
 					<mat-error>Password is required.</mat-error>
 				}
-				@if (registrationFormGroup.get('password')?.hasError('serverError')) {
-					<mat-error>{{registrationFormGroup.get('password')?.getError('serverError')}}</mat-error>
+				@if (registrationFormService.form.get('password')?.hasError('serverError')) {
+					<mat-error>{{registrationFormService.form.get('password')?.getError('serverError')}}</mat-error>
 				}
 			</mat-form-field>
 
@@ -97,21 +97,21 @@
 					formControlName="retypedPassword"
 					type="password"
 				>
-				@if (registrationFormGroup.get('retypedPassword')?.touched && registrationFormGroup.get('retypedPassword')?.hasError('required')) {
+				@if (registrationFormService.form.get('retypedPassword')?.touched && registrationFormService.form.get('retypedPassword')?.hasError('required')) {
 					<mat-error>Retyped password is required.</mat-error>
-				} @else if (registrationFormGroup.get('retypedPassword')?.hasError('mustMatch')) {
+				} @else if (registrationFormService.form.get('retypedPassword')?.hasError('mustMatch')) {
 					<mat-error>Passwords must match.</mat-error>
 				}
 			</mat-form-field>
 
-			@if (registrationFormGroup.hasError('serverError')) {
-				<mat-error>{{registrationFormGroup.getError('serverError')}}</mat-error>
+			@if (registrationFormService.form.hasError('serverError')) {
+				<mat-error>{{registrationFormService.form.getError('serverError')}}</mat-error>
 			}
 
 			<button
 				mat-raised-button
 				type="submit"
-				[disabled]="registrationFormGroup.invalid"
+				[disabled]="registrationFormService.form.invalid"
 			>
 				Register
 			</button>

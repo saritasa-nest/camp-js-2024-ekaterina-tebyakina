@@ -1,9 +1,11 @@
-import { inject } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, FormGroup, Validators } from '@angular/forms';
 import { matchFieldsValidator } from '@js-camp/angular/core/utils/compare-form-fields.util';
+import { ServerError } from '@js-camp/core/models/server-error';
 
 /** Type for registration form group. Contains types for each control. */
-export type RegistrationForm = {
+type RegistrationForm = {
 
 	/** Type of form control for email. */
 	readonly email: FormControl<string>;
@@ -22,9 +24,17 @@ export type RegistrationForm = {
 };
 
 /** Registration form management service. */
+@Injectable({ providedIn: 'root' })
 export class RegistrationFormService {
 
+	/** Form group for registration form. */
+	public readonly form: FormGroup<RegistrationForm>;
+
 	private readonly formBuilder = inject(NonNullableFormBuilder);
+
+	public constructor() {
+		this.form = this.initialize();
+	}
 
 	/**
 	 * Function for initializing registration form.
@@ -38,5 +48,24 @@ export class RegistrationFormService {
 			password: this.formBuilder.control('', [Validators.required]),
 			retypedPassword: this.formBuilder.control('', [Validators.required]),
 		}, { validators: matchFieldsValidator('password', 'retypedPassword') });
+	}
+
+	/**
+	 * Function for setting errors from server to form.
+	 * @param errorResponse - Server error object.
+	 */
+	public handleServerError(errorResponse: HttpErrorResponse): void {
+		let errorsString = '';
+
+		errorResponse.error.errors.forEach((error: ServerError) => {
+			if (error.attribute && this.form.contains(error.attribute)) {
+				this.form.controls[error.attribute as keyof RegistrationForm]
+					.setErrors({ serverError: error.detail });
+				return;
+			}
+			errorsString += `${error.detail}\n`;
+		});
+
+		this.form.setErrors({ serverError: errorsString });
 	}
 }

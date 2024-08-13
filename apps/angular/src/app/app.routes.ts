@@ -12,12 +12,12 @@ export const appRoutes: Routes = [
 	},
 	{
 		path: RouterPaths.Login,
-		loadComponent: () => import('./features/login/login-form.component')
+		loadComponent: () => import('./features/login-form/login-form.component')
 			.then(c => c.LoginFormComponent),
 	},
 	{
 		path: RouterPaths.Registration,
-		loadComponent: () => import('./features/registration/registration-form.component')
+		loadComponent: () => import('./features/registration-form/registration-form.component')
 			.then(c => c.RegistrationFormComponent),
 	},
 ];

@@ -1,9 +1,9 @@
 <div class="login-form-wrapper">
 	<h2 class="login-header">Login</h2>
-	@if (loginFormGroup) {
+	@if (loginFormService.form) {
 		<form
 			class="login-form"
-			[formGroup]="loginFormGroup"
+			[formGroup]="loginFormService.form"
 			(ngSubmit)="onLoginSubmit()"
 		>
 
@@ -18,9 +18,9 @@
 					placeholder="ivan.pupkin@gmail.com"
 					formControlName="email"
 				>
-				@if (loginFormGroup.get('email')?.hasError('required') && loginFormGroup.get('email')?.touched) {
+				@if (loginFormService.form.get('email')?.hasError('required') && loginFormService.form.get('email')?.touched) {
 					<mat-error>Email is required.</mat-error>
-				} @else if (loginFormGroup.get('email')?.hasError('email') && loginFormGroup.get('email')?.touched) {
+				} @else if (loginFormService.form.get('email')?.hasError('email') && loginFormService.form.get('email')?.touched) {
 					<mat-error>Enter a valid email address.</mat-error>
 				}
 			</mat-form-field>
@@ -36,19 +36,19 @@
 					placeholder="veryStrongPassW0rd"
 					formControlName="password"
 				>
-				@if (loginFormGroup.get('password')?.hasError('required') && loginFormGroup.get('password')?.touched) {
+				@if (loginFormService.form.get('password')?.hasError('required') && loginFormService.form.get('password')?.touched) {
 					<mat-error>Password is required.</mat-error>
 				}
 			</mat-form-field>
 
-			@if (loginFormGroup.hasError('serverError')) {
-				<mat-error>{{loginFormGroup.getError('serverError')}}</mat-error>
+			@if (loginFormService.form.hasError('serverError')) {
+				<mat-error>{{loginFormService.form.getError('serverError')}}</mat-error>
 			}
 
 			<button
 				mat-raised-button
 				type="submit"
-				[disabled]="loginFormGroup.invalid"
+				[disabled]="loginFormService.form.invalid"
 			>
 				Login
 			</button>

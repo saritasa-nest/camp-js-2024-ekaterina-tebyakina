@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,9 +10,8 @@ import { tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
-import { ServerError } from '@js-camp/core/models/server-error';
 
-import { RegistrationForm, RegistrationFormService } from './registration-form.service';
+import { RegistrationFormService } from './registration-form.service';
 
 /** Component with form for registration. */
 @Component({
@@ -30,15 +29,13 @@ import { RegistrationForm, RegistrationFormService } from './registration-form.s
 })
 export class RegistrationFormComponent {
 
-	/** Form group for registration form. */
-	public readonly registrationFormGroup: FormGroup<RegistrationForm>;
-
 	/** Enum with paths for link. */
 	protected readonly routerPaths = RouterPaths;
 
-	private readonly authorizationApiService = inject(AuthorizationApiService);
+	/** Registration form management service. */
+	protected readonly registrationFormService = inject(RegistrationFormService);
 
-	private readonly registrationFormService = inject(RegistrationFormService);
+	private readonly authorizationApiService = inject(AuthorizationApiService);
 
 	private readonly router = inject(Router);
 
@@ -46,14 +43,10 @@ export class RegistrationFormComponent {
 
 	private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
-	public constructor() {
-		this.registrationFormGroup = this.registrationFormService.initialize();
-	}
-
 	/** Handle registration submit. */
 	protected onRegistrationSubmit(): void {
 
-		const formData = new RegistrationData(this.registrationFormGroup.getRawValue());
+		const formData = new RegistrationData(this.registrationFormService.form.getRawValue());
 
 		this.authorizationApiService.register(formData).pipe(
 			takeUntilDestroyed(this.destroyRef),
@@ -63,7 +56,8 @@ export class RegistrationFormComponent {
 				},
 				error: (error: unknown) => {
 					if (error instanceof HttpErrorResponse) {
-						this.handleServerError(error);
+						this.registrationFormService.handleServerError(error);
+						this.changeDetectorRef.markForCheck();
 					}
 				},
 			}),
@@ -71,20 +65,4 @@ export class RegistrationFormComponent {
 			.subscribe();
 
 	}
-
-	private handleServerError(errorResponse: HttpErrorResponse): void {
-		let errorsString = '';
-
-		errorResponse.error.errors.forEach((error: ServerError) => {
-			if (error.attribute && this.registrationFormGroup?.contains(error.attribute)) {
-				this.registrationFormGroup.controls[error.attribute as keyof RegistrationForm].setErrors({ serverError: error.detail });
-				return;
-			}
-			errorsString += `${error.detail}\n`;
-		});
-
-		this.registrationFormGroup.setErrors({ serverError: errorsString });
-		this.changeDetectorRef.markForCheck();
-	}
-
 }
