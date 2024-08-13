@@ -33,16 +33,6 @@
 	max-width: var(--subsection-width);
 }
 
-.synopsis__header {
-	font-size: var(--font-size-md);
-	font-weight: var(--font-weight-medium);
-}
-
-.synopsis__text {
-	font-size: var(--font-size-base);
-	text-align: justify;
-}
-
 .cover {
 	padding: var(--space-s) 0;
 }
@@ -61,6 +51,16 @@
 	width: 100%;
 	height: auto;
 	object-fit: contain;
+}
+
+.synopsis__header {
+	font-size: var(--font-size-md);
+	font-weight: var(--font-weight-medium);
+}
+
+.synopsis__text {
+	font-size: var(--font-size-base);
+	text-align: justify;
 }
 
 .anime-details__list {

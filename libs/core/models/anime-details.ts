@@ -23,7 +23,7 @@ export class AnimeDetails extends Immerable {
 	/** Url to cover. */
 	public readonly image: string;
 
-	/**  */
+	/** Id the trailer on YouTube. */
 	public readonly trailerYoutubeId: string;
 
 	/** Title in English. */

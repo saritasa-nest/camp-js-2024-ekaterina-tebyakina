@@ -20,7 +20,6 @@ export const appRoutes: Routes = [
 			},
 		],
 	},
-
 	{
 		path: RouterPaths.Login,
 		loadComponent: () => import('./features/login-form/login-form.component')
