@@ -12,8 +12,6 @@ import { LoginDataMapper } from '@js-camp/core/mappers/login-data.mapper';
 import { AuthorizationTokens } from '@js-camp/core/models/authorization-tokens';
 import { AuthorizationTokensMapper } from '@js-camp/core/mappers/authorization-tokens.mapper';
 
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
 import { UrlConfigService } from './url-config.service';
 import { LocalStorageService } from './local-storage.service';
 
@@ -94,15 +92,10 @@ export class AuthorizationApiService {
 	}
 
 	/** Check is current user authenticated. */
-	public isAuthenticated(): boolean {
-		let isAuthenticated = false;
-		this.localStorageService.getAccessToken().pipe(
-			takeUntilDestroyed(this.destroyRef),
-		)
-			.subscribe(value => {
-				isAuthenticated = !!value;
-			});
-		return isAuthenticated;
+	public isAuthenticated(): Observable<boolean> {
+		return this.localStorageService.getAccessToken().pipe(
+			map(token => !!token),
+		);
 	}
 
 	private handleError(errorResponse: HttpErrorResponse): Observable<never> {

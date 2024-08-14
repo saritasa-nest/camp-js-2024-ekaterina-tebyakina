@@ -1,6 +1,8 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
+import { map, tap } from 'rxjs';
+
 import { AuthorizationApiService } from '../services/authorization-api.service';
 import { RouterPaths } from '../model/router-paths';
 
@@ -12,11 +14,12 @@ export const authorizationGuard: CanActivateFn = () => {
 	const authorizationService = inject(AuthorizationApiService);
 	const router = inject(Router);
 
-	if (authorizationService.isAuthenticated()) {
-		return true;
-	}
-
-	router.navigate([RouterPaths.Login]);
-	return false;
-
+	return authorizationService.isAuthenticated().pipe(
+		tap(isAuthenticated => {
+			if (!isAuthenticated) {
+				router.navigate([RouterPaths.Login]);
+			}
+		}),
+		map(isAuthenticated => isAuthenticated),
+	);
 };
