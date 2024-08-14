@@ -44,7 +44,7 @@ export class AnimeFilterFormComponent implements OnInit {
 
 	/** Event of anime types or search term changes. */
 	@Output()
-	public readonly animeFiltersEvent = new EventEmitter<AnimeFilters>();
+	public readonly animeFiltersChange = new EventEmitter<AnimeFilters>();
 
 	/** List of permissible values for types select control. */
 	protected readonly animeTypes = Object.values(AnimeType);
@@ -82,7 +82,7 @@ export class AnimeFilterFormComponent implements OnInit {
 		)
 			.subscribe(value => {
 				this.isAnimeFilters(value);
-				this.animeFiltersEvent.emit(value);
+				this.animeFiltersChange.emit(value);
 			});
 	}
 

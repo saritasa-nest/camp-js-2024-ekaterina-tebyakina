@@ -70,13 +70,13 @@ export class AnimeDashboardComponent {
 	/**
 	 * Triggers when the list of selected anime types or search term are changed.
 	 * Forms a new query parameters object with new type list and a new search term and navigate with these parameters.
-	 * @param event - Object of selected anime filters.
+	 * @param filters - Object of selected anime filters.
 	 */
-	protected onAnimeFiltersChange(event: AnimeFilters): void {
+	protected onAnimeFiltersChange(filters: AnimeFilters): void {
 
 		const filterParams: Partial<AnimeParams> = {
-			selectedTypes: event.types,
-			searchTerm: event.search,
+			selectedTypes: filters.types,
+			searchTerm: filters.search,
 			pageIndex: DEFAULT_PAGE_INDEX,
 		};
 
@@ -86,13 +86,13 @@ export class AnimeDashboardComponent {
 	/**
 	 * Triggers when pagination is changed.
 	 * Forms a new query parameters object with a new pagination data and navigate with these parameters.
-	 * @param event - Pagination settings.
+	 * @param pagination - Pagination settings.
 	 */
-	protected onPageChange(event: PageEvent): void {
+	protected onPaginationChange(pagination: PageEvent): void {
 
 		const filterParams: Partial<AnimeParams> = {
-			pageSize: event.pageSize,
-			pageIndex: event.pageIndex,
+			pageSize: pagination.pageSize,
+			pageIndex: pagination.pageIndex,
 		};
 
 		this.navigate(filterParams);
@@ -101,12 +101,12 @@ export class AnimeDashboardComponent {
 	/**
 	 * Triggers when ordering is changed.
 	 * Forms a new query parameters object with a new ordering data and navigate with these parameters.
-	 * @param event - Ordering settings.
+	 * @param sorting - Ordering settings.
 	 */
-	protected onOrderingChange(event: Sort): void {
+	protected onSortingChange(sorting: Sort): void {
 
 		const filterParams: Partial<AnimeParams> = {
-			sortingSettings: MaterialSortMapper.from(event),
+			sortingSettings: MaterialSortMapper.from(sorting),
 		};
 
 		this.navigate(filterParams);
@@ -114,10 +114,10 @@ export class AnimeDashboardComponent {
 
 	/**
 	 * Triggers when an anime is selected.
-	 * @param event - Selected anime index.
+	 * @param animeId - Selected anime index.
 	 */
-	protected onAnimeSelect(event: number): void {
-		this.router.navigate([RouterPaths.Main, event]);
+	protected onAnimeSelect(animeId: number): void {
+		this.router.navigate([RouterPaths.Main, animeId]);
 	}
 
 	private navigate(params: Partial<AnimeParams>): void {

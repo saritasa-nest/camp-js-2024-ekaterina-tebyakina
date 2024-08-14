@@ -52,15 +52,15 @@ export class AnimeTableComponent {
 
 	/** Event of pagination change. */
 	@Output()
-	public readonly paginationEvent = new EventEmitter<PageEvent>();
+	public readonly paginationChange = new EventEmitter<PageEvent>();
 
 	/** Event of table sorting. */
 	@Output()
-	public readonly sortEvent = new EventEmitter<Sort>();
+	public readonly sortingChange = new EventEmitter<Sort>();
 
 	/** Event of anime selecting. */
 	@Output()
-	public readonly animeSelectEvent = new EventEmitter<number>();
+	public readonly animeSelectionChange = new EventEmitter<number>();
 
 	/** Possible page size values. */
 	protected readonly pageSizeOptions = DEFAULT_SIZE_OPTIONS;
@@ -93,7 +93,7 @@ export class AnimeTableComponent {
 			event.pageIndex = 0;
 		}
 
-		this.paginationEvent.emit(event);
+		this.paginationChange.emit(event);
 	}
 
 	/**
@@ -101,7 +101,7 @@ export class AnimeTableComponent {
 	 * @param event - Sorting settings.
 	 */
 	protected onSortData(event: Sort): void {
-		this.sortEvent.emit(event);
+		this.sortingChange.emit(event);
 	}
 
 	/**
@@ -109,7 +109,7 @@ export class AnimeTableComponent {
 	 * @param event - Selected anime.
 	 */
 	protected onRowSelect(event: Anime): void {
-		this.animeSelectEvent.emit(event.id);
+		this.animeSelectionChange.emit(event.id);
 	}
 
 	/**
