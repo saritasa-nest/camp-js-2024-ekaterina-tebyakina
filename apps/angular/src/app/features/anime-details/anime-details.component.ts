@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { JsonPipe, AsyncPipe, DatePipe, NgOptimizedImage, Location } from '@angular/common';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
+import { SafePipe } from '@js-camp/angular/shared/pipes/safe.pipe';
 import { MatListModule } from '@angular/material/list';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
-import { DomSanitizer } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -29,6 +29,7 @@ const VIDEO_URL = 'https://www.youtube-nocookie.com/embed/';
 		AsyncPipe,
 		DatePipe,
 		EmptyPipe,
+		SafePipe,
 		JsonPipe,
 		NgOptimizedImage,
 		MatListModule,
@@ -52,16 +53,15 @@ export class AnimeDatailsComponent {
 	/** Anime trailer base url. */
 	protected readonly videoUrl = VIDEO_URL;
 
-	/** Helps preventing Cross Site Scripting Security bugs (XSS).*/
-	protected readonly sanitizer = inject(DomSanitizer);
-
 	private readonly location = inject(Location);
+
+	private readonly dialog = inject(Dialog);
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
 	private readonly animeApiService = inject(AnimeApiService);
 
-	public constructor(public dialog: Dialog) {
+	public constructor() {
 		const animeId = this.activatedRoute.snapshot.params['id'];
 		this.anime$ = this.animeApiService.getAnime(animeId);
 	}

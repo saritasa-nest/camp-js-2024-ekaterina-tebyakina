@@ -120,7 +120,7 @@
 							[title]="anime.japaneseTitle || 'Anime' + ' cover'"
 							[width]="playerWidth"
 							[height]="playerHeight"
-							[src]="sanitizer.bypassSecurityTrustResourceUrl(videoUrl + anime.trailerYoutubeId)"
+							[src]="(videoUrl + anime.trailerYoutubeId) | safe"
 						>
 						</iframe>
 					}
