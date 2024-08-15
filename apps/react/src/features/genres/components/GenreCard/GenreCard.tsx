@@ -1,6 +1,6 @@
 import { memo, FC } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Paper, Typography } from '@mui/material';
 
 import styles from './GenreCard.module.css';
 
@@ -12,8 +12,13 @@ const GenreCardComponent: FC = () => {
 	const { id } = useParams<{ id: string; }>();
 
 	return (
-		<Box>
-			<h2 className={styles.title}>Item Name</h2>
+		<Paper
+			elevation={3}
+			className={styles.card}
+		>
+			<h2 className={styles.title}>
+				Item Name
+			</h2>
 			<Box>
 				<Typography className={styles.information}>
 					Information about item with id = {id}
@@ -26,7 +31,7 @@ const GenreCardComponent: FC = () => {
 					Edit
 				</Button>
 			</Box>
-		</Box>
+		</Paper>
 	);
 
 };

@@ -5,6 +5,7 @@
 
 .list__item {
 	border: 1px var(--border-color) solid;
+	color: var(--primary-font-color);
 }
 
 .list__item:hover,

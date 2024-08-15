@@ -1,17 +1,13 @@
-/* eslint-disable arrow-body-style */
 import { memo, FC } from 'react';
 
 /** Studios page component. */
-const StudiosPageComponent: FC = () => {
-
-	return (
-		<>
-			<h1>Studios</h1>
-		</>
-	);
-};
+const StudiosPageComponent: FC = () => (
+	<>
+		<h1>Studios</h1>
+	</>
+);
 
 /**
- * Memorized StudiosPageComponent.
+ * Memorized studios page component.
  */
 export const StudiosPage = memo(StudiosPageComponent);

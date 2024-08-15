@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
 
-/** Edit form. */
+/** Genre edit form. */
 const GenreEditFormComponent: FC = () => (
 	<form>
 		Edit form
@@ -8,6 +8,6 @@ const GenreEditFormComponent: FC = () => (
 );
 
 /**
- * Memorized edit form.
+ * Memorized genre edit form.
  */
 export const GenreEditForm = memo(GenreEditFormComponent);

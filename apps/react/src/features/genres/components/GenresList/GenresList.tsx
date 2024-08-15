@@ -12,10 +12,10 @@ type Props = {
 	readonly genres: Genre[];
 };
 
-/**  */
+/** Genres list.  */
 const GenresListComponent: FC<Props> = ({ genres }: Props) => (
 	<List className={styles.list}>
-		{genres.map(genre =>
+		{ genres.map(genre =>
 			<ListItem
 				key={genre.id}
 				className={styles.list__item}
@@ -30,7 +30,7 @@ const GenresListComponent: FC<Props> = ({ genres }: Props) => (
 				<ListItemText
 					primary={genre.name}
 				/>
-			</ListItem>)}
+			</ListItem>) }
 	</List>
 );
 

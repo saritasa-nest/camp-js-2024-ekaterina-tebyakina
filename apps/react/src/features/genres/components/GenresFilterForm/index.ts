@@ -1,0 +1,1 @@
+export { GenresFilterForm } from './GenresFilterForm';
