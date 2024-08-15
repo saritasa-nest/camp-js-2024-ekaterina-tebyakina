@@ -27,9 +27,7 @@ const GenresListComponent: FC<Props> = ({ genres }: Props) => (
 				component={Link}
 				to={`/genres/${genre.id}`}
 			>
-				<ListItemText
-					primary={genre.name}
-				/>
+				<ListItemText primary={genre.name} />
 			</ListItem>) }
 	</List>
 );
