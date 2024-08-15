@@ -1,0 +1,28 @@
+.appbar {
+	width: 100%;
+	background-color: #fff !important;
+	padding: 0 var(--space-m);
+}
+
+.header {
+	width: 100%;
+	height: 56px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header__title {
+	color: var(--primary-font-color);
+	font-size: var(--font-size-xl);
+	font-weight: var(--font-weight-semibold);
+}
+
+.toolbar {
+	height: 40px;
+}
+
+.active {
+	color: var(--primary-color);
+}

@@ -1,0 +1,42 @@
+.container {
+	--form-field-height: 54px;
+
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: calc(100vh - var(--header-height));
+}
+
+.list__container {
+	min-width: 320px;
+	border: 1px var(--border-color) solid;
+}
+
+.filter__form {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--space-xs);
+	padding: var(--space-s);
+}
+
+.form__field {
+	height: var(--form-field-height);
+}
+
+.list {
+	width: 100%;
+	overflow-y: auto;
+	border: 1px var(--border-color) solid;
+	height: calc(100% - var(--form-field-height) - (2 * var(--space-s)));
+}
+
+.details {
+	width: 100%;
+	padding: var(--space-m);
+}
+
+.details__card {
+	padding: var(--space-m);
+	height: 100%;
+}

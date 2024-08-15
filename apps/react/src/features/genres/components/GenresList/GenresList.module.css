@@ -1,0 +1,14 @@
+.list {
+	width: 100%;
+	padding-top: 0 !important;
+}
+
+.list__item {
+	border: 1px var(--border-color) solid;
+}
+
+.list__item:hover,
+.list__item:focus {
+	cursor: pointer;
+	background-color: var(--hover-color);
+}
