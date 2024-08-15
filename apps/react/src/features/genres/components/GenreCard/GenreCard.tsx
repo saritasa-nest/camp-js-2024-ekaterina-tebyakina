@@ -16,11 +16,11 @@ const GenreCardComponent: FC = () => {
 			elevation={3}
 			className={styles.card}
 		>
-			<h2 className={styles.title}>
+			<h2 className={styles.card__title}>
 				Item Name
 			</h2>
 			<Box>
-				<Typography className={styles.information}>
+				<Typography className={styles.card__information}>
 					Information about item with id = {id}
 				</Typography>
 				<Button

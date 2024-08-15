@@ -3,12 +3,12 @@
 	height: 100%;
 }
 
-.title {
+.card__title {
 	font-size: var(--font-size-lg);
 	font-weight: var(--font-weight-semibold);
 	padding: var(--space-s) 0;
 }
 
-.information {
+.card__information {
 	padding: var(--space-s) 0;
 }

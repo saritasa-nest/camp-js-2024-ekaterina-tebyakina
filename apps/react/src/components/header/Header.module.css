@@ -16,7 +16,7 @@
 	font-weight: var(--font-weight-semibold);
 }
 
-.nav {
+.header__nav {
 	display: flex;
 	flex-direction: row;
 	gap: var(--space-m);

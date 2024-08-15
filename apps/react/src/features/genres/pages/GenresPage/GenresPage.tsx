@@ -26,13 +26,13 @@ const GenresPageComponent: FC = () => {
 
 	return (
 		<main className={styles.main}>
-			<Box className={styles.list__container}>
+			<Box className={styles.main__section}>
 				<GenresFilterForm/>
-				<Box className={styles.list}>
+				<Box className={styles.main__section__list}>
 					<GenresList genres={genres} />
 				</Box>
 			</Box>
-			<Box className={styles.details}>
+			<Box className={styles.main__details}>
 				<Outlet />
 			</Box>
 		</main>
