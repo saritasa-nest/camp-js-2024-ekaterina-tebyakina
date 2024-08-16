@@ -1,0 +1,16 @@
+.main {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: calc(100vh - var(--header-height));
+}
+
+.main__section {
+	width: 420px;
+	border: 1px var(--border-color) solid;
+}
+
+.main__details {
+	flex-grow: 1;
+	padding: var(--space-m);
+}
