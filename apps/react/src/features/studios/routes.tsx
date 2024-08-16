@@ -1,18 +1,15 @@
 import { lazy } from 'react';
-import { Navigate, RouteObject } from 'react-router-dom';
+import { RouteObject } from 'react-router-dom';
 
 const StudiosPage = lazy(() => import('./pages/StudiosPage').then(module => ({ default: module.StudiosPage })));
 
-/**
- * Route object for StudiosPage.
- */
+/** Path to studios for url. */
+export const PATH_TO_STUDIOS = 'studios';
+
+/** Route object for StudiosPage. */
 export const studiosRoutes: RouteObject[] = [
 	{
-		path: 'studios',
+		path: PATH_TO_STUDIOS,
 		element: <StudiosPage />,
-	},
-	{
-		path: '*',
-		element: <Navigate to="StudiosPage" />,
 	},
 ];

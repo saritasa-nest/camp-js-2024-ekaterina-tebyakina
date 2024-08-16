@@ -1,15 +1,17 @@
 import { memo, FC } from 'react';
-import { useParams, Link, useLocation } from 'react-router-dom';
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { useParams, Link } from 'react-router-dom';
+import { Button, Paper, Typography } from '@mui/material';
+
+import { PATH_TO_EDIT_GENRE, PATH_TO_GENRES } from '../../routes';
 
 import styles from './GenreCard.module.css';
 
 /** Card with genre data. */
 const GenreCardComponent: FC = () => {
 
-	const location = useLocation();
-	const linkToEdit = `${location.pathname}/edit`;
 	const { id } = useParams<{ id: string; }>();
+
+	const linkToEdit = `/${PATH_TO_GENRES}/${id}/${PATH_TO_EDIT_GENRE}`;
 
 	return (
 		<Paper
@@ -19,7 +21,7 @@ const GenreCardComponent: FC = () => {
 			<h2 className={styles.card__title}>
 				Item Name
 			</h2>
-			<Box>
+			<div>
 				<Typography className={styles.card__information}>
 					Information about item with id = {id}
 				</Typography>
@@ -30,13 +32,11 @@ const GenreCardComponent: FC = () => {
 				>
 					Edit
 				</Button>
-			</Box>
+			</div>
 		</Paper>
 	);
 
 };
 
-/**
- * Memorized genre card.
- */
+/** Memorized genre card. */
 export const GenreCard = memo(GenreCardComponent);

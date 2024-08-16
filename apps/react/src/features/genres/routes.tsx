@@ -1,31 +1,34 @@
 import { lazy } from 'react';
-import { Navigate, RouteObject } from 'react-router-dom';
+import { RouteObject } from 'react-router-dom';
 
 import { GenreCard } from './components/GenreCard';
 import { GenreEditForm } from './components/GenreEditForm';
 
 const GenresPage = lazy(() => import('./pages/GenresPage').then(module => ({ default: module.GenresPage })));
 
-/**
- * Route object for GenresPage.
- */
+/** Path to genres for url. */
+export const PATH_TO_GENRES = 'genres';
+
+/** Path to a genre for url. */
+export const PATH_TO_GENRE = ':id';
+
+/** Path to a genre editing for url. */
+export const PATH_TO_EDIT_GENRE = 'edit';
+
+/** Route object for GenresPage. */
 export const genresRoutes: RouteObject[] = [
 	{
-		path: 'genres',
+		path: PATH_TO_GENRES,
 		element: <GenresPage />,
 		children: [
 			{
-				path: ':id',
+				path: PATH_TO_GENRE,
 				element: <GenreCard />,
 			},
 			{
-				path: ':id/edit',
+				path: `${PATH_TO_GENRE}/${PATH_TO_EDIT_GENRE}`,
 				element: <GenreEditForm />,
 			},
 		],
-	},
-	{
-		path: '*',
-		element: <Navigate to="GenresPage" />,
 	},
 ];

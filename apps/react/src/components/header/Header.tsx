@@ -3,7 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
+import { PATH_TO_ANIME } from '@js-camp/react/features/anime/routes';
+import { PATH_TO_GENRES } from '@js-camp/react/features/genres/routes';
+import { PATH_TO_STUDIOS } from '@js-camp/react/features/studios/routes';
 
 import styles from './Header.module.css';
 
@@ -12,7 +14,7 @@ const HeaderComponent: FC = () => {
 
 	const location = useLocation();
 
-	const isActive = (path: string) => location.pathname.startsWith(path);
+	const isCurrentPath = (path: string) => location.pathname.startsWith(path);
 
 	return (
 		<AppBar
@@ -24,33 +26,31 @@ const HeaderComponent: FC = () => {
 				<Stack direction="row" spacing={1}>
 					<Chip
 						label="Anime"
-						variant={isActive('/anime') ? 'filled' : 'outlined'}
+						variant={isCurrentPath(`/${PATH_TO_ANIME}`) ? 'filled' : 'outlined'}
 						component={Link}
-						to="/anime"
+						to={PATH_TO_ANIME}
 						clickable
 					/>
 					<Chip
 						label="Genres"
-						variant={isActive('/genres') ? 'filled' : 'outlined'}
+						variant={isCurrentPath(`/${PATH_TO_GENRES}`) ? 'filled' : 'outlined'}
 						component={Link}
-						to="/genres"
+						to={PATH_TO_GENRES}
 						clickable
 					/>
 					<Chip
 						label="Studios"
-						variant={isActive('/studios') ? 'filled' : 'outlined'}
+						variant={isCurrentPath(`/${PATH_TO_STUDIOS}`) ? 'filled' : 'outlined'}
 						component={Link}
-						to="/studios"
+						to={PATH_TO_STUDIOS}
 						clickable
 					/>
 				</Stack>
 			</nav>
-			<Box>Authorization menu</Box>
+			<span>Authorization menu</span>
 		</AppBar>
 	);
 };
 
-/**
- * Memorized header.
- */
+/** Memorized header. */
 export const Header = memo(HeaderComponent);

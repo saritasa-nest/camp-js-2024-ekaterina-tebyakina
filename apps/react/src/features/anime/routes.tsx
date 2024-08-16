@@ -1,18 +1,15 @@
 import { lazy } from 'react';
-import { Navigate, RouteObject } from 'react-router-dom';
+import { RouteObject } from 'react-router-dom';
 
 const AnimePage = lazy(() => import('./pages/AnimePage').then(module => ({ default: module.AnimePage })));
 
-/**
- * Route object for AnimePage.
- */
+/** Path to anime for url. */
+export const PATH_TO_ANIME = 'anime';
+
+/** Route object for AnimePage. */
 export const animeRoutes: RouteObject[] = [
 	{
-		path: 'anime',
+		path: PATH_TO_ANIME,
 		element: <AnimePage />,
-	},
-	{
-		path: '*',
-		element: <Navigate to="AnimePage" />,
 	},
 ];
