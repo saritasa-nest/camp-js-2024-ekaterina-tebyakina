@@ -1,0 +1,58 @@
+.list {
+	overflow-y: auto;
+	border: 1px var(--border-color) solid;
+	height: calc(100% - var(--form-field-height) - (2 * var(--space-s)));
+
+	/* Used important to override material styles. */
+	padding-top: 0 !important;
+}
+
+.list__item {
+	border: 1px var(--border-color) solid;
+	color: var(--primary-font-color);
+	display: flex;
+	flex-direction: row;
+	gap: var(--space-s);
+}
+
+.list__item:hover,
+.list__item:focus {
+	cursor: pointer;
+	background-color: var(--hover-color);
+}
+
+.list__item-cover {
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+}
+
+.list__item-property {
+	display: flex;
+	align-items: center;
+	gap: var(--space-xs);
+}
+
+.item-property__title {
+	white-space: nowrap;
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-semibold);
+}
+
+.item-property__value {
+	max-width: 100%;
+
+	/* Disable to use -webkit */
+	/* stylelint-disable-next-line value-no-vendor-prefix */
+	display: -webkit-box;
+
+	/* Line-clamp doesn't work in Chrome */
+	line-clamp: 1;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-regular);
+}
