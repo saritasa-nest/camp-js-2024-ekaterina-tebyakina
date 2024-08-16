@@ -2,7 +2,6 @@ import { memo, useEffect, FC } from 'react';
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 import { GenresList } from '../../components/GenresList';
@@ -26,20 +25,16 @@ const GenresPageComponent: FC = () => {
 
 	return (
 		<main className={styles.main}>
-			<Box className={styles.main__section}>
-				<GenresFilterForm/>
-				<Box className={styles.main__section__list}>
-					<GenresList genres={genres} />
-				</Box>
-			</Box>
-			<Box className={styles.main__details}>
+			<div className={styles.main__section}>
+				<GenresFilterForm />
+				<GenresList genres={genres} />
+			</div>
+			<div className={styles.main__details}>
 				<Outlet />
-			</Box>
+			</div>
 		</main>
 	);
 };
 
-/**
- * Memorized genres page component.
- */
+/** Memorized genres page component. */
 export const GenresPage = memo(GenresPageComponent);
