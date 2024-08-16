@@ -9,9 +9,7 @@ import { Header } from './components/header';
 
 import './theme/styles.css';
 
-/**
- * App component.
- */
+/** App component. */
 export const App: FC = () => (
 	<Provider store={store}>
 		<BrowserRouter>

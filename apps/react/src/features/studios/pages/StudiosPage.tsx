@@ -7,7 +7,5 @@ const StudiosPageComponent: FC = () => (
 	</>
 );
 
-/**
- * Memorized studios page component.
- */
+/** Memorized studios page component. */
 export const StudiosPage = memo(StudiosPageComponent);

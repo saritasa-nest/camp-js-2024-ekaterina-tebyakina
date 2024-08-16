@@ -7,7 +7,5 @@ const AnimePageComponent: FC = () => (
 	</>
 );
 
-/**
- * Memorized anime page component.
- */
+/** Memorized anime page component. */
 export const AnimePage = memo(AnimePageComponent);

@@ -7,7 +7,5 @@ const GenreEditFormComponent: FC = () => (
 	</form>
 );
 
-/**
- * Memorized genre edit form.
- */
+/** Memorized genre edit form. */
 export const GenreEditForm = memo(GenreEditFormComponent);
