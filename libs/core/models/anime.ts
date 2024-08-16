@@ -39,12 +39,6 @@ export class Anime extends Immerable {
 	/** User score. */
 	public readonly userScore: number;
 
-	/** List of studios. */
-	public readonly studios: readonly number[];
-
-	/** List of genres. */
-	public readonly genres: readonly number[];
-
 	public constructor(data: AnimeConstructorData) {
 		super();
 		this.id = data.id;
@@ -58,8 +52,6 @@ export class Anime extends Immerable {
 		this.status = data.status;
 		this.score = data.score;
 		this.userScore = data.userScore;
-		this.studios = data.studios;
-		this.genres = data.genres;
 	}
 }
 
