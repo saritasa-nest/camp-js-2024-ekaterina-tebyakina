@@ -6,7 +6,7 @@
 	padding: var(--space-s);
 }
 
-.form__field {
+.field {
 	height: var(--form-field-height);
 	flex-grow: 1;
 }

@@ -13,9 +13,7 @@ export type GenresState = {
 	readonly isLoading: boolean;
 };
 
-/**
- * InitialState for GenresState.
- */
+/** Initial state for genres state. */
 export const initialState: GenresState = {
 	isLoading: false,
 	genres: [],

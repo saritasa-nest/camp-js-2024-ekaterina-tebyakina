@@ -4,14 +4,14 @@ import { Genre } from '@js-camp/core/models/genre';
 import { List, ListItem, IconButton, ListItemText } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { PATH_TO_GENRES } from '../../routes';
+import { GENRES_PATH } from '../../routes';
 
 import styles from './GenresList.module.css';
 
 type Props = {
 
 	/** Genres. */
-	readonly genres: Genre[];
+	readonly genres: readonly Genre[];
 };
 
 /** Genres list.  */
@@ -20,19 +20,19 @@ const GenresListComponent: FC<Props> = ({ genres }: Props) => (
 		{ genres.map(genre =>
 			<ListItem
 				key={genre.id}
-				className={styles.list__item}
+				className={styles.item}
 				secondaryAction={
 					<IconButton edge="end" aria-label="delete">
 						<DeleteIcon />
 					</IconButton>
 				}
 				component={Link}
-				to={`/${PATH_TO_GENRES}/${genre.id}`}
+				to={`/${GENRES_PATH}/${genre.id}`}
 			>
 				<ListItemText primary={genre.name} />
 			</ListItem>) }
 	</List>
 );
 
-/** Memorized genres list. */
+/** Memoized genres list. */
 export const GenresList = memo(GenresListComponent);

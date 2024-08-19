@@ -1,22 +1,21 @@
-/* Used important to override material styles. */
 .header {
 	width: 100%;
 	height: var(--header-height);
 	padding: 0 var(--space-m);
-	background-color: var(--primary-background-color) !important;
-	color: var(--primary-font-color) !important;
+	background-color: var(--primary-background-color);
+	color: var(--primary-font-color);
 	display: flex;
-	flex-direction: row !important;
+	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
 }
 
-.header__title {
+.title {
 	font-size: var(--font-size-xl);
 	font-weight: var(--font-weight-semibold);
 }
 
-.header__nav {
+.nav {
 	display: flex;
 	flex-direction: row;
 	gap: var(--space-m);

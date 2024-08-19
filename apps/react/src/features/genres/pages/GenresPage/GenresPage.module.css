@@ -5,13 +5,13 @@
 	height: calc(100vh - var(--header-height));
 }
 
-.main__section {
+.section {
 	min-width: 320px;
 	border: 1px var(--border-color) solid;
 	flex-grow: 1;
 }
 
-.main__details {
+.details {
 	width: 100%;
 	padding: var(--space-m);
 }
