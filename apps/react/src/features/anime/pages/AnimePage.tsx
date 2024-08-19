@@ -4,6 +4,8 @@ import { selectAnimeList, selectAnimeListLoading } from '@js-camp/react/store/an
 import { fetchList } from '@js-camp/react/store/anime/dispatchers';
 import { Outlet } from 'react-router-dom';
 
+import { AnimeSort } from '@js-camp/react/models/animeSort';
+
 import { AnimeList } from '../components/AnimeList';
 import { AnimeFilterForm } from '../components/AnimeFilterForm';
 
@@ -16,7 +18,11 @@ const AnimePageComponent: FC = () => {
 	const isLoading = useAppSelector(selectAnimeListLoading);
 
 	useEffect(() => {
-		dispatch(fetchList());
+		dispatch(fetchList({
+			searchTerm: '',
+			selectedTypes: [],
+			sortingSettings: AnimeSort.None,
+		}));
 	}, [dispatch]);
 
 	if (isLoading) {
