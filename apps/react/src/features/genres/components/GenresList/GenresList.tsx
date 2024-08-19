@@ -11,11 +11,11 @@ import styles from './GenresList.module.css';
 type Props = {
 
 	/** Genres. */
-	readonly genres: Genre[];
+	readonly genres: readonly Genre[];
 };
 
 /** Genres list.  */
-const GenresListComponent: FC<Props> = ({ genres }: Props) => (
+const GenresListComponent: FC<Props> = ({ genres }) => (
 	<List className={styles.list}>
 		{ genres.map(genre =>
 			<ListItem
