@@ -3,9 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import { PATH_TO_ANIME } from '@js-camp/react/features/anime/routes';
-import { PATH_TO_GENRES } from '@js-camp/react/features/genres/routes';
-import { PATH_TO_STUDIOS } from '@js-camp/react/features/studios/routes';
+import { ANIME_PATH } from '@js-camp/react/features/anime/routes';
+import { GENRES_PATH } from '@js-camp/react/features/genres/routes';
+import { STUDIOS_PATH } from '@js-camp/react/features/studios/routes';
 
 import styles from './Header.module.css';
 
@@ -26,23 +26,23 @@ const HeaderComponent: FC = () => {
 				<Stack direction="row" spacing={1}>
 					<Chip
 						label="Anime"
-						variant={isCurrentPath(`/${PATH_TO_ANIME}`) ? 'filled' : 'outlined'}
+						variant={isCurrentPath(`/${ANIME_PATH}`) ? 'filled' : 'outlined'}
 						component={Link}
-						to={PATH_TO_ANIME}
+						to={ANIME_PATH}
 						clickable
 					/>
 					<Chip
 						label="Genres"
-						variant={isCurrentPath(`/${PATH_TO_GENRES}`) ? 'filled' : 'outlined'}
+						variant={isCurrentPath(`/${GENRES_PATH}`) ? 'filled' : 'outlined'}
 						component={Link}
-						to={PATH_TO_GENRES}
+						to={GENRES_PATH}
 						clickable
 					/>
 					<Chip
 						label="Studios"
-						variant={isCurrentPath(`/${PATH_TO_STUDIOS}`) ? 'filled' : 'outlined'}
+						variant={isCurrentPath(`/${STUDIOS_PATH}`) ? 'filled' : 'outlined'}
 						component={Link}
-						to={PATH_TO_STUDIOS}
+						to={STUDIOS_PATH}
 						clickable
 					/>
 				</Stack>

@@ -4,7 +4,7 @@ import { Genre } from '@js-camp/core/models/genre';
 import { List, ListItem, IconButton, ListItemText } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { PATH_TO_GENRES } from '../../routes';
+import { GENRES_PATH } from '../../routes';
 
 import styles from './GenresList.module.css';
 
@@ -15,7 +15,7 @@ type Props = {
 };
 
 /** Genres list.  */
-const GenresListComponent: FC<Props> = ({ genres }) => (
+const GenresListComponent: FC<Props> = ({ genres }: Props) => (
 	<List className={styles.list}>
 		{ genres.map(genre =>
 			<ListItem
@@ -27,7 +27,7 @@ const GenresListComponent: FC<Props> = ({ genres }) => (
 					</IconButton>
 				}
 				component={Link}
-				to={`/${PATH_TO_GENRES}/${genre.id}`}
+				to={`/${GENRES_PATH}/${genre.id}`}
 			>
 				<ListItemText primary={genre.name} />
 			</ListItem>) }

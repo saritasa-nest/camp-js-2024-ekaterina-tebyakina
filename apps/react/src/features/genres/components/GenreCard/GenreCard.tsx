@@ -2,7 +2,7 @@ import { memo, FC } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Button, Paper, Typography } from '@mui/material';
 
-import { PATH_TO_EDIT_GENRE, PATH_TO_GENRES } from '../../routes';
+import { EDIT_GENRE_PATH, GENRES_PATH } from '../../routes';
 
 import styles from './GenreCard.module.css';
 
@@ -11,7 +11,7 @@ const GenreCardComponent: FC = () => {
 
 	const { id } = useParams<{ id: string; }>();
 
-	const linkToEdit = `/${PATH_TO_GENRES}/${id}/${PATH_TO_EDIT_GENRE}`;
+	const linkToEdit = `/${GENRES_PATH}/${id}/${EDIT_GENRE_PATH}`;
 
 	return (
 		<Paper

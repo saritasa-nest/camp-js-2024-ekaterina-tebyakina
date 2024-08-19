@@ -4,12 +4,12 @@ import { RouteObject } from 'react-router-dom';
 const AnimePage = lazy(() => import('./pages/AnimePage').then(module => ({ default: module.AnimePage })));
 
 /** Path to anime for url. */
-export const PATH_TO_ANIME = 'anime';
+export const ANIME_PATH = 'anime';
 
 /** Route object for anime page. */
 export const animeRoutes: readonly RouteObject[] = [
 	{
-		path: PATH_TO_ANIME,
+		path: ANIME_PATH,
 		element: <AnimePage />,
 	},
 ];
