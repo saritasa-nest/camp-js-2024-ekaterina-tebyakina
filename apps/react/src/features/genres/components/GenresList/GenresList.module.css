@@ -9,10 +9,10 @@
 .item {
 	border: 1px var(--border-color) solid;
 	color: var(--primary-font-color);
+	cursor: pointer;
 }
 
 .item:hover,
 .item:focus {
-	cursor: pointer;
 	background-color: var(--hover-color);
 }
