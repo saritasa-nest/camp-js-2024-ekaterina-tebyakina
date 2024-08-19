@@ -3,9 +3,7 @@
 	overflow-y: auto;
 	border: 1px var(--border-color) solid;
 	height: calc(100% - var(--form-field-height) - (2 * var(--space-s)));
-
-	/* Used important to override material styles. */
-	padding-top: 0 !important;
+	padding-top: 0;
 }
 
 .list__item {
