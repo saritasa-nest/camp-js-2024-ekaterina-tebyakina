@@ -1,10 +1,10 @@
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
 
-import { GenreCard } from './components/GenreCard';
-import { GenreEditForm } from './components/GenreEditForm';
+import { GenreCard } from './components/GenreCard/GenreCard';
+import { GenreEditForm } from './components/GenreEditForm/GenreEditForm';
 
-const GenresPage = lazy(() => import('./pages/GenresPage').then(module => ({ default: module.GenresPage })));
+const GenresPage = lazy(() => import('./pages/GenresPage/GenresPage').then(module => ({ default: module.GenresPage })));
 
 /** Path to genres for url. */
 export const PATH_TO_GENRES = 'genres';

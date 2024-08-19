@@ -5,9 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { StyledEngineProvider } from '@mui/material';
 
 import { RootRouter } from './routes/RootRouter';
-import { store } from './store';
-import { Header } from './components/header';
-
+import { Header } from './components/header/Header';
+import { store } from './store/store';
 import './theme/styles.css';
 
 /** App component. */
