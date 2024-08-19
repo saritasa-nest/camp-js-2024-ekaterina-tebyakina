@@ -12,6 +12,7 @@ export namespace GenreMapper {
 		return new Genre({
 			id: genre.id,
 			name: genre.name,
+			type: genre.type,
 		});
 	}
 }

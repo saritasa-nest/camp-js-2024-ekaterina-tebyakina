@@ -15,7 +15,7 @@ type Props = {
 /** Genres list.  */
 const GenresListComponent: FC<Props> = ({ genres }: Props) => (
 	<List className={styles.list}>
-		{ genres.map(genre =>
+		{genres.map(genre =>
 			<ListItem
 				key={genre.id}
 				className={styles.list__item}
@@ -28,7 +28,8 @@ const GenresListComponent: FC<Props> = ({ genres }: Props) => (
 				to={`/genres/${genre.id}`}
 			>
 				<ListItemText primary={genre.name} />
-			</ListItem>) }
+				<ListItemText primary={genre.type} />
+			</ListItem>)}
 	</List>
 );
 
