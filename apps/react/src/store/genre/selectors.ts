@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState } from '../store';
+import { RootState } from '..';
 
 /** Selects all genres from store. */
 export const selectGenres = createSelector(

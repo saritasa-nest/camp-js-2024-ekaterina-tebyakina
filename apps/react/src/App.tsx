@@ -6,7 +6,7 @@ import { StyledEngineProvider } from '@mui/material';
 
 import { RootRouter } from './routes/RootRouter';
 import { Header } from './components/header/Header';
-import { store } from './store/store';
+import { store } from './store';
 import './theme/styles.css';
 
 /** App component. */

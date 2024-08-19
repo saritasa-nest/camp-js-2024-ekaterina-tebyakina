@@ -1,9 +1,10 @@
 import { memo, useEffect, FC } from 'react';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { Outlet } from 'react-router-dom';
 
 import { selectAreStudiosLoading, selectStudios } from '@js-camp/react/store/studio/selectors';
 import { getAllStudios } from '@js-camp/react/store/studio/dispatchers';
+
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 
 import { StudiosList } from '../../components/StudiosList';
 
