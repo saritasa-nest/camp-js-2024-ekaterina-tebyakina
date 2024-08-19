@@ -8,11 +8,11 @@ import styles from './StudiosList.module.css';
 
 type Props = {
 
-	/** Genres. */
+	/** Studios. */
 	readonly studios: AnimeStudio[];
 };
 
-/** Genres list.  */
+/** Studios list.  */
 const StudiosListComponent: FC<Props> = ({ studios }: Props) => (
 	<List className={styles.list}>
 		{ studios.map(studio =>
@@ -30,5 +30,5 @@ const StudiosListComponent: FC<Props> = ({ studios }: Props) => (
 	</List>
 );
 
-/** Memorized genres list. */
+/** Memorized studios list. */
 export const StudiosList = memo(StudiosListComponent);
