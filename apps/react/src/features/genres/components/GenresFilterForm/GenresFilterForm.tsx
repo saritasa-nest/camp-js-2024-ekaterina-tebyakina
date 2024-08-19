@@ -14,5 +14,5 @@ const GenresFilterFormComponent: FC = () => (
 	</form>
 );
 
-/** Memorized filter form. */
+/** Memoized filter form. */
 export const GenresFilterForm = memo(GenresFilterFormComponent);

@@ -34,5 +34,5 @@ const GenresListComponent: FC<Props> = ({ genres }: Props) => (
 	</List>
 );
 
-/** Memorized genres list. */
+/** Memoized genres list. */
 export const GenresList = memo(GenresListComponent);

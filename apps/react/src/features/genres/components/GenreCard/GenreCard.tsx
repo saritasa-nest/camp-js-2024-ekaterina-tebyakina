@@ -38,5 +38,5 @@ const GenreCardComponent: FC = () => {
 
 };
 
-/** Memorized genre card. */
+/** Memoized genre card. */
 export const GenreCard = memo(GenreCardComponent);

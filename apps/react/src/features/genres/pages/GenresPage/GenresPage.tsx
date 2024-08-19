@@ -36,5 +36,5 @@ const GenresPageComponent: FC = () => {
 	);
 };
 
-/** Memorized genres page component. */
+/** Memoized genres page component. */
 export const GenresPage = memo(GenresPageComponent);
