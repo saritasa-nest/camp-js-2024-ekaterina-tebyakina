@@ -21,8 +21,8 @@ const HeaderComponent: FC = () => {
 			position="static"
 			className={styles.header}
 		>
-			<nav className={styles.header__nav}>
-				<h1 className={styles.header__title}>Anime App</h1>
+			<nav className={styles.nav}>
+				<h1 className={styles.title}>Anime App</h1>
 				<Stack direction="row" spacing={1}>
 					<Chip
 						label="Anime"

@@ -20,7 +20,7 @@ const GenresListComponent: FC<Props> = ({ genres }: Props) => (
 		{ genres.map(genre =>
 			<ListItem
 				key={genre.id}
-				className={styles.list__item}
+				className={styles.item}
 				secondaryAction={
 					<IconButton edge="end" aria-label="delete">
 						<DeleteIcon />

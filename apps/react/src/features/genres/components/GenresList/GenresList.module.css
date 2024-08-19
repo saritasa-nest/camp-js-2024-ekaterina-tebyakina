@@ -6,13 +6,13 @@
 	padding-top: 0;
 }
 
-.list__item {
+.item {
 	border: 1px var(--border-color) solid;
 	color: var(--primary-font-color);
 }
 
-.list__item:hover,
-.list__item:focus {
+.item:hover,
+.item:focus {
 	cursor: pointer;
 	background-color: var(--hover-color);
 }

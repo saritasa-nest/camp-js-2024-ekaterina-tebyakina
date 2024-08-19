@@ -25,11 +25,11 @@ const GenresPageComponent: FC = () => {
 
 	return (
 		<main className={styles.main}>
-			<div className={styles.main__section}>
+			<div className={styles.section}>
 				<GenresFilterForm />
 				<GenresList genres={genres} />
 			</div>
-			<div className={styles.main__details}>
+			<div className={styles.details}>
 				<Outlet />
 			</div>
 		</main>
