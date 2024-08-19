@@ -18,10 +18,10 @@ export const store = configureStore({
 	}),
 });
 
-/** RootState type. */
+/** Root state type. */
 export type RootState = ReturnType<typeof store.getState>;
 
-/** AppDispatch type. */
+/** App dispatch type. */
 export type AppDispatch = typeof store.dispatch;
 
 /** Typed `useDispatch` hook. */
