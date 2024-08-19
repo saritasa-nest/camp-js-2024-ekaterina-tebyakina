@@ -1,4 +1,3 @@
-
 import { FC, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -15,12 +14,11 @@ export const App: FC = () => (
 		<BrowserRouter>
 			<div>
 				<StyledEngineProvider injectFirst>
+					<Header />
 					<Suspense fallback={<div>Brrr... here should be your loader component</div>}>
-						<Header />
 						<RootRouter />
 					</Suspense>
 				</StyledEngineProvider>
-
 			</div>
 		</BrowserRouter>
 	</Provider>
