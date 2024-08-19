@@ -1,7 +1,7 @@
 .list {
 	overflow-y: auto;
 	border: 1px var(--border-color) solid;
-	height: calc(100% - var(--form-field-height) - (2 * var(--space-s)));
+	height: calc(100% - (2 * var(--form-field-height)) - (3 * var(--space-s)));
 
 	/* Used important to override material styles. */
 	padding-top: 0 !important;
