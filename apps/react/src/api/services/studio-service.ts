@@ -14,7 +14,7 @@ export namespace StudioService {
 	export async function getAllStudios() {
 		const studioPage = await http
 			.get<PaginationDto<AnimeStudioDto>>(AppUrls.anime.studio.listCursor)
-			.then(responseDto => PaginationMapper.fromDto(responseDto.data, AnimeStudioMapper.fromDto));
+			.then(res => PaginationMapper.fromDto(res.data, AnimeStudioMapper.fromDto));
 
 		return studioPage;
 	}
