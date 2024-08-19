@@ -7,7 +7,7 @@ const AnimePage = lazy(() => import('./pages/AnimePage').then(module => ({ defau
 export const PATH_TO_ANIME = 'anime';
 
 /** Route object for AnimePage. */
-export const animeRoutes: RouteObject[] = [
+export const animeRoutes: readonly RouteObject[] = [
 	{
 		path: PATH_TO_ANIME,
 		element: <AnimePage />,

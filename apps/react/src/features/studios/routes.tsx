@@ -7,7 +7,7 @@ const StudiosPage = lazy(() => import('./pages/StudiosPage').then(module => ({ d
 export const PATH_TO_STUDIOS = 'studios';
 
 /** Route object for StudiosPage. */
-export const studiosRoutes: RouteObject[] = [
+export const studiosRoutes: readonly RouteObject[] = [
 	{
 		path: PATH_TO_STUDIOS,
 		element: <StudiosPage />,

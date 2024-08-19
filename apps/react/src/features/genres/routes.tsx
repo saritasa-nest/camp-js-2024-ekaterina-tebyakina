@@ -16,7 +16,7 @@ export const PATH_TO_GENRE = ':id';
 export const PATH_TO_EDIT_GENRE = 'edit';
 
 /** Route object for GenresPage. */
-export const genresRoutes: RouteObject[] = [
+export const genresRoutes: readonly RouteObject[] = [
 	{
 		path: PATH_TO_GENRES,
 		element: <GenresPage />,
