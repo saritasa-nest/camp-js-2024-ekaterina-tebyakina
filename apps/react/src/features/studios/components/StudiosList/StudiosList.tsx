@@ -1,10 +1,10 @@
 import { memo, FC } from 'react';
-import { List, ListItem, IconButton, ListItemText } from '@mui/material';
+import { List, ListItem, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { AnimeStudio } from '@js-camp/core/models/anime-studio';
 
-import styles from './StudiosList.module.css';
+import { StudioListItem } from '../StudioCard';
 
 type Props = {
 
@@ -14,19 +14,36 @@ type Props = {
 
 /** Studios list.  */
 const StudiosListComponent: FC<Props> = ({ studios }: Props) => (
-	<List className={styles.list}>
-		{ studios.map(studio =>
+	<List
+		sx={{
+			height: '100%',
+			overflowY: 'auto',
+			borderWidth: '1px',
+			borderStyle: 'solid',
+			borderColor: 'rgba(0 0 0 / 15%)',
+			paddingTop: 0,
+		}}
+	>
+		{studios.map(studio => (
 			<ListItem
 				key={studio.id}
-				className={styles.list__item}
+				sx={{
+					'borderBottom': 1,
+					'borderColor': 'rgba(0 0 0 / 15%)',
+					':hover': {
+						cursor: 'pointer',
+						backgroundColor: 'rgba(0 0 0 / 15%)',
+					},
+				}}
 				secondaryAction={
 					<IconButton edge="end" aria-label="delete">
 						<DeleteIcon />
 					</IconButton>
 				}
 			>
-				<ListItemText primary={studio.name} />
-			</ListItem>) }
+				<StudioListItem key={studio.id} studio={studio} />
+			</ListItem>
+		))}
 	</List>
 );
 
