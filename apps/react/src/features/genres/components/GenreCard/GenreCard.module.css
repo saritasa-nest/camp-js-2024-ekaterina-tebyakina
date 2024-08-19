@@ -1,3 +1,14 @@
 .card {
-	background-color: aliceblue;
+	padding: var(--space-m);
+	height: 100%;
+}
+
+.title {
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-semibold);
+	padding: var(--space-s) 0;
+}
+
+.information {
+	padding: var(--space-s) 0;
 }

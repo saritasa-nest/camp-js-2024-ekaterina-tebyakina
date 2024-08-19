@@ -1,0 +1,12 @@
+.form {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--space-xs);
+	padding: var(--space-s);
+}
+
+.field {
+	height: var(--form-field-height);
+	flex-grow: 1;
+}
