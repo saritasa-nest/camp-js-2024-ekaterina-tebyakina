@@ -12,10 +12,9 @@ export namespace StudioService {
 
 	/** Get all studios. */
 	export async function getAllStudios() {
-		const studioPage = await http
-			.get<PaginationDto<AnimeStudioDto>>(AppUrls.anime.studio.listCursor)
-			.then(res => PaginationMapper.fromDto(res.data, AnimeStudioMapper.fromDto));
+		const { data } = await http
+			.get<PaginationDto<AnimeStudioDto>>(AppUrls.anime.studio.listCursor);
 
-		return studioPage;
+		return PaginationMapper.fromDto(data, AnimeStudioMapper.fromDto);
 	}
 }
