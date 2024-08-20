@@ -52,5 +52,5 @@ const HeaderComponent: FC = () => {
 	);
 };
 
-/** Memorized header. */
+/** Memoized header. */
 export const Header = memo(HeaderComponent);
