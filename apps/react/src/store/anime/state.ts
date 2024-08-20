@@ -1,10 +1,18 @@
 import { Anime } from '@js-camp/core/models/anime';
 
+import { NormalizedObjects } from '../store';
+
 /** Anime list state. */
 export type AnimeListState = {
 
 	/** Anime list. */
-	readonly list: Anime[];
+	readonly animeList: NormalizedObjects<Anime>;
+
+	/** Url to previous page of anime list. */
+	readonly previousPage: string | null;
+
+	/** Url to next page of anime list. */
+	readonly nextPage: string | null;
 
 	/** Error. */
 	readonly error?: string;
@@ -13,8 +21,10 @@ export type AnimeListState = {
 	readonly isLoading: boolean;
 };
 
-/** InitialState for AnimeListState. */
+/** Initial state for anime list state. */
 export const initialState: AnimeListState = {
 	isLoading: false,
-	list: [],
+	animeList: { byId: {}, allIds: [] },
+	previousPage: null,
+	nextPage: null,
 };
