@@ -1,30 +1,43 @@
-import { memo, FC, useCallback, useRef, useState } from 'react';
+import { memo, FC, useCallback, useRef, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Anime } from '@js-camp/core/models/anime';
 import { List, ListItem, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { fetchList, fetchNewPage } from '@js-camp/react/store/anime/dispatchers';
+import { AnimeSortMapper } from '@js-camp/react/api/mappers/animeSortMapper';
+import { AnimeTypeMapper } from '@js-camp/core/mappers/anime-type.mapper';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
+import { selectAllAnime, selectAnimeListLoading, selectNextPageUrl } from '@js-camp/react/store/anime/selectors';
+import { Progress } from '@js-camp/react/components/Progress/Progress';
 
 import { PATH_TO_ANIME } from '../../routes';
 
 import styles from './AnimeList.module.css';
 
-type Props = {
-
-	/** Anime. */
-	readonly animeList: Anime[];
-};
-
-/** Anime list.  */
-const AnimeListComponent: FC<Props> = ({ animeList }: Props) => {
-	// const [searchParams, setSearchParams] = useSearchParams();
-
-	const [loading, setLoading] = useState(false);
-	const [page, setPage] = useState(1);
+/** Anime list component.  */
+const AnimeListComponent: FC = () => {
 	const observer = useRef<IntersectionObserver | null>();
+	const dispatch = useAppDispatch();
+	const [searchParams] = useSearchParams();
+
+	const animeList = useAppSelector(selectAllAnime);
+	const isLoading = useAppSelector(selectAnimeListLoading);
+	const nextPageUrl = useAppSelector(selectNextPageUrl);
+
+	useEffect(() => {
+		const filterParams = {
+			searchTerm: searchParams.get('searchTerm') ?? '',
+			selectedTypes: AnimeTypeMapper.stringToArray(searchParams.get('selectedTypes') ?? ''),
+			sortingSettings: AnimeSortMapper.fromString(searchParams.get('sortingSettings') ?? ''),
+		};
+
+		if (!isLoading) {
+			dispatch(fetchList(filterParams));
+		}
+	}, [searchParams]);
 
 	const lastPostElementRef = useCallback(
 		(node: HTMLAnchorElement) => {
-			if (loading) {
+			if (isLoading) {
 				return;
 			}
 			if (observer.current) {
@@ -33,8 +46,10 @@ const AnimeListComponent: FC<Props> = ({ animeList }: Props) => {
 
 			observer.current = new IntersectionObserver(entries => {
 				if (entries[0].isIntersecting) {
-					console.log('page');
-					setPage(prevPage => prevPage + 1); // trigger loading of new posts by chaging page no
+
+					if (!isLoading && nextPageUrl) {
+						dispatch(fetchNewPage(nextPageUrl));
+					}
 				}
 			});
 
@@ -42,7 +57,7 @@ const AnimeListComponent: FC<Props> = ({ animeList }: Props) => {
 				observer.current.observe(node);
 			}
 		},
-		[loading],
+		[isLoading],
 	);
 
 	return (
@@ -50,7 +65,7 @@ const AnimeListComponent: FC<Props> = ({ animeList }: Props) => {
 			{ animeList.map((anime, index) =>
 				<ListItem
 					key={anime.id}
-					className={styles.list__item}
+					className={styles.item}
 					secondaryAction={
 						<IconButton edge="end" aria-label="delete">
 							<DeleteIcon />
@@ -62,55 +77,56 @@ const AnimeListComponent: FC<Props> = ({ animeList }: Props) => {
 				>
 					<div>
 						<img
-							className={styles['list__item-cover']}
+							className={styles.cover}
 							src={anime.image}
 							alt={`${anime.japaneseTitle || 'Anime'} cover` }
 						/>
 					</div>
 					<div>
-						<p className={styles['list__item-property']}>
-							<span className={styles['item-property__title']}>
+						<p className={styles.property}>
+							<span className={styles['property-title']}>
 								Japanese title:
 							</span>
 							<span
-								className={styles['item-property__value']}
+								className={styles['property-value']}
 								title={anime.japaneseTitle}
 							>
 								{anime.japaneseTitle ? anime.japaneseTitle : '\u2014'}
 							</span>
 						</p>
-						<p className={styles['list__item-property']}>
-							<span className={styles['item-property__title']}>
+						<p className={styles.property}>
+							<span className={styles['property-title']}>
 								English title:
 							</span>
 							<span
-								className={styles['item-property__value']}
+								className={styles['property-value']}
 								title={anime.englishTitle}
 							>
 								{anime.englishTitle ? anime.englishTitle : '\u2014'}
 							</span>
 						</p>
-						<p className={styles['list__item-property']}>
-							<span className={styles['item-property__title']}>
+						<p className={styles.property}>
+							<span className={styles['property-title']}>
 								Type:
 							</span>
-							<span className={styles['item-property__value']}>
+							<span className={styles['property-value']}>
 								{anime.type}
 							</span>
 						</p>
-						<p className={styles['list__item-property']}>
-							<span className={styles['item-property__title']}>
+						<p className={styles.property}>
+							<span className={styles['property-title']}>
 								Status:
 							</span>
-							<span className={styles['item-property__value']}>
+							<span className={styles['property-value']}>
 								{anime.status}
 							</span>
 						</p>
 					</div>
 				</ListItem>) }
+			{isLoading ? <Progress /> : null }
 		</List>
 	);
 };
 
-/** Memorized anime list. */
+/** Memoized anime list. */
 export const AnimeList = memo(AnimeListComponent);
