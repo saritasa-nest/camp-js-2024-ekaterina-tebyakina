@@ -58,6 +58,9 @@ export namespace AnimeTypeMapper {
 	 * @returns Types array.
 	 */
 	export function stringToArray(typesString: string): AnimeType[] {
+		if (typesString === '') {
+			return [];
+		}
 		const typesArray = typesString.split(',');
 		assertIsAnimeTypeArray(typesArray);
 		return typesArray;
