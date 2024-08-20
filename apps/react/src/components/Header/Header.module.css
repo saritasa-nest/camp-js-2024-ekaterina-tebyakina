@@ -10,12 +10,12 @@
 	align-items: center;
 }
 
-.header__title {
+.title {
 	font-size: var(--font-size-xl);
 	font-weight: var(--font-weight-semibold);
 }
 
-.header__nav {
+.nav {
 	display: flex;
 	flex-direction: row;
 	gap: var(--space-m);

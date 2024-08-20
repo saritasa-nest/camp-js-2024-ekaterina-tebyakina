@@ -7,26 +7,26 @@ import { AnimeEditForm } from './components/AnimeEditForm/AnimeEditForm';
 const AnimePage = lazy(() => import('./pages/AnimePage').then(module => ({ default: module.AnimePage })));
 
 /** Path to anime for url. */
-export const PATH_TO_ANIME = 'anime';
+export const ANIME_PATH = 'anime';
 
 /** Path to anime details for url. */
-export const PATH_TO_ANIME_DETAILS = ':id';
+export const ANIME_DETAILS_PATH = ':id';
 
 /** Path to a anime editing for url. */
-export const PATH_TO_EDIT_ANIME = 'edit';
+export const EDIT_ANIME_PATH = 'edit';
 
-/** Route object for AnimePage. */
+/** Route object for anime page. */
 export const animeRoutes: readonly RouteObject[] = [
 	{
-		path: PATH_TO_ANIME,
+		path: ANIME_PATH,
 		element: <AnimePage />,
 		children: [
 			{
-				path: PATH_TO_ANIME_DETAILS,
+				path: ANIME_DETAILS_PATH,
 				element: <AnimeCard />,
 			},
 			{
-				path: `${PATH_TO_ANIME_DETAILS}/${PATH_TO_EDIT_ANIME}`,
+				path: `${ANIME_DETAILS_PATH}/${EDIT_ANIME_PATH}`,
 				element: <AnimeEditForm />,
 			},
 		],

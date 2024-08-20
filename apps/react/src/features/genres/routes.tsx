@@ -1,32 +1,32 @@
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
 
-import { GenreCard } from './components/GenreCard';
-import { GenreEditForm } from './components/GenreEditForm';
+import { GenreCard } from './components/GenreCard/GenreCard';
+import { GenreEditForm } from './components/GenreEditForm/GenreEditForm';
 
-const GenresPage = lazy(() => import('./pages/GenresPage').then(module => ({ default: module.GenresPage })));
+const GenresPage = lazy(() => import('./pages/GenresPage/GenresPage').then(module => ({ default: module.GenresPage })));
 
 /** Path to genres for url. */
-export const PATH_TO_GENRES = 'genres';
+export const GENRES_PATH = 'genres';
 
 /** Path to a genre for url. */
-export const PATH_TO_GENRE = ':id';
+export const GENRE_PATH = ':id';
 
 /** Path to a genre editing for url. */
-export const PATH_TO_EDIT_GENRE = 'edit';
+export const EDIT_GENRE_PATH = 'edit';
 
 /** Route object for GenresPage. */
-export const genresRoutes: RouteObject[] = [
+export const genresRoutes: readonly RouteObject[] = [
 	{
-		path: PATH_TO_GENRES,
+		path: GENRES_PATH,
 		element: <GenresPage />,
 		children: [
 			{
-				path: PATH_TO_GENRE,
+				path: GENRE_PATH,
 				element: <GenreCard />,
 			},
 			{
-				path: `${PATH_TO_GENRE}/${PATH_TO_EDIT_GENRE}`,
+				path: `${GENRE_PATH}/${EDIT_GENRE_PATH}`,
 				element: <GenreEditForm />,
 			},
 		],

@@ -7,12 +7,12 @@ import styles from './GenresFilterForm.module.css';
 const GenresFilterFormComponent: FC = () => (
 	<form className={styles.form}>
 		<TextField
-			className={styles.form__field}
+			className={styles.field}
 			label="Search"
 			variant="outlined"
 		/>
 	</form>
 );
 
-/** Memorized filter form. */
+/** Memoized filter form. */
 export const GenresFilterForm = memo(GenresFilterFormComponent);
