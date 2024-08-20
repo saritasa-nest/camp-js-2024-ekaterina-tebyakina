@@ -6,21 +6,26 @@ import { fetchList, fetchNewPage } from '@js-camp/react/store/anime/dispatchers'
 import { AnimeSortMapper } from '@js-camp/react/api/mappers/animeSortMapper';
 import { AnimeTypeMapper } from '@js-camp/core/mappers/anime-type.mapper';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
-import { selectAllAnime, selectAnimeListLoading, selectNextPageUrl } from '@js-camp/react/store/anime/selectors';
+import {
+	selectAllAnime,
+	selectAnimeListError,
+	selectAnimeListLoading,
+	selectNextPageUrl,
+} from '@js-camp/react/store/anime/selectors';
 import { Progress } from '@js-camp/react/components/Progress/Progress';
 
 import { ANIME_PATH } from '../../routes';
 
 import styles from './AnimeList.module.css';
 
-/** Anime list component.  */
+/** Anime list component. */
 const AnimeListComponent: FC = () => {
 	const observer = useRef<IntersectionObserver | null>();
 	const dispatch = useAppDispatch();
 	const [searchParams] = useSearchParams();
-
 	const animeList = useAppSelector(selectAllAnime);
 	const isLoading = useAppSelector(selectAnimeListLoading);
+	const error = useAppSelector(selectAnimeListError);
 	const nextPageUrl = useAppSelector(selectNextPageUrl);
 
 	useEffect(() => {
@@ -43,16 +48,13 @@ const AnimeListComponent: FC = () => {
 			if (observer.current) {
 				observer.current.disconnect();
 			}
-
 			observer.current = new IntersectionObserver(entries => {
 				if (entries[0].isIntersecting) {
-
 					if (!isLoading && nextPageUrl) {
 						dispatch(fetchNewPage(nextPageUrl));
 					}
 				}
 			});
-
 			if (node) {
 				observer.current.observe(node);
 			}
@@ -62,6 +64,12 @@ const AnimeListComponent: FC = () => {
 
 	if (isLoading) {
 		return <Progress />;
+	}
+	if (error) {
+		return <div className={styles.message}>{error}</div>;
+	}
+	if (animeList.length === 0) {
+		return <div className={styles.message}>No anime found</div>;
 	}
 
 	return (
