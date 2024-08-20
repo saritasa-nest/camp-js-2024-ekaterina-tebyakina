@@ -1,10 +1,9 @@
-import { memo, FC, useEffect, useRef } from 'react';
-import { List, ListItem, IconButton, ListItemAvatar, ListItemText, Avatar } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { memo, FC, useEffect, useRef, useCallback } from 'react';
+import { List } from '@mui/material';
 
 import { AnimeStudio } from '@js-camp/core/models/anime-studio';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { selectAreStudiosLoading, selectStudios } from '@js-camp/react/store/studio/selectors';
+import { selectAreStudiosLoading, selectStudioNextCursor, selectStudios } from '@js-camp/react/store/studio/selectors';
 import { getAllStudios } from '@js-camp/react/store/studio/dispatchers';
 
 import { StudioListItem } from '../StudioListItem/StudioListItem';
@@ -19,41 +18,44 @@ type Props = {
 const StudiosListComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const studiosList = useAppSelector(selectStudios);
+	const nextCursor = useAppSelector(selectStudioNextCursor);
+
 	const isLoading = useAppSelector(selectAreStudiosLoading);
 
-	const containerRef = useRef(null);
+	const observer = useRef<IntersectionObserver>();
 
 	const options: IntersectionObserverInit = {
 		root: null,
 		rootMargin: '0px',
 		threshold: 0.5,
 	};
-	const callbackFn: IntersectionObserverCallback = entries => {
-		const [entry] = entries;
-		if (entry.isIntersecting) {
-			console.log('hey i am in the view');
-		}
-	};
+
+	const lastElementRef = useCallback(
+		(node: HTMLLIElement | null) => {
+			observer.current?.disconnect();
+
+			if (node) {
+				observer.current = new IntersectionObserver(entries => {
+					if (entries[0].isIntersecting && nextCursor) {
+						console.log('i am in the view');
+						observer.current?.disconnect();
+					}
+				}, options);
+
+				observer.current.observe(node);
+			}
+		},
+		[nextCursor],
+	);
 
 	useEffect(() => {
 		dispatch(getAllStudios());
-	}, [dispatch]);
-
-	useEffect(() => {
-		const observer = new IntersectionObserver(callbackFn, options);
-		if (containerRef.current) {
-			observer.observe(containerRef.current);
-		}
-		return () => {
-			if (containerRef.current) {
-				observer.unobserve(containerRef.current);
-			}
-		};
-	}, [containerRef, options]);
+	}, []);
 
 	if (isLoading) {
 		return <div>Loading</div>;
 	}
+
 	return (
 		<List
 			sx={{
@@ -67,7 +69,7 @@ const StudiosListComponent: FC = () => {
 		>
 			{studiosList.map((studio, index) => {
 				if (studiosList.length === index + 1) {
-					return <StudioListItem ref={containerRef} key={studio.id} studio={studio} />;
+					return <StudioListItem ref={lastElementRef} key={studio.id} studio={studio} />;
 				}
 				return <StudioListItem key={studio.id} studio={studio} />;
 			})}
