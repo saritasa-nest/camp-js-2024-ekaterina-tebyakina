@@ -1,5 +1,5 @@
 import { memo, FC, useEffect, useRef, useCallback } from 'react';
-import { List } from '@mui/material';
+import { dividerClasses, List } from '@mui/material';
 
 import { AnimeStudio } from '@js-camp/core/models/anime-studio';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
@@ -19,7 +19,6 @@ const StudiosListComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const studiosList = useAppSelector(selectStudios);
 	const nextCursor = useAppSelector(selectStudioNextCursor);
-
 	const isLoading = useAppSelector(selectAreStudiosLoading);
 
 	const observer = useRef<IntersectionObserver>();
@@ -37,7 +36,7 @@ const StudiosListComponent: FC = () => {
 			if (node) {
 				observer.current = new IntersectionObserver(entries => {
 					if (entries[0].isIntersecting && nextCursor) {
-						console.log('i am in the view');
+						dispatch(getAllStudios({ nextCursor }));
 						observer.current?.disconnect();
 					}
 				}, options);
@@ -51,10 +50,6 @@ const StudiosListComponent: FC = () => {
 	useEffect(() => {
 		dispatch(getAllStudios());
 	}, []);
-
-	if (isLoading) {
-		return <div>Loading</div>;
-	}
 
 	return (
 		<List
