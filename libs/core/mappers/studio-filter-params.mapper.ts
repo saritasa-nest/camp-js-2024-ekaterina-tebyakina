@@ -1,7 +1,7 @@
 import { StudioFilterParamsDto } from '../dtos/studio-filter-params.dto';
 import { StudioFilterParams } from '../models/studio-filter-params';
 
-export namespace StudioParamsMapper {
+export namespace StudioFilterParamsMapper {
 
 	/**
 	 * Map search param to dto.
