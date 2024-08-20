@@ -9,7 +9,7 @@ import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { http } from '..';
 import { AnimeFilterParamsMapper } from '../mappers/animeFilterParamsMapper';
 
-const animeListUrl = 'anime/anime/list-cursor/';
+const ANIME_LIST_URL = 'anime/anime/list-cursor/';
 
 export namespace AnimeService {
 
@@ -18,7 +18,7 @@ export namespace AnimeService {
 	 * @param params - Params for filtering anime.
 	 */
 	export async function fetchList(params: AnimeFilterParams): Promise<Pagination<Anime>> {
-		const { data } = await http.get<PaginationDto<AnimeDto>>(animeListUrl, {
+		const { data } = await http.get<PaginationDto<AnimeDto>>(ANIME_LIST_URL, {
 			params: AnimeFilterParamsMapper.toDto(params),
 		});
 
