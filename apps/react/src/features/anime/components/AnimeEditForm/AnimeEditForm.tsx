@@ -7,5 +7,5 @@ const AnimeEditFormComponent: FC = () => (
 	</form>
 );
 
-/** Memorized anime edit form. */
+/** Memoized anime edit form. */
 export const AnimeEditForm = memo(AnimeEditFormComponent);
