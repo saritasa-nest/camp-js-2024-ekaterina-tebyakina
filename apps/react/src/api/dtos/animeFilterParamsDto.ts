@@ -1,12 +1,12 @@
 /** Params for request to the server. Contains data about anime list filters. */
-export type AnimeParamsDto = {
+export type AnimeFilterParamsDto = {
 
-	/** Search. */
+	/** String for searching anime. */
 	readonly search?: string;
 
-	/** Type. */
+	/** Selected anime types for filtering anime. */
 	readonly type__in?: string;
 
-	/** Ordering. */
+	/** Sorting settings for sorting anime. */
 	readonly ordering?: string;
 };
