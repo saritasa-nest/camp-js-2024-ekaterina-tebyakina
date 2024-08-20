@@ -25,8 +25,6 @@ export namespace AnimeMapper {
 			status: AnimeStatusMapper.fromDto(anime.status),
 			score: anime.score,
 			userScore: anime.user_score,
-			studios: anime.studios,
-			genres: anime.genres,
 		});
 	}
 
