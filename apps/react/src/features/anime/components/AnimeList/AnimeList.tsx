@@ -60,6 +60,10 @@ const AnimeListComponent: FC = () => {
 		[isLoading],
 	);
 
+	if (isLoading) {
+		return <Progress />;
+	}
+
 	return (
 		<List className={styles.list}>
 			{ animeList.map((anime, index) =>
@@ -123,7 +127,6 @@ const AnimeListComponent: FC = () => {
 						</p>
 					</div>
 				</ListItem>) }
-			{isLoading ? <Progress /> : null }
 		</List>
 	);
 };
