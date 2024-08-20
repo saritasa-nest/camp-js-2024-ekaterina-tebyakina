@@ -1,8 +1,8 @@
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
 
-import { AnimeCard } from './components/AnimeCard';
-import { AnimeEditForm } from './components/AnimeEditForm';
+import { AnimeCard } from './components/AnimeCard/AnimeCard';
+import { AnimeEditForm } from './components/AnimeEditForm/AnimeEditForm';
 
 const AnimePage = lazy(() => import('./pages/AnimePage').then(module => ({ default: module.AnimePage })));
 
@@ -16,7 +16,7 @@ export const PATH_TO_ANIME_DETAILS = ':id';
 export const PATH_TO_EDIT_ANIME = 'edit';
 
 /** Route object for AnimePage. */
-export const animeRoutes: RouteObject[] = [
+export const animeRoutes: readonly RouteObject[] = [
 	{
 		path: PATH_TO_ANIME,
 		element: <AnimePage />,

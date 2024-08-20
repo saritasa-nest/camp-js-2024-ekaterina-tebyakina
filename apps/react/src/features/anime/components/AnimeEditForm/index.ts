@@ -1,1 +1,0 @@
-export { AnimeEditForm } from './AnimeEditForm';
