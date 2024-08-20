@@ -6,7 +6,7 @@
 }
 
 .main__section {
-	min-width: 320px;
+	width: 380px;
 	border: 1px var(--border-color) solid;
 	flex-grow: 1;
 }
