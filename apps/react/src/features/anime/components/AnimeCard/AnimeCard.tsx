@@ -18,11 +18,11 @@ const AnimeCardComponent: FC = () => {
 			elevation={3}
 			className={styles.card}
 		>
-			<h2 className={styles.card__title}>
+			<h2 className={styles.title}>
 				Item Name
 			</h2>
 			<div>
-				<Typography className={styles.card__information}>
+				<Typography className={styles.information}>
 					Information about item with id = {id}
 				</Typography>
 				<Button
@@ -38,5 +38,5 @@ const AnimeCardComponent: FC = () => {
 
 };
 
-/** Memorized anime card. */
+/** Memoized anime card. */
 export const AnimeCard = memo(AnimeCardComponent);

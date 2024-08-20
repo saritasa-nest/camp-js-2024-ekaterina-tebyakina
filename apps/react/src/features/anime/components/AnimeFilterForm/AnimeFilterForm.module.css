@@ -5,18 +5,9 @@
 	padding: var(--space-s);
 }
 
-.form-row {
+.row {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	gap: var(--space-xs);
-}
-
-.form__field {
-	height: var(--form-field-height);
-	flex-grow: 1;
-}
-
-.sort-button {
-	font-size: var(--font-size-xxs) !important;
 }
