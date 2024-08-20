@@ -15,7 +15,7 @@ export namespace AnimeTypeMapper {
 	};
 
 	/**
-	 * Map type dto.
+	 * Map type dto to model.
 	 * @param type  - Type dto.
 	 * @returns Type model.
 	 */
@@ -35,16 +35,16 @@ export namespace AnimeTypeMapper {
 	};
 
 	/**
-	 * Map type dto.
-	 * @param type  - Type dto.
-	 * @returns Type model.
+	 * Map type model to dto.
+	 * @param type  - Type model.
+	 * @returns Type dto.
 	 */
 	export function toDto(type: AnimeType): AnimeTypeDto {
 		return ANIME_TYPE_MAP_TO_DTO[type];
 	}
 
 	/**
-	 * Array to string.
+	 * Map models array to string.
 	 * @param typesArray  - Types array.
 	 * @returns String with types.
 	 */
@@ -53,7 +53,7 @@ export namespace AnimeTypeMapper {
 	}
 
 	/**
-	 * String to array.
+	 * Map string to models array.
 	 * @param typesString - String with types.
 	 * @returns Types array.
 	 */
