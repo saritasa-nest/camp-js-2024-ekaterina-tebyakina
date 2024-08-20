@@ -2,7 +2,7 @@ import { memo, FC } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Button, Paper, Typography } from '@mui/material';
 
-import { PATH_TO_ANIME, PATH_TO_EDIT_ANIME } from '../../routes';
+import { ANIME_PATH, EDIT_ANIME_PATH } from '../../routes';
 
 import styles from './AnimeCard.module.css';
 
@@ -11,7 +11,7 @@ const AnimeCardComponent: FC = () => {
 
 	const { id } = useParams<{ id: string; }>();
 
-	const linkToEdit = `/${PATH_TO_ANIME}/${id}/${PATH_TO_EDIT_ANIME}`;
+	const linkToEdit = `/${ANIME_PATH}/${id}/${EDIT_ANIME_PATH}`;
 
 	return (
 		<Paper

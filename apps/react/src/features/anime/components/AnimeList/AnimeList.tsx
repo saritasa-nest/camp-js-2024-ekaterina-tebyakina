@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { selectAllAnime, selectAnimeListLoading, selectNextPageUrl } from '@js-camp/react/store/anime/selectors';
 import { Progress } from '@js-camp/react/components/Progress/Progress';
 
-import { PATH_TO_ANIME } from '../../routes';
+import { ANIME_PATH } from '../../routes';
 
 import styles from './AnimeList.module.css';
 
@@ -76,7 +76,7 @@ const AnimeListComponent: FC = () => {
 						</IconButton>
 					}
 					component={Link}
-					to={`/${PATH_TO_ANIME}/${anime.id}`}
+					to={`/${ANIME_PATH}/${anime.id}`}
 					ref={animeList.length === index + 1 ? lastPostElementRef : null}
 				>
 					<div>

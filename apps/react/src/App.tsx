@@ -6,7 +6,7 @@ import { StyledEngineProvider } from '@mui/material';
 
 import { RootRouter } from './routes/RootRouter';
 import { store } from './store/store';
-import { Header } from './components/Header';
+import { Header } from './components/Header/Header';
 import { Progress } from './components/Progress/Progress';
 
 import './theme/styles.css';
