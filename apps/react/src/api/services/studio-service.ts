@@ -9,6 +9,8 @@ import { StudioQueryParams, StudioQueryParamsMapper } from '@js-camp/core/mapper
 
 import { StudioFilterParamsMapper } from '@js-camp/core/mappers/studio-filter-params.mapper';
 
+import { StudioFilterParamsDto } from '@js-camp/core/dtos/studio-filter-params.dto';
+
 import { http } from '..';
 import { AppUrls } from '../app-url';
 
@@ -18,15 +20,13 @@ export namespace StudioService {
 	 * Get all studios.
 	 * @param queryParams Query params.
 	 */
-	export async function getAllStudios() {
-		const { data } = await http.get<PaginationListCursorDto<AnimeStudioDto>>(AppUrls.anime.studio.listCursor);
+	export async function getAllStudios(queryParams?: StudioQueryParams) {
+		let filterParamsDto: StudioFilterParamsDto.Combined | null = null;
 
-		return PaginationListCursorMapper.fromDto(data, AnimeStudioMapper.fromDto);
-	}
-
-	export async function getAllStudios2(queryParams: StudioQueryParams) {
-		const filterParams = StudioQueryParamsMapper.fromDto(queryParams);
-		const filterParamsDto = StudioFilterParamsMapper.toDto(filterParams);
+		if (queryParams) {
+			const filterParams = StudioQueryParamsMapper.fromDto(queryParams);
+			filterParamsDto = StudioFilterParamsMapper.toDto(filterParams);
+		}
 		const { data } = await http.get<PaginationListCursorDto<AnimeStudioDto>>(AppUrls.anime.studio.listCursor, {
 			params: filterParamsDto,
 		});
