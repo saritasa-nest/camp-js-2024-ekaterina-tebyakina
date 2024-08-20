@@ -19,8 +19,8 @@ const StudiosListComponent: FC<Props> = ({ studios }: Props) => (
 			borderWidth: '1px',
 			borderStyle: 'solid',
 			borderColor: 'rgba(0 0 0 / 15%)',
-			paddingTop: 0,
 		}}
+		disablePadding
 	>
 		{studios.map(studio => (
 			<ListItem
