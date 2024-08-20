@@ -15,6 +15,7 @@ export const studiosSlice = createSlice({
 		.addCase(getAllStudios.fulfilled, (state, action) => {
 			state.studios = [...action.payload.results];
 			state.isLoading = false;
+			state.next = action.payload.next;
 		})
 		.addCase(getAllStudios.rejected, (state, action) => {
 			if (action.error.message) {

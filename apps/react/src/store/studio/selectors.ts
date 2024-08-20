@@ -2,13 +2,19 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from '..';
 
-/** Selects all genres from store. */
+/** Selects all studio from store. */
 export const selectStudios = createSelector(
 	(state: RootState) => state.studios.studios,
-	genres => genres,
+	studios => studios,
 );
 
-/** Selects genres loading state. */
+/** Selects all studio from store. */
+export const selectStudioNextCursor = createSelector(
+	(state: RootState) => state.studios.next,
+	next => next,
+);
+
+/** Selects studio next cursor. */
 export const selectAreStudiosLoading = createSelector(
 	(state: RootState) => state.studios.isLoading,
 	isLoading => isLoading,

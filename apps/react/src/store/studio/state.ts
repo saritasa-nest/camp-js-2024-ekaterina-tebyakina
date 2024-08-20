@@ -11,10 +11,14 @@ export type StudiosState = {
 
 	/** Whether the studios are loading or not. */
 	readonly isLoading: boolean;
+
+	/** Next cursor. */
+	readonly next: string | null;
 };
 
 /** Initial state for StudiosState. */
 export const initialState: StudiosState = {
 	isLoading: false,
 	studios: [],
+	next: null,
 };
