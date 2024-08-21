@@ -112,7 +112,7 @@ export class AnimeDashboardComponent {
 
 	/**
 	 * Triggers when an anime is selected.
-	 * @param animeId - Selected anime index.
+	 * @param animeId - Selected anime identifier.
 	 */
 	protected onAnimeSelect(animeId: number): void {
 		this.router.navigate([RouterPaths.Main, animeId]);
