@@ -32,13 +32,13 @@
 	gap: var(--space-xs);
 }
 
-.property-title {
+.propertyTitle {
 	white-space: nowrap;
 	font-size: var(--font-size-sm);
 	font-weight: var(--font-weight-semibold);
 }
 
-.property-value {
+.propertyValue {
 	max-width: 100%;
 
 	/* Disable to use -webkit */

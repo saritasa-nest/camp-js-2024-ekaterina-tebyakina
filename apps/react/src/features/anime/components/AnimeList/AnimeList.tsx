@@ -37,13 +37,12 @@ const AnimeListComponent: FC = () => {
 	const nextPageUrl = useAppSelector(selectNextPageUrl);
 
 	useEffect(() => {
-		const filterParams = {
-			searchTerm: searchParams.get(SEARCH_TERM_QUERY_PARAM) ?? '',
-			selectedTypes: AnimeTypeMapper.stringToArray(searchParams.get(SELECTED_TYPES_QUERY_PARAM) ?? ''),
-			sortingSettings: AnimeSortMapper.fromString(searchParams.get(SORTING_SETTINGS_QUERY_PARAM) ?? ''),
-		};
 		if (!isLoading && !isAdditionalLoading) {
-			dispatch(fetchList(filterParams));
+			dispatch(fetchList({
+				searchTerm: searchParams.get(SEARCH_TERM_QUERY_PARAM) ?? '',
+				selectedTypes: AnimeTypeMapper.stringToArray(searchParams.get(SELECTED_TYPES_QUERY_PARAM) ?? ''),
+				sortingSettings: AnimeSortMapper.fromString(searchParams.get(SORTING_SETTINGS_QUERY_PARAM) ?? ''),
+			}));
 		}
 	}, [searchParams]);
 
@@ -97,40 +96,40 @@ const AnimeListComponent: FC = () => {
 					</div>
 					<div>
 						<p className={styles.property}>
-							<span className={styles['property-title']}>
+							<span className={styles.propertyTitle}>
 								Japanese title:
 							</span>
 							<span
-								className={styles['property-value']}
+								className={styles.propertyValue}
 								title={anime.japaneseTitle}
 							>
 								{anime.japaneseTitle ? anime.japaneseTitle : '\u2014'}
 							</span>
 						</p>
 						<p className={styles.property}>
-							<span className={styles['property-title']}>
+							<span className={styles.propertyTitle}>
 								English title:
 							</span>
 							<span
-								className={styles['property-value']}
+								className={styles.propertyValue}
 								title={anime.englishTitle}
 							>
 								{anime.englishTitle ? anime.englishTitle : '\u2014'}
 							</span>
 						</p>
 						<p className={styles.property}>
-							<span className={styles['property-title']}>
+							<span className={styles.propertyTitle}>
 								Type:
 							</span>
-							<span className={styles['property-value']}>
+							<span className={styles.propertyValue}>
 								{anime.type}
 							</span>
 						</p>
 						<p className={styles.property}>
-							<span className={styles['property-title']}>
+							<span className={styles.propertyTitle}>
 								Status:
 							</span>
-							<span className={styles['property-value']}>
+							<span className={styles.propertyValue}>
 								{anime.status}
 							</span>
 						</p>
