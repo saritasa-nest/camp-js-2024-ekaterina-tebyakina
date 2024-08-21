@@ -30,12 +30,7 @@ const AnimeTypesFieldComponent: FC = () => {
 	 */
 	const handleTypesChange = (event: SelectChangeEvent<AnimeType[]>) => {
 		const { value } = event.target;
-		if (typeof value === 'string') {
-			AnimeTypeMapper.assertIsAnimeType(value);
-			setSelectedTypes([value]);
-			searchParams.set(SELECTED_TYPES_QUERY_PARAM, value);
-			return;
-		}
+		AnimeTypeMapper.assertValueIsAnimeTypeArray(value);
 		setSelectedTypes(value);
 		searchParams.set(SELECTED_TYPES_QUERY_PARAM, AnimeTypeMapper.arrayToString(value));
 		setSearchParams(searchParams);

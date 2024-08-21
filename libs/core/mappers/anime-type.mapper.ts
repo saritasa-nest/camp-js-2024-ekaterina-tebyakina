@@ -62,20 +62,30 @@ export namespace AnimeTypeMapper {
 			return [];
 		}
 		const typesArray = typesString.split(',');
-		assertIsAnimeTypeArray(typesArray);
+		assertArrayIsAnimeTypeArray(typesArray);
 		return typesArray;
 	}
 
 	/**
-	 * Assert that value is typeof AnimeType[].
-	 * @param array - Value for checking.
+	 * Assert that values array is typeof AnimeType[].
+	 * @param array - Array for checking.
 	 */
-	function assertIsAnimeTypeArray(array: unknown[]): asserts array is AnimeType[] {
+	function assertArrayIsAnimeTypeArray(array: unknown[]): asserts array is AnimeType[] {
 		array.forEach(item => {
 			if (!checkIsEnumMember(item, AnimeType)) {
 				throw new Error(`${item} is not a valid AnimeType!`);
 			}
 		});
+	}
+
+	/**
+	 * Assert that value is typeof AnimeType[].
+	 * @param value - Value for checking.
+	 */
+	export function assertValueIsAnimeTypeArray(value: unknown): asserts value is AnimeType[] {
+		if (Array.isArray(value)) {
+			assertArrayIsAnimeTypeArray(value);
+		}
 	}
 
 	/**
