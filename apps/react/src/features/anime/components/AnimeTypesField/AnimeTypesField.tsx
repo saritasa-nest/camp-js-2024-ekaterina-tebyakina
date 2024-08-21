@@ -33,7 +33,7 @@ const AnimeTypesFieldComponent: FC = () => {
 		const { value } = event.target;
 		AnimeTypeMapper.assertValueIsAnimeTypeArray(value);
 		setSelectedTypes(value);
-		searchParams.set(QueryParams.SelectedTypes, AnimeTypeMapper.arrayToString(value));
+		searchParams.set(QueryParams.SelectedTypes, value.toString());
 		setSearchParams(searchParams);
 	};
 

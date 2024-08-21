@@ -44,15 +44,6 @@ export namespace AnimeTypeMapper {
 	}
 
 	/**
-	 * Map models array to string.
-	 * @param typesArray  - Types array.
-	 * @returns String with types.
-	 */
-	export function arrayToString(typesArray: AnimeType[]): string {
-		return typesArray.join(',');
-	}
-
-	/**
 	 * Map string to models array.
 	 * @param typesString - String with types.
 	 * @returns Types array.
@@ -85,16 +76,6 @@ export namespace AnimeTypeMapper {
 	export function assertValueIsAnimeTypeArray(value: unknown): asserts value is AnimeType[] {
 		if (Array.isArray(value)) {
 			assertArrayIsAnimeTypeArray(value);
-		}
-	}
-
-	/**
-	 * Assert that value is typeof AnimeType.
-	 * @param value - Value for checking.
-	 */
-	export function assertIsAnimeType(value: unknown): asserts value is AnimeType {
-		if (!checkIsEnumMember(value, AnimeType)) {
-			throw new Error(`${value} is not a valid AnimeType!`);
 		}
 	}
 }
