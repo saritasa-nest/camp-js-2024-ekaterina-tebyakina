@@ -8,19 +8,19 @@ import { ServerError } from '@js-camp/core/models/server-error';
 /** Type for registration form group. Contains types for each control. */
 type RegistrationForm = {
 
-	/** Type of form control for email. */
+	/** Email. */
 	readonly email: FormControl<string>;
 
-	/** Type of form control for first name. */
+	/** First name. */
 	readonly firstName: FormControl<string>;
 
-	/** Type of form control for last name. */
+	/** Last name. */
 	readonly lastName: FormControl<string>;
 
-	/** Type of form control for password. */
+	/** Password. */
 	readonly password: FormControl<string>;
 
-	/** Type of form control for retyped password. */
+	/** Retyped password. */
 	readonly retypedPassword: FormControl<string>;
 };
 

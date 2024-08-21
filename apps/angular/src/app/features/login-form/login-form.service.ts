@@ -7,10 +7,10 @@ import { ServerError } from '@js-camp/core/models/server-error';
 /** Type for login form group. Contains types for each control. */
 type LoginForm = {
 
-	/** Type of form control for email. */
+	/** Email. */
 	readonly email: FormControl<string>;
 
-	/** Type of form control for password. */
+	/** Password. */
 	readonly password: FormControl<string>;
 };
 

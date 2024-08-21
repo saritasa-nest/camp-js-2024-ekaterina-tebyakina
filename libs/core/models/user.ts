@@ -3,16 +3,16 @@ import { Immerable, OmitImmerable } from './immerable';
 /** User. */
 export class User extends Immerable {
 
-	/** User's email. */
+	/** Email. */
 	public readonly email: string;
 
-	/** User's first name. */
+	/** First name. */
 	public readonly firstName: string;
 
-	/** User's last name. */
+	/** Last name. */
 	public readonly lastName: string;
 
-	/** User's avatar. */
+	/** Avatar. */
 	public readonly avatar: string;
 
 	/** Date the profile was created. */
