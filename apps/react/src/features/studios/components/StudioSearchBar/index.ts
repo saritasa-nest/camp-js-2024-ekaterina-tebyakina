@@ -1,0 +1,1 @@
+export { StudioSearchBar } from './StudioSearchBar';
