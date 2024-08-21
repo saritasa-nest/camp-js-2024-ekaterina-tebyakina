@@ -14,13 +14,8 @@ import {
 	selectNextPageUrl,
 } from '@js-camp/react/store/anime/selectors';
 import { Progress } from '@js-camp/react/components/Progress/Progress';
-import {
-	SEARCH_TERM_QUERY_PARAM,
-	SELECTED_TYPES_QUERY_PARAM,
-	SORTING_SETTINGS_QUERY_PARAM,
-} from '@js-camp/react/api/constants';
-
 import { useInfiniteScroll } from '@js-camp/react/features/hooks/useInfiniteScroll';
+import { QueryParams } from '@js-camp/react/models/queryParams';
 
 import { ANIME_PATH } from '../../routes';
 
@@ -39,9 +34,9 @@ const AnimeListComponent: FC = () => {
 	useEffect(() => {
 		if (!isLoading && !isAdditionalLoading) {
 			dispatch(fetchList({
-				searchTerm: searchParams.get(SEARCH_TERM_QUERY_PARAM) ?? '',
-				selectedTypes: AnimeTypeMapper.stringToArray(searchParams.get(SELECTED_TYPES_QUERY_PARAM) ?? ''),
-				sortingSettings: AnimeSortMapper.fromString(searchParams.get(SORTING_SETTINGS_QUERY_PARAM) ?? ''),
+				searchTerm: searchParams.get(QueryParams.SearchTerm) ?? '',
+				selectedTypes: AnimeTypeMapper.stringToArray(searchParams.get(QueryParams.SelectedTypes) ?? ''),
+				sortingSettings: AnimeSortMapper.fromString(searchParams.get(QueryParams.SortingSettings) ?? ''),
 			}));
 		}
 	}, [searchParams]);

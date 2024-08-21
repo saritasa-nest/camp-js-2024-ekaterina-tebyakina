@@ -9,7 +9,7 @@ import {
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { useSearchParams } from 'react-router-dom';
 import { AnimeTypeMapper } from '@js-camp/core/mappers/anime-type.mapper';
-import { SELECTED_TYPES_QUERY_PARAM } from '@js-camp/react/api/constants';
+import { QueryParams } from '@js-camp/react/models/queryParams';
 
 import styles from './AnimeTypesField.module.css';
 
@@ -20,7 +20,7 @@ const AnimeTypesFieldComponent: FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const [selectedTypes, setSelectedTypes] = useState(
-		AnimeTypeMapper.stringToArray(searchParams.get(SELECTED_TYPES_QUERY_PARAM) ?? ''),
+		AnimeTypeMapper.stringToArray(searchParams.get(QueryParams.SelectedTypes) ?? ''),
 	);
 
 	const animeTypesHtmlElements = animeTypes.map(type => <MenuItem key={type} value={type}>{type}</MenuItem>);
@@ -33,7 +33,7 @@ const AnimeTypesFieldComponent: FC = () => {
 		const { value } = event.target;
 		AnimeTypeMapper.assertValueIsAnimeTypeArray(value);
 		setSelectedTypes(value);
-		searchParams.set(SELECTED_TYPES_QUERY_PARAM, AnimeTypeMapper.arrayToString(value));
+		searchParams.set(QueryParams.SelectedTypes, AnimeTypeMapper.arrayToString(value));
 		setSearchParams(searchParams);
 	};
 
