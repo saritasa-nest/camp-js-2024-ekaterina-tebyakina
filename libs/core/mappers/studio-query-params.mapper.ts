@@ -11,7 +11,7 @@ export namespace StudioQueryParamsMapper {
 	 */
 	export function fromDto(dto: StudioQueryParams): StudioFilterParams.Combined {
 		return {
-			search: dto.search ?? null,
+			search: dto.search && dto.search.length > 0 ? dto.search : null,
 			ordering: dto.ordering ?? '',
 			nextCursor: dto.nextCursor ?? null,
 		};
