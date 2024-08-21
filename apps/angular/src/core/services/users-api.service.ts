@@ -27,6 +27,8 @@ export class UserApiService {
 
 		return this.http.get<UserDto>(this.urlConfigService.user.getCurrentUser).pipe(
 			mergeMap(result => {
+				// When the server fails to retrieve a user, it does not send an error, but an object with an avatar field equal to null.
+				// Therefore, we will throw an error when receiving such data.
 				if (JSON.stringify(result) === JSON.stringify(this.errorObject)) {
 					return throwError(() => new Error('Failed to get current user'));
 				}
