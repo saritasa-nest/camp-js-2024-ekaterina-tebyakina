@@ -10,11 +10,14 @@
 	--background-contrast-color: rgb(0 0 0);
 	--error-color: rgb(255 0 0);
 	--border-color: rgb(0 0 0 / 15%);
+	--shadow-color: rgb(107 107  107 / 65%);
+	--hover-color: rgb(0 0 0 / 5%);
 	--text-color: var(--primary-light-contrast-color);
 	--active-link-color: var(--primary-color);
 	--primary-background-color: var(--primary-contrast-color);
 
 	/* Variables for spaces */
+	--space-xxs: 4px;
 	--space-xs: 8px;
 	--space-s: calc(var(--space-xs) * 2);
 	--space-m: calc(var(--space-xs) * 3);

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { RouterPaths } from '../core/model/router-paths';
+import { authorizationGuard } from '../core/guards/authentication.guard';
 
 import { AnimeDashboardComponent } from './features/anime-dashboard/anime-dashboard.component';
 
@@ -8,7 +9,15 @@ import { AnimeDashboardComponent } from './features/anime-dashboard/anime-dashbo
 export const appRoutes: Routes = [
 	{
 		path: RouterPaths.Main,
-		component: AnimeDashboardComponent,
+		children: [
+			{ path: '', component: AnimeDashboardComponent },
+			{
+				path: ':id',
+				canMatch: [authorizationGuard],
+				loadComponent: () => import('./features/anime-details/anime-details.component')
+					.then(c => c.AnimeDatailsComponent),
+			},
+		],
 	},
 	{
 		path: RouterPaths.Login,
@@ -20,4 +29,5 @@ export const appRoutes: Routes = [
 		loadComponent: () => import('./features/registration-form/registration-form.component')
 			.then(c => c.RegistrationFormComponent),
 	},
+	{ path: '**', redirectTo: RouterPaths.Main },
 ];

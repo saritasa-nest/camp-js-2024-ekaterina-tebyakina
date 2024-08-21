@@ -6,7 +6,7 @@
 		<camp-anime-filter-form
 			[searchValue]="animeParams.searchTerm"
 			[typesValue]="animeParams.selectedTypes"
-			(animeFiltersEvent)="onAnimeFiltersChange($event)"
+			(animeFiltersChange)="onAnimeFiltersChange($event)"
 		/>
 		@if (animeListPage$ | async; as animeListPage) {
 				<camp-anime-table
@@ -14,8 +14,9 @@
 					[sortingSettings]="animeParams.sortingSettings"
 					[pageSize]="animeParams.pageSize"
 					[pageIndex]="animeParams.pageIndex"
-					(sortEvent)="onOrderingChange($event)"
-					(paginationEvent)="onPageChange($event)"
+					(sortingChange)="onSortingChange($event)"
+					(paginationChange)="onPaginationChange($event)"
+					(animeSelectionChange)="onAnimeSelect($event)"
 				/>
 		}
 	}

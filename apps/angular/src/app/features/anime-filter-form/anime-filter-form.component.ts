@@ -8,7 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { MatSelectModule } from '@angular/material/select';
 import { AnimeFilters } from '@js-camp/core/models/anime-filters';
-
 import { throttleTime } from 'rxjs';
 
 import { AnimeFilterFormService } from './anime-filter-form.service';
@@ -44,7 +43,7 @@ export class AnimeFilterFormComponent implements OnInit {
 
 	/** Event of anime types or search term changes. */
 	@Output()
-	public readonly animeFiltersEvent = new EventEmitter<AnimeFilters>();
+	public readonly animeFiltersChange = new EventEmitter<AnimeFilters>();
 
 	/** List of permissible values for types select control. */
 	protected readonly animeTypes = Object.values(AnimeType);
@@ -82,7 +81,7 @@ export class AnimeFilterFormComponent implements OnInit {
 		)
 			.subscribe(value => {
 				this.isAnimeFilters(value);
-				this.animeFiltersEvent.emit(value);
+				this.animeFiltersChange.emit(value);
 			});
 	}
 

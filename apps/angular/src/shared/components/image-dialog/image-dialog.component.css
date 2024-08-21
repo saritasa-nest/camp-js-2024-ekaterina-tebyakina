@@ -1,0 +1,19 @@
+:host {
+	display: block;
+	background: var(--primary-background-color);
+	border-radius: 8px;
+	padding: var(--space-s);
+}
+
+.cover__wrapper {
+	max-width: 80vw;
+	max-height: 80vh;
+	min-width: 150px;
+	min-height: 150px;
+}
+
+.cover__image {
+	width: 100%;
+	height: auto;
+	object-fit: contain;
+}

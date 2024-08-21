@@ -1,9 +1,7 @@
 import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-
-import { catchError, Observable, switchMap, throwError } from 'rxjs';
-
 import { ServerErrorStatus } from '@js-camp/core/models/server-error-status';
+import { catchError, Observable, switchMap, throwError } from 'rxjs';
 
 import { AuthorizationApiService } from '../services/authorization-api.service';
 import { LocalStorageService } from '../services/local-storage.service';

@@ -1,10 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
 import { RegistrationData } from '@js-camp/core/models/registration-data';
 import { RegistrationDataMapper } from '@js-camp/core/mappers/registration-data.mapper';
 import { AuthorizationTokensDto } from '@js-camp/core/dtos/authorization-tokens.dto';
 import { catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
-
 import { ServerErrorDto } from '@js-camp/core/dtos/server-error.dto';
 import { ServerErrorMapper } from '@js-camp/core/mappers/server-error.mapper';
 import { LoginData } from '@js-camp/core/models/login-data';
@@ -20,6 +19,8 @@ import { LocalStorageService } from './local-storage.service';
 export class AuthorizationApiService {
 
 	private readonly http = inject(HttpClient);
+
+	private readonly destroyRef = inject(DestroyRef);
 
 	private readonly urlConfigService = inject(UrlConfigService);
 
@@ -84,6 +85,13 @@ export class AuthorizationApiService {
 	/** Remove user authorization data. */
 	public logout(): void {
 		this.localStorageService.removeTokens();
+	}
+
+	/** Check is current user authenticated. */
+	public isAuthenticated(): Observable<boolean> {
+		return this.localStorageService.getAccessToken().pipe(
+			map(token => !!token),
+		);
 	}
 
 	private handleError(errorResponse: HttpErrorResponse): Observable<never> {

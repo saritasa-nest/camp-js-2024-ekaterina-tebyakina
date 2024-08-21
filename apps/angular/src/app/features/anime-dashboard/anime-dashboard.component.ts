@@ -6,12 +6,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, finalize, map, Observable, shareReplay, switchMap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { DEFAULT_PAGE_INDEX, AnimeParams } from '@js-camp/core/models/anime-params';
 import { AnimeQueryParamsMapper } from '@js-camp/core/mappers/anime-query-params.mapper';
-
 import { AnimeFilters } from '@js-camp/core/models/anime-filters';
+import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
 
 import { AnimeTableComponent } from '../anime-table/anime-table.component';
 import { AnimeFilterFormComponent } from '../anime-filter-form/anime-filter-form.component';
@@ -47,7 +47,7 @@ export class AnimeDashboardComponent {
 
 	private readonly router = inject(Router);
 
-	private readonly animeApiService = inject(AnimeApiService);
+	private readonly animeService = inject(AnimeService);
 
 	public constructor() {
 		this.animeParams$ = this.route.queryParams.pipe(
@@ -58,7 +58,7 @@ export class AnimeDashboardComponent {
 		this.animeListPage$ = this.animeParams$.pipe(
 			switchMap(params => {
 				this.isLoading$.next(true);
-				return this.animeApiService.getPage(params).pipe(
+				return this.animeService.getPage(params).pipe(
 					finalize(() => this.isLoading$.next(false)),
 				);
 			}),
@@ -68,13 +68,13 @@ export class AnimeDashboardComponent {
 	/**
 	 * Triggers when the list of selected anime types or search term are changed.
 	 * Forms a new query parameters object with new type list and a new search term and navigate with these parameters.
-	 * @param event - Object of selected anime filters.
+	 * @param filters - Object of selected anime filters.
 	 */
-	protected onAnimeFiltersChange(event: AnimeFilters): void {
+	protected onAnimeFiltersChange(filters: AnimeFilters): void {
 
 		const filterParams: Partial<AnimeParams> = {
-			selectedTypes: event.types,
-			searchTerm: event.search,
+			selectedTypes: filters.types,
+			searchTerm: filters.search,
 			pageIndex: DEFAULT_PAGE_INDEX,
 		};
 
@@ -84,13 +84,13 @@ export class AnimeDashboardComponent {
 	/**
 	 * Triggers when pagination is changed.
 	 * Forms a new query parameters object with a new pagination data and navigate with these parameters.
-	 * @param event - Pagination settings.
+	 * @param pagination - Pagination settings.
 	 */
-	protected onPageChange(event: PageEvent): void {
+	protected onPaginationChange(pagination: PageEvent): void {
 
 		const filterParams: Partial<AnimeParams> = {
-			pageSize: event.pageSize,
-			pageIndex: event.pageIndex,
+			pageSize: pagination.pageSize,
+			pageIndex: pagination.pageIndex,
 		};
 
 		this.navigate(filterParams);
@@ -99,20 +99,28 @@ export class AnimeDashboardComponent {
 	/**
 	 * Triggers when ordering is changed.
 	 * Forms a new query parameters object with a new ordering data and navigate with these parameters.
-	 * @param event - Ordering settings.
+	 * @param sorting - Ordering settings.
 	 */
-	protected onOrderingChange(event: Sort): void {
+	protected onSortingChange(sorting: Sort): void {
 
 		const filterParams: Partial<AnimeParams> = {
-			sortingSettings: MaterialSortMapper.from(event),
+			sortingSettings: MaterialSortMapper.from(sorting),
 		};
 
 		this.navigate(filterParams);
 	}
 
+	/**
+	 * Triggers when an anime is selected.
+	 * @param animeId - Selected anime identifier.
+	 */
+	protected onAnimeSelect(animeId: number): void {
+		this.router.navigate([RouterPaths.Main, animeId]);
+	}
+
 	private navigate(params: Partial<AnimeParams>): void {
 		this.router.navigate(
-			[''],
+			[RouterPaths.Main],
 			{
 				queryParams: AnimeQueryParamsMapper.toQueryParams(params),
 				queryParamsHandling: 'merge',

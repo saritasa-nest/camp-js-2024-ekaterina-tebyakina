@@ -6,7 +6,7 @@ export class UrlConfigService {
 
 	/** Object with parts of the url requests for anime endpoints. */
 	public readonly anime = {
-		getPage: 'anime/anime/',
+		getAnime: 'anime/anime/',
 	};
 
 	/** Object with parts of the url requests for authorization endpoints. */

@@ -3,13 +3,13 @@ import { MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/core/models/anime';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
-import { AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeColumnsHeaders } from '@js-camp/core/models/anime-columns-headers';
 import { AnimeColumnsIndexes } from '@js-camp/core/models/anime-columns-indexes';
 import { AnimeSort } from '@js-camp/core/models/anime-sort';
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/core/models/anime-params';
+import { AsyncPipe, DatePipe, NgOptimizedImage, CommonModule } from '@angular/common';
 
 const DEFAULT_SIZE_OPTIONS = [10, 25, 50];
 
@@ -29,6 +29,7 @@ const DEFAULT_SIZE_OPTIONS = [10, 25, 50];
 		DatePipe,
 		EmptyPipe,
 		NgOptimizedImage,
+		CommonModule,
 	],
 })
 export class AnimeTableComponent {
@@ -51,11 +52,15 @@ export class AnimeTableComponent {
 
 	/** Event of pagination change. */
 	@Output()
-	public readonly paginationEvent = new EventEmitter<PageEvent>();
+	public readonly paginationChange = new EventEmitter<PageEvent>();
 
 	/** Event of table sorting. */
 	@Output()
-	public readonly sortEvent = new EventEmitter<Sort>();
+	public readonly sortingChange = new EventEmitter<Sort>();
+
+	/** Event of anime selecting. */
+	@Output()
+	public readonly animeSelectionChange = new EventEmitter<number>();
 
 	/** Possible page size values. */
 	protected readonly pageSizeOptions = DEFAULT_SIZE_OPTIONS;
@@ -88,7 +93,7 @@ export class AnimeTableComponent {
 			event.pageIndex = 0;
 		}
 
-		this.paginationEvent.emit(event);
+		this.paginationChange.emit(event);
 	}
 
 	/**
@@ -96,7 +101,25 @@ export class AnimeTableComponent {
 	 * @param event - Sorting settings.
 	 */
 	protected onSortData(event: Sort): void {
-		this.sortEvent.emit(event);
+		this.sortingChange.emit(event);
 	}
 
+	/**
+	 * Handle click on row.
+	 * @param event - Selected anime.
+	 */
+	protected onRowSelect(event: Anime): void {
+		this.animeSelectionChange.emit(event.id);
+	}
+
+	/**
+	 * Handle selecting a row from a table using the keyboard.
+	 * @param event - Keydown event.
+	 * @param row - Selected anime.
+	 */
+	protected onKeyDown(event: KeyboardEvent, row: Anime): void {
+		if (event.key === 'Enter') {
+			this.onRowSelect(row);
+		}
+	}
 }
