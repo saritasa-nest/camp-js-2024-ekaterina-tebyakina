@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Observable } from 'rxjs';
 import { JsonPipe, AsyncPipe, DatePipe, NgOptimizedImage, Location } from '@angular/common';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
@@ -58,7 +58,7 @@ export class AnimeDatailsComponent {
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
-	private readonly animeService = inject(AnimeApiService);
+	private readonly animeService = inject(AnimeService);
 
 	public constructor() {
 		const animeId = this.activatedRoute.snapshot.params['id'];

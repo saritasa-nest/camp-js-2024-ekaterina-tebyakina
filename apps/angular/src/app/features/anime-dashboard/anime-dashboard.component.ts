@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, finalize, map, Observable, shareReplay, switchMap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { DEFAULT_PAGE_INDEX, AnimeParams } from '@js-camp/core/models/anime-params';
 import { AnimeQueryParamsMapper } from '@js-camp/core/mappers/anime-query-params.mapper';
@@ -47,7 +47,7 @@ export class AnimeDashboardComponent {
 
 	private readonly router = inject(Router);
 
-	private readonly animeApiService = inject(AnimeApiService);
+	private readonly animeService = inject(AnimeService);
 
 	public constructor() {
 		this.animeParams$ = this.route.queryParams.pipe(
@@ -58,7 +58,7 @@ export class AnimeDashboardComponent {
 		this.animeListPage$ = this.animeParams$.pipe(
 			switchMap(params => {
 				this.isLoading$.next(true);
-				return this.animeApiService.getPage(params).pipe(
+				return this.animeService.getPage(params).pipe(
 					finalize(() => this.isLoading$.next(false)),
 				);
 			}),
