@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UserApiService } from '@js-camp/angular/core/services/users-api.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AsyncPipe } from '@angular/common';
 import { AuthorizationApiService } from '@js-camp/angular/core/services/authorization-api.service';
@@ -58,14 +58,14 @@ export class AuthorizationMenuComponent implements OnInit {
 	private updateUser(): void {
 		this.usersApiService.getCurrentUser().pipe(
 			takeUntilDestroyed(this.destroyRef),
+			catchError((error: unknown) => {
+				this.user$.next(null);
+				return throwError(() => error);
+			}),
+			tap((userData: User) => {
+				this.user$.next(userData);
+			}),
 		)
-			.subscribe({
-				next: (userData: User) => {
-					this.user$.next(userData);
-				},
-				error: () => {
-					this.user$.next(null);
-				},
-			});
+			.subscribe();
 	}
 }
