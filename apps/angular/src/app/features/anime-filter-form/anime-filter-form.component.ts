@@ -8,7 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { MatSelectModule } from '@angular/material/select';
 import { AnimeFilters } from '@js-camp/core/models/anime-filters';
-
 import { throttleTime } from 'rxjs';
 
 import { AnimeFilterFormService } from './anime-filter-form.service';

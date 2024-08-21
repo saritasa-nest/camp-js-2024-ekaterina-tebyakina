@@ -1,6 +1,5 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-
 import { Observable } from 'rxjs';
 
 import { AppConfig } from '../utils/app-config';

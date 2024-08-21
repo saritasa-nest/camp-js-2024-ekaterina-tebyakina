@@ -10,9 +10,7 @@ import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.servic
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { DEFAULT_PAGE_INDEX, AnimeParams } from '@js-camp/core/models/anime-params';
 import { AnimeQueryParamsMapper } from '@js-camp/core/mappers/anime-query-params.mapper';
-
 import { AnimeFilters } from '@js-camp/core/models/anime-filters';
-
 import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
 
 import { AnimeTableComponent } from '../anime-table/anime-table.component';

@@ -4,7 +4,6 @@ import { RegistrationData } from '@js-camp/core/models/registration-data';
 import { RegistrationDataMapper } from '@js-camp/core/mappers/registration-data.mapper';
 import { AuthorizationTokensDto } from '@js-camp/core/dtos/authorization-tokens.dto';
 import { catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
-
 import { ServerErrorDto } from '@js-camp/core/dtos/server-error.dto';
 import { ServerErrorMapper } from '@js-camp/core/mappers/server-error.mapper';
 import { LoginData } from '@js-camp/core/models/login-data';

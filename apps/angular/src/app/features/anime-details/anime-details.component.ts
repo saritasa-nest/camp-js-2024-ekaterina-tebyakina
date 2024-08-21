@@ -10,7 +10,6 @@ import { MatListModule } from '@angular/material/list';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { ImageDialogComponent } from '@js-camp/angular/shared/components/image-dialog/image-dialog.component';
 

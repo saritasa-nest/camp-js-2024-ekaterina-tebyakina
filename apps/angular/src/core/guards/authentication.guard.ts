@@ -1,6 +1,5 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-
 import { map, tap } from 'rxjs';
 
 import { AuthorizationApiService } from '../services/authorization-api.service';

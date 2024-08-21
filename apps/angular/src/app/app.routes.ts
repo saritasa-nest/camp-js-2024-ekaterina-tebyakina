@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 
 import { RouterPaths } from '../core/model/router-paths';
-
 import { authorizationGuard } from '../core/guards/authentication.guard';
 
 import { AnimeDashboardComponent } from './features/anime-dashboard/anime-dashboard.component';
