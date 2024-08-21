@@ -17,7 +17,7 @@ const AnimeSortFieldComponent: FC = () => {
 	);
 
 	/**
-	 * Triggers when the sorting settings are changed.
+	 * Handles changes to the sorting settings.
 	 * @param event - Click event.
 	 * @param newSortingSettings - Anime sorting settings.
 	 */

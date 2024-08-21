@@ -26,7 +26,7 @@ const AnimeTypesFieldComponent: FC = () => {
 	const animeTypesHtmlElements = animeTypes.map(type => <MenuItem key={type} value={type}>{type}</MenuItem>);
 
 	/**
-	 * Triggers when the list of selected anime types is changed.
+	 * Handles changes to the selected anime types.
 	 * @param event - Select change event.
 	 */
 	const handleTypesChange = (event: SelectChangeEvent<AnimeType[]>) => {

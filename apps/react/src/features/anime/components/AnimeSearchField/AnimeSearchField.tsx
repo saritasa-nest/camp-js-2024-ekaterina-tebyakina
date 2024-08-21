@@ -9,7 +9,7 @@ const AnimeSearchFieldComponent: FC = () => {
 	const [searchTerm, setSearchTerm] = useState(searchParams.get(SEARCH_TERM_QUERY_PARAM) ?? '');
 
 	/**
-	 * Triggers when search term is changed.
+	 * Handles changes to the search term.
 	 * @param event - Input event.
 	 */
 	function handleSearchChange(event: ChangeEvent<HTMLInputElement>) {
