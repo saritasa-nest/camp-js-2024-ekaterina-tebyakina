@@ -46,6 +46,10 @@ export class RegistrationFormComponent {
 	/** Handle registration submit. */
 	protected onRegistrationSubmit(): void {
 
+		if (this.registrationFormService.form.invalid) {
+			return;
+		}
+
 		const formData = new RegistrationData(this.registrationFormService.form.getRawValue());
 
 		this.authorizationApiService.register(formData).pipe(

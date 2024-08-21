@@ -46,6 +46,10 @@ export class LoginFormComponent {
 	/** Handle login form submit. */
 	protected onLoginSubmit(): void {
 
+		if (this.loginFormService.form.invalid) {
+			return;
+		}
+
 		const formData = new LoginData(this.loginFormService.form.getRawValue());
 
 		this.authorizationApiService.login(formData).pipe(
