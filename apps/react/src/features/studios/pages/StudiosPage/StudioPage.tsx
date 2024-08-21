@@ -3,12 +3,15 @@ import { Outlet } from 'react-router-dom';
 
 import { StudiosList } from '../../components/StudiosList';
 
+import { StudioSearchBar } from '../../components/StudioSearchBar';
+
 import styles from './StudioPage.module.css';
 
 /** Studio page component. */
 const StudiosPageComponent: FC = () => (
 	<main className={styles.main}>
 		<div className={styles.main__section}>
+			<StudioSearchBar/>
 			<StudiosList />
 		</div>
 		<div className={styles.main__details}>
