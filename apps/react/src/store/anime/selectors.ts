@@ -2,6 +2,8 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from '../store';
 
+import { animeAdapter } from './state';
+
 /** Select anime loading state. */
 export const selectAnimeListLoading = createSelector(
 	(state: RootState) => state.anime.isLoading,
@@ -21,10 +23,7 @@ export const selectAnimeListError = createSelector(
 );
 
 /** Select all anime from store. */
-export const selectAllAnime = createSelector(
-	(state: RootState) => state.anime.animeList.allIds.map(id => state.anime.animeList.byId[id]),
-	animeList => animeList,
-);
+export const selectAllAnime = animeAdapter.getSelectors<RootState>(state => state.anime).selectAll;
 
 /** Select url to next page of anime list from store. */
 export const selectNextPageUrl = createSelector(

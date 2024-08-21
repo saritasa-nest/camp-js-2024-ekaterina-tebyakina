@@ -1,15 +1,13 @@
 import { Anime } from '@js-camp/core/models/anime';
+import { createEntityAdapter } from '@reduxjs/toolkit';
 
-import { NormalizedObjects } from '../store';
+/** Anime adapter. */
+export const animeAdapter = createEntityAdapter({
+	selectId: (anime: Anime) => anime.id,
+});
 
 /** Anime list state. */
 export type AnimeListState = {
-
-	/** Anime list. */
-	readonly animeList: NormalizedObjects<Anime>;
-
-	/** Url to previous page of anime list. */
-	readonly previousPage: string | null;
 
 	/** Url to next page of anime list. */
 	readonly nextPage: string | null;
@@ -25,10 +23,10 @@ export type AnimeListState = {
 };
 
 /** Initial state for anime list state. */
-export const initialState: AnimeListState = {
-	isLoading: false,
-	isAdditionalLoading: false,
-	animeList: { byId: {}, allIds: [] },
-	previousPage: null,
-	nextPage: null,
-};
+export const initialState = animeAdapter.getInitialState<AnimeListState>(
+	{
+		isLoading: false,
+		isAdditionalLoading: false,
+		nextPage: null,
+	},
+);

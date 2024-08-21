@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, EntityState } from '@reduxjs/toolkit';
+import { Anime } from '@js-camp/core/models/anime';
 
 import { fetchList, fetchNewPage } from './dispatchers';
-import { initialState } from './state';
+import { animeAdapter, initialState } from './state';
 
 /** Anime list slice. */
 export const animeSlice = createSlice({
@@ -13,16 +14,9 @@ export const animeSlice = createSlice({
 			state.isLoading = true;
 		})
 		.addCase(fetchList.fulfilled, (state, action) => {
-			state.animeList.byId = {};
-			state.animeList.allIds = [];
-
-			action.payload.results.forEach(item => {
-				state.animeList.byId[item.id] = item;
-				state.animeList.allIds.push(item.id);
-			});
-
+			const animeState = state as EntityState<Anime>;
+			animeAdapter.setAll(animeState, action.payload.results);
 			state.nextPage = action.payload.next;
-			state.previousPage = action.payload.previous;
 			state.isLoading = false;
 		})
 		.addCase(fetchList.rejected, (state, action) => {
@@ -36,17 +30,10 @@ export const animeSlice = createSlice({
 			state.isAdditionalLoading = true;
 		})
 		.addCase(fetchNewPage.fulfilled, (state, action) => {
-			const { byId, allIds } = state.animeList;
-
-			action.payload.results.forEach(item => {
-				byId[item.id] = item;
-				if (!allIds.find(id => id === item.id)) {
-					allIds.push(item.id);
-				}
-			});
+			const animeState = state as EntityState<Anime>;
+			animeAdapter.addMany(animeState, action.payload.results);
 
 			state.nextPage = action.payload.next;
-			state.previousPage = action.payload.previous;
 			state.isAdditionalLoading = false;
 		})
 		.addCase(fetchNewPage.rejected, (state, action) => {
