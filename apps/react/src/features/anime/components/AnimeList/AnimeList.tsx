@@ -1,4 +1,4 @@
-import { memo, FC, useCallback, useRef, useEffect } from 'react';
+import { memo, FC, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { List, ListItem, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,6 +7,7 @@ import { AnimeSortMapper } from '@js-camp/react/api/mappers/animeSortMapper';
 import { AnimeTypeMapper } from '@js-camp/core/mappers/anime-type.mapper';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import {
+	selectAdditionalAnimeLoading,
 	selectAllAnime,
 	selectAnimeListError,
 	selectAnimeListLoading,
@@ -19,17 +20,19 @@ import {
 	SORTING_SETTINGS_QUERY_PARAM,
 } from '@js-camp/react/api/constants';
 
+import { useInfiniteScroll } from '@js-camp/react/features/hooks/useInfiniteScroll';
+
 import { ANIME_PATH } from '../../routes';
 
 import styles from './AnimeList.module.css';
 
 /** Anime list component. */
 const AnimeListComponent: FC = () => {
-	const observer = useRef<IntersectionObserver | null>();
 	const dispatch = useAppDispatch();
 	const [searchParams] = useSearchParams();
 	const animeList = useAppSelector(selectAllAnime);
 	const isLoading = useAppSelector(selectAnimeListLoading);
+	const isAdditionalLoading = useAppSelector(selectAdditionalAnimeLoading);
 	const error = useAppSelector(selectAnimeListError);
 	const nextPageUrl = useAppSelector(selectNextPageUrl);
 
@@ -39,33 +42,20 @@ const AnimeListComponent: FC = () => {
 			selectedTypes: AnimeTypeMapper.stringToArray(searchParams.get(SELECTED_TYPES_QUERY_PARAM) ?? ''),
 			sortingSettings: AnimeSortMapper.fromString(searchParams.get(SORTING_SETTINGS_QUERY_PARAM) ?? ''),
 		};
-
-		if (!isLoading) {
+		if (!isLoading && !isAdditionalLoading) {
 			dispatch(fetchList(filterParams));
 		}
 	}, [searchParams]);
 
-	const lastPostElementRef = useCallback(
-		(node: HTMLAnchorElement) => {
-			if (isLoading) {
-				return;
-			}
-			if (observer.current) {
-				observer.current.disconnect();
-			}
-			observer.current = new IntersectionObserver(entries => {
-				if (entries[0].isIntersecting) {
-					if (!isLoading && nextPageUrl) {
-						dispatch(fetchNewPage(nextPageUrl));
-					}
-				}
-			});
-			if (node) {
-				observer.current.observe(node);
+	const lastElementRef = useInfiniteScroll({
+		isLoading: isLoading && isAdditionalLoading,
+		nextPageUrl,
+		fetchData() {
+			if (nextPageUrl) {
+				dispatch(fetchNewPage(nextPageUrl));
 			}
 		},
-		[isLoading],
-	);
+	});
 
 	if (isLoading) {
 		return <Progress />;
@@ -90,7 +80,7 @@ const AnimeListComponent: FC = () => {
 					}
 					component={Link}
 					to={`/${ANIME_PATH}/${anime.id}`}
-					ref={animeList.length === index + 1 ? lastPostElementRef : null}
+					ref={animeList.length === index + 1 ? lastElementRef : null}
 				>
 					<div>
 						<img
@@ -140,6 +130,7 @@ const AnimeListComponent: FC = () => {
 						</p>
 					</div>
 				</ListItem>) }
+			{ isAdditionalLoading ? <Progress /> : null}
 		</List>
 	);
 };
