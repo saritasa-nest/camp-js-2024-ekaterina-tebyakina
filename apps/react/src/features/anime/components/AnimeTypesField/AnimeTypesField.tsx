@@ -13,6 +13,8 @@ import { SELECTED_TYPES_QUERY_PARAM } from '@js-camp/react/api/constants';
 
 import styles from './AnimeTypesField.module.css';
 
+const animeTypes = Object.values(AnimeType);
+
 /** Anime filter form. */
 const AnimeTypesFieldComponent: FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -21,7 +23,6 @@ const AnimeTypesFieldComponent: FC = () => {
 		AnimeTypeMapper.stringToArray(searchParams.get(SELECTED_TYPES_QUERY_PARAM) ?? ''),
 	);
 
-	const animeTypes = Object.values(AnimeType);
 	const animeTypesHtmlElements = animeTypes.map(type => <MenuItem key={type} value={type}>{type}</MenuItem>);
 
 	/**
