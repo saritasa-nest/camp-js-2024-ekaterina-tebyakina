@@ -13,7 +13,7 @@ export const appRoutes: Routes = [
 			{ path: '', component: AnimeDashboardComponent },
 			{
 				path: ':id',
-				canActivate: [authorizationGuard],
+				canMatch: [authorizationGuard],
 				loadComponent: () => import('./features/anime-details/anime-details.component')
 					.then(c => c.AnimeDatailsComponent),
 			},
