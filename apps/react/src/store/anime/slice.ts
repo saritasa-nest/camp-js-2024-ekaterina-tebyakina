@@ -33,7 +33,7 @@ export const animeSlice = createSlice({
 		})
 
 		.addCase(fetchNewPage.pending, state => {
-			state.isLoading = true;
+			state.isAdditionalLoading = true;
 		})
 		.addCase(fetchNewPage.fulfilled, (state, action) => {
 			const { byId, allIds } = state.animeList;
@@ -47,12 +47,12 @@ export const animeSlice = createSlice({
 
 			state.nextPage = action.payload.next;
 			state.previousPage = action.payload.previous;
-			state.isLoading = false;
+			state.isAdditionalLoading = false;
 		})
 		.addCase(fetchNewPage.rejected, (state, action) => {
 			if (action.error.message) {
 				state.error = action.error.message;
 			}
-			state.isLoading = false;
+			state.isAdditionalLoading = false;
 		}),
 });
