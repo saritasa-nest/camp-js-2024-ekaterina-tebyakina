@@ -72,15 +72,12 @@ export class AuthorizationApiService {
 			switchMap(refreshToken => {
 				if (refreshToken) {
 					return this.http.post<AuthorizationTokensDto>(this.urlConfigService.authorization.refresh,
-						{ refresh: refreshToken }).pipe(
-						map(response => AuthorizationTokensMapper.fromDto(response)),
-						tap(response => this.localStorageService.saveTokens(response)),
-						catchError((error: unknown) => throwError(() => error)),
-					);
+						{ refresh: refreshToken });
 				}
 				return throwError(() => new Error('Failed to refresh token'));
 			}),
-			catchError((error: unknown) => throwError(() => error)),
+			map(response => AuthorizationTokensMapper.fromDto(response)),
+			tap(response => this.localStorageService.saveTokens(response)),
 		);
 	}
 
