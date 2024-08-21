@@ -1,5 +1,5 @@
 import { memo, FC, useEffect, useRef, useCallback } from 'react';
-import { dividerClasses, List } from '@mui/material';
+import { List } from '@mui/material';
 
 import { AnimeStudio } from '@js-camp/core/models/anime-studio';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
