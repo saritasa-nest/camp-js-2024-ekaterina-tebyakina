@@ -58,11 +58,11 @@ export class AnimeDatailsComponent {
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
-	private readonly animeApiService = inject(AnimeApiService);
+	private readonly animeService = inject(AnimeApiService);
 
 	public constructor() {
 		const animeId = this.activatedRoute.snapshot.params['id'];
-		this.anime$ = this.animeApiService.getAnime(animeId);
+		this.anime$ = this.animeService.getAnime(animeId);
 	}
 
 	/** Handle click on go back button. */
