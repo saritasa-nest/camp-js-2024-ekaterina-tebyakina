@@ -1,4 +1,4 @@
-import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 /**
  * A function that create validator that checks the value of two controls for equality.
@@ -7,7 +7,7 @@ import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
  * @returns Validator function.
  */
 export function matchFieldsValidator(controlName: string, matchingControlName: string): ValidatorFn {
-	return (formGroup: AbstractControl): { [key: string]: unknown; } | null => {
+	return (formGroup: AbstractControl): ValidationErrors | null => {
 		const formGroupControl = formGroup as FormGroup;
 		const control = formGroupControl.controls[controlName];
 		const matchingControl = formGroupControl.controls[matchingControlName];
