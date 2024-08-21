@@ -16,3 +16,7 @@ html {
 body {
 	font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.active {
+	background-color: var(--active-background-color);
+}

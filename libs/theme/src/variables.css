@@ -15,6 +15,7 @@
 	--primary-font-color: var(--primary-light-contrast-color);
 	--active-link-color: var(--primary-color);
 	--primary-background-color: var(--primary-contrast-color);
+	--active-background-color: rgb(116 124 167);
 
 	/* Variables for spaces */
 	--space-xs: 8px;

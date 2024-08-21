@@ -1,5 +1,5 @@
-import { memo, FC, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { memo, FC, useEffect, forwardRef, ForwardedRef } from 'react';
+import { LinkProps, NavLink, useSearchParams } from 'react-router-dom';
 import { List, ListItem, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchList, fetchNewPage } from '@js-camp/react/store/anime/dispatchers';
@@ -67,20 +67,26 @@ const AnimeListComponent: FC = () => {
 		return <div className={styles.message}>No anime found</div>;
 	}
 
+	const LinkRef = forwardRef<HTMLLIElement, LinkProps>((props, ref: ForwardedRef<HTMLLIElement>) => (
+		<li ref={ref}>
+			<NavLink {...props} />
+		</li>
+	));
+
 	return (
 		<List className={styles.list}>
 			{ animeList.map((anime, index) =>
 				<ListItem
 					key={anime.id}
 					className={styles.item}
+					component={LinkRef}
+					to={`/${ANIME_PATH}/${anime.id}`}
+					ref={animeList.length === index + 1 ? lastElementRef : null}
 					secondaryAction={
 						<IconButton edge="end" aria-label="delete">
 							<DeleteIcon />
 						</IconButton>
 					}
-					component={Link}
-					to={`/${ANIME_PATH}/${anime.id}`}
-					ref={animeList.length === index + 1 ? lastElementRef : null}
 				>
 					<div>
 						<img
@@ -129,7 +135,8 @@ const AnimeListComponent: FC = () => {
 							</span>
 						</p>
 					</div>
-				</ListItem>) }
+				</ListItem>)
+			}
 			{ isAdditionalLoading ? <Progress /> : null}
 		</List>
 	);

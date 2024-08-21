@@ -20,7 +20,7 @@ export const useInfiniteScroll = ({ isLoading, nextPageUrl, fetchData }: UseInfi
 	const observer = useRef<IntersectionObserver | null>();
 
 	const lastElementRef = useCallback(
-		(node: HTMLAnchorElement) => {
+		(node: HTMLLIElement | null) => {
 			if (isLoading) {
 				return;
 			}
