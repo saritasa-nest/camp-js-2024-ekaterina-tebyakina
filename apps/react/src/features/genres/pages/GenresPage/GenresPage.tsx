@@ -1,7 +1,5 @@
-import { memo, useEffect, FC } from 'react';
-import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
-import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
+import { memo, FC } from 'react';
+
 import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
@@ -11,33 +9,17 @@ import { GenresFilterForm } from '../../components/GenresFilterForm';
 import styles from './GenresPage.module.css';
 
 /** Genres page component. */
-const GenresPageComponent: FC = () => {
-	const dispatch = useAppDispatch();
-	const genres = useAppSelector(selectGenres);
-	const isLoading = useAppSelector(selectAreGenresLoading);
-
-	useEffect(() => {
-		dispatch(fetchGenres());
-	}, [dispatch]);
-
-	if (isLoading) {
-		return <div>Loading</div>;
-	}
-
-	return (
-		<main className={styles.main}>
-			<Box className={styles.main__section}>
-				<GenresFilterForm/>
-				<Box className={styles.main__section__list}>
-					<GenresList genres={genres} />
-				</Box>
-			</Box>
-			<Box className={styles.main__details}>
-				<Outlet />
-			</Box>
-		</main>
-	);
-};
+const GenresPageComponent: FC = () => (
+	<main className={styles.main}>
+		<Box className={styles.main__section}>
+			<GenresFilterForm />
+			<GenresList />
+		</Box>
+		<Box className={styles.main__details}>
+			<Outlet />
+		</Box>
+	</main>
+);
 
 /**
  * Memorized genres page component.

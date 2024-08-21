@@ -1,39 +1,68 @@
-import { memo, FC } from 'react';
+import { memo, FC, useEffect, useRef, useState } from 'react';
+import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
+import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { Link } from 'react-router-dom';
-import { Genre } from '@js-camp/core/models/genre';
-import { List, ListItem, IconButton, ListItemText } from '@mui/material';
+import { List, ListItem, IconButton, ListItemText, Box } from '@mui/material';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import styles from './GenresList.module.css';
 
-type Props = {
+/** Genres list.  */
+const GenresListComponent: FC = () => {
+	const dispatch = useAppDispatch();
+	const genres = useAppSelector(selectGenres);
+	const isLoading = useAppSelector(selectAreGenresLoading);
+	const containerIntersection = useRef<HTMLElement>(null);
+	const anchorIntersection = useRef<HTMLDivElement>(null);
+	const [pageNumber, setPageNumber] = useState(0);
 
-	/** Genres. */
-	readonly genres: Genre[];
+	useEffect(() => {
+		dispatch(fetchGenres(`?offset=${pageNumber}`));
+	}, [dispatch]);
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(entries => {
+			if (entries[0].isIntersecting) {
+				setPageNumber(pageNumber + 25);
+				dispatch(fetchGenres(`?offset=${pageNumber}`));
+			}
+		}, { root: containerIntersection.current, threshold: 1 });
+
+		if (anchorIntersection.current) {
+			observer.observe(anchorIntersection.current);
+		}
+	});
+
+	if (isLoading) {
+		return <div>Loading</div>;
+	}
+
+	return (
+		<Box className={styles.section__list} ref={containerIntersection}>
+			<List className={styles.list}>
+				<button style={{ width: '200px', height: '50px' }} />
+				{genres.map(genre =>
+					<ListItem
+						key={genre.id}
+						className={styles.list__item}
+						secondaryAction={
+							<IconButton edge="end" aria-label="delete">
+								<DeleteIcon />
+							</IconButton>
+						}
+						component={Link}
+						to={`/genres/${genre.id}`}
+					>
+						<ListItemText primary={genre.name} />
+						<ListItemText primary={genre.type} />
+					</ListItem>)}
+				<div ref={anchorIntersection}></div>
+			</List>
+		</Box>
+	);
 };
 
-/** Genres list.  */
-const GenresListComponent: FC<Props> = ({ genres }: Props) => (
-	<List className={styles.list}>
-		{genres.map(genre =>
-			<ListItem
-				key={genre.id}
-				className={styles.list__item}
-				secondaryAction={
-					<IconButton edge="end" aria-label="delete">
-						<DeleteIcon />
-					</IconButton>
-				}
-				component={Link}
-				to={`/genres/${genre.id}`}
-			>
-				<ListItemText primary={genre.name} />
-				<ListItemText primary={genre.type} />
-			</ListItem>)}
-	</List>
-);
-
-/**
- * Memorized genres list.
- */
+/** Memorized genres list. */
 export const GenresList = memo(GenresListComponent);
