@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { DialogRef, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 import { FormsModule } from '@angular/forms';
@@ -22,9 +22,9 @@ type DialogData = {
 	imports: [FormsModule, DialogModule, NgOptimizedImage],
 })
 export class ImageDialogComponent {
+	/** Reference to the dialog. */
+	protected readonly dialogRef = inject(DialogRef<string>);
 
-	public constructor(
-		public dialogRef: DialogRef<string>,
-		@Inject(DIALOG_DATA) public data: DialogData,
-	) {}
+	/** Data to be displayed in the dialog. */
+	protected readonly data = inject<DialogData>(DIALOG_DATA);
 }
