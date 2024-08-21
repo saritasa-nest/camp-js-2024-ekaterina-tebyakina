@@ -5,6 +5,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useSearchParams } from 'react-router-dom';
 import { AnimeSort } from '@js-camp/react/models/animeSort';
 import { AnimeSortMapper } from '@js-camp/react/api/mappers/animeSortMapper';
+import { SORTING_SETTINGS_QUERY_PARAM } from '@js-camp/react/api/constants';
 
 import styles from './AnimeSortField.module.css';
 
@@ -12,7 +13,7 @@ import styles from './AnimeSortField.module.css';
 const AnimeSortFieldComponent: FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [sortingSettings, setSortingSetting] = useState(
-		AnimeSortMapper.fromString(searchParams.get('sortingSettings') ?? ''),
+		AnimeSortMapper.fromString(searchParams.get(SORTING_SETTINGS_QUERY_PARAM) ?? ''),
 	);
 
 	/**
@@ -25,7 +26,7 @@ const AnimeSortFieldComponent: FC = () => {
 		newSortingSettings: AnimeSort | null,
 	) => {
 		setSortingSetting(newSortingSettings ? newSortingSettings : AnimeSort.None);
-		searchParams.set('sortingSettings', newSortingSettings ? newSortingSettings : AnimeSort.None);
+		searchParams.set(SORTING_SETTINGS_QUERY_PARAM, newSortingSettings ? newSortingSettings : AnimeSort.None);
 		setSearchParams(searchParams);
 	};
 
