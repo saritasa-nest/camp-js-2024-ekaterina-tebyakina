@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationApiService } from '@js-camp/angular/core/services/authorization-api.service';
-import { tap } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
@@ -54,16 +54,15 @@ export class LoginFormComponent {
 
 		this.authorizationApiService.login(formData).pipe(
 			takeUntilDestroyed(this.destroyRef),
-			tap({
-				next: () => {
-					this.router.navigate([this.routerPaths.Main]);
-				},
-				error: (error: unknown) => {
-					if (error instanceof HttpErrorResponse) {
-						this.loginFormService.handleServerError(error);
-						this.changeDetectorRef.markForCheck();
-					}
-				},
+			catchError((error: unknown) => {
+				if (error instanceof HttpErrorResponse) {
+					this.loginFormService.handleServerError(error);
+					this.changeDetectorRef.markForCheck();
+				}
+				return throwError(() => error);
+			}),
+			tap(() => {
+				this.router.navigate([this.routerPaths.Main]);
 			}),
 		)
 			.subscribe();

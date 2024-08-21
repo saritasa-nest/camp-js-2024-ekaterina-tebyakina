@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RegistrationData } from '@js-camp/core/models/registration-data';
 import { AuthorizationApiService } from '@js-camp/angular/core/services/authorization-api.service';
-import { tap } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
@@ -54,16 +54,15 @@ export class RegistrationFormComponent {
 
 		this.authorizationApiService.register(formData).pipe(
 			takeUntilDestroyed(this.destroyRef),
-			tap({
-				next: () => {
-					this.router.navigate([this.routerPaths.Main]);
-				},
-				error: (error: unknown) => {
-					if (error instanceof HttpErrorResponse) {
-						this.registrationFormService.handleServerError(error);
-						this.changeDetectorRef.markForCheck();
-					}
-				},
+			catchError((error: unknown) => {
+				if (error instanceof HttpErrorResponse) {
+					this.registrationFormService.handleServerError(error);
+					this.changeDetectorRef.markForCheck();
+				}
+				return throwError(() => error);
+			}),
+			tap(() => {
+				this.router.navigate([this.routerPaths.Main]);
 			}),
 		)
 			.subscribe();

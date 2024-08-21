@@ -24,7 +24,7 @@ import { User } from '@js-camp/core/models/user';
 export class AuthorizationMenuComponent implements OnInit {
 
 	/** Contains data about current user. */
-	public readonly user$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+	public readonly user$ = new BehaviorSubject<User | null>(null);
 
 	/** Enum with paths for link. */
 	protected readonly routerPaths = RouterPaths;
