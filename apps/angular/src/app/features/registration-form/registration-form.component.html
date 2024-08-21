@@ -17,14 +17,7 @@
 					placeholder="ivan.pupkin@gmail.com"
 					[formControl]="registrationFormService.form.controls.email"
 				>
-				@if (registrationFormService.form.get('email')?.hasError('required') && registrationFormService.form.get('email')?.touched) {
-					<mat-error>Email is required.</mat-error>
-				} @else if (registrationFormService.form.get('email')?.hasError('email') && registrationFormService.form.get('email')?.touched) {
-					<mat-error>Enter a valid email address.</mat-error>
-				}
-				@if (registrationFormService.form.get('email')?.hasError('serverError')) {
-					<mat-error>{{registrationFormService.form.get('email')?.getError('serverError')}}</mat-error>
-				}
+				<mat-error>{{registrationFormService.getErrorMessage('email')}}</mat-error>
 			</mat-form-field>
 
 			<mat-form-field
@@ -38,12 +31,7 @@
 					placeholder="Ivan"
 					[formControl]="registrationFormService.form.controls.firstName"
 				>
-				@if (registrationFormService.form.get('firstName')?.touched && registrationFormService.form.get('firstName')?.hasError('required')) {
-					<mat-error>First name is required.</mat-error>
-				}
-				@if (registrationFormService.form.get('firstName')?.hasError('serverError')) {
-					<mat-error>{{registrationFormService.form.get('firstName')?.getError('serverError')}}</mat-error>
-				}
+				<mat-error>{{registrationFormService.getErrorMessage('firstName')}}</mat-error>
 			</mat-form-field>
 
 			<mat-form-field
@@ -57,12 +45,7 @@
 					placeholder="Pupkin"
 					[formControl]="registrationFormService.form.controls.lastName"
 				>
-				@if (registrationFormService.form.get('lastName')?.touched && registrationFormService.form.get('lastName')?.hasError('required')) {
-						<mat-error>Last name is required.</mat-error>
-				}
-				@if (registrationFormService.form.get('lastName')?.hasError('serverError')) {
-					<mat-error>{{registrationFormService.form.get('lastName')?.getError('serverError')}}</mat-error>
-				}
+				<mat-error>{{registrationFormService.getErrorMessage('lastName')}}</mat-error>
 			</mat-form-field>
 
 			<mat-form-field
@@ -76,12 +59,7 @@
 					placeholder="veryStrongPassW0rd"
 					[formControl]="registrationFormService.form.controls.password"
 				>
-				@if (registrationFormService.form.get('password')?.touched && registrationFormService.form.get('password')?.hasError('required')) {
-					<mat-error>Password is required.</mat-error>
-				}
-				@if (registrationFormService.form.get('password')?.hasError('serverError')) {
-					<mat-error>{{registrationFormService.form.get('password')?.getError('serverError')}}</mat-error>
-				}
+				<mat-error>{{registrationFormService.getErrorMessage('password')}}</mat-error>
 			</mat-form-field>
 
 			<mat-form-field
@@ -96,11 +74,7 @@
 					[formControl]="registrationFormService.form.controls.retypedPassword"
 					type="password"
 				>
-				@if (registrationFormService.form.get('retypedPassword')?.touched && registrationFormService.form.get('retypedPassword')?.hasError('required')) {
-					<mat-error>Retyped password is required.</mat-error>
-				} @else if (registrationFormService.form.get('retypedPassword')?.hasError('mustMatch')) {
-					<mat-error>Passwords must match.</mat-error>
-				}
+				<mat-error>{{registrationFormService.getErrorMessage('retypedPassword')}}</mat-error>
 			</mat-form-field>
 
 			@if (registrationFormService.form.hasError('serverError')) {

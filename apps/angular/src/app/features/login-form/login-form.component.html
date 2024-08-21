@@ -17,11 +17,7 @@
 					placeholder="ivan.pupkin@gmail.com"
 					[formControl]="loginFormService.form.controls.email"
 				>
-				@if (loginFormService.form.get('email')?.hasError('required') && loginFormService.form.get('email')?.touched) {
-					<mat-error>Email is required.</mat-error>
-				} @else if (loginFormService.form.get('email')?.hasError('email') && loginFormService.form.get('email')?.touched) {
-					<mat-error>Enter a valid email address.</mat-error>
-				}
+				<mat-error>{{loginFormService.getErrorMessage('email')}}</mat-error>
 			</mat-form-field>
 
 			<mat-form-field
@@ -35,9 +31,7 @@
 					placeholder="veryStrongPassW0rd"
 					[formControl]="loginFormService.form.controls.password"
 				>
-				@if (loginFormService.form.get('password')?.hasError('required') && loginFormService.form.get('password')?.touched) {
-					<mat-error>Password is required.</mat-error>
-				}
+				<mat-error>{{loginFormService.getErrorMessage('password')}}</mat-error>
 			</mat-form-field>
 
 			@if (loginFormService.form.hasError('serverError')) {

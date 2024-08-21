@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, FormGroup, Validators } from '@angular/forms';
 import { matchFieldsValidator } from '@js-camp/angular/core/utils/compare-form-fields.util';
+import { capitalize } from '@js-camp/angular/core/utils/strings-modification.util';
 import { ServerError } from '@js-camp/core/models/server-error';
 
 /** Type for registration form group. Contains types for each control. */
@@ -67,5 +68,27 @@ export class RegistrationFormService {
 		});
 
 		this.form.setErrors({ serverError: errorsString });
+	}
+
+	/**
+	 * Function for getting an error message for form control.
+	 * @param controlName - Name of form control.
+	 */
+	public getErrorMessage(controlName: string): string | null {
+		const control = this.form.get(controlName);
+
+		if (control) {
+			if (control.hasError('required') && control.touched) {
+				return `${capitalize(controlName)} is required.`;
+			} else if (control.hasError('email') && control.touched) {
+				return 'Enter a valid email address.';
+			} else if (control.hasError('serverError') && control.touched) {
+				return control.getError('serverError');
+			} else if (control.hasError('mustMatch') && control.touched) {
+				return 'Passwords must match.';
+			}
+		}
+
+		return null;
 	}
 }
