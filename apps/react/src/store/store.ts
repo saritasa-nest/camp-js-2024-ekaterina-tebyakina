@@ -31,13 +31,3 @@ export const useAppDispatch = (): AppDispatch => useDispatch<AppDispatch>();
 
 /** Selector for using types. */
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-
-/** Type for normalized data. */
-export type NormalizedObjects<T> = {
-
-	/** Object with all data items. */
-	byId: { [id: string]: T; };
-
-	/** Object with all data items ids. */
-	allIds: number[];
-};
