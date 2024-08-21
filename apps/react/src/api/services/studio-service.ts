@@ -31,6 +31,6 @@ export namespace StudioService {
 			params: filterParamsDto,
 		});
 
-		return PaginationListCursorMapper.fromDto(data, AnimeStudioMapper.fromDto);
+		return PaginationListCursorMapper.fromDto(data, studioDto => AnimeStudioMapper.fromDto(studioDto));
 	}
 }
