@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { selectAreStudiosLoading, selectStudioNextCursor, selectStudios } from '@js-camp/react/store/studio/selectors';
 import { getAllStudios } from '@js-camp/react/store/studio/dispatchers';
 
+import useQueryParams from '@js-camp/react/hooks/useQueryParam';
+
 import { StudioListItem } from '../StudioListItem/StudioListItem';
 
 type Props = {
@@ -16,10 +18,13 @@ type Props = {
 
 /** Studios list.  */
 const StudiosListComponent: FC = () => {
+	const { getQueryParamByKey } = useQueryParams();
 	const dispatch = useAppDispatch();
 	const studiosList = useAppSelector(selectStudios);
 	const nextCursor = useAppSelector(selectStudioNextCursor);
 	const isLoading = useAppSelector(selectAreStudiosLoading);
+
+	const search = getQueryParamByKey('search');
 
 	const observer = useRef<IntersectionObserver>();
 
@@ -36,7 +41,7 @@ const StudiosListComponent: FC = () => {
 			if (node) {
 				observer.current = new IntersectionObserver(entries => {
 					if (entries[0].isIntersecting && nextCursor) {
-						dispatch(getAllStudios({ nextCursor }));
+						dispatch(getAllStudios({ nextCursor, search }));
 						observer.current?.disconnect();
 					}
 				}, options);
@@ -48,8 +53,8 @@ const StudiosListComponent: FC = () => {
 	);
 
 	useEffect(() => {
-		dispatch(getAllStudios());
-	}, []);
+		dispatch(getAllStudios({ search }));
+	}, [search]);
 
 	return (
 		<List
