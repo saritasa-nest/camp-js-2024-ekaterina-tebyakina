@@ -19,14 +19,13 @@ const GenresListComponent: FC = () => {
 	const [pageNumber, setPageNumber] = useState(0);
 
 	useEffect(() => {
-		dispatch(fetchGenres(`?offset=${pageNumber}`));
+		dispatch(fetchGenres(''));
 	}, [dispatch]);
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(entries => {
 			if (entries[0].isIntersecting) {
-				setPageNumber(pageNumber + 25);
-				dispatch(fetchGenres(`?offset=${pageNumber}`));
+				console.log('wow');
 			}
 		}, { root: containerIntersection.current, threshold: 1 });
 

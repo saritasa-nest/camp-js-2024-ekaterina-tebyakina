@@ -3,6 +3,12 @@ import { Genre } from '@js-camp/core/models/genre';
 /** Genres state. */
 export type GenresState = {
 
+	/** Next list. */
+	next: string | null;
+
+	/** Previous list. */
+	previous: string | null;
+
 	/** Genres list. */
 	readonly genres: Genre[];
 
@@ -15,6 +21,8 @@ export type GenresState = {
 
 /** InitialState for GenresState. */
 export const initialState: GenresState = {
+	next: null,
+	previous: null,
 	isLoading: false,
 	genres: [],
 };

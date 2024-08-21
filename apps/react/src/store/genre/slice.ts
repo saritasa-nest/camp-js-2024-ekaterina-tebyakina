@@ -13,7 +13,7 @@ export const genresSlice = createSlice({
 			state.isLoading = true;
 		})
 		.addCase(fetchGenres.fulfilled, (state, action) => {
-			state.genres = [...state.genres, ...action.payload];
+			state.genres = action.payload;
 			state.isLoading = false;
 		})
 		.addCase(fetchGenres.rejected, (state, action) => {

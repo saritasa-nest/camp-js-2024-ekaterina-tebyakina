@@ -5,5 +5,5 @@ import { GenresService } from '../../api/services/genreService';
 /** Function for fetch genres. */
 export const fetchGenres = createAsyncThunk(
 	'genres/fetch',
-	(offset: string) => GenresService.fetchGenres(offset),
+	(next: string) => GenresService.fetchGenres(next),
 );
