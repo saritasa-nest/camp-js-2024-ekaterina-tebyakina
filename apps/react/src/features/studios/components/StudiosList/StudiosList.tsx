@@ -24,7 +24,7 @@ const StudiosListComponent: FC = () => {
 	const wrapperElementRef = useRef<HTMLElement>(null);
 
 	useEffect(() => {
-		wrapperElementRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+		wrapperElementRef.current?.scrollTo({ top: 0, behavior: 'instant' });
 		dispatch(getAllStudios({ search, sort }));
 	}, [search, sort]);
 
