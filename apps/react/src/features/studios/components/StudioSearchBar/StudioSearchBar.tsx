@@ -24,11 +24,12 @@ const StudioSearchBarComponent: FC = () => {
 
 	/** Submit the search value to the URL. */
 	function handleResetSearchValue(): void {
+		setValue('');
 		setQueryParams({ search: null });
 	}
 
 	return (
-		<Box component="form" display="flex" padding={2} gap={1}>
+		<Box component="form" display="flex" gap={1}>
 			<TextField
 				sx={{
 					flex: '1 1 0',

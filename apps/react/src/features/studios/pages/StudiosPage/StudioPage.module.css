@@ -7,8 +7,10 @@
 
 .main__section {
 	width: 380px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 	border: 1px var(--border-color) solid;
-	flex-grow: 1;
 }
 
 .main__details {

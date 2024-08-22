@@ -1,6 +1,8 @@
 import { memo, FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
+import { Box } from '@mui/material';
+
 import { StudiosList } from '../../components/StudiosList';
 
 import { StudioSearchBar } from '../../components/StudioSearchBar';
@@ -11,16 +13,32 @@ import styles from './StudioPage.module.css';
 
 /** Studio page component. */
 const StudiosPageComponent: FC = () => (
-	<main className={styles.main}>
-		<div className={styles.main__section}>
-			<StudiosSort />
-			<StudioSearchBar/>
+	<Box component="main" className={styles.main}>
+		<Box
+			component="section"
+			display="flex"
+			flexDirection="column"
+			sx={{
+				width: '380px',
+				border: '1px solid rgba(0 0 0 / 15%)',
+			}}
+		>
+			<Box display="flex" flexDirection="column" padding={2} gap={2}>
+				<StudioSearchBar />
+				<StudiosSort />
+			</Box>
 			<StudiosList />
-		</div>
-		<div className={styles.main__details}>
+		</Box>
+		<Box
+			component="section"
+			padding={3}
+			sx={{
+				width: '100%',
+			}}
+		>
 			<Outlet />
-		</div>
-	</main>
+		</Box>
+	</Box>
 );
 
 /** Memorized studio page component. */
