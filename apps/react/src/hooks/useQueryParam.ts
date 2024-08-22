@@ -7,9 +7,12 @@ export default function useQueryParams<T>() {
 	const urlSearchParams = new URLSearchParams(search);
 	const urlQueryObject = Object.fromEntries(urlSearchParams);
 
-	const getQueryParamByKey = (key: string) => {
+	const getQueryParamByKey = (key: keyof T) => {
 		const params = new URLSearchParams(search);
-		return params.get(key) ?? '';
+		if (typeof key === 'string') {
+			return params.get(key) ?? '';
+		}
+		return '';
 	};
 
 	/**
@@ -22,7 +25,7 @@ export default function useQueryParams<T>() {
 		const newSearchParams = new URLSearchParams(search);
 
 		Object.entries(params).forEach(([key, value]) => {
-			if (value == null) {
+			if (value == null || value === '') {
 				newSearchParams.delete(key);
 			} else {
 				newSearchParams.set(key, String(value));
@@ -42,7 +45,7 @@ export default function useQueryParams<T>() {
 	return {
 		allQueryParams: urlQueryObject,
 		getQueryParamByKey,
-		setQueryParams: (params: Partial<T>) => updateSearchParams(params),
+		setQueryParams: (params: Partial<T>, replace?: boolean) => updateSearchParams(params, undefined, replace),
 		navigateToPathWithQueryParams: (params: Partial<T>, pathName: string) =>
 			updateSearchParams(params, pathName, false),
 	};
