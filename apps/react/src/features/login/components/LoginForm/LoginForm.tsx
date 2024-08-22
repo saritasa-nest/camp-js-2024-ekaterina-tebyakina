@@ -7,8 +7,14 @@ import { LoginData } from '@js-camp/core/models/login-data';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { useNavigate } from 'react-router-dom';
 import { ANIME_PATH } from '@js-camp/react/features/anime/routes';
-import { loginUser } from '@js-camp/react/store/user/dispatchers';
+import { fetchUser } from '@js-camp/react/store/user/dispatchers';
 import { selectIsCurrentUserLoading } from '@js-camp/react/store/user/selectors';
+import { AuthorizationService } from '@js-camp/react/api/services/authorizationService';
+import { LocalStorageService } from '@js-camp/react/api/services/localStorageService';
+import { isAxiosError } from 'axios';
+import { ServerErrorDto } from '@js-camp/core/dtos/server-error.dto';
+import { ServerErrorMapper } from '@js-camp/core/mappers/server-error.mapper';
+import { ServerError } from '@js-camp/core/models/server-error';
 
 import styles from './LoginForm.module.css';
 
@@ -29,14 +35,60 @@ const LoginFormComponent: FC = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		setError,
 	} = useForm<LoginData>({
 		mode: 'onBlur',
 		resolver: zodResolver(LoginSchema),
 	});
+
+	const login = async(loginData: LoginData) => {
+		try {
+			const tokens = await AuthorizationService.login(loginData);
+			LocalStorageService.saveTokens(tokens);
+			dispatch(fetchUser());
+			navigate(ANIME_PATH);
+		} catch (fetchError: unknown) {
+			if (isAxiosError(fetchError) && fetchError.response) {
+				const loginErrors: ServerError[] = fetchError.response.data.errors.map(
+					(errorDto: ServerErrorDto) => ServerErrorMapper.fromDto(errorDto),
+				);
+				loginErrors.forEach(error => {
+					if (error.attribute) {
+						setError(
+
+							// TODO type assertion for attribute.
+							error.attribute as 'email' | 'password',
+							{
+								type: 'serverError',
+								message: error.detail,
+							},
+						);
+						return;
+					}
+					setError(
+						'root',
+						{
+							type: 'serverError',
+							message: error.detail,
+						},
+					);
+				});
+				return;
+			}
+			console.warn('Failed to register');
+			setError(
+				'root',
+				{
+					type: 'serverError',
+					message: 'Failed to register',
+				},
+			);
+		}
+	};
+
 	const onSubmit: SubmitHandler<LoginData> = (loginData: LoginData) => {
 		if (!isLoading) {
-			dispatch(loginUser(loginData));
-			navigate(ANIME_PATH);
+			login(loginData);
 		}
 	};
 
@@ -64,6 +116,7 @@ const LoginFormComponent: FC = () => {
 					error={!!errors.password}
 					helperText={errors.password ? errors.password.message : ''}
 				/>
+				{errors.root ? <span className={styles.errorMessage}>{errors.root.message}</span> : ''}
 				<Button
 					type="submit"
 					variant="outlined"
