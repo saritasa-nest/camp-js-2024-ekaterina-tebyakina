@@ -4,13 +4,14 @@ import useQueryParams from '@js-camp/react/hooks/useQueryParam';
 import { Button, IconButton, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { StudioQueryParams } from '@js-camp/core/mappers/studio-query-params.mapper';
 
 /**
  * Genres text field component.
  * @param props Props.
  */
 const StudioSearchBarComponent: FC = () => {
-	const { getQueryParamByKey, setQueryParams } = useQueryParams();
+	const { getQueryParamByKey, setQueryParams } = useQueryParams<StudioQueryParams>();
 	const searchParam = getQueryParamByKey('search');
 
 	const [value, setValue] = useState(searchParam);
@@ -23,10 +24,7 @@ const StudioSearchBarComponent: FC = () => {
 
 	/** Submit the search value to the URL. */
 	function handleResetSearchValue(): void {
-		setValue('');
-		if (searchParam.length > 0) {
-			setQueryParams({ search: null });
-		}
+		setQueryParams({ search: null });
 	}
 
 	return (
