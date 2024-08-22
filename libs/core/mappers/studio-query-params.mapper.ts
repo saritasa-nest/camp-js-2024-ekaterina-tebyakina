@@ -12,7 +12,8 @@ export namespace StudioQueryParamsMapper {
 	export function fromDto(dto: StudioQueryParams): StudioFilterParams.Combined {
 		return {
 			search: dto.search && dto.search.length > 0 ? dto.search : null,
-			ordering: dto.ordering ?? '',
+			sortField: dto.sortField ?? null,
+			sortDirection: dto.sortDirection ?? null,
 			nextCursor: dto.nextCursor ?? null,
 		};
 	}
@@ -24,7 +25,8 @@ export namespace StudioQueryParamsMapper {
 	export function toDto(model: Partial<StudioFilterParams.Combined>): Omit<StudioQueryParams, 'nextCursor'> {
 		return {
 			search: model.search !== undefined ? model.search : undefined,
-			ordering: model.ordering ?? undefined,
+			sortField: model.sortField ?? undefined,
+			sortDirection: model.sortDirection ?? undefined,
 		};
 	}
 }

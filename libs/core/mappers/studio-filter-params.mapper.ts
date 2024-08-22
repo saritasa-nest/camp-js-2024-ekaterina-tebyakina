@@ -1,5 +1,13 @@
+import { BaseSortFieldsDto } from '../dtos/base-sort-fields.dto';
 import { StudioFilterParamsDto } from '../dtos/studio-filter-params.dto';
+import { BaseSortFields } from '../models/base-sort-fields';
+import { SortDirection } from '../models/sort-direction';
 import { StudioFilterParams } from '../models/studio-filter-params';
+
+const MAP_ANIME_SORT_FIELDS_TO_DTO: Record<BaseSortFields, BaseSortFieldsDto> = {
+	[BaseSortFields.Name]: BaseSortFieldsDto.Name,
+	[BaseSortFields.ModifiedDate]: BaseSortFieldsDto.ModifiedDate,
+};
 
 export namespace StudioFilterParamsMapper {
 
@@ -13,6 +21,21 @@ export namespace StudioFilterParamsMapper {
 				search: model.search,
 			};
 		}
+		return null;
+	}
+
+	/**
+	 * Map sort options param to dto.
+	 * @param model Filter params.
+	 */
+	function mapOrderingOptionToDto(model: StudioFilterParams.Sort): StudioFilterParamsDto.Sort | null {
+		if (model.sortDirection && model.sortField) {
+			const fieldDto = MAP_ANIME_SORT_FIELDS_TO_DTO[model.sortField];
+			return {
+				ordering: model.sortDirection === SortDirection.Descending ? `-${fieldDto}` : fieldDto,
+			};
+		}
+
 		return null;
 	}
 
@@ -38,6 +61,7 @@ export namespace StudioFilterParamsMapper {
 		return {
 			...mapSearchToDto(params),
 			...mapPaginationToDto(params),
+			...mapOrderingOptionToDto(params),
 		};
 	}
 }

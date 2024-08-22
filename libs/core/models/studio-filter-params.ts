@@ -1,11 +1,17 @@
+import { BaseSortFields } from './base-sort-fields';
+import { SortDirection } from './sort-direction';
+
 /** Studio filter params. */
 export namespace StudioFilterParams {
 
 	/** Sort. */
 	export type Sort = {
 
-		/** Order. */
-		readonly ordering: string;
+		/** Field. */
+		sortField: BaseSortFields | null;
+
+		/** Direction. */
+		sortDirection: SortDirection | null;
 	};
 
 	/** Pagination. */
