@@ -3,30 +3,17 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { RegistrationData } from '@js-camp/core/models/registration-data';
+import { registerUser } from '@js-camp/react/store/user/dispatchers';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
+import { useNavigate } from 'react-router-dom';
+import { ANIME_PATH } from '@js-camp/react/features/anime/routes';
+import { selectIsCurrentUserLoading } from '@js-camp/react/store/user/selectors';
 
 import styles from './RegistrationForm.module.css';
 
 /** */
-export type FormData = {
-
-	/** */
-	email: string;
-
-	/** */
-	firstName: string;
-
-	/** */
-	lastName: string;
-
-	/** */
-	password: string;
-
-	/** */
-	retypedPassword: string;
-};
-
-/** */
-export const RegistrationSchema: ZodType<FormData> = z
+export const RegistrationSchema: ZodType<RegistrationData> = z
 	.object({
 		email: z.string({ required_error: 'This field is required' }).email('Please provide a valid email'),
 		firstName: z.string({ required_error: 'This field is required' }),
@@ -41,16 +28,23 @@ export const RegistrationSchema: ZodType<FormData> = z
 
 /** Registration form component. */
 const RegistrationFormComponent: FC = () => {
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const isLoading = useAppSelector(selectIsCurrentUserLoading);
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<FormData>({
+	} = useForm<RegistrationData>({
 		mode: 'onBlur',
 		resolver: zodResolver(RegistrationSchema),
 	});
-	const onSubmit: SubmitHandler<FormData> = (registrationData: FormData) => {
-		console.log(registrationData);
+	const onSubmit: SubmitHandler<RegistrationData> = (registrationData: RegistrationData) => {
+		if (!isLoading) {
+			dispatch(registerUser(registrationData));
+			navigate(ANIME_PATH);
+		}
 	};
 
 	return (
@@ -98,7 +92,7 @@ const RegistrationFormComponent: FC = () => {
 					helperText={errors.password ? errors.password.message : ''}
 				/>
 				<TextField
-					label="Repeat the password"
+					label="Confirm the password"
 					type="password"
 					variant="outlined"
 					fullWidth

@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
 
-import { RegistrationForm } from '../components/registrationForm/RegistrationForm';
+import { RegistrationForm } from '../components/RegistrationForm/RegistrationForm';
 
 /** Registration page component. */
 const RegistrationPageComponent: FC = () => (
