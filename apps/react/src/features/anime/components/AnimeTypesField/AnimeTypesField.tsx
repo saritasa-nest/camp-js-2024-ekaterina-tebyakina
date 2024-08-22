@@ -1,4 +1,4 @@
-import { memo, FC, useState } from 'react';
+import { memo, FC, useState, useId } from 'react';
 import {
 	FormControl,
 	InputLabel,
@@ -25,6 +25,8 @@ const AnimeTypesFieldComponent: FC = () => {
 
 	const animeTypesHtmlElements = animeTypes.map(type => <MenuItem key={type} value={type}>{type}</MenuItem>);
 
+	const inputLabelId = useId();
+
 	/**
 	 * Handles changes to the selected anime types.
 	 * @param event - Select change event.
@@ -39,10 +41,10 @@ const AnimeTypesFieldComponent: FC = () => {
 
 	return (
 		<FormControl className={styles.field}>
-			<InputLabel id="type-select-label">Type</InputLabel>
+			<InputLabel id={inputLabelId}>Type</InputLabel>
 			<Select
 				multiple
-				labelId="type-select-label"
+				labelId={inputLabelId}
 				id="type-select"
 				value={selectedTypes}
 				label="Type"
