@@ -1,33 +1,32 @@
 import { memo, FC, useEffect, useRef, useCallback } from 'react';
-import { List } from '@mui/material';
+import { Box, List } from '@mui/material';
 
-import { AnimeStudio } from '@js-camp/core/models/anime-studio';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { selectAreStudiosLoading, selectStudioNextCursor, selectStudios } from '@js-camp/react/store/studio/selectors';
+import { selectStudioNextCursor, selectStudios } from '@js-camp/react/store/studio/selectors';
 import { getAllStudios } from '@js-camp/react/store/studio/dispatchers';
 
 import useQueryParams from '@js-camp/react/hooks/useQueryParam';
 
 import { StudioQueryParams } from '@js-camp/core/mappers/studio-query-params.mapper';
 
-import { StudioListItem } from '../StudioListItem/StudioListItem';
-
-type Props = {
-
-	/** Studios. */
-	readonly studios: AnimeStudio[];
-};
+import { StudioListItem } from '../StudioListItem';
 
 /** Studios list.  */
 const StudiosListComponent: FC = () => {
-	const { getQueryParamByKey } = useQueryParams<StudioQueryParams>();
 	const dispatch = useAppDispatch();
 	const studiosList = useAppSelector(selectStudios);
 	const nextCursor = useAppSelector(selectStudioNextCursor);
-	const isLoading = useAppSelector(selectAreStudiosLoading);
 
+	const { getQueryParamByKey } = useQueryParams<StudioQueryParams>();
 	const search = getQueryParamByKey('search');
 	const sort = getQueryParamByKey('sort');
+
+	const wrapperElementRef = useRef<HTMLElement>(null);
+
+	useEffect(() => {
+		wrapperElementRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+		dispatch(getAllStudios({ search, sort }));
+	}, [search, sort]);
 
 	const observer = useRef<IntersectionObserver>();
 
@@ -55,28 +54,26 @@ const StudiosListComponent: FC = () => {
 		[nextCursor],
 	);
 
-	useEffect(() => {
-		dispatch(getAllStudios({ search, sort }));
-	}, [search, sort]);
-
 	return (
-		<List
+		<Box
+			component="section"
+			ref={wrapperElementRef}
 			sx={{
+				flex: '1 1 0',
 				height: '100%',
 				overflowY: 'auto',
-				borderWidth: '1px',
-				borderStyle: 'solid',
-				borderColor: 'rgba(0 0 0 / 15%)',
+				borderTop: '1px solid rgba(0 0 0 / 15%)',
 			}}
-			disablePadding
 		>
-			{studiosList.map((studio, index) => {
-				if (studiosList.length === index + 1) {
-					return <StudioListItem ref={lastElementRef} key={studio.id} studio={studio} />;
-				}
-				return <StudioListItem key={studio.id} studio={studio} />;
-			})}
-		</List>
+			<List disablePadding>
+				{studiosList.map((studio, index) => {
+					if (studiosList.length === index + 1) {
+						return <StudioListItem ref={lastElementRef} key={studio.id} studio={studio} />;
+					}
+					return <StudioListItem key={studio.id} studio={studio} />;
+				})}
+			</List>
+		</Box>
 	);
 };
 
