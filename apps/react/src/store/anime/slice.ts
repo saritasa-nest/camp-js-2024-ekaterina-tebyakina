@@ -31,7 +31,7 @@ export const animeSlice = createSlice({
 		})
 		.addCase(fetchNewPage.fulfilled, (state, action) => {
 			const animeState = state as EntityState<Anime>;
-			animeAdapter.addMany(animeState, action.payload.results);
+			animeAdapter.upsertMany(animeState, action.payload.results);
 
 			state.nextPage = action.payload.next;
 			state.isLoadingNextPage = false;
