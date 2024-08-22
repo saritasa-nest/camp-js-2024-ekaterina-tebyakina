@@ -27,6 +27,7 @@ const StudiosListComponent: FC = () => {
 	const isLoading = useAppSelector(selectAreStudiosLoading);
 
 	const search = getQueryParamByKey('search');
+	const sort = getQueryParamByKey('sort');
 
 	const observer = useRef<IntersectionObserver>();
 
@@ -43,7 +44,7 @@ const StudiosListComponent: FC = () => {
 			if (node) {
 				observer.current = new IntersectionObserver(entries => {
 					if (entries[0].isIntersecting && nextCursor) {
-						dispatch(getAllStudios({ nextCursor, search }));
+						dispatch(getAllStudios({ nextCursor, search, sort }));
 						observer.current?.disconnect();
 					}
 				}, options);
@@ -55,8 +56,8 @@ const StudiosListComponent: FC = () => {
 	);
 
 	useEffect(() => {
-		dispatch(getAllStudios({ search }));
-	}, [search]);
+		dispatch(getAllStudios({ search, sort }));
+	}, [search, sort]);
 
 	return (
 		<List
