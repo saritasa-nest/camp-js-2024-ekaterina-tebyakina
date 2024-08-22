@@ -29,7 +29,7 @@ export namespace AnimeService {
 	 * Fetches a new page of anime list.
 	 * @param newPageUrl - Url of new page.
 	 */
-	export async function fetchNewPage(newPageUrl: string): Promise<Pagination<Anime>> {
+	export async function fetchPageByUrl(newPageUrl: string): Promise<Pagination<Anime>> {
 		const { data } = await http.get<PaginationDto<AnimeDto>>(newPageUrl);
 		return PaginationMapper.fromDto(data, AnimeMapper.fromDto);
 	}

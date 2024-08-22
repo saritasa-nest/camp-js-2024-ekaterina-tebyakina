@@ -12,5 +12,5 @@ export const fetchList = createAsyncThunk(
 /** Function for fetch new page of anime list. */
 export const fetchNewPage = createAsyncThunk(
 	'anime/fetchNewPage',
-	(url: string) => AnimeService.fetchNewPage(url),
+	(url: string) => AnimeService.fetchPageByUrl(url),
 );
