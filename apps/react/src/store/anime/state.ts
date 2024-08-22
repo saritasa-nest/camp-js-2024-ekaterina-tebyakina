@@ -19,14 +19,14 @@ export type AnimeListState = {
 	readonly isLoading: boolean;
 
 	/** Whether the new page of anime list are loading or not. */
-	readonly isAdditionalLoading: boolean;
+	readonly isLoadingNextPage: boolean;
 };
 
 /** Initial state for anime list state. */
 export const initialState = animeAdapter.getInitialState<AnimeListState>(
 	{
 		isLoading: false,
-		isAdditionalLoading: false,
+		isLoadingNextPage: false,
 		nextPage: null,
 	},
 );

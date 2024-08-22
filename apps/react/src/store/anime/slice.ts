@@ -27,19 +27,19 @@ export const animeSlice = createSlice({
 		})
 
 		.addCase(fetchNewPage.pending, state => {
-			state.isAdditionalLoading = true;
+			state.isLoadingNextPage = true;
 		})
 		.addCase(fetchNewPage.fulfilled, (state, action) => {
 			const animeState = state as EntityState<Anime>;
 			animeAdapter.addMany(animeState, action.payload.results);
 
 			state.nextPage = action.payload.next;
-			state.isAdditionalLoading = false;
+			state.isLoadingNextPage = false;
 		})
 		.addCase(fetchNewPage.rejected, (state, action) => {
 			if (action.error.message) {
 				state.error = action.error.message;
 			}
-			state.isAdditionalLoading = false;
+			state.isLoadingNextPage = false;
 		}),
 });

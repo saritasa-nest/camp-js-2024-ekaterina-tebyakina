@@ -7,7 +7,7 @@ import { AnimeSortMapper } from '@js-camp/react/api/mappers/animeSortMapper';
 import { AnimeTypeMapper } from '@js-camp/core/mappers/anime-type.mapper';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import {
-	selectAdditionalAnimeLoading,
+	selectNextPageLoading,
 	selectAllAnime,
 	selectAnimeListError,
 	selectAnimeListLoading,
@@ -27,12 +27,12 @@ const AnimeListComponent: FC = () => {
 	const [searchParams] = useSearchParams();
 	const animeList = useAppSelector(selectAllAnime);
 	const isLoading = useAppSelector(selectAnimeListLoading);
-	const isAdditionalLoading = useAppSelector(selectAdditionalAnimeLoading);
+	const isLoadingNextPage = useAppSelector(selectNextPageLoading);
 	const error = useAppSelector(selectAnimeListError);
 	const nextPageUrl = useAppSelector(selectNextPageUrl);
 
 	useEffect(() => {
-		if (!isLoading && !isAdditionalLoading) {
+		if (!isLoading && !isLoadingNextPage) {
 			dispatch(fetchList({
 				searchTerm: searchParams.get(QueryParams.SearchTerm) ?? '',
 				selectedTypes: AnimeTypeMapper.stringToArray(searchParams.get(QueryParams.SelectedTypes) ?? ''),
@@ -42,7 +42,7 @@ const AnimeListComponent: FC = () => {
 	}, [searchParams]);
 
 	const lastElementRef = useInfiniteScroll({
-		isLoading: isLoading && isAdditionalLoading,
+		isLoading: isLoading && isLoadingNextPage,
 		nextPageUrl,
 		fetchData() {
 			if (nextPageUrl) {
@@ -131,7 +131,7 @@ const AnimeListComponent: FC = () => {
 					</div>
 				</ListItem>)
 			}
-			{ isAdditionalLoading ? <Progress /> : null}
+			{ isLoadingNextPage ? <Progress /> : null}
 		</List>
 	);
 };

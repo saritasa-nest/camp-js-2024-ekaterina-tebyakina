@@ -11,9 +11,9 @@ export const selectAnimeListLoading = createSelector(
 );
 
 /** Select anime additional loading state. */
-export const selectAdditionalAnimeLoading = createSelector(
-	(state: RootState) => state.anime.isAdditionalLoading,
-	isAdditionalLoading => isAdditionalLoading,
+export const selectNextPageLoading = createSelector(
+	(state: RootState) => state.anime.isLoadingNextPage,
+	isLoadingNextPage => isLoadingNextPage,
 );
 
 /** Select anime error state. */
