@@ -8,6 +8,8 @@ import { getAllStudios } from '@js-camp/react/store/studio/dispatchers';
 
 import useQueryParams from '@js-camp/react/hooks/useQueryParam';
 
+import { StudioQueryParams } from '@js-camp/core/mappers/studio-query-params.mapper';
+
 import { StudioListItem } from '../StudioListItem/StudioListItem';
 
 type Props = {
@@ -18,7 +20,7 @@ type Props = {
 
 /** Studios list.  */
 const StudiosListComponent: FC = () => {
-	const { getQueryParamByKey } = useQueryParams();
+	const { getQueryParamByKey } = useQueryParams<StudioQueryParams>();
 	const dispatch = useAppDispatch();
 	const studiosList = useAppSelector(selectStudios);
 	const nextCursor = useAppSelector(selectStudioNextCursor);
