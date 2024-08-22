@@ -44,7 +44,7 @@ const AnimeSortFieldComponent: FC = () => {
 			>
 						English title
 				<ArrowUpwardIcon />
-			</ToggleButton>,
+			</ToggleButton>
 			<ToggleButton
 				value={AnimeSort.DescendingEnglishTitle}
 				key={AnimeSort.DescendingEnglishTitle}
@@ -60,7 +60,7 @@ const AnimeSortFieldComponent: FC = () => {
 			>
 						Status
 				<ArrowUpwardIcon />
-			</ToggleButton>,
+			</ToggleButton>
 			<ToggleButton
 				value={AnimeSort.DescendingStatus}
 				key={AnimeSort.DescendingStatus}
