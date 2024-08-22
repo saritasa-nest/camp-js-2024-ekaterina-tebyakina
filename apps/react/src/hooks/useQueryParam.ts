@@ -1,7 +1,7 @@
 import { Path, useLocation, useNavigate } from 'react-router-dom';
 
 /** Custom hook for handling manipulating query params. */
-export default function useQueryParams<T>() {
+export default function useQueryParams<T extends object>() {
 	const { pathname, search } = useLocation();
 	const navigate = useNavigate();
 	const urlSearchParams = new URLSearchParams(search);
