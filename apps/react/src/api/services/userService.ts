@@ -18,6 +18,10 @@ export namespace UserService {
 	 */
 	export async function getCurrentUser(): Promise<User> {
 		const { data } = await http.get<UserDto>(userUrl);
+
+		// When the server fails to retrieve a user, it does not send an error,
+		// but an object with an avatar field equal to null.
+		// Therefore, we will throw an error when receiving such data.
 		if (JSON.stringify(data) === JSON.stringify(errorObject)) {
 			throw new Error('Failed to get current user');
 		}
