@@ -36,7 +36,7 @@ export function handleServerErrors(
 		});
 		return;
 	}
-	console.warn('Failed to register');
+	console.error(fetchError);
 	setError(
 		'root',
 		{

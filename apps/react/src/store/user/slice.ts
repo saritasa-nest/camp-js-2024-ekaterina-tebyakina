@@ -31,5 +31,5 @@ export const userSlice = createSlice({
 		}),
 });
 
-/** Function for logout. */
+/** Function for log out. */
 export const { logout } = userSlice.actions;
