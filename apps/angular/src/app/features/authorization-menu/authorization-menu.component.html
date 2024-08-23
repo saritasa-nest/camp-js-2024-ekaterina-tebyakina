@@ -1,5 +1,5 @@
 <nav class="authorization-menu">
-	@if (user$ | async; as user) {
+	@if (this.usersApiService.user$ | async; as user) {
 		<div class="greeting-message">
 			Hi,&nbsp;
 			<span>{{user.firstName}}</span>

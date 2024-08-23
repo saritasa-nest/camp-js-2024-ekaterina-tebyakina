@@ -3,9 +3,10 @@ import { inject, Injectable } from '@angular/core';
 import { UserDto } from '@js-camp/core/dtos/user.dto';
 import { UserMapper } from '@js-camp/core/mappers/user.mapper';
 import { User } from '@js-camp/core/models/user';
-import { catchError, mergeMap, Observable, of, throwError } from 'rxjs';
+import { catchError, mergeMap, Observable, of, shareReplay, switchMap, throwError } from 'rxjs';
 
 import { UrlConfigService } from './url-config.service';
+import { AuthorizationApiService } from './authorization-api.service';
 
 /** Users API access service. */
 @Injectable({ providedIn: 'root' })
@@ -15,9 +16,14 @@ export class UserApiService {
 
 	private readonly urlConfigService = inject(UrlConfigService);
 
+	private readonly authorizationService = inject(AuthorizationApiService);
+
 	private readonly errorObject = {
 		avatar: null,
 	};
+
+	/** Data about an authorized user. */
+	public readonly user$ = this.initializeUser();
 
 	/**
 	 * Get the current user based on the stored token.
@@ -35,6 +41,18 @@ export class UserApiService {
 				return of(UserMapper.fromDto(result));
 			}),
 			catchError((error: unknown) => throwError(() => error)),
+		);
+	}
+
+	private initializeUser(): Observable<User | null> {
+		return this.authorizationService.userSecret$.pipe(
+			switchMap(token => {
+				if (token) {
+					return this.getCurrentUser();
+				}
+				return of(null);
+			}),
+			shareReplay({ bufferSize: 1, refCount: true }),
 		);
 	}
 }
