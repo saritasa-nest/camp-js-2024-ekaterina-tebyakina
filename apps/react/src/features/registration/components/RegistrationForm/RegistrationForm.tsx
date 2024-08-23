@@ -18,11 +18,22 @@ import styles from './RegistrationForm.module.css';
 /** Schema for registration form validation. */
 export const RegistrationSchema: ZodType<RegistrationData> = z
 	.object({
-		email: z.string({ required_error: 'This field is required' }).email('Please provide a valid email'),
-		firstName: z.string({ required_error: 'This field is required' }),
-		lastName: z.string({ required_error: 'This field is required' }),
-		password: z.string({ required_error: 'This field is required' }),
-		retypedPassword: z.string({ required_error: 'This field is required' }),
+		email: z
+			.string()
+			.min(1, { message: 'This field is required' })
+			.email('Please provide a valid email'),
+		firstName: z
+			.string()
+			.min(1, { message: 'This field is required' }),
+		lastName: z
+			.string()
+			.min(1, { message: 'This field is required' }),
+		password: z
+			.string()
+			.min(1, { message: 'This field is required' }),
+		retypedPassword: z
+			.string()
+			.min(1, { message: 'This field is required' }),
 	})
 	.refine(data => data.password === data.retypedPassword, {
 		message: 'Passwords do not match',
