@@ -1,5 +1,5 @@
 .formWrapper {
-	--register-form-min-width: 360px;
+	--login-form-min-width: 360px;
 
 	display: flex;
 	flex-direction: column;
@@ -13,7 +13,7 @@
 }
 
 .form {
-	min-width: var(--register-form-min-width);
+	min-width: var(--login-form-min-width);
 	padding: var(--space-m);
 	border-radius: 24px;
 	border: 2px var(--border-color) solid;

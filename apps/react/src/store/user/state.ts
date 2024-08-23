@@ -9,7 +9,7 @@ export type UserState = {
 	/** Error. */
 	readonly error?: string;
 
-	/** Whether the anime are loading or not. */
+	/** Whether the user is loading or not. */
 	readonly isLoading: boolean;
 };
 

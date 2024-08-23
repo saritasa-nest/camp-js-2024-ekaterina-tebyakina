@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ServerErrorStatus } from '@js-camp/core/models/server-error-status';
 
 import { CONFIG } from './config';
 import { LocalStorageService } from './services/localStorageService';
@@ -26,7 +27,7 @@ http.interceptors.response.use(
 	response => response,
 	async error => {
 		const originalRequest = error.config;
-		if (error.response.status === 401 && !originalRequest._retry) {
+		if (error.response.status === ServerErrorStatus.Unauthorized && !originalRequest._retry) {
 			originalRequest._retry = true;
 			try {
 				const refreshToken = LocalStorageService.getRefreshToken();

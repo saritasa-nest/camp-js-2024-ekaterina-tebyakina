@@ -41,7 +41,7 @@ export namespace AuthorizationService {
 	}
 
 	/**
-	 * Registers the user and receives authorization tokens.
+	 * Refresh access token with refresh token.
 	 * @param refreshToken - Token for refreshing access token.
 	 * @returns - Authorization tokens.
 	 */
