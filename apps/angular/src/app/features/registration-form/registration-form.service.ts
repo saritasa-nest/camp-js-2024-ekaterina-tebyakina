@@ -47,13 +47,21 @@ export class RegistrationFormService {
 	 * @returns Registration form.
 	 */
 	public initialize(): FormGroup<RegistrationForm> {
+		const passwordControl = this.formBuilder.control('', [Validators.required]);
+		const retypedPasswordControl = this.formBuilder.control('', [Validators.required, matchFieldsValidator(passwordControl)]);
+
+		passwordControl.valueChanges.pipe()
+			.subscribe(() => {
+				retypedPasswordControl.updateValueAndValidity();
+			});
+
 		return this.formBuilder.group({
 			email: this.formBuilder.control('', [Validators.required, Validators.email]),
 			firstName: this.formBuilder.control('', [Validators.required]),
 			lastName: this.formBuilder.control('', [Validators.required]),
-			password: this.formBuilder.control('', [Validators.required]),
-			retypedPassword: this.formBuilder.control('', [Validators.required]),
-		}, { validators: matchFieldsValidator('password', 'retypedPassword') });
+			password: passwordControl,
+			retypedPassword: retypedPasswordControl,
+		});
 	}
 
 	/**
