@@ -12,7 +12,7 @@ import { StudioFilterParamsMapper } from '@js-camp/core/mappers/studio-filter-pa
 import { StudioFilterParamsDto } from '@js-camp/core/dtos/studio-filter-params.dto';
 
 import { http } from '..';
-import { AppUrls } from '../app-url';
+import { AppUrls } from '../appUrls';
 
 export namespace StudioService {
 
