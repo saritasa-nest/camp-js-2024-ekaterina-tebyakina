@@ -14,7 +14,7 @@ type Props = {
 const StudioListItemComponent = forwardRef<HTMLLIElement, Props>(({ studio }: Props, ref) => (
 	<ListItem
 		ref={ref}
-		alignItems="center"
+		alignItems='center'
 		sx={{
 			'borderBottom': 1,
 			'borderColor': 'rgba(0 0 0 / 15%)',
@@ -24,17 +24,32 @@ const StudioListItemComponent = forwardRef<HTMLLIElement, Props>(({ studio }: Pr
 			},
 		}}
 		secondaryAction={
-			<IconButton edge="end" aria-label="delete">
+			<IconButton
+				edge='end'
+				aria-label='delete'
+			>
 				<DeleteIcon />
 			</IconButton>
 		}
 	>
-		<ListItemAvatar sx={{ marginRight: '16px' }}>
-			<Avatar sx={{ width: 80, height: 80 }} alt={studio.name} src={studio.image} />
+		<ListItemAvatar
+			sx={{
+				marginRight: '16px',
+			}}
+		>
+			<Avatar
+				sx={{
+					width: 80,
+					height: 80,
+					border: '1px solid rgba(0 0 0 / 15%)',
+				}}
+				alt={studio.name}
+				src={studio.image}
+			/>
 		</ListItemAvatar>
 		<ListItemText primary={studio.name} />
 	</ListItem>
 ));
 
-/** Memoized GenreCard component. */
+/** Memoized StudioListItemComponent. */
 export const StudioListItem = memo(StudioListItemComponent);

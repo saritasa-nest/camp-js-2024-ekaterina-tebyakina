@@ -5,6 +5,8 @@ import { Button, IconButton, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { StudioQueryParams } from '@js-camp/core/mappers/studio-query-params.mapper';
+import { useAppSelector } from '@js-camp/react/store';
+import { selectAreStudiosLoading } from '@js-camp/react/store/studio/selectors';
 
 /**
  * Genres text field component.
@@ -15,6 +17,8 @@ const StudioSearchBarComponent: FC = () => {
 	const searchParam = getQueryParamByKey('search');
 
 	const [value, setValue] = useState(searchParam);
+
+	const isLoading = useAppSelector(selectAreStudiosLoading);
 
 	/** Submit the search value to the URL. */
 	function handleSubmitSearchValue(): void {
@@ -29,7 +33,11 @@ const StudioSearchBarComponent: FC = () => {
 	}
 
 	return (
-		<Box component="form" display="flex" gap={1}>
+		<Box
+			component='form'
+			display='flex'
+			gap={1}
+		>
 			<TextField
 				sx={{
 					flex: '1 1 0',
@@ -42,7 +50,7 @@ const StudioSearchBarComponent: FC = () => {
 						<IconButton
 							sx={{ display: value.length > 0 ? 'initial' : 'none', aspectRatio: 1 }}
 							onClick={handleResetSearchValue}
-							edge="end"
+							edge='end'
 							disabled={value.length === 0}
 						>
 							<CancelIcon />
@@ -50,12 +58,17 @@ const StudioSearchBarComponent: FC = () => {
 					),
 				}}
 			/>
-			<Button type="button" variant="contained" onClick={handleSubmitSearchValue}>
+			<Button
+				type='button'
+				variant='contained'
+				onClick={handleSubmitSearchValue}
+				disabled={isLoading}
+			>
 				<SearchIcon />
 			</Button>
 		</Box>
 	);
 };
 
-/** Memoized GenresTextFieldComponent. */
+/** Memoized StudioSearchBarComponent. */
 export const StudioSearchBar = memo(StudioSearchBarComponent);
