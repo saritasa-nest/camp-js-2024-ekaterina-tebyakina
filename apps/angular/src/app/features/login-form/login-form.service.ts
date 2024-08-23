@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, FormGroup, Validators } from '@angular/forms';
-import { capitalize } from '@js-camp/angular/core/utils/strings-modification.util';
 import { ServerError } from '@js-camp/core/models/server-error';
 
 /** Type for login form group. Contains types for each control. */
@@ -22,6 +21,11 @@ export class LoginFormService {
 	public readonly form: FormGroup<LoginForm>;
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
+
+	private readonly errors = {
+		required: 'This field is required.',
+		email: 'Enter a valid email address.',
+	};
 
 	public constructor() {
 		this.form = this.initialize();
@@ -64,11 +68,9 @@ export class LoginFormService {
 	public getErrorMessage(controlName: string): string | null {
 		const control = this.form.get(controlName);
 
-		if (control) {
-			if (control.hasError('required') && control.touched) {
-				return `${capitalize(controlName)} is required.`;
-			} else if (control.hasError('email') && control.touched && controlName === 'email') {
-				return 'Enter a valid email address.';
+		for (const [errorName, errorMessage] of Object.entries(this.errors)) {
+			if (control && control.hasError(errorName) && control.touched) {
+				return errorMessage;
 			}
 		}
 
