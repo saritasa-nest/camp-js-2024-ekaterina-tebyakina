@@ -30,6 +30,7 @@ http.interceptors.response.use(
 			originalRequest._retry = true;
 			try {
 				const refreshToken = LocalStorageService.getRefreshToken();
+				console.log('refreshToken', refreshToken);
 
 				if (refreshToken) {
 					const tokens = await AuthorizationService.refreshAccessToken(refreshToken);

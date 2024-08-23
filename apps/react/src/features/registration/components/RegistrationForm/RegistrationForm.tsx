@@ -1,18 +1,22 @@
-import { FC, memo } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FC, memo, useState } from 'react';
 import { Button, TextField } from '@mui/material';
+import { RegistrationData } from '@js-camp/core/models/registration-data';
+import { AuthorizationService } from '@js-camp/react/api/services/authorizationService';
+import { LocalStorageService } from '@js-camp/react/api/services/localStorageService';
+import { useAppDispatch } from '@js-camp/react/store/store';
+import { fetchUser } from '@js-camp/react/store/user/dispatchers';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { RegistrationData } from '@js-camp/core/models/registration-data';
-import { registerUser } from '@js-camp/react/store/user/dispatchers';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
-import { useNavigate } from 'react-router-dom';
 import { ANIME_PATH } from '@js-camp/react/features/anime/routes';
-import { selectIsCurrentUserLoading } from '@js-camp/react/store/user/selectors';
+import { Progress } from '@js-camp/react/components/Progress/Progress';
+
+import { handleServerErrors } from '../../utils/handleServerErrorsUtil';
 
 import styles from './RegistrationForm.module.css';
 
-/** */
+/** Schema for registration form validation. */
 export const RegistrationSchema: ZodType<RegistrationData> = z
 	.object({
 		email: z.string({ required_error: 'This field is required' }).email('Please provide a valid email'),
@@ -30,20 +34,34 @@ export const RegistrationSchema: ZodType<RegistrationData> = z
 const RegistrationFormComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const isLoading = useAppSelector(selectIsCurrentUserLoading);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		setError,
+		formState: { errors, isValid },
 	} = useForm<RegistrationData>({
 		mode: 'onBlur',
 		resolver: zodResolver(RegistrationSchema),
 	});
-	const onSubmit: SubmitHandler<RegistrationData> = (registrationData: RegistrationData) => {
-		if (!isLoading) {
-			dispatch(registerUser(registrationData));
+
+	const registerUser = async(registrationData: RegistrationData) => {
+		setIsLoading(true);
+		try {
+			const tokens = await AuthorizationService.register(registrationData);
+			LocalStorageService.saveTokens(tokens);
+			dispatch(fetchUser());
 			navigate(ANIME_PATH);
+		} catch (fetchError: unknown) {
+			handleServerErrors(fetchError, setError);
+		}
+		setIsLoading(false);
+	};
+
+	const onSubmit: SubmitHandler<RegistrationData> = (registrationData: RegistrationData) => {
+		if (!isLoading && isValid) {
+			registerUser(registrationData);
 		}
 	};
 
@@ -101,6 +119,7 @@ const RegistrationFormComponent: FC = () => {
 					error={!!errors.retypedPassword}
 					helperText={errors.retypedPassword ? errors.retypedPassword.message : ''}
 				/>
+				{ isLoading ? <Progress/> : null}
 				<Button
 					type="submit"
 					variant="outlined"
