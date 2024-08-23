@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthorizationTokens } from '@js-camp/core/models/authorization-tokens';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 /** Service for working with local storage. */
 @Injectable({ providedIn: 'root' })
