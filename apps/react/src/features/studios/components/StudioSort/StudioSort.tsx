@@ -47,12 +47,16 @@ const StudiosSortComponent: FC = () => {
 	const sortOption = getQueryParamByKey('sort');
 	const [value, setValue] = useState<string>(sortOption);
 
-	const handleSelecting = (e: SelectChangeEvent<string>) => {
+	/**
+	 * Handle actions when selecting an option.
+	 * @param e SelectChangeEvent.
+	 */
+	function handleSelecting(e: SelectChangeEvent<string>) {
 		setValue(e.target.value);
 		setQueryParams({
 			sort: e.target.value,
 		});
-	};
+	}
 
 	return (
 		<FormControl

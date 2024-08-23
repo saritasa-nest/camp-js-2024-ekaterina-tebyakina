@@ -7,13 +7,17 @@ export default function useQueryParams<T extends object>() {
 	const urlSearchParams = new URLSearchParams(search);
 	const urlQueryObject = Object.fromEntries(urlSearchParams);
 
-	const getQueryParamByKey = (key: keyof T) => {
+	/**
+	 * Get query params by given key.
+	 * @param key The key to get.
+	 */
+	function getQueryParamByKey(key: keyof T) {
 		const params = new URLSearchParams(search);
 		if (typeof key === 'string') {
 			return params.get(key) ?? '';
 		}
 		return '';
-	};
+	}
 
 	/**
 	 * Update search params with the given T.
