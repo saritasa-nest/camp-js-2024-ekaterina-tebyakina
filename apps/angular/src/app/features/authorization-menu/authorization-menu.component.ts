@@ -22,7 +22,7 @@ export class AuthorizationMenuComponent {
 	/** Enum with paths for link. */
 	protected readonly routerPaths = RouterPaths;
 
-	/** Contains data about current user. */
+	/** Service for managing current user. */
 	protected readonly usersApiService = inject(UserApiService);
 
 	private readonly authApiService = inject(AuthorizationApiService);
