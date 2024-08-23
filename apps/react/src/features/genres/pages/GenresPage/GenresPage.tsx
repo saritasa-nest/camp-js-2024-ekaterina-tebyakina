@@ -21,7 +21,5 @@ const GenresPageComponent: FC = () => (
 	</main>
 );
 
-/**
- * Memorized genres page component.
- */
+/** Memorized genres page component. */
 export const GenresPage = memo(GenresPageComponent);

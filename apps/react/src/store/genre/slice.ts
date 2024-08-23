@@ -13,7 +13,9 @@ export const genresSlice = createSlice({
 			state.isLoading = true;
 		})
 		.addCase(fetchGenres.fulfilled, (state, action) => {
-			state.genres = action.payload;
+			const isScrolled = action.payload.previous != null;
+			state.genres = [...(isScrolled ? state.genres : []), ...action.payload.results];
+			state.next = action.payload.next;
 			state.isLoading = false;
 		})
 		.addCase(fetchGenres.rejected, (state, action) => {

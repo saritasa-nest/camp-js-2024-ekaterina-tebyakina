@@ -12,10 +12,10 @@ const url = 'anime/genres/list-cursor/';
 export namespace GenresService {
 
 	/** Fetches a list of genres.
-	 * @param next Next anime list.
+	 * @param nextUrl Next anime list.
 	 */
-	export async function fetchGenres(next: string | null = ''): Promise<Pagination<Genre>> {
-		const { data } = await http.get<PaginationDto<GenreDto>>(`${url}${next}`);
+	export async function fetchGenres(nextUrl: string | null = ''): Promise<Pagination<Genre>> {
+		const { data } = await http.get<PaginationDto<GenreDto>>(`${url}${nextUrl}`);
 		return PaginationMapper.fromDto(data, GenreMapper.fromDto);
 	}
 }

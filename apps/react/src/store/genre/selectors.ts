@@ -13,3 +13,9 @@ export const selectAreGenresLoading = createSelector(
 	(state: RootState) => state.genres.isLoading,
 	isLoading => isLoading,
 );
+
+/** Select genres has more state. */
+export const selectGenresNext = createSelector(
+	(state: RootState) => state.genres.next,
+	next => next,
+);

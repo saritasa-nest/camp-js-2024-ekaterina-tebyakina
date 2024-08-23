@@ -1,5 +1,5 @@
 import { memo, FC, useEffect, useRef, useState } from 'react';
-import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
+import { selectGenres, selectAreGenresLoading, selectGenresNext } from '@js-camp/react/store/genre/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { Link } from 'react-router-dom';
@@ -13,35 +13,37 @@ import styles from './GenresList.module.css';
 const GenresListComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const genres = useAppSelector(selectGenres);
-	const isLoading = useAppSelector(selectAreGenresLoading);
+	const cursor = useAppSelector(selectGenresNext);
 	const containerIntersection = useRef<HTMLElement>(null);
 	const anchorIntersection = useRef<HTMLDivElement>(null);
-	const [pageNumber, setPageNumber] = useState(0);
 
-	useEffect(() => {
-		dispatch(fetchGenres(''));
-	}, [dispatch]);
+	const parseCursor = (link: string | null): string => {
+		if (link == null || !link) {
+			return '';
+		}
+		return link.split('/').at(-1);
+	};
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(entries => {
+			if (cursor == null) {
+				observer.disconnect();
+			}
+
 			if (entries[0].isIntersecting) {
-				console.log('wow');
+				dispatch(fetchGenres(parseCursor(cursor)));
+				observer.disconnect();
 			}
 		}, { root: containerIntersection.current, threshold: 1 });
 
 		if (anchorIntersection.current) {
 			observer.observe(anchorIntersection.current);
 		}
-	});
-
-	if (isLoading) {
-		return <div>Loading</div>;
-	}
+	}, [dispatch, cursor]);
 
 	return (
 		<Box className={styles.section__list} ref={containerIntersection}>
 			<List className={styles.list}>
-				<button style={{ width: '200px', height: '50px' }} />
 				{genres.map(genre =>
 					<ListItem
 						key={genre.id}
