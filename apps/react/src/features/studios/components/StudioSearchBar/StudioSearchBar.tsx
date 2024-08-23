@@ -34,7 +34,6 @@ const StudioSearchBarComponent: FC = () => {
 
 	return (
 		<Box
-			component='form'
 			display='flex'
 			gap={1}
 		>
