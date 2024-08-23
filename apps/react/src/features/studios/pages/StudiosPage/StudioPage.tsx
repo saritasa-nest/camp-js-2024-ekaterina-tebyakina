@@ -9,28 +9,39 @@ import { StudioSearchBar } from '../../components/StudioSearchBar';
 
 import { StudiosSort } from '../../components/StudioSort';
 
-import styles from './StudioPage.module.css';
-
 /** Studio page component. */
 const StudiosPageComponent: FC = () => (
-	<Box component="main" className={styles.main}>
+	<Box
+		component='main'
+		sx={{
+			display: 'flex',
+			flexDirection: 'row',
+			width: '100%',
+			height: 'calc(100vh - var(--header-height))',
+		}}
+	>
 		<Box
-			component="section"
-			display="flex"
-			flexDirection="column"
+			component='section'
+			display='flex'
+			flexDirection='column'
 			sx={{
 				width: '380px',
 				border: '1px solid rgba(0 0 0 / 15%)',
 			}}
 		>
-			<Box display="flex" flexDirection="column" padding={2} gap={2}>
+			<Box
+				display='flex'
+				flexDirection='column'
+				padding={2}
+				gap={2}
+			>
 				<StudioSearchBar />
 				<StudiosSort />
 			</Box>
 			<StudiosList />
 		</Box>
 		<Box
-			component="section"
+			component='section'
 			padding={3}
 			sx={{
 				width: '100%',
