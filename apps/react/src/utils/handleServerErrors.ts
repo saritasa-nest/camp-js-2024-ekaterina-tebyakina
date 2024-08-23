@@ -18,7 +18,6 @@ function isFormField<T extends FieldValues>(key: string, formFields: T): key is 
  * Sets errors received from the server to the form.
  * @param fetchError - Error from server.
  * @param setError - Method for setting error on form.
- * @param assertFormField - Function to assert form field names.
  * @param formFields - Form fields names.
  */
 export function handleServerErrors<T extends FieldValues>(
