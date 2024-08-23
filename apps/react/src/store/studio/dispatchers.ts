@@ -1,5 +1,5 @@
 import { StudioQueryParams } from '@js-camp/core/mappers/studio-query-params.mapper';
-import { StudioService } from '@js-camp/react/api/services/studio-service';
+import { StudioService } from '@js-camp/react/api/services/studioService';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 /**
