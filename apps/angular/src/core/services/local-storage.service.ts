@@ -6,8 +6,6 @@ import { Observable, of, Subject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class LocalStorageService {
 
-	private tokenChangeSubject$ = new Subject<void>();
-
 	/**
 	 * Save tokens to local storage.
 	 * @param tokens - Access and refresh tokens.
@@ -15,7 +13,6 @@ export class LocalStorageService {
 	public saveTokens(tokens: AuthorizationTokens): void {
 		localStorage.setItem('accessToken', tokens.access);
 		localStorage.setItem('refreshToken', tokens.refresh);
-		this.tokenChangeSubject$.next();
 	}
 
 	/**
@@ -25,7 +22,6 @@ export class LocalStorageService {
 	public removeTokens(): void {
 		localStorage.removeItem('accessToken');
 		localStorage.removeItem('refreshToken');
-		this.tokenChangeSubject$.next();
 	}
 
 	/**
@@ -44,13 +40,5 @@ export class LocalStorageService {
 	public getRefreshToken(): Observable<string | null> {
 		const refreshToken = localStorage.getItem('refreshToken');
 		return of(refreshToken);
-	}
-
-	/**
-	 * Observable to notify token changes.
-	 * @returns Observable that emits when token changes.
-	 */
-	public onTokenChange(): Observable<void> {
-		return this.tokenChangeSubject$.asObservable();
 	}
 }
