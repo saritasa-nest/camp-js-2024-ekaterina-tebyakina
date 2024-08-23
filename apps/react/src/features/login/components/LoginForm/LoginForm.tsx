@@ -11,8 +11,7 @@ import { fetchUser } from '@js-camp/react/store/user/dispatchers';
 import { AuthorizationService } from '@js-camp/react/api/services/authorizationService';
 import { LocalStorageService } from '@js-camp/react/api/services/localStorageService';
 import { Progress } from '@js-camp/react/components/Progress/Progress';
-
-import { handleServerErrors } from '../../utils/handleServerErrorsUtil';
+import { handleServerErrors } from '@js-camp/react/utils/handleServerErrors';
 
 import styles from './LoginForm.module.css';
 
@@ -47,7 +46,7 @@ const LoginFormComponent: FC = () => {
 			dispatch(fetchUser());
 			navigate(ANIME_PATH);
 		} catch (fetchError: unknown) {
-			handleServerErrors(fetchError, setError);
+			handleServerErrors(fetchError, setError, loginData);
 		}
 		setIsLoading(false);
 	};

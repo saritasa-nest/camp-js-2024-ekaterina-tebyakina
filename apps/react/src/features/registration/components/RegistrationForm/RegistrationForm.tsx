@@ -11,8 +11,7 @@ import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ANIME_PATH } from '@js-camp/react/features/anime/routes';
 import { Progress } from '@js-camp/react/components/Progress/Progress';
-
-import { handleServerErrors } from '../../utils/handleServerErrorsUtil';
+import { handleServerErrors } from '@js-camp/react/utils/handleServerErrors';
 
 import styles from './RegistrationForm.module.css';
 
@@ -54,7 +53,7 @@ const RegistrationFormComponent: FC = () => {
 			dispatch(fetchUser());
 			navigate(ANIME_PATH);
 		} catch (fetchError: unknown) {
-			handleServerErrors(fetchError, setError);
+			handleServerErrors(fetchError, setError, registrationData);
 		}
 		setIsLoading(false);
 	};
