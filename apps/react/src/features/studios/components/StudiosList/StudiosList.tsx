@@ -70,7 +70,9 @@ const StudiosListComponent: FC = () => {
 			}}
 		>
 			<List disablePadding>
-				{isLoading && studiosList.length === 0 && Array.from(new Array(10)).map(() => <ListItemSkeleton />)}
+				{isLoading &&
+					studiosList.length === 0 &&
+					Array.from(new Array(10)).map((_, index) => <ListItemSkeleton key={index} />)}
 
 				{studiosList.map((studio, index) => {
 					if (studiosList.length === index + 1) {
