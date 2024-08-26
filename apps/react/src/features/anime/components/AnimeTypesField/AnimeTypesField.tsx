@@ -23,8 +23,6 @@ const AnimeTypesFieldComponent: FC = () => {
 		AnimeTypeMapper.stringToArray(searchParams.get(QueryParams.SelectedTypes) ?? ''),
 	);
 
-	const animeTypesHtmlElements = animeTypes.map(type => <MenuItem key={type} value={type}>{type}</MenuItem>);
-
 	const inputLabelId = useId();
 
 	/**
@@ -38,6 +36,8 @@ const AnimeTypesFieldComponent: FC = () => {
 		searchParams.set(QueryParams.SelectedTypes, value.toString());
 		setSearchParams(searchParams);
 	};
+
+	const animeTypesHtmlElements = animeTypes.map(type => <MenuItem key={type} value={type}>{type}</MenuItem>);
 
 	return (
 		<FormControl className={styles.field}>
