@@ -18,9 +18,6 @@ export namespace AnimeFilterParamsMapper {
 		return {
 			search: params.searchTerm,
 			ordering: AnimeSortMapper.toDto(params.sortingSettings),
-
-			// Disable eslint, because this property should be in snake case.
-			// eslint-disable-next-line @typescript-eslint/naming-convention
 			type__in: params.selectedTypes.map((animeType: AnimeType) => AnimeTypeMapper.toDto(animeType)).join(','),
 		};
 	}
