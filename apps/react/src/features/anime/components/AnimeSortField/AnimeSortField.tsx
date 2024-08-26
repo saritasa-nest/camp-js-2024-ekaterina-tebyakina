@@ -40,7 +40,7 @@ const AnimeSortFieldComponent: FC = () => {
 			<ToggleButton
 				value={AnimeSort.AscendingEnglishTitle}
 				key={AnimeSort.AscendingEnglishTitle}
-				className={styles['sort-button']}
+				className={styles.sortButton}
 			>
 				English title
 				<ArrowUpwardIcon />
@@ -48,7 +48,7 @@ const AnimeSortFieldComponent: FC = () => {
 			<ToggleButton
 				value={AnimeSort.DescendingEnglishTitle}
 				key={AnimeSort.DescendingEnglishTitle}
-				className={styles['sort-button']}
+				className={styles.sortButton}
 			>
 				English title
 				<ArrowDownwardIcon />
@@ -56,7 +56,7 @@ const AnimeSortFieldComponent: FC = () => {
 			<ToggleButton
 				value={AnimeSort.AscendingStatus}
 				key={AnimeSort.AscendingStatus}
-				className={styles['sort-button']}
+				className={styles.sortButton}
 			>
 				Status
 				<ArrowUpwardIcon />
@@ -64,7 +64,7 @@ const AnimeSortFieldComponent: FC = () => {
 			<ToggleButton
 				value={AnimeSort.DescendingStatus}
 				key={AnimeSort.DescendingStatus}
-				className={styles['sort-button']}
+				className={styles.sortButton}
 			>
 				Status
 				<ArrowDownwardIcon />
