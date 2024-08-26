@@ -10,7 +10,9 @@ import { http } from '..';
 
 const loginUrl = 'auth/login/';
 const registerUrl = 'auth/register/';
-const refreshTokenUrl = 'auth/token/refresh/';
+
+/** Path to refresh access token. */
+export const refreshTokenUrl = 'auth/token/refresh/';
 
 export namespace AuthorizationService {
 
