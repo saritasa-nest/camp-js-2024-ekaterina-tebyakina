@@ -15,7 +15,7 @@ export namespace GenresService {
 	 * @param nextUrl Next anime list.
 	 */
 	export async function fetchGenres(nextUrl: string | null = ''): Promise<Pagination<Genre>> {
-		const { data } = await http.get<PaginationDto<GenreDto>>(`${url}${nextUrl}`);
+		const { data } = await http.get<PaginationDto<GenreDto>>(`${url}?${nextUrl}`);
 		return PaginationMapper.fromDto(data, GenreMapper.fromDto);
 	}
 }

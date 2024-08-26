@@ -1,9 +1,10 @@
-import { memo, FC, useEffect, useRef, useState } from 'react';
-import { selectGenres, selectAreGenresLoading, selectGenresNext } from '@js-camp/react/store/genre/selectors';
+import { memo, FC, useEffect, useRef } from 'react';
+import { selectGenres, selectGenresNext, selectQueryFilter } from '@js-camp/react/store/genre/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { Link } from 'react-router-dom';
 import { List, ListItem, IconButton, ListItemText, Box } from '@mui/material';
+import { QueryService } from '@js-camp/react/api/services/queryService';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -12,13 +13,14 @@ import styles from './GenresList.module.css';
 /** Genres list.  */
 const GenresListComponent: FC = () => {
 	const dispatch = useAppDispatch();
+	const filter = useAppSelector(selectQueryFilter);
 	const genres = useAppSelector(selectGenres);
 	const cursor = useAppSelector(selectGenresNext);
 	const containerIntersection = useRef<HTMLElement>(null);
 	const anchorIntersection = useRef<HTMLDivElement>(null);
 
 	const parseCursor = (link: string | null): string => {
-		if (link == null || !link) {
+		if (link == null) {
 			return '';
 		}
 		return link.split('/').at(-1);
@@ -39,9 +41,13 @@ const GenresListComponent: FC = () => {
 		if (anchorIntersection.current) {
 			observer.observe(anchorIntersection.current);
 		}
-	}, [dispatch, cursor]);
+	}, [cursor]);
 
+	useEffect(() => {
+		dispatch(fetchGenres(QueryService.filter(filter)));
+	}, [filter]);
 	return (
+
 		<Box className={styles.section__list} ref={containerIntersection}>
 			<List className={styles.list}>
 				{genres.map(genre =>
@@ -62,6 +68,7 @@ const GenresListComponent: FC = () => {
 				<div ref={anchorIntersection}></div>
 			</List>
 		</Box>
+
 	);
 };
 

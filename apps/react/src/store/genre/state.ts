@@ -12,6 +12,9 @@ export type GenresState = {
 	/** Genres list. */
 	readonly genres: Genre[];
 
+	/** Query genres filters. */
+	filter: {};
+
 	/** Error. */
 	readonly error?: string;
 
@@ -25,4 +28,5 @@ export const initialState: GenresState = {
 	previous: null,
 	isLoading: false,
 	genres: [],
+	filter: {},
 };

@@ -7,7 +7,11 @@ import { initialState } from './state';
 export const genresSlice = createSlice({
 	name: 'genres',
 	initialState,
-	reducers: {},
+	reducers: {
+		changeFilters(state, action): void {
+			state.filter = { ...state.filter, ...action.payload };
+		},
+	},
 	extraReducers: builder => builder
 		.addCase(fetchGenres.pending, state => {
 			state.isLoading = true;
@@ -25,3 +29,6 @@ export const genresSlice = createSlice({
 			state.isLoading = false;
 		}),
 });
+
+/** Action change filters. */
+export const { changeFilters } = genresSlice.actions;

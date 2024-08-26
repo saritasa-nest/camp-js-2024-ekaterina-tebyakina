@@ -14,8 +14,14 @@ export const selectAreGenresLoading = createSelector(
 	isLoading => isLoading,
 );
 
-/** Select genres has more state. */
+/** Selects cursor for next genres. */
 export const selectGenresNext = createSelector(
 	(state: RootState) => state.genres.next,
 	next => next,
+);
+
+/** Selects genres query filter. */
+export const selectQueryFilter = createSelector(
+	(state: RootState) => state.genres.filter,
+	filter => filter,
 );
