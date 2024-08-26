@@ -12,6 +12,7 @@ import { REGISTER_PATH } from '@js-camp/react/features/registration/routes';
 import { fetchUser } from '@js-camp/react/store/user/dispatchers';
 import { LOGIN_PATH } from '@js-camp/react/features/login/routes';
 import { logout } from '@js-camp/react/store/user/slice';
+import { LocalStorageService } from '@js-camp/react/api/services/localStorageService';
 
 import styles from './Header.module.css';
 
@@ -20,6 +21,7 @@ const HeaderComponent: FC = () => {
 
 	const user = useAppSelector(selectCurrentUser);
 	const isLoading = useAppSelector(selectIsCurrentUserLoading);
+	const refreshToken = LocalStorageService.getRefreshToken();
 
 	const dispatch = useAppDispatch();
 
@@ -27,7 +29,7 @@ const HeaderComponent: FC = () => {
 		if (!isLoading) {
 			dispatch(fetchUser());
 		}
-	}, []);
+	}, [refreshToken]);
 
 	const location = useLocation();
 
