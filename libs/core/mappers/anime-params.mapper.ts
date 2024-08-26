@@ -22,9 +22,6 @@ export namespace AnimeParamsMapper {
 			limit: params.pageSize ? params.pageSize : DEFAULT_LIMIT,
 			search: params.searchTerm ? params.searchTerm : DEFAULT_SEARCH,
 			ordering: params.sortingSettings ? AnimeSortMapper.toDto(params.sortingSettings) : '',
-
-			// Disable eslint, because this property should be in snake case.
-			// eslint-disable-next-line @typescript-eslint/naming-convention
 			type__in: params.selectedTypes ? params.selectedTypes.map(animeType => AnimeTypeMapper.toDto(animeType)).join(',') : '',
 		};
 	}

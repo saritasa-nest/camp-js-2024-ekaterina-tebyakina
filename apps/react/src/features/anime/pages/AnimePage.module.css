@@ -1,0 +1,18 @@
+.main {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: calc(100vh - var(--header-height));
+}
+
+.section {
+	width: 420px;
+	border: 1px var(--border-color) solid;
+	display: flex;
+	flex-direction: column;
+}
+
+.details {
+	flex-grow: 1;
+	padding: var(--space-m);
+}
