@@ -1,11 +1,10 @@
 .list {
 	overflow-y: auto;
-	border: 1px var(--border-color) solid;
 	padding-top: 0;
 }
 
 .item {
-	border: 1px var(--border-color) solid;
+	border-top: 1px var(--border-color) solid;
 	color: var(--primary-font-color);
 	display: flex;
 	flex-direction: row;
