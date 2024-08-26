@@ -5,6 +5,7 @@ import { checkIsEnumMember } from '../utils/check-is-enum.util';
 
 import { ServerErrorAttributeMapper } from './server-error-attribute.mapper';
 
+/** Map server error model and dto. */
 export namespace ServerErrorMapper {
 
 	/**

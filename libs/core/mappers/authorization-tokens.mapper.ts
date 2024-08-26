@@ -1,6 +1,7 @@
 import { AuthorizationTokensDto } from '../dtos/authorization-tokens.dto';
 import { AuthorizationTokens } from '../models/authorization-tokens';
 
+/** Map authorization tokens model and dto. */
 export namespace AuthorizationTokensMapper {
 
 	/**

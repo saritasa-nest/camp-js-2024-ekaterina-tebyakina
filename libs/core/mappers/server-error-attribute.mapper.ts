@@ -1,6 +1,7 @@
 import { ServerErrorAttributeDto } from '../dtos/server-error-attribute.dto';
 import { ServerErrorAttribute } from '../models/server-error-attribute';
 
+/** Map server error attribute model and dto. */
 export namespace ServerErrorAttributeMapper {
 	const SERVER_ERROR_ATTRIBUTE_MAP_FROM_DTO: Readonly<Record<ServerErrorAttributeDto, ServerErrorAttribute>> = {
 		[ServerErrorAttributeDto.NonField]: ServerErrorAttribute.NonField,

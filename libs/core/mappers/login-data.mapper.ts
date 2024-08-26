@@ -1,6 +1,7 @@
 import { LoginDataDto } from '../dtos/login-data.dto';
 import { LoginData } from '../models/login-data';
 
+/** Map user data for login model and dto. */
 export namespace LoginDataMapper {
 
 	/**

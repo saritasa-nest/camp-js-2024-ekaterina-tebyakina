@@ -1,6 +1,7 @@
 import { UserDto } from '../dtos/user.dto';
 import { User } from '../models/user';
 
+/** Map user model and dto. */
 export namespace UserMapper {
 
 	/**

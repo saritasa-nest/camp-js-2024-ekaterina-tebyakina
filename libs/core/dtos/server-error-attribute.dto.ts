@@ -1,3 +1,4 @@
+/** Error's attribute. The form field whose value caused the error. */
 export enum ServerErrorAttributeDto {
 	NonField = 'non_field_errors',
 	Email = 'email',

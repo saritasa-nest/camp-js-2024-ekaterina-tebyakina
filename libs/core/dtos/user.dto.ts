@@ -1,3 +1,4 @@
+/** Data about user. */
 export type UserDto = {
 	readonly email: string;
 	readonly first_name: string;

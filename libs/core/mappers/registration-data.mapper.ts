@@ -1,6 +1,7 @@
 import { RegistrationDataDto } from '../dtos/registration-data.dto';
 import { RegistrationData } from '../models/registration-data';
 
+/** Map user data for registration model and dto. */
 export namespace RegistrationDataMapper {
 
 	/**
