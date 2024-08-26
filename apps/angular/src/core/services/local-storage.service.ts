@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AuthorizationTokens } from '@js-camp/core/models/authorization-tokens';
 import { Observable, of } from 'rxjs';
 
 /** Service for working with local storage. */
@@ -7,38 +6,37 @@ import { Observable, of } from 'rxjs';
 export class LocalStorageService {
 
 	/**
-	 * Save tokens to local storage.
-	 * @param tokens - Access and refresh tokens.
+	 * Save property to local storage.
+	 * @param name - Property name.
+	 * @param value - Property value.
 	 */
-	public saveTokens(tokens: AuthorizationTokens): void {
-		localStorage.setItem('accessToken', tokens.access);
-		localStorage.setItem('refreshToken', tokens.refresh);
+	public setValue<T>(name: string, value: T): void {
+		localStorage.setItem(name, JSON.stringify(value));
 	}
 
 	/**
-	 * Remove tokens from local storage.
-	 * @param tokens - Access and refresh tokens.
+	 * Get property from local storage.
+	 * @param name - Property name.
+	 * @returns Property with specified name.
 	 */
-	public removeTokens(): void {
-		localStorage.removeItem('accessToken');
-		localStorage.removeItem('refreshToken');
+	public getValue<T>(name: string): Observable<T | null> {
+		const value = localStorage.getItem(name);
+		if (value) {
+			try {
+				return of(JSON.parse(value));
+			} catch (parseError) {
+				console.error(parseError);
+				return of(null);
+			}
+		}
+		return of(null);
 	}
 
 	/**
-	 * Get access token from local storage.
-	 * @returns Access token.
+	 * Remove property from local storage.
+	 * @param name - Property name.
 	 */
-	public getAccessToken(): Observable<string | null> {
-		const accessToken = localStorage.getItem('accessToken');
-		return of(accessToken);
-	}
-
-	/**
-	 * Get refresh token from local storage.
-	 * @returns Refresh token.
-	 */
-	public getRefreshToken(): Observable<string | null> {
-		const refreshToken = localStorage.getItem('refreshToken');
-		return of(refreshToken);
+	public removeValue(name: string): void {
+		localStorage.removeItem(name);
 	}
 }

@@ -13,7 +13,7 @@ import { AuthorizationTokensMapper } from '@js-camp/core/mappers/authorization-t
 import { Router } from '@angular/router';
 
 import { UrlConfigService } from './url-config.service';
-import { LocalStorageService } from './local-storage.service';
+import { LocalStorageForAuthorizationService } from './local-storage-for-authorization.service';
 
 /** Authorization API access service. */
 @Injectable({ providedIn: 'root' })
@@ -28,7 +28,7 @@ export class AuthorizationApiService {
 
 	private readonly urlConfigService = inject(UrlConfigService);
 
-	private readonly localStorageService = inject(LocalStorageService);
+	private readonly localStorageService = inject(LocalStorageForAuthorizationService);
 
 	private readonly router = inject(Router);
 
