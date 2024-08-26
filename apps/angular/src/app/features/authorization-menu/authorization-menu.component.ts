@@ -7,7 +7,7 @@ import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
 
 /** Component with authorization navigation menu. */
 @Component({
-	selector: 'camp-authorization-menu-form',
+	selector: 'camp-authorization-menu',
 	standalone: true,
 	templateUrl: './authorization-menu.component.html',
 	styleUrl: './authorization-menu.component.css',
@@ -19,13 +19,15 @@ import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
 })
 export class AuthorizationMenuComponent {
 
+	private readonly authApiService = inject(AuthorizationApiService);
+
+	private readonly usersApiService = inject(UserApiService);
+
 	/** Enum with paths for link. */
 	protected readonly routerPaths = RouterPaths;
 
-	/** Service for managing current user. */
-	protected readonly usersApiService = inject(UserApiService);
-
-	private readonly authApiService = inject(AuthorizationApiService);
+	/** Contains information about current user. */
+	protected readonly user$ = this.usersApiService.user$;
 
 	/** Handle click on log out button. */
 	protected onLogoutClick(): void {
