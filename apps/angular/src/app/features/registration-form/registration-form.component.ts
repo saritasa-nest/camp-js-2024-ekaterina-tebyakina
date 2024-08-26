@@ -62,6 +62,7 @@ export class RegistrationFormComponent {
 				return throwError(() => error);
 			}),
 			tap(() => {
+				this.registrationFormService.form.reset();
 				this.router.navigate([this.routerPaths.Main]);
 			}),
 		)

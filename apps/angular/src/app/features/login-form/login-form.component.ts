@@ -62,6 +62,7 @@ export class LoginFormComponent {
 				return throwError(() => error);
 			}),
 			tap(() => {
+				this.loginFormService.form.reset();
 				this.router.navigate([this.routerPaths.Main]);
 			}),
 		)

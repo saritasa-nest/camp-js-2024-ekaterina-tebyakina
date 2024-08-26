@@ -4,13 +4,13 @@ import { RegistrationData } from '@js-camp/core/models/registration-data';
 import { RegistrationDataMapper } from '@js-camp/core/mappers/registration-data.mapper';
 import { AuthorizationTokensDto } from '@js-camp/core/dtos/authorization-tokens.dto';
 import { BehaviorSubject, catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
-
 import { ServerErrorDto } from '@js-camp/core/dtos/server-error.dto';
 import { ServerErrorMapper } from '@js-camp/core/mappers/server-error.mapper';
 import { LoginData } from '@js-camp/core/models/login-data';
 import { LoginDataMapper } from '@js-camp/core/mappers/login-data.mapper';
 import { AuthorizationTokens } from '@js-camp/core/models/authorization-tokens';
 import { AuthorizationTokensMapper } from '@js-camp/core/mappers/authorization-tokens.mapper';
+import { Router } from '@angular/router';
 
 import { UrlConfigService } from './url-config.service';
 import { LocalStorageService } from './local-storage.service';
@@ -29,6 +29,8 @@ export class AuthorizationApiService {
 	private readonly urlConfigService = inject(UrlConfigService);
 
 	private readonly localStorageService = inject(LocalStorageService);
+
+	private readonly router = inject(Router);
 
 	public constructor() {
 		this.localStorageService.getAccessToken().subscribe(token => {
@@ -86,6 +88,7 @@ export class AuthorizationApiService {
 					return this.http.post<AuthorizationTokensDto>(this.urlConfigService.authorization.refresh,
 						{ refresh: refreshToken });
 				}
+				this.logout();
 				return throwError(() => new Error('Failed to refresh token'));
 			}),
 			map(response => AuthorizationTokensMapper.fromDto(response)),
@@ -98,6 +101,7 @@ export class AuthorizationApiService {
 	public logout(): void {
 		this.localStorageService.removeTokens();
 		this.accessToken$.next(null);
+		this.router.navigate(['/login']);
 	}
 
 	private handleError(errorResponse: HttpErrorResponse): Observable<never> {

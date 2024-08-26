@@ -1,12 +1,12 @@
 import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-
 import { catchError, Observable, switchMap, throwError } from 'rxjs';
-
 import { ServerErrorStatus } from '@js-camp/core/models/server-error-status';
 
 import { AuthorizationApiService } from '../services/authorization-api.service';
 import { LocalStorageService } from '../services/local-storage.service';
+import { AppConfig } from '../utils/app-config';
+import { UrlConfigService } from '../services/url-config.service';
 
 /**
  * Add header Authorization to a request.
@@ -20,6 +20,10 @@ export function authorizationInterceptor(req: HttpRequest<unknown>, next: HttpHa
 
 	const localStorageService = inject(LocalStorageService);
 
+	const appConfig = inject(AppConfig);
+
+	const urlConfigService = inject(UrlConfigService);
+
 	return localStorageService.getAccessToken().pipe(
 		switchMap(accessToken => {
 			if (accessToken) {
@@ -30,9 +34,13 @@ export function authorizationInterceptor(req: HttpRequest<unknown>, next: HttpHa
 			return next(req);
 		}),
 		catchError((error: unknown) => {
+			if (req.url === `${appConfig.baseApiURL}/${urlConfigService.authorization.refresh}`) {
+				return next(req);
+			}
 			if (error instanceof HttpErrorResponse && error.status === ServerErrorStatus.Unauthorized) {
 				return handleTokenExpired(req);
 			}
+			authorizationService.logout();
 			return throwError(() => error);
 		}),
 	);
@@ -66,7 +74,7 @@ export function authorizationInterceptor(req: HttpRequest<unknown>, next: HttpHa
 				if (newAccessToken) {
 					return next(addToken(request, newAccessToken));
 				}
-				return next(request);
+				return throwError(() => new Error('Error handling expired access token'));
 			}),
 			catchError((error: unknown) => {
 				console.error('Error handling expired access token:', error);
