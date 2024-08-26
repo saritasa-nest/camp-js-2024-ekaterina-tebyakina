@@ -1,22 +1,22 @@
 import { useCallback, useRef } from 'react';
 
-type UseInfiniteScrollProps = {
+type UseInfiniteScrollParams = {
 
 	/** Loading status. */
-	isLoading: boolean;
+	readonly isLoading: boolean;
 
 	/** The URL of the next page of data. */
-	nextPageUrl: string | null;
+	readonly nextPageUrl: string | null;
 
 	/** Function for fetching data. */
-	fetchData: () => void;
+	readonly fetchData: () => void;
 };
 
 /**
  * Hook for handle scroll and fetch data.
- * @param infiniteScrollProps - Object with params for fetch.
+ * @param UseInfiniteScrollParams - Object with params for fetch.
  */
-export const useInfiniteScroll = ({ isLoading, nextPageUrl, fetchData }: UseInfiniteScrollProps) => {
+export const useInfiniteScroll = ({ isLoading, nextPageUrl, fetchData }: UseInfiniteScrollParams) => {
 	const observer = useRef<IntersectionObserver | null>();
 
 	const lastElementRef = useCallback(
@@ -28,10 +28,8 @@ export const useInfiniteScroll = ({ isLoading, nextPageUrl, fetchData }: UseInfi
 				observer.current.disconnect();
 			}
 			observer.current = new IntersectionObserver(entries => {
-				if (entries[0].isIntersecting) {
-					if (!isLoading && nextPageUrl) {
-						fetchData();
-					}
+				if (entries[0].isIntersecting && !isLoading && nextPageUrl) {
+					fetchData();
 				}
 			});
 			if (node) {
