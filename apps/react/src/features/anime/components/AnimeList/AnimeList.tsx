@@ -98,7 +98,7 @@ const AnimeListComponent: FC = () => {
 								className={styles.propertyValue}
 								title={anime.japaneseTitle}
 							>
-								{anime.japaneseTitle ? anime.japaneseTitle : '\u2014'}
+								{anime.japaneseTitle ? anime.japaneseTitle : '—'}
 							</span>
 						</p>
 						<p className={styles.property}>
@@ -109,7 +109,7 @@ const AnimeListComponent: FC = () => {
 								className={styles.propertyValue}
 								title={anime.englishTitle}
 							>
-								{anime.englishTitle ? anime.englishTitle : '\u2014'}
+								{anime.englishTitle ? anime.englishTitle : '—'}
 							</span>
 						</p>
 						<p className={styles.property}>
