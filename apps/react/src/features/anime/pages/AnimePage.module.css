@@ -8,6 +8,8 @@
 .section {
 	width: 420px;
 	border: 1px var(--border-color) solid;
+	display: flex;
+	flex-direction: column;
 }
 
 .details {
