@@ -1,12 +1,21 @@
-<div class="go-back-button__container">
+<div class="buttons__container">
 	<button
 		mat-raised-button
 		type="button"
-		class="go-back-button"
+		class="button"
 		(click)="onGoBack()"
 	>
-		<mat-icon class="go-back-button__icon">arrow_back</mat-icon>
+		<mat-icon class="button__icon">arrow_back</mat-icon>
 		Go back
+	</button>
+	<button
+		mat-raised-button
+		type="button"
+		class="button"
+		(click)="onEdit()"
+	>
+		<mat-icon class="button__icon">edit</mat-icon>
+		Edit
 	</button>
 </div>
 <div class="anime-details-wrapper">

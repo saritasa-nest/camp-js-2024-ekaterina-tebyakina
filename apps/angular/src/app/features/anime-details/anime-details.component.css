@@ -2,15 +2,18 @@
 	--subsection-width: 420px;
 }
 
-.go-back-button__container {
+.buttons__container {
 	padding: var(--space-m) var(--space-xl) 0 var(--space-xl);
+	display: flex;
+	flex-direction: row;
+	gap: var(--space-s);
 }
 
-.go-back-button {
+.button {
 	font-size: var(--font-size-md);
 }
 
-.go-back-button__icon {
+.button__icon {
 	font-size: var(--font-size-md);
 }
 

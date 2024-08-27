@@ -17,6 +17,12 @@ export const appRoutes: Routes = [
 				loadComponent: () => import('./features/anime-details/anime-details.component')
 					.then(c => c.AnimeDatailsComponent),
 			},
+			{
+				path: ':id/edit',
+				canMatch: [authorizationGuard],
+				loadComponent: () => import('./features/anime-edit-form/anime-edit-form.component')
+					.then(c => c.AnimeEditFormComponent),
+			},
 		],
 	},
 	{

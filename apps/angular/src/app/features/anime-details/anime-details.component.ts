@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Observable } from 'rxjs';
 import { JsonPipe, AsyncPipe, DatePipe, NgOptimizedImage, Location } from '@angular/common';
@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
 import { ImageDialogComponent } from '@js-camp/angular/shared/components/image-dialog/image-dialog.component';
+import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
 
 const PLAYER_WIDTH = 840;
 const PLAYER_HEIGHT = 472;
@@ -60,6 +61,8 @@ export class AnimeDatailsComponent {
 
 	private readonly animeService = inject(AnimeService);
 
+	private readonly router = inject(Router);
+
 	public constructor() {
 		const animeId = this.activatedRoute.snapshot.params['id'];
 		this.anime$ = this.animeService.getAnime(animeId);
@@ -68,6 +71,11 @@ export class AnimeDatailsComponent {
 	/** Handle click on go back button. */
 	protected onGoBack(): void {
 		this.location.back();
+	}
+
+	/** Handle click on edit button. */
+	protected onEdit(): void {
+		this.router.navigate([RouterPaths.Main, this.activatedRoute.snapshot.params['id'], 'edit']);
 	}
 
 	/**

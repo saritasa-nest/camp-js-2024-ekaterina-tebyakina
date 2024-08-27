@@ -1,0 +1,138 @@
+<div class="buttons__container">
+	<button
+		mat-raised-button
+		type="button"
+		class="button"
+		(click)="onGoBack()"
+	>
+		<mat-icon class="button__icon">arrow_back</mat-icon>
+		Go back
+	</button>
+</div>
+<div class="anime-edit-form-wrapper">
+	@if (isLoading$ | async) {
+		<camp-progress-bar/>
+	} @else {
+		<form
+			class="anime-edit-form"
+			[formGroup]="animeEditFormService.form"
+			(ngSubmit)="onEditSubmit()"
+		>
+			<mat-form-field
+				appearance="outline"
+			>
+				<mat-label>English title</mat-label>
+				<input
+					matInput
+					placeholder="Attack on titan"
+					type="text"
+					[formControl]="animeEditFormService.form.controls.englishTitle"
+				/>
+			</mat-form-field>
+			<mat-form-field
+				appearance="outline"
+			>
+				<mat-label>Japanese title</mat-label>
+				<input
+					matInput
+					placeholder="進撃の巨人"
+					type="text"
+					[formControl]="animeEditFormService.form.controls.japaneseTitle"
+				/>
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Choose the start date of the anime aired</mat-label>
+				<input
+					matInput
+					[matDatepicker]="airedStart"
+					[formControl]="animeEditFormService.form.controls.airedStart"
+				>
+				<mat-hint>MM/DD/YYYY</mat-hint>
+				<mat-datepicker-toggle
+					matIconSuffix
+					[for]="airedStart"
+				>
+				</mat-datepicker-toggle>
+				<mat-datepicker #airedStart></mat-datepicker>
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Choose the end date of the anime aired</mat-label>
+				<input
+					matInput
+					[matDatepicker]="airedEnd"
+					[formControl]="animeEditFormService.form.controls.airedEnd"
+				>
+				<mat-hint>MM/DD/YYYY</mat-hint>
+				<mat-datepicker-toggle
+					matIconSuffix
+					[for]="airedEnd"
+				>
+				</mat-datepicker-toggle>
+				<mat-datepicker #airedEnd></mat-datepicker>
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Types</mat-label>
+				<mat-select
+					[formControl]="animeEditFormService.form.controls.types"
+				>
+					<mat-option value="">-- None --</mat-option>
+					@for (type of animeTypes; track type) {
+						<mat-option [value]="type">{{type}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Status</mat-label>
+				<mat-select
+				[formControl]="animeEditFormService.form.controls.status"
+				>
+					<mat-option value="">-- None --</mat-option>
+					@for (status of animeStatuses; track status) {
+						<mat-option [value]="status">{{status}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Rating</mat-label>
+				<mat-select
+					[formControl]="animeEditFormService.form.controls.rating"
+				>
+					<mat-option value="">-- None --</mat-option>
+					@for (rating of animeRatings; track rating) {
+						<mat-option [value]="rating">{{rating}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Source</mat-label>
+				<mat-select
+				[formControl]="animeEditFormService.form.controls.source"
+				>
+					<mat-option value="">-- None --</mat-option>
+					@for (source of animeSources; track source) {
+						<mat-option [value]="source">{{source}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Season</mat-label>
+				<mat-select
+				[formControl]="animeEditFormService.form.controls.season"
+				>
+					<mat-option value="">-- None --</mat-option>
+					@for (season of seasons; track season) {
+						<mat-option [value]="season">{{season}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+			<button
+				mat-raised-button
+				type="submit"
+				class="button"
+			>
+				Save
+			</button>
+		</form>
+	}
+</div>
+
