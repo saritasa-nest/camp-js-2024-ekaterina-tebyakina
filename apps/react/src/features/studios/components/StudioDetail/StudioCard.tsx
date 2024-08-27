@@ -2,7 +2,7 @@ import { memo, FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { Paper, Typography } from '@mui/material';
 
-/** Card with anime data. */
+/** Card with studio data. */
 const StudioCardComponent: FC = () => {
 	const { id } = useParams<{ id: string; }>();
 

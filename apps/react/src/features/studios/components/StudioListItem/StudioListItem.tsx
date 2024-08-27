@@ -10,7 +10,7 @@ import { STUDIOS_PATH } from '../../routes';
 
 type Props = {
 
-	/** Genre. */
+	/** Studio. */
 	readonly studio: AnimeStudio;
 };
 

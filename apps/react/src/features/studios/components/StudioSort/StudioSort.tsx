@@ -20,11 +20,11 @@ type SortOption = {
 
 /**
  * Create sort value.
- * @param field Genres query params sort field.
- * @param direction Genres query params sort direction.
+ * @param field Studios query params sort field.
+ * @param direction Studios query params sort direction.
  */
 function createSortValue(field: BaseSortFields, direction: SortDirection): string {
-	const sortValue = SortParamsMapper.toDto({
+	const sortValue = SortParamsMapper.mapToSortQueryParams({
 		sortDirection: direction,
 		sortField: field,
 	});
@@ -39,7 +39,7 @@ const sorts: SortOption[] = [
 	{ label: 'Least Recent Updates', value: createSortValue(BaseSortFields.ModifiedDate, SortDirection.Descending) },
 ];
 
-/** Genres sort component. */
+/** Studio sort component. */
 const StudiosSortComponent: FC = () => {
 	const { getQueryParamByKey, setQueryParams } = useQueryParams<StudioQueryParams>();
 	const isLoading = useAppSelector(selectAreStudiosLoading);
@@ -66,7 +66,6 @@ const StudiosSortComponent: FC = () => {
 			<InputLabel id='studio-sort'>Sort By</InputLabel>
 			<Select
 				labelId='studio-sort'
-				id='demo-simple-select'
 				value={value}
 				label='Sort By'
 				onChange={handleSelecting}

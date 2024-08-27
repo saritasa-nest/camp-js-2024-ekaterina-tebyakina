@@ -8,10 +8,7 @@ import { StudioQueryParams } from '@js-camp/core/mappers/studio-query-params.map
 import { useAppSelector } from '@js-camp/react/store';
 import { selectAreStudiosLoading } from '@js-camp/react/store/studio/selectors';
 
-/**
- * Genres text field component.
- * @param props Props.
- */
+/** Studio search bar component. */
 const StudioSearchBarComponent: FC = () => {
 	const { getQueryParamByKey, setQueryParams } = useQueryParams<StudioQueryParams>();
 	const searchParam = getQueryParamByKey('search');
