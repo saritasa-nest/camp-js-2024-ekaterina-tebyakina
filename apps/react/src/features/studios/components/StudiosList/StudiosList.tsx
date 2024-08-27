@@ -58,6 +58,11 @@ const StudiosListComponent: FC = () => {
 		[nextCursor],
 	);
 
+	/** Create skeletons for list. */
+	function createListSkeleton(): JSX.Element[] {
+		return Array.from(new Array(10)).map((_, index) => <ListItemSkeleton key={index} />);
+	}
+
 	return (
 		<Box
 			component='section'
@@ -70,9 +75,7 @@ const StudiosListComponent: FC = () => {
 			}}
 		>
 			<List disablePadding>
-				{isLoading &&
-					studiosList.length === 0 &&
-					Array.from(new Array(10)).map((_, index) => <ListItemSkeleton key={index} />)}
+				{isLoading && studiosList.length === 0 && createListSkeleton()}
 
 				{studiosList.map((studio, index) => {
 					if (studiosList.length === index + 1) {
