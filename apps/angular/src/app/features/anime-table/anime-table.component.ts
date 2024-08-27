@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { Anime } from '@js-camp/core/models/anime';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeColumnsHeaders } from '@js-camp/core/models/anime-columns-headers';
@@ -10,8 +11,10 @@ import { AnimeColumnsIndexes } from '@js-camp/core/models/anime-columns-indexes'
 import { AnimeSort } from '@js-camp/core/models/anime-sort';
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/core/models/anime-params';
 import { AsyncPipe, DatePipe, NgOptimizedImage, CommonModule } from '@angular/common';
+import { AuthorizationApiService } from '@js-camp/angular/core/services/authorization-api.service';
 
 const DEFAULT_SIZE_OPTIONS = [10, 25, 50];
+const DELETION_COLUMN_INDEX = 'delete';
 
 /** Anime table component. */
 @Component({
@@ -25,6 +28,7 @@ const DEFAULT_SIZE_OPTIONS = [10, 25, 50];
 		MatPaginator,
 		MatSort,
 		MatSortModule,
+		MatButtonModule,
 		AsyncPipe,
 		DatePipe,
 		EmptyPipe,
@@ -62,6 +66,10 @@ export class AnimeTableComponent {
 	@Output()
 	public readonly animeSelectionChange = new EventEmitter<number>();
 
+	/** Event of anime deletion. */
+	@Output()
+	public readonly animeDelete = new EventEmitter<number>();
+
 	/** Possible page size values. */
 	protected readonly pageSizeOptions = DEFAULT_SIZE_OPTIONS;
 
@@ -71,8 +79,16 @@ export class AnimeTableComponent {
 	/** Property containing enum with column indexes. */
 	protected readonly columns = AnimeColumnsIndexes;
 
+	/** Index of column for deletion. */
+	protected readonly deletionColumnIndex = DELETION_COLUMN_INDEX;
+
 	/** List of column indexes. */
-	protected readonly columnsToDisplay = Object.values(AnimeColumnsIndexes);
+	protected readonly columnsToDisplay = [...Object.values(AnimeColumnsIndexes), this.deletionColumnIndex];
+
+	private readonly authApiService = inject(AuthorizationApiService);
+
+	/** Shows whether a user is authenticated. */
+	public readonly isAuthenticated$ = this.authApiService.userSecret$;
 
 	/**
 	 * Track by function for anime list.
@@ -121,5 +137,15 @@ export class AnimeTableComponent {
 		if (event.key === 'Enter') {
 			this.onRowSelect(row);
 		}
+	}
+
+	/**
+	 * Handle click on delete button.
+	 * @param event - Click event.
+	 * @param id - Selected anime index.
+	 */
+	protected onDeleteClick(event: MouseEvent, id: number): void {
+		event.stopPropagation();
+		this.animeDelete.emit(id);
 	}
 }

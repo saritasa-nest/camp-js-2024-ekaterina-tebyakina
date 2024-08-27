@@ -3,13 +3,15 @@ import { DestroyRef, inject, Injectable } from '@angular/core';
 import { RegistrationData } from '@js-camp/core/models/registration-data';
 import { RegistrationDataMapper } from '@js-camp/core/mappers/registration-data.mapper';
 import { AuthorizationTokensDto } from '@js-camp/core/dtos/authorization-tokens.dto';
-import { catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { ServerErrorDto } from '@js-camp/core/dtos/server-error.dto';
 import { ServerErrorMapper } from '@js-camp/core/mappers/server-error.mapper';
 import { LoginData } from '@js-camp/core/models/login-data';
 import { LoginDataMapper } from '@js-camp/core/mappers/login-data.mapper';
 import { AuthorizationTokens } from '@js-camp/core/models/authorization-tokens';
 import { AuthorizationTokensMapper } from '@js-camp/core/mappers/authorization-tokens.mapper';
+
+import { Router } from '@angular/router';
 
 import { UrlConfigService } from './url-config.service';
 import { LocalStorageService } from './local-storage.service';
@@ -18,13 +20,24 @@ import { LocalStorageService } from './local-storage.service';
 @Injectable({ providedIn: 'root' })
 export class AuthorizationApiService {
 
-	private readonly http = inject(HttpClient);
+	private readonly accessToken$ = new BehaviorSubject<string | null>(null);
 
-	private readonly destroyRef = inject(DestroyRef);
+	/** Observable to track the access token changes. */
+	public readonly userSecret$ = this.accessToken$.asObservable();
+
+	private readonly http = inject(HttpClient);
 
 	private readonly urlConfigService = inject(UrlConfigService);
 
 	private readonly localStorageService = inject(LocalStorageService);
+
+	private readonly router = inject(Router);
+
+	public constructor() {
+		this.localStorageService.getAccessToken().subscribe(token => {
+			this.accessToken$.next(token);
+		});
+	}
 
 	/**
 	 * Registers a user.
@@ -36,6 +49,7 @@ export class AuthorizationApiService {
 			RegistrationDataMapper.toDto(registrationData)).pipe(
 			map(response => AuthorizationTokensMapper.fromDto(response)),
 			tap(response => this.localStorageService.saveTokens(response)),
+			tap(response => this.accessToken$.next(response.access)),
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse) {
 					return this.handleError(error);
@@ -55,6 +69,7 @@ export class AuthorizationApiService {
 			LoginDataMapper.toDto(loginData)).pipe(
 			map(response => AuthorizationTokensMapper.fromDto(response)),
 			tap(response => this.localStorageService.saveTokens(response)),
+			tap(response => this.accessToken$.next(response.access)),
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse) {
 					return this.handleError(error);
@@ -76,6 +91,7 @@ export class AuthorizationApiService {
 						{ refresh: refreshToken }).pipe(
 						map(response => AuthorizationTokensMapper.fromDto(response)),
 						tap(response => this.localStorageService.saveTokens(response)),
+						tap(response => this.accessToken$.next(response.access)),
 						catchError((error: unknown) => throwError(() => error)),
 					);
 				}
@@ -88,6 +104,8 @@ export class AuthorizationApiService {
 	/** Remove user authorization data. */
 	public logout(): void {
 		this.localStorageService.removeTokens();
+		this.accessToken$.next(null);
+		this.router.navigate(['/login']);
 	}
 
 	/** Check is current user authenticated. */

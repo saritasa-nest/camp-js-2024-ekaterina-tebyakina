@@ -116,6 +116,28 @@
 				</mat-cell>
 			</ng-container>
 
+			<ng-container matColumnDef={{deletionColumnIndex}}>
+				<mat-header-cell
+					*matHeaderCellDef
+					class="table__title"
+				>
+				</mat-header-cell>
+				<mat-cell
+					*matCellDef="let element"
+					class="table__content"
+				>
+					@if (isAuthenticated$ | async; as isAuthenticated) {
+						<button
+							mat-raised-button
+							type="button"
+							(click)="onDeleteClick($event, element.id)"
+						>
+							Delete
+						</button>
+					}
+				</mat-cell>
+			</ng-container>
+
 			<mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
 			<mat-row *matRowDef="let row; columns: columnsToDisplay; let i = index"
 								tabindex="0"

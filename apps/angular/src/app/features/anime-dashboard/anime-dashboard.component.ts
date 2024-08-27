@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, finalize, map, Observable, shareReplay, switchMap } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { BehaviorSubject, catchError, filter, finalize, map, merge, Observable, of, shareReplay, startWith, Subject, switchMap, tap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
@@ -43,6 +43,9 @@ export class AnimeDashboardComponent {
 	/** Loading state to show progress bar. */
 	protected readonly isLoading$ = new BehaviorSubject<boolean>(true);
 
+	/** Subject to emit deletion events. */
+	private readonly animeDeletion$ = new Subject<void>();
+
 	private readonly route = inject(ActivatedRoute);
 
 	private readonly router = inject(Router);
@@ -55,13 +58,23 @@ export class AnimeDashboardComponent {
 			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 
-		this.animeListPage$ = this.animeParams$.pipe(
-			switchMap(params => {
-				this.isLoading$.next(true);
-				return this.animeService.getPage(params).pipe(
-					finalize(() => this.isLoading$.next(false)),
-				);
-			}),
+    this.animeListPage$ = merge(
+			this.animeParams$,
+			this.animeDeletion$.pipe(startWith(null))
+		).pipe(
+				switchMap(() => {
+						this.isLoading$.next(true);
+						return this.animeParams$.pipe(
+								switchMap(params => this.animeService.getPage(params).pipe(
+										catchError(error => {
+												console.error('Error fetching updated anime list:', error);
+												return of(null);
+										}),
+										finalize(() => this.isLoading$.next(false))
+								))
+						);
+				}),
+				filter((result): result is Pagination<Anime> => result !== null),
 		);
 	}
 
@@ -116,6 +129,23 @@ export class AnimeDashboardComponent {
 	 */
 	protected onAnimeSelect(animeId: number): void {
 		this.router.navigate([RouterPaths.Main, animeId]);
+	}
+
+	/**
+	 * Triggers when an anime for deletion is selected.
+	 * @param animeId - Selected anime identifier.
+	 */
+	protected onAnimeDelete(animeId: number): void {
+		this.isLoading$.next(true);
+    this.animeService.deleteAnime(animeId).pipe(
+        catchError(error => {
+            console.error('Error deleting anime:', error);
+            return of(null);
+        }),
+        tap(() => {
+            this.animeDeletion$.next();
+        }),
+    ).subscribe();
 	}
 
 	private navigate(params: Partial<AnimeParams>): void {
