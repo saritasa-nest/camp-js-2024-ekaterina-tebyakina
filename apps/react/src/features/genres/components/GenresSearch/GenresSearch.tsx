@@ -13,7 +13,7 @@ const GenresSearchComponent: FC = () => {
 			target: { value },
 		} = event;
 
-		const search = { search: value };
+		const search = { search: value, next: null };
 		dispatch(changeFilters(search));
 	};
 

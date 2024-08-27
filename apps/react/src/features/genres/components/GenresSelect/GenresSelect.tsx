@@ -26,7 +26,7 @@ const GenresSelectComponent: FC = () => {
 			target: { value },
 		} = event;
 
-		const select = { select: value };
+		const select = { select: value, next: null };
 		dispatch(changeFilters(select));
 
 		setTypesName(

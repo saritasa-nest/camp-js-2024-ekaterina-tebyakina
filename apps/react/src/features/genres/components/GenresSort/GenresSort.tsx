@@ -18,7 +18,7 @@ const GenresSortComponent: FC = () => {
 			target: { value },
 		} = event;
 
-		const sort = { sort: value };
+		const sort = { sort: value, next: null };
 		dispatch(changeFilters(sort));
 		setSortName(value);
 	};
