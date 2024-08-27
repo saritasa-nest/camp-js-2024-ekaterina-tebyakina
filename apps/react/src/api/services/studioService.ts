@@ -24,7 +24,7 @@ export namespace StudioService {
 		let filterParamsDto: StudioFilterParamsDto.Combined | null = null;
 
 		if (queryParams) {
-			const filterParams = StudioQueryParamsMapper.fromDto(queryParams);
+			const filterParams = StudioQueryParamsMapper.mapToFilterParams(queryParams);
 			filterParamsDto = StudioFilterParamsMapper.toDto(filterParams);
 		}
 		const { data } = await http.get<PaginationListCursorDto<AnimeStudioDto>>(AppUrls.anime.studio.listCursor, {
