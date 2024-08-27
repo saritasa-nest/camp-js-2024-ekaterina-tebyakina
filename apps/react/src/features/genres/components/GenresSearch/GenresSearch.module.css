@@ -1,0 +1,4 @@
+.search {
+	height: var(--form-field-height);
+	flex-grow: 1;
+}

@@ -9,10 +9,14 @@ export class Genre extends Immerable {
 	/** Name. */
 	public readonly name: string;
 
+	/** Type. */
+	public readonly type: string;
+
 	public constructor(data: GenreConstructorData) {
 		super();
 		this.id = data.id;
 		this.name = data.name;
+		this.type = data.type;
 	}
 }
 

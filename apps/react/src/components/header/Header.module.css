@@ -1,0 +1,23 @@
+/* Used important to override material styles. */
+.header {
+	width: 100%;
+	height: var(--header-height);
+	padding: 0 var(--space-m);
+	background-color: var(--primary-background-color) !important;
+	color: var(--primary-font-color) !important;
+	display: flex;
+	flex-direction: row !important;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header__title {
+	font-size: var(--font-size-xl);
+	font-weight: var(--font-weight-semibold);
+}
+
+.header__nav {
+	display: flex;
+	flex-direction: row;
+	gap: var(--space-m);
+}

@@ -1,0 +1,11 @@
+.main {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: calc(100vh - var(--header-height));
+}
+
+.main__details {
+	width: 100%;
+	padding: var(--space-m);
+}

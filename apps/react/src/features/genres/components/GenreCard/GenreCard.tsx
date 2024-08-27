@@ -1,21 +1,40 @@
 import { memo, FC } from 'react';
-import { Genre } from '@js-camp/core/models/genre';
+import { useParams, Link, useLocation } from 'react-router-dom';
+import { Box, Button, Paper, Typography } from '@mui/material';
 
 import styles from './GenreCard.module.css';
 
-type Props = {
-
-	/** Genre. */
-	readonly genre: Genre;
-};
-
 /** Card with genre data. */
-const GenreCardComponent: FC<Props> = ({ genre }: Props) => (
-	<div className={styles.card}>
-		<h2>{genre.name}</h2>
-		<span>Id - {genre.id}</span>
-	</div>
-);
+const GenreCardComponent: FC = () => {
+
+	const location = useLocation();
+	const linkToEdit = `${location.pathname}/edit`;
+	const { id } = useParams<{ id: string; }>();
+
+	return (
+		<Paper
+			elevation={3}
+			className={styles.card}
+		>
+			<h2 className={styles.card__title}>
+				Item Name
+			</h2>
+			<Box>
+				<Typography className={styles.card__information}>
+					Information about item with id = {id}
+				</Typography>
+				<Button
+					variant="outlined"
+					component={Link}
+					to={linkToEdit}
+				>
+					Edit
+				</Button>
+			</Box>
+		</Paper>
+	);
+
+};
 
 /**
  * Memorized genre card.

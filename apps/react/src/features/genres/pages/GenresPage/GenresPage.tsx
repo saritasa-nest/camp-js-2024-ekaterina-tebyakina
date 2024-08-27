@@ -1,33 +1,21 @@
-import { memo, useEffect, FC } from 'react';
-import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
-import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
+import { memo, FC } from 'react';
 
-import { GenreCard } from '../../components/GenreCard';
+import { Box } from '@mui/material';
+import { Outlet } from 'react-router-dom';
+
+import { GenresSidebar } from '../../components/GenresSidebar';
+
+import styles from './GenresPage.module.css';
 
 /** Genres page component. */
-const GenresPageComponent: FC = () => {
-	const dispatch = useAppDispatch();
-	const genres = useAppSelector(selectGenres);
-	const isLoading = useAppSelector(selectAreGenresLoading);
+const GenresPageComponent: FC = () => (
+	<main className={styles.main}>
+		<GenresSidebar />
+		<Box className={styles.main__details}>
+			<Outlet />
+		</Box>
+	</main>
+);
 
-	useEffect(() => {
-		dispatch(fetchGenres());
-	}, [dispatch]);
-
-	if (isLoading) {
-		return <div>Loading</div>;
-	}
-
-	return (
-		<>
-			<h1>Genres</h1>
-			{genres.map(genre => <GenreCard key={genre.id} genre={genre} />)}
-		</>
-	);
-};
-
-/**
- * Memorized GenresPageComponent.
- */
+/** Memorized genres page component. */
 export const GenresPage = memo(GenresPageComponent);

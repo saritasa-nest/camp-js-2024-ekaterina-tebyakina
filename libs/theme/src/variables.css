@@ -1,6 +1,6 @@
 :root {
 	/** Prevalent color in the application */
-	--primary-color: rgb(249 115 22);
+	--primary-color: rgb(63 81 181);
 	--primary-contrast-color: rgb(255 255 255);
 	--primary-dark-color: rgb(234 88 12);
 	--primary-dark-contrast-color: rgb(255 255 255);
@@ -10,6 +10,11 @@
 	--background-contrast-color: rgb(0 0 0);
 	--error-color: rgb(255 0 0);
 	--border-color: rgb(0 0 0 / 15%);
+	--shadow-color: rgb(107 107  107 / 65%);
+	--hover-color: rgb(0 0 0 / 15%);
+	--primary-font-color: var(--primary-light-contrast-color);
+	--active-link-color: var(--primary-color);
+	--primary-background-color: var(--primary-contrast-color);
 
 	/* Variables for spaces */
 	--space-xs: 8px;
@@ -25,4 +30,10 @@
 	--font-size-md: 1.125rem;
 	--font-size-lg: 1.25rem;
 	--font-size-xl: 1.5rem;
+
+	/* Variables for font weights */
+	--font-weight-regular: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
 }

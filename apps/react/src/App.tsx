@@ -5,6 +5,9 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { RootRouter } from './routes/RootRouter';
 import { store } from './store';
+import { Header } from './components/header';
+
+import './theme/styles.css';
 
 /**
  * App component.
@@ -14,6 +17,7 @@ export const App: FC = () => (
 		<BrowserRouter>
 			<div>
 				<Suspense fallback={<div>Brrr... here should be your loader component</div>}>
+					<Header />
 					<RootRouter />
 				</Suspense>
 			</div>
