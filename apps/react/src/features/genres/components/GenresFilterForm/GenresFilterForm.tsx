@@ -9,7 +9,11 @@ import styles from './GenresFilterForm.module.css';
 const GenresFilterFormComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const handleSearchGenres = (event: ChangeEvent<HTMLInputElement>): void => {
-		const search = { search: event.target.value };
+		const {
+			target: { value },
+		} = event;
+
+		const search = { search: value };
 		dispatch(changeFilters(search));
 	};
 

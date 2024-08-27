@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { Link } from 'react-router-dom';
 import { List, ListItem, IconButton, ListItemText, Box } from '@mui/material';
-import { QueryService } from '@js-camp/react/api/services/queryService';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -12,40 +11,37 @@ import styles from './GenresList.module.css';
 
 /** Genres list.  */
 const GenresListComponent: FC = () => {
-	const dispatch = useAppDispatch();
-	const filter = useAppSelector(selectQueryFilter);
+	// const dispatch = useAppDispatch();
+	// const filter = useAppSelector(selectQueryFilter);
+	// const cursor = useAppSelector(selectGenresNext);
 	const genres = useAppSelector(selectGenres);
-	const cursor = useAppSelector(selectGenresNext);
 	const containerIntersection = useRef<HTMLElement>(null);
 	const anchorIntersection = useRef<HTMLDivElement>(null);
 
-	const parseCursor = (link: string | null): string => {
-		if (link == null) {
-			return '';
-		}
-		return link.split('/').at(-1);
-	};
+	// const parseCursor = (link: string | null): string => {
+	// 	if (link == null) {
+	// 		return '';
+	// 	}
+	// 	return link.split('/').at(-1);
+	// };
 
-	useEffect(() => {
-		const observer = new IntersectionObserver(entries => {
-			if (cursor == null) {
-				observer.disconnect();
-			}
+	// useEffect(() => {
+	// 	const observer = new IntersectionObserver(entries => {
+	// 		if (cursor == null) {
+	// 			observer.disconnect();
+	// 		}
 
-			if (entries[0].isIntersecting) {
-				dispatch(fetchGenres(parseCursor(cursor)));
-				observer.disconnect();
-			}
-		}, { root: containerIntersection.current, threshold: 1 });
+	// 		if (entries[0].isIntersecting) {
+	// 			dispatch(fetchGenres(parseCursor(cursor)));
+	// 			observer.disconnect();
+	// 		}
+	// 	}, { root: containerIntersection.current, threshold: 1 });
 
-		if (anchorIntersection.current) {
-			observer.observe(anchorIntersection.current);
-		}
-	}, [cursor]);
+	// 	if (anchorIntersection.current) {
+	// 		observer.observe(anchorIntersection.current);
+	// 	}
+	// }, [cursor]);
 
-	useEffect(() => {
-		dispatch(fetchGenres(QueryService.filter(filter)));
-	}, [filter]);
 	return (
 
 		<Box className={styles.section__list} ref={containerIntersection}>

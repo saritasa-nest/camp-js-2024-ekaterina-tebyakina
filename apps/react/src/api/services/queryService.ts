@@ -8,6 +8,9 @@ export namespace QueryService {
 		if (queries.search != null && queries.search !== '') {
 			searchParams.append('search', String(queries.search));
 		}
+		if (queries.select != null && queries.select.length !== 0) {
+			searchParams.append('type__in', String(queries.select));
+		}
 		return searchParams.toString();
 	}
 

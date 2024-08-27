@@ -1,13 +1,15 @@
-import { memo, FC, useEffect, useState } from 'react';
+import { memo, FC, useState } from 'react';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
+import { useAppDispatch } from '@js-camp/react/store';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
+import { changeFilters } from '@js-camp/react/store/genre/slice';
 
-import style from './GenreSelect.module.css';
+import style from './GenresSelect.module.css';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -20,28 +22,27 @@ const MenuProps = {
 	},
 };
 
-const names = [
-	'Oliver Hansen',
-	'Van Henry',
-	'April Tucker',
-	'Ralph Hubbard',
-	'Omar Alexander',
-	'Carlos Abbott',
-	'Miriam Wagner',
-	'Bradley Wilkerson',
-	'Virginia Andrews',
-	'Kelly Snyder',
+const typesGenre = [
+	'GENRES',
+	'EXPLICIT_GENRES',
+	'THEMES',
+	'DEMOGRAPHICS',
 ];
 
 /** Genres select.  */
-const GenreSelectComponent: FC = () => {
-	const [personName, setPersonName] = useState<string[]>([]);
+const GenresSelectComponent: FC = () => {
+	const dispatch = useAppDispatch();
+	const [typesName, setTypesName] = useState<string[]>([]);
 
-	const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+	const handleChange = (event: SelectChangeEvent<typeof typesName>): void => {
 		const {
 			target: { value },
 		} = event;
-		setPersonName(
+
+		const select = { select: value };
+		dispatch(changeFilters(select));
+
+		setTypesName(
 			typeof value === 'string' ? value.split(',') : value,
 		);
 	};
@@ -53,16 +54,16 @@ const GenreSelectComponent: FC = () => {
 					labelId="demo-multiple-checkbox-label"
 					id="demo-multiple-checkbox"
 					multiple
-					value={personName}
+					value={typesName}
 					onChange={handleChange}
 					input={<OutlinedInput label="Tag" />}
 					renderValue={selected => selected.join(', ')}
 					MenuProps={MenuProps}
 				>
-					{names.map(name => (
-						<MenuItem key={name} value={name}>
-							<Checkbox checked={personName.indexOf(name) > -1} />
-							<ListItemText primary={name} />
+					{typesGenre.map(type => (
+						<MenuItem key={type} value={type}>
+							<Checkbox checked={typesName.includes(type)} />
+							<ListItemText primary={type} />
 						</MenuItem>
 					))}
 				</Select>
@@ -72,4 +73,4 @@ const GenreSelectComponent: FC = () => {
 };
 
 /** Memorized genres select. */
-export const GenreSelect = memo(GenreSelectComponent);
+export const GenresSelect = memo(GenresSelectComponent);
