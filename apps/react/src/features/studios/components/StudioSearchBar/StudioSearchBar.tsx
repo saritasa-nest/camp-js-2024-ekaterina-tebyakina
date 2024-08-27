@@ -23,7 +23,7 @@ const StudioSearchBarComponent: FC = () => {
 		setQueryParams({ search: searchValue });
 	}
 
-	/** Submit the search value to the URL. */
+	/** Reset the search value. */
 	function handleResetSearchValue(): void {
 		setValue('');
 		setQueryParams({ search: null });

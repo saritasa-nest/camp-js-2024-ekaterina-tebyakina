@@ -1,4 +1,3 @@
-
 /** Studio filter params DTO. */
 export namespace StudioFilterParamsDto {
 

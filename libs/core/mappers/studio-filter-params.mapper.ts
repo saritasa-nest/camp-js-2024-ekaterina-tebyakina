@@ -53,9 +53,9 @@ export namespace StudioFilterParamsMapper {
 	}
 
 	/**
-	 * Map anime filter params model to dto.
-	 * @param params - Model with anime filter params for UI.
-	 * @returns Anime filter params dto.
+	 * Map studio filter params model to dto.
+	 * @param params - Studio filter param model.
+	 * @returns Studio filter params dto.
 	 */
 	export function toDto(params: StudioFilterParams.Combined): StudioFilterParamsDto.Combined {
 		return {
