@@ -6,9 +6,7 @@ import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { selectQueryFilter } from '@js-camp/react/store/genre/selectors';
 
 import { GenresList } from '../../components/GenresList';
-import { GenresFilterForm } from '../../components/GenresFilterForm';
-import { GenresSelect } from '../GenresSelect';
-import { GenresSort } from '../GenresSort';
+import { GenresFilterForm } from '../GenresFilterForm';
 
 import styles from './GenresSidebar.module.css';
 
@@ -24,8 +22,6 @@ const GenresSidebarComponent: FC = () => {
 	return (
 		<Box className={styles.sidebar}>
 			<GenresFilterForm />
-			<GenresSort />
-			<GenresSelect />
 			<GenresList />
 		</Box>
 	);

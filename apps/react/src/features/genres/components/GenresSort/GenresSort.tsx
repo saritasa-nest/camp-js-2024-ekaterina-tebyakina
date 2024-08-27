@@ -6,8 +6,6 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { changeFilters } from '@js-camp/react/store/genre/slice';
 import { useAppDispatch } from '@js-camp/react/store';
 
-import styles from './GenreSort.module.css';
-
 /** Genres sort.  */
 const GenresSortComponent: FC = () => {
 
@@ -35,7 +33,7 @@ const GenresSortComponent: FC = () => {
 
 	return (
 		<>
-			<FormControl className={styles.sort}>
+			<FormControl>
 				<InputLabel id="demo-controlled-open-select-label">Sort</InputLabel>
 				<Select
 					labelId="demo-controlled-open-select-label"

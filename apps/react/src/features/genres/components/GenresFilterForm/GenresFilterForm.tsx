@@ -1,33 +1,20 @@
-import { memo, FC, ChangeEvent } from 'react';
-import { TextField } from '@mui/material';
-import { useAppDispatch } from '@js-camp/react/store';
-import { changeFilters } from '@js-camp/react/store/genre/slice';
+import { memo, FC } from 'react';
+import { Box } from '@mui/material';
 
-import styles from './GenresFilterForm.module.css';
+import { GenresSearch } from '../../components/GenresSearch';
+import { GenresSelect } from '../GenresSelect';
+import { GenresSort } from '../GenresSort';
+
+import styles from './GenresFIlterForm.module.css';
 
 /** Genres filter form. */
-const GenresFilterFormComponent: FC = () => {
-	const dispatch = useAppDispatch();
-	const handleSearchGenres = (event: ChangeEvent<HTMLInputElement>): void => {
-		const {
-			target: { value },
-		} = event;
-
-		const search = { search: value };
-		dispatch(changeFilters(search));
-	};
-
-	return (
-		<form className={styles.form}>
-			<TextField
-				className={styles.form__field}
-				label="Search"
-				variant="outlined"
-				onChange={handleSearchGenres}
-			/>
-		</form>
-	);
-};
+const GenresFilterFormComponent: FC = () => (
+	<Box className={styles.form}>
+		<GenresSearch />
+		<GenresSort />
+		<GenresSelect />
+	</Box>
+);
 
 /** Memorized filter form. */
 export const GenresFilterForm = memo(GenresFilterFormComponent);

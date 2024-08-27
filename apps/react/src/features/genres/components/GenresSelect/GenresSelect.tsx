@@ -9,8 +9,6 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import { changeFilters } from '@js-camp/react/store/genre/slice';
 
-import style from './GenresSelect.module.css';
-
 const typesGenre = [
 	'GENRES',
 	'EXPLICIT_GENRES',
@@ -37,7 +35,7 @@ const GenresSelectComponent: FC = () => {
 	};
 	return (
 		<>
-			<FormControl className={style.select}>
+			<FormControl>
 				<InputLabel id="demo-multiple-checkbox-label">Select types genres</InputLabel>
 				<Select
 					labelId="demo-multiple-checkbox-label"
