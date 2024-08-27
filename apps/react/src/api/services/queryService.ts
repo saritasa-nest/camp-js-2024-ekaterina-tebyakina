@@ -11,6 +11,9 @@ export namespace QueryService {
 		if (queries.select != null && queries.select.length !== 0) {
 			searchParams.append('type__in', String(queries.select));
 		}
+		if (queries.sort != null && queries.sort !== '') {
+			searchParams.append('ordering', String(queries.sort));
+		}
 		return searchParams.toString();
 	}
 

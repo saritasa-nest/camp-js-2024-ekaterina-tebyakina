@@ -8,6 +8,7 @@ import { selectQueryFilter } from '@js-camp/react/store/genre/selectors';
 import { GenresList } from '../../components/GenresList';
 import { GenresFilterForm } from '../../components/GenresFilterForm';
 import { GenresSelect } from '../GenresSelect';
+import { GenresSort } from '../GenresSort';
 
 import styles from './GenresSidebar.module.css';
 
@@ -18,12 +19,12 @@ const GenresSidebarComponent: FC = () => {
 
 	useEffect(() => {
 		dispatch(fetchGenres(QueryService.filter(filter)));
-		console.log(filter);
 	}, [filter]);
 
 	return (
 		<Box className={styles.sidebar}>
 			<GenresFilterForm />
+			<GenresSort />
 			<GenresSelect />
 			<GenresList />
 		</Box>

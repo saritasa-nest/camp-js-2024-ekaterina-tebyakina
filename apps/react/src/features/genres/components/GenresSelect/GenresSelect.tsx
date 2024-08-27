@@ -11,17 +11,6 @@ import { changeFilters } from '@js-camp/react/store/genre/slice';
 
 import style from './GenresSelect.module.css';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-	PaperProps: {
-		style: {
-			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-			width: 250,
-		},
-	},
-};
-
 const typesGenre = [
 	'GENRES',
 	'EXPLICIT_GENRES',
@@ -34,7 +23,7 @@ const GenresSelectComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const [typesName, setTypesName] = useState<string[]>([]);
 
-	const handleChange = (event: SelectChangeEvent<typeof typesName>): void => {
+	const handleSelectGenre = (event: SelectChangeEvent<typeof typesName>): void => {
 		const {
 			target: { value },
 		} = event;
@@ -49,16 +38,15 @@ const GenresSelectComponent: FC = () => {
 	return (
 		<>
 			<FormControl className={style.select}>
-				<InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
+				<InputLabel id="demo-multiple-checkbox-label">Select types genres</InputLabel>
 				<Select
 					labelId="demo-multiple-checkbox-label"
 					id="demo-multiple-checkbox"
 					multiple
 					value={typesName}
-					onChange={handleChange}
-					input={<OutlinedInput label="Tag" />}
+					onChange={handleSelectGenre}
+					input={<OutlinedInput label="Select types genres" />}
 					renderValue={selected => selected.join(', ')}
-					MenuProps={MenuProps}
 				>
 					{typesGenre.map(type => (
 						<MenuItem key={type} value={type}>
