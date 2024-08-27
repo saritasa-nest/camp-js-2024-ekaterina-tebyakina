@@ -1,3 +1,5 @@
+import { GenreFilters } from '@js-camp/core/models/genre-filters';
+
 export namespace QueryService {
 
 	const parseCursor = (link: string | null): string => {
@@ -13,7 +15,7 @@ export namespace QueryService {
 	/** Method for filtering a queries to the server.
 	 * @param queries Object with queries.
 	 */
-	export function filter(queries: any): string {
+	export function filter(queries: GenreFilters): string {
 		const searchParams = new URLSearchParams();
 		if (queries.search != null && queries.search !== '') {
 			searchParams.append('search', String(queries.search));
