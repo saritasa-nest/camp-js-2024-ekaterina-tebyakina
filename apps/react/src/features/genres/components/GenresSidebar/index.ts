@@ -1,0 +1,1 @@
+export { GenresSidebar } from './GenresSidebar';
