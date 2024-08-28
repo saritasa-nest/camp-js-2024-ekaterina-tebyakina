@@ -47,4 +47,36 @@ export namespace AnimeDetailsMapper {
 		});
 	}
 
+	/**
+	 * Maps dto to model.
+	 * @param anime - Anime details dto.
+	 * @returns Anime details model.
+	 */
+	export function toDto(anime: Partial<AnimeDetails>): Partial<AnimeDetailsDto> {
+		return {
+			...(anime.id && { id: anime.id }),
+			...(anime.created && { created: anime.created.toISOString() }),
+			...(anime.modified && { created: anime.modified.toISOString() }),
+			...(anime.englishTitle && { title_eng: anime.englishTitle }),
+			...(anime.japaneseTitle && { title_jpn: anime.japaneseTitle }),
+			...(anime.image && { image: anime.image }),
+			...(anime.trailerYoutubeId && { trailer_youtube_id: anime.trailerYoutubeId }),
+			...(anime.airing && { airing: anime.airing }),
+			...(anime.aired && { aired: AiredMapper.toDto(anime.aired) }),
+			...(anime.type && { type: AnimeTypeMapper.toDto(anime.type) }),
+			...(anime.status && { status: AnimeStatusMapper.toDto(anime.status) }),
+			...(anime.source && { source: AnimeSourceMapper.toDto(anime.source) }),
+			...(anime.score && { score: anime.score }),
+			...(anime.userScore && { user_score: anime.userScore }),
+			...(anime.rating && { rating: AnimeRatingMapper.toDto(anime.rating) }),
+			...(anime.season && { season: SeasonMapper.toDto(anime.season) }),
+			...(anime.synopsis && { synopsis: anime.synopsis }),
+			...(anime.background && { background: anime.background }),
+			...(anime.broadcastDay && { broadcast_day: anime.broadcastDay }),
+			...(anime.broadcastTime && { broadcast_time: anime.broadcastTime }),
+			...(anime.broadcastTimezone && { broadcast_timezone: anime.broadcastTimezone }),
+			...(anime.studios && { studios: anime.studios }),
+			...(anime.genres && { genres: anime.genres }),
+		};
+	}
 }

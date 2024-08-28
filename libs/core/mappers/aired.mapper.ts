@@ -14,4 +14,16 @@ export namespace AiredMapper {
 			end: aired.end ? new Date(aired.end) : null,
 		};
 	}
+
+	/**
+	 * Map aired model to dto. Converts strings to dates.
+	 * @param aired - Aired model.
+	 * @returns Aired dto.
+	 */
+	export function toDto(aired: Aired): AiredDto {
+		return {
+			start: aired.start ? aired.start.toISOString() : null,
+			end: aired.end ? aired.end.toISOString() : null,
+		};
+	}
 }

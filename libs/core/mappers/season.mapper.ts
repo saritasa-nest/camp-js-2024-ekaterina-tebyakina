@@ -18,4 +18,21 @@ export namespace SeasonMapper {
 	export function fromDto(season: SeasonDto): Season {
 		return ANIME_SEASON_MAP_FROM_DTO[season];
 	}
+
+	const ANIME_SEASON_MAP_TO_DTO: Readonly<Record<Season, SeasonDto>> = {
+		[Season.Summer]: SeasonDto.Summer,
+		[Season.Winter]: SeasonDto.Winter,
+		[Season.Spring]: SeasonDto.Spring,
+		[Season.Fall]: SeasonDto.Fall,
+		[Season.NonSeasonal]: SeasonDto.NonSeasonal,
+	};
+
+	/**
+	 * Map season dto.
+	 * @param season  - Season model.
+	 * @returns Season dto.
+	 */
+	export function toDto(season: Season): SeasonDto {
+		return ANIME_SEASON_MAP_TO_DTO[season];
+	}
 }

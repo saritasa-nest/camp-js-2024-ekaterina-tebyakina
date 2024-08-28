@@ -16,4 +16,19 @@ export namespace AnimeStatusMapper {
 	export function fromDto(status: AnimeStatusDto): AnimeStatus {
 		return ANIME_STATUS_MAP_FROM_DTO[status];
 	}
+
+	const ANIME_STATUS_MAP_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
+		[AnimeStatus.Airing]: AnimeStatusDto.Airing,
+		[AnimeStatus.Finished]: AnimeStatusDto.Finished,
+		[AnimeStatus.NotYetAired]: AnimeStatusDto.NotYetAired,
+	};
+
+	/**
+	 * Map status dto.
+	 * @param status  - Status model.
+	 * @returns Status dto.
+	 */
+	export function toDto(status: AnimeStatus): AnimeStatusDto {
+		return ANIME_STATUS_MAP_TO_DTO[status];
+	}
 }

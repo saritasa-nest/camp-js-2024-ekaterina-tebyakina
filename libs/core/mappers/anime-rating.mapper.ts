@@ -20,4 +20,23 @@ export namespace AnimeRatingMapper {
 	export function fromDto(rating: AnimeRatingDto): AnimeRating {
 		return ANIME_RATING_MAP_FROM_DTO[rating];
 	}
+
+	const ANIME_RATING_MAP_TO_DTO: Readonly<Record<AnimeRating, AnimeRatingDto>> = {
+		[AnimeRating.G]: AnimeRatingDto.G,
+		[AnimeRating.PG]: AnimeRatingDto.PG,
+		[AnimeRating.PG13]: AnimeRatingDto.PG13,
+		[AnimeRating.R17]: AnimeRatingDto.R17,
+		[AnimeRating.RPlus]: AnimeRatingDto.RPlus,
+		[AnimeRating.RX]: AnimeRatingDto.RX,
+		[AnimeRating.Unknown]: AnimeRatingDto.Unknown,
+	};
+
+	/**
+	 * Map rating dto.
+	 * @param rating  - Rating model.
+	 * @returns Rating dto.
+	 */
+	export function toDto(rating: AnimeRating): AnimeRatingDto {
+		return ANIME_RATING_MAP_TO_DTO[rating];
+	}
 }

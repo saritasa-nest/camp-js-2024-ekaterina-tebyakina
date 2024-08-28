@@ -30,4 +30,33 @@ export namespace AnimeSourceMapper {
 	export function fromDto(status: AnimeSourceDto): AnimeSource {
 		return ANIME_SOURCE_MAP_FROM_DTO[status];
 	}
+
+	const ANIME_SOURCE_MAP_TO_DTO: Readonly<Record<AnimeSource, AnimeSourceDto>> = {
+		[AnimeSource.FourKomaManga]: AnimeSourceDto.FourKomaManga,
+		[AnimeSource.Book]: AnimeSourceDto.Book,
+		[AnimeSource.CardGame]: AnimeSourceDto.CardGame,
+		[AnimeSource.Game]: AnimeSourceDto.Game,
+		[AnimeSource.LightNovel]: AnimeSourceDto.LightNovel,
+		[AnimeSource.Manga]: AnimeSourceDto.Manga,
+		[AnimeSource.MixedMedia]: AnimeSourceDto.MixedMedia,
+		[AnimeSource.Music]: AnimeSourceDto.Music,
+		[AnimeSource.Novel]: AnimeSourceDto.Novel,
+		[AnimeSource.Original]: AnimeSourceDto.Original,
+		[AnimeSource.PictureBook]: AnimeSourceDto.PictureBook,
+		[AnimeSource.Radio]: AnimeSourceDto.Radio,
+		[AnimeSource.VisualNovel]: AnimeSourceDto.VisualNovel,
+		[AnimeSource.WebManga]: AnimeSourceDto.WebManga,
+		[AnimeSource.WebNovel]: AnimeSourceDto.WebNovel,
+		[AnimeSource.Other]: AnimeSourceDto.Other,
+		[AnimeSource.Unknown]: AnimeSourceDto.Unknown,
+	};
+
+	/**
+	 * Map source dto.
+	 * @param status  - Source model.
+	 * @returns Source dto.
+	 */
+	export function toDto(status: AnimeSource): AnimeSourceDto {
+		return ANIME_SOURCE_MAP_TO_DTO[status];
+	}
 }
