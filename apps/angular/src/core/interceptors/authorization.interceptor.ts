@@ -1,11 +1,12 @@
 import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, Observable, switchMap, throwError } from 'rxjs';
+import { TokenKey } from '@js-camp/core/models/token-key';
 
 import { AuthorizationApiService } from '../services/authorization-api.service';
-import { LocalStorageForAuthorizationService } from '../services/local-storage-for-authorization.service';
 import { AppConfig } from '../utils/app-config';
 import { UrlConfigService } from '../services/url-config.service';
+import { LocalStorageService } from '../services/local-storage.service';
 
 /**
  * Add header Authorization to a request.
@@ -17,13 +18,13 @@ export function authorizationInterceptor(req: HttpRequest<unknown>, next: HttpHa
 
 	const authorizationService = inject(AuthorizationApiService);
 
-	const localStorageService = inject(LocalStorageForAuthorizationService);
+	const localStorageService = inject(LocalStorageService);
 
 	const appConfig = inject(AppConfig);
 
 	const urlConfigService = inject(UrlConfigService);
 
-	return localStorageService.getAccessToken().pipe(
+	return localStorageService.get<string>(TokenKey.Access).pipe(
 		switchMap(accessToken => {
 			if (accessToken) {
 				const reqWithToken = addToken(req, accessToken);
@@ -68,7 +69,7 @@ export function authorizationInterceptor(req: HttpRequest<unknown>, next: HttpHa
 	function handleTokenExpired(request: HttpRequest<unknown>): Observable<HttpEvent<unknown>> {
 
 		return authorizationService.refreshAccessToken().pipe(
-			switchMap(() => localStorageService.getAccessToken()),
+			switchMap(() => localStorageService.get<string>(TokenKey.Access)),
 			switchMap(newAccessToken => {
 				if (newAccessToken) {
 					return next(addToken(request, newAccessToken));

@@ -11,9 +11,10 @@ import { LoginDataMapper } from '@js-camp/core/mappers/login-data.mapper';
 import { AuthorizationTokens } from '@js-camp/core/models/authorization-tokens';
 import { AuthorizationTokensMapper } from '@js-camp/core/mappers/authorization-tokens.mapper';
 import { Router } from '@angular/router';
+import { TokenKey } from '@js-camp/core/models/token-key';
 
 import { UrlConfigService } from './url-config.service';
-import { LocalStorageForAuthorizationService } from './local-storage-for-authorization.service';
+import { LocalStorageService } from './local-storage.service';
 
 /** Authorization API access service. */
 @Injectable({ providedIn: 'root' })
@@ -28,12 +29,12 @@ export class AuthorizationApiService {
 
 	private readonly urlConfigService = inject(UrlConfigService);
 
-	private readonly localStorageService = inject(LocalStorageForAuthorizationService);
+	private readonly localStorageService = inject(LocalStorageService);
 
 	private readonly router = inject(Router);
 
 	public constructor() {
-		this.localStorageService.getAccessToken().subscribe(token => {
+		this.localStorageService.get<string>(TokenKey.Access).subscribe(token => {
 			this.accessToken$.next(token);
 		});
 	}
@@ -47,7 +48,10 @@ export class AuthorizationApiService {
 		return this.http.post<AuthorizationTokensDto>(this.urlConfigService.authorization.register,
 			RegistrationDataMapper.toDto(registrationData)).pipe(
 			map(response => AuthorizationTokensMapper.fromDto(response)),
-			tap(response => this.localStorageService.saveTokens(response)),
+			tap(response => {
+				this.localStorageService.set(TokenKey.Access, response.access);
+				this.localStorageService.set(TokenKey.Refresh, response.refresh);
+			}),
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse) {
 					return this.handleError(error);
@@ -66,7 +70,10 @@ export class AuthorizationApiService {
 		return this.http.post<AuthorizationTokensDto>(this.urlConfigService.authorization.login,
 			LoginDataMapper.toDto(loginData)).pipe(
 			map(response => AuthorizationTokensMapper.fromDto(response)),
-			tap(response => this.localStorageService.saveTokens(response)),
+			tap(response => {
+				this.localStorageService.set(TokenKey.Access, response.access);
+				this.localStorageService.set(TokenKey.Refresh, response.refresh);
+			}),
 			tap(response => this.accessToken$.next(response.access)),
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse) {
@@ -82,7 +89,7 @@ export class AuthorizationApiService {
 	 * @returns Authorization tokens.
 	 */
 	public refreshAccessToken(): Observable<AuthorizationTokens> {
-		return this.localStorageService.getRefreshToken().pipe(
+		return this.localStorageService.get(TokenKey.Refresh).pipe(
 			switchMap(refreshToken => {
 				if (refreshToken) {
 					return this.http.post<AuthorizationTokensDto>(this.urlConfigService.authorization.refresh,
@@ -92,14 +99,18 @@ export class AuthorizationApiService {
 				return throwError(() => new Error('Failed to refresh token'));
 			}),
 			map(response => AuthorizationTokensMapper.fromDto(response)),
-			tap(response => this.localStorageService.saveTokens(response)),
+			tap(response => {
+				this.localStorageService.set(TokenKey.Access, response.access);
+				this.localStorageService.set(TokenKey.Refresh, response.refresh);
+			}),
 			tap(response => this.accessToken$.next(response.access)),
 		);
 	}
 
 	/** Remove user authorization data. */
 	public logout(): void {
-		this.localStorageService.removeTokens();
+		this.localStorageService.remove(TokenKey.Access);
+		this.localStorageService.remove(TokenKey.Refresh);
 		this.accessToken$.next(null);
 		this.router.navigate(['/login']);
 	}

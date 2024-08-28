@@ -10,7 +10,7 @@ export class LocalStorageService {
 	 * @param name - Property name.
 	 * @param value - Property value.
 	 */
-	public setValue<T>(name: string, value: T): void {
+	public set<T>(name: string, value: T): void {
 		localStorage.setItem(name, JSON.stringify(value));
 	}
 
@@ -19,7 +19,7 @@ export class LocalStorageService {
 	 * @param name - Property name.
 	 * @returns Property with specified name.
 	 */
-	public getValue<T>(name: string): Observable<T | null> {
+	public get<T>(name: string): Observable<T | null> {
 		const value = localStorage.getItem(name);
 		if (value) {
 			try {
@@ -36,7 +36,7 @@ export class LocalStorageService {
 	 * Remove property from local storage.
 	 * @param name - Property name.
 	 */
-	public removeValue(name: string): void {
+	public remove(name: string): void {
 		localStorage.removeItem(name);
 	}
 }
