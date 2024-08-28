@@ -61,7 +61,7 @@ export namespace AnimeDetailsMapper {
 			...(anime.japaneseTitle && { title_jpn: anime.japaneseTitle }),
 			...(anime.image && { image: anime.image }),
 			...(anime.trailerYoutubeId && { trailer_youtube_id: anime.trailerYoutubeId }),
-			...(anime.airing && { airing: anime.airing }),
+			...((typeof anime.airing === 'boolean') && { airing: anime.airing }),
 			...(anime.aired && { aired: AiredMapper.toDto(anime.aired) }),
 			...(anime.type && { type: AnimeTypeMapper.toDto(anime.type) }),
 			...(anime.status && { status: AnimeStatusMapper.toDto(anime.status) }),

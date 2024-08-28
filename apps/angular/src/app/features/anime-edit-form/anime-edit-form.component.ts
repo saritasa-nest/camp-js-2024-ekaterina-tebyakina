@@ -15,9 +15,11 @@ import { AnimeSource } from '@js-camp/core/models/anime-source';
 import { Season } from '@js-camp/core/models/season';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProgressBarComponent } from '@js-camp/angular/shared/components/progress-bar/progress-bar.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { BehaviorSubject, finalize, tap } from 'rxjs';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { RouterPaths } from '@js-camp/angular/core/model/router-paths';
 
 import { AnimeEditFormService } from './anime-edit-form.service';
 
@@ -40,6 +42,7 @@ import { AnimeEditFormService } from './anime-edit-form.service';
 		ReactiveFormsModule,
 		AsyncPipe,
 		ProgressBarComponent,
+		MatSlideToggleModule,
 	],
 })
 export class AnimeEditFormComponent implements OnInit {
@@ -71,6 +74,8 @@ export class AnimeEditFormComponent implements OnInit {
 
 	private readonly activatedRoute = inject(ActivatedRoute);
 
+	private readonly router = inject(Router);
+
 	private animeId = this.activatedRoute.snapshot.params['id'];
 
 	/** @inheritdoc */
@@ -82,13 +87,17 @@ export class AnimeEditFormComponent implements OnInit {
 					this.animeEditFormService.updateControlsValues({
 						englishTitleValue: anime.englishTitle,
 						japaneseTitleValue: anime.japaneseTitle,
+						airingValue: anime.airing,
 						airedStartValue: anime.aired.start,
 						airedEndValue: anime.aired.end,
-						typesValue: anime.type,
+						typeValue: anime.type,
 						statusValue: anime.status,
 						ratingValue: anime.rating,
 						sourceValue: anime.source,
 						seasonValue: anime.season,
+						synopsisValue: anime.synopsis,
+						studiosValue: anime.studios,
+						genresValue: anime.genres,
 					});
 				},
 			),
@@ -109,21 +118,33 @@ export class AnimeEditFormComponent implements OnInit {
 			return;
 		}
 
-		const animeData = this.animeEditFormService.form.getRawValue();
+		const formData = this.animeEditFormService.form.getRawValue();
 
-		console.log(this.animeEditFormService.form.getRawValue());
+		const animeData = {
+			englishTitle: formData.englishTitle ?? '',
+			japaneseTitle: formData.japaneseTitle ?? '',
+			airing: formData.airing,
+			aired: {
+				start: formData.airedStart ?? null,
+				end: formData.airedEnd ?? null,
+			},
+			type: formData.type,
+			status: formData.status,
+			rating: formData.rating,
+			source: formData.source,
+			season: formData.season,
+			synopsis: formData.synopsis,
+			studios: formData.studios,
+			genres: formData.genres,
+		};
 
-		// this.isLoading$.next(true);
-		// this.animeService.editAnime(this.animeId, animeData).pipe(
-
-		// 	// catchError(error => {
-		// 	//     console.error('Error deleting anime:', error);
-		// 	//     return of(null);
-		// 	// }),
-		// 	// tap(() => {
-		// 	//     this.animeDeletion$.next();
-		// 	// }),
-		// )
-		// 	.subscribe();
+		this.isLoading$.next(true);
+		this.animeService.editAnime(this.animeId, animeData).pipe(
+			finalize(() => {
+				this.isLoading$.next(false);
+				this.router.navigate([RouterPaths.Main, this.animeId]);
+			}),
+		)
+			.subscribe();
 	}
 }
