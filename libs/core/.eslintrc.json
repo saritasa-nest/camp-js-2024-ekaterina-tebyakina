@@ -11,6 +11,12 @@
         "import/export": "off"
       }
     },
+		{
+      "files": ["**/mappers/**/*.mapper.ts"],
+      "rules": {
+        "@typescript-eslint/naming-convention": "off"
+      }
+		},
     {
       "files": ["**/dtos/**/*.ts"],
       "rules": {
