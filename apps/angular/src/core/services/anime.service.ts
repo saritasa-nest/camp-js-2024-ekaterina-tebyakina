@@ -1,4 +1,4 @@
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
@@ -55,6 +55,18 @@ export class AnimeService {
 	 */
 	public deleteAnime(id: Anime['id']): Observable<void> {
 		return this.http.delete<void>(`${this.urlConfigService.anime.getAnime}${id}/`).pipe(
+			catchError((error: unknown) => throwError(() => error)),
+		);
+	}
+
+	/**
+	 * Edit an anime.
+	 * @param id - Anime's index.
+	 * @param animeDetails - New data about an anime.
+	 */
+	public editAnime(id: Anime['id'], animeDetails: Partial<AnimeDetails>): Observable<void> {
+		return this.http.put<void>(`${this.urlConfigService.anime.getAnime}${id}/`, AnimeDetailsMapper.toDto(animeDetails)).pipe(
+			tap(data => console.log(data)),
 			catchError((error: unknown) => throwError(() => error)),
 		);
 	}

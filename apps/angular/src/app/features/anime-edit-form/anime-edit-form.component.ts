@@ -109,6 +109,21 @@ export class AnimeEditFormComponent implements OnInit {
 			return;
 		}
 
+		const animeData = this.animeEditFormService.form.getRawValue();
+
 		console.log(this.animeEditFormService.form.getRawValue());
+
+		// this.isLoading$.next(true);
+		// this.animeService.editAnime(this.animeId, animeData).pipe(
+
+		// 	// catchError(error => {
+		// 	//     console.error('Error deleting anime:', error);
+		// 	//     return of(null);
+		// 	// }),
+		// 	// tap(() => {
+		// 	//     this.animeDeletion$.next();
+		// 	// }),
+		// )
+		// 	.subscribe();
 	}
 }
