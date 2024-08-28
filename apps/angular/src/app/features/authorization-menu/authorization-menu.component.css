@@ -1,0 +1,26 @@
+.authorization-menu {
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+	gap: var(--space-s);
+}
+
+.greeting-message {
+	font-size: var(--font-size-md);
+	font-weight: var(--font-weight-medium);
+}
+
+.authorization-menu__link {
+	font-size: var(--font-size-md);
+}
+
+.authorization-menu__logout {
+	font-size: var(--font-size-md);
+	background-color: var(--primary-background-color);
+	border: none;
+	padding: 0;
+}
+
+.authorization-menu__logout:hover {
+	cursor: pointer;
+}

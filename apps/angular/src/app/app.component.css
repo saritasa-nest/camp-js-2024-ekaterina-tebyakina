@@ -3,6 +3,15 @@
 }
 
 .header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 	width: 100%;
 	border-bottom: 2px var(--border-color) solid;
+	padding: 0 var(--space-m);
+}
+
+.header__logo-link {
+	font-size: var(--font-size-xl);
+	font-weight: var(--font-weight-medium);
 }

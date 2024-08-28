@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, RouterLink } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
+
+import { RouterPaths } from '../core/model/router-paths';
+
+import { AuthorizationMenuComponent } from './features/authorization-menu/authorization-menu.component';
 
 /** Main component of application. */
 @Component({
@@ -8,6 +12,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.css'],
 	standalone: true,
-	imports: [RouterModule, MatToolbarModule],
+	imports: [
+		MatToolbarModule,
+		RouterModule,
+		RouterLink,
+		AuthorizationMenuComponent,
+	],
 })
-export class AppComponent {}
+export class AppComponent {
+
+	/** Enum with paths for link. */
+	protected readonly routerPaths = RouterPaths;
+}

@@ -1,0 +1,49 @@
+<div class="login-form-wrapper">
+	<h2 class="login-header">Login</h2>
+		<form
+			class="login-form"
+			[formGroup]="loginFormService.form"
+			(ngSubmit)="onLoginSubmit()"
+		>
+
+			<mat-form-field
+				appearance="outline"
+				class="login-form__field"
+			>
+				<mat-label>Email</mat-label>
+				<input
+					matInput
+					type="email"
+					placeholder="ivan.pupkin@gmail.com"
+					[formControl]="loginFormService.form.controls.email"
+				>
+				<mat-error>{{loginFormService.getErrorMessage('email')}}</mat-error>
+			</mat-form-field>
+
+			<mat-form-field
+				appearance="outline"
+				class="login-form__field"
+			>
+				<mat-label>Password</mat-label>
+				<input
+					matInput
+					type="password"
+					placeholder="veryStrongPassW0rd"
+					[formControl]="loginFormService.form.controls.password"
+				>
+				<mat-error>{{loginFormService.getErrorMessage('password')}}</mat-error>
+			</mat-form-field>
+
+			@if (loginFormService.form.hasError('serverError')) {
+				<mat-error>{{loginFormService.form.getError('serverError')}}</mat-error>
+			}
+
+			<button
+				mat-raised-button
+				type="submit"
+			>
+				Login
+			</button>
+
+		</form>
+</div>

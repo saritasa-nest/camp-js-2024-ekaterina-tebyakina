@@ -1,0 +1,91 @@
+<div class="registration-form-wrapper">
+	<h2 class="registration-header">Registration</h2>
+		<form
+			class="registration-form"
+			[formGroup]="registrationFormService.form"
+			(ngSubmit)="onRegistrationSubmit()"
+		>
+
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field"
+			>
+				<mat-label>Email</mat-label>
+				<input
+					matInput
+					type="email"
+					placeholder="ivan.pupkin@gmail.com"
+					[formControl]="registrationFormService.form.controls.email"
+				>
+				<mat-error>{{registrationFormService.getErrorMessage('email')}}</mat-error>
+			</mat-form-field>
+
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field"
+			>
+				<mat-label>First Name</mat-label>
+				<input
+					matInput
+					type="text"
+					placeholder="Ivan"
+					[formControl]="registrationFormService.form.controls.firstName"
+				>
+				<mat-error>{{registrationFormService.getErrorMessage('firstName')}}</mat-error>
+			</mat-form-field>
+
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field"
+			>
+				<mat-label>Last Name</mat-label>
+				<input
+					matInput
+					type="text"
+					placeholder="Pupkin"
+					[formControl]="registrationFormService.form.controls.lastName"
+				>
+				<mat-error>{{registrationFormService.getErrorMessage('lastName')}}</mat-error>
+			</mat-form-field>
+
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field"
+			>
+				<mat-label>Password</mat-label>
+				<input
+					matInput
+					type="password"
+					placeholder="veryStrongPassW0rd"
+					[formControl]="registrationFormService.form.controls.password"
+				>
+				<mat-error>{{registrationFormService.getErrorMessage('password')}}</mat-error>
+			</mat-form-field>
+
+			<mat-form-field
+				appearance="outline"
+				class="registration-form__field"
+			>
+				<mat-label> Repeat the password</mat-label>
+				<input
+					matInput
+					type="password"
+					placeholder="veryStrongPassW0rd"
+					[formControl]="registrationFormService.form.controls.retypedPassword"
+				>
+				<mat-error>{{registrationFormService.getErrorMessage('retypedPassword')}}</mat-error>
+			</mat-form-field>
+
+			@if (registrationFormService.form.hasError('serverError')) {
+				<mat-error>{{registrationFormService.form.getError('serverError')}}</mat-error>
+			}
+
+			<button
+				mat-raised-button
+				type="submit"
+			>
+				Register
+			</button>
+
+		</form>
+</div>

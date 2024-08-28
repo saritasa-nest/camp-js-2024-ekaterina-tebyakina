@@ -9,3 +9,17 @@ body {
 	margin: 0;
 	font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+a {
+	text-decoration: none;
+	color: var(--text-color);
+}
+
+a:active {
+	color: var(--active-link-color);
+}
+
+a:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
