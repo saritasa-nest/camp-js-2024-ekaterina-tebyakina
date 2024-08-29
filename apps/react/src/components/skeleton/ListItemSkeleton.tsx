@@ -18,7 +18,7 @@ const ListItemSkeletonComponent = () => (
 			height={80}
 		/>
 		<Stack
-			flex={'1 1 0'}
+			flex='1 1 0'
 			direction='column'
 			gap={1}
 		>

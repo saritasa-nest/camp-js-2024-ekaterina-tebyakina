@@ -31,13 +31,13 @@ const StudioSearchBarComponent: FC = () => {
 	return (
 		<Stack
 			gap={1}
-			direction={'row'}
+			direction='row'
 		>
 			<TextField
 				sx={{
 					flex: '1 1 0',
 				}}
-				label={'Search'}
+				label='Search'
 				value={value}
 				onChange={e => setValue(e.target.value)}
 				InputProps={{
