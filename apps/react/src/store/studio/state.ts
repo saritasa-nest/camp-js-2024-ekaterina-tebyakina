@@ -1,4 +1,10 @@
 import { AnimeStudio } from '@js-camp/core/models/anime-studio';
+import { createEntityAdapter } from '@reduxjs/toolkit';
+
+/** Studio adapter. */
+export const studioAdapter = createEntityAdapter({
+	selectId: (studio: AnimeStudio) => studio.id,
+});
 
 /** Anime studio state. */
 export type StudiosState = {
@@ -17,8 +23,8 @@ export type StudiosState = {
 };
 
 /** Initial state for StudiosState. */
-export const initialState: StudiosState = {
+export const initialState = studioAdapter.getInitialState<StudiosState>({
 	isLoading: false,
 	studios: [],
 	next: null,
-};
+});

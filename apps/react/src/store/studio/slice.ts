@@ -1,6 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, EntityState } from '@reduxjs/toolkit';
 
-import { initialState } from './state';
+import { AnimeStudio } from '@js-camp/core/models/anime-studio';
+
+import { initialState, studioAdapter } from './state';
 import { getAllStudios } from './dispatchers';
 
 /** Studio slice. */
@@ -14,10 +16,11 @@ export const studiosSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(getAllStudios.fulfilled, (state, action) => {
+				const studioState = state as EntityState<AnimeStudio>;
 				if (action.payload.previous != null) {
-					state.studios = [...state.studios, ...action.payload.results];
+					studioAdapter.upsertMany(studioState, action.payload.results);
 				} else {
-					state.studios = [...action.payload.results];
+					studioAdapter.setAll(studioState, action.payload.results);
 				}
 				state.next = action.payload.next;
 				state.isLoading = false;

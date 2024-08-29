@@ -2,11 +2,10 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from '..';
 
+import { studioAdapter } from './state';
+
 /** Selects all studio from store. */
-export const selectStudios = createSelector(
-	(state: RootState) => state.studios.studios,
-	studios => studios,
-);
+export const selectStudios = studioAdapter.getSelectors<RootState>(state => state.studios).selectAll;
 
 /** Selects all studio from store. */
 export const selectStudioNextCursor = createSelector(
