@@ -10,14 +10,13 @@ const StudioCardComponent: FC = () => {
 		<Paper
 			elevation={3}
 			sx={{
-				padding: '16px',
+				padding: 2,
 				height: '100%',
 			}}
 		>
 			<Typography
 				component='h2'
-				fontSize='1.5rem'
-				fontWeight={700}
+				variant='h2'
 				marginBlock={1}
 			>
 				Studio Detail

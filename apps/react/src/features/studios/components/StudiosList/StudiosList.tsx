@@ -71,7 +71,7 @@ const StudiosListComponent: FC = () => {
 				flex: '1 1 0',
 				height: '100%',
 				overflowY: 'auto',
-				borderTop: '1px solid rgba(0 0 0 / 15%)',
+				borderTop: theme => `1px solid ${theme.palette.divider}`,
 			}}
 		>
 			<List disablePadding>
@@ -99,6 +99,7 @@ const StudiosListComponent: FC = () => {
 					<Box
 						display='flex'
 						justifyContent='center'
+						width='100%'
 						marginBlock={2}
 					>
 						<CircularProgress />

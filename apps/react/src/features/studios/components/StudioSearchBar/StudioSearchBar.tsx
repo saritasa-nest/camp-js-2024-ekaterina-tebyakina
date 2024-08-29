@@ -1,7 +1,6 @@
 import { FC, memo, useState } from 'react';
-import Box from '@mui/material/Box';
 import useQueryParams from '@js-camp/react/hooks/useQueryParam';
-import { Button, IconButton, TextField } from '@mui/material';
+import { Button, IconButton, Stack, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { StudioQueryParams } from '@js-camp/core/mappers/studio-query-params.mapper';
@@ -30,9 +29,9 @@ const StudioSearchBarComponent: FC = () => {
 	}
 
 	return (
-		<Box
-			display='flex'
+		<Stack
 			gap={1}
+			direction={'row'}
 		>
 			<TextField
 				sx={{
@@ -62,7 +61,7 @@ const StudioSearchBarComponent: FC = () => {
 			>
 				<SearchIcon />
 			</Button>
-		</Box>
+		</Stack>
 	);
 };
 

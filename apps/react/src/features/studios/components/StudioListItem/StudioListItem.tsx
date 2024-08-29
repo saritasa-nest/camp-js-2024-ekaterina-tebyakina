@@ -29,10 +29,10 @@ const StudioListItemComponent = forwardRef<HTMLLIElement, Props>(({ studio }: Pr
 			onClick={handleNavigate}
 			sx={{
 				'borderBottom': 1,
-				'borderColor': 'rgba(0 0 0 / 15%)',
+				'borderColor': theme => theme.palette.divider,
 				':hover': {
 					cursor: 'pointer',
-					backgroundColor: 'rgba(0 0 0 / 15%)',
+					backgroundColor: theme => theme.palette.action.hover,
 				},
 			}}
 			secondaryAction={
@@ -53,7 +53,7 @@ const StudioListItemComponent = forwardRef<HTMLLIElement, Props>(({ studio }: Pr
 					sx={{
 						width: 80,
 						height: 80,
-						border: '1px solid rgba(0 0 0 / 15%)',
+						border: theme => `1px solid ${theme.palette.divider}`,
 					}}
 					alt={studio.name}
 					src={studio.image}

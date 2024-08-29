@@ -1,7 +1,7 @@
 import { memo, FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 
 import { StudiosList } from '../../components/StudiosList';
 
@@ -11,35 +11,32 @@ import { StudiosSort } from '../../components/StudioSort';
 
 /** Studio page component. */
 const StudiosPageComponent: FC = () => (
-	<Box
+	<Stack
 		component='main'
+		direction='row'
 		sx={{
-			display: 'flex',
-			flexDirection: 'row',
 			width: '100%',
 			height: 'calc(100vh - var(--header-height))',
 		}}
 	>
-		<Box
+		<Stack
 			component='section'
-			display='flex'
-			flexDirection='column'
+			direction='column'
 			sx={{
 				width: '380px',
-				border: '1px solid rgba(0 0 0 / 15%)',
+				border: theme => `1px solid ${theme.palette.divider}`,
 			}}
 		>
-			<Box
-				display='flex'
-				flexDirection='column'
+			<Stack
+				direction='column'
 				padding={2}
 				gap={2}
 			>
 				<StudioSearchBar />
 				<StudiosSort />
-			</Box>
+			</Stack>
 			<StudiosList />
-		</Box>
+		</Stack>
 		<Box
 			component='section'
 			padding={3}
@@ -49,7 +46,7 @@ const StudiosPageComponent: FC = () => (
 		>
 			<Outlet />
 		</Box>
-	</Box>
+	</Stack>
 );
 
 /** Memorized studio page component. */
