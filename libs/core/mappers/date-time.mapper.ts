@@ -1,28 +1,30 @@
 export namespace DateTimeMapper {
 
 	/**
-	 * Parse the given string to a Date.
-	 * @param dateStr The given string.
-	 */
-	function parseDate(dateStr: string): Date | null {
-		const date = new Date(dateStr);
-		return isNaN(date.getTime()) ? null : date;
-	}
-
-	/**
-	 * Map the dto string to Date.
-	 * @param dto Dto.
+	 * Map DTO to model.
+	 * @param dto DTO.
 	 */
 	export function fromDto(dto: string): Date {
-		const date = parseDate(dto);
-		return date ?? new Date();
+		return parseDate(dto);
 	}
 
 	/**
-	 * Map the date to string.
-	 * @param model Dto.
+	 * Map model to DTO.
+	 * @param model Model.
 	 */
 	export function toDto(model: Date): string {
 		return model.toISOString();
+	}
+
+	/**
+	 * Parse a string to date and check if that date is valid.
+	 * @param dateStr The date string.
+	 */
+	function parseDate(dateStr: string): Date {
+		const date = new Date(dateStr);
+		if (isNaN(date.getTime())) {
+			throw new Error(`Invalid date format: ${dateStr}`);
+		}
+		return date;
 	}
 }
