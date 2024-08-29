@@ -1,24 +1,36 @@
 /* eslint-disable jsdoc/require-jsdoc */
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
-// Augment the palette to include an ochre color
-import { Palette, PaletteColor } from '@mui/material/styles';
-
+import '@mui/material/styles';
 declare module '@mui/material/styles' {
-	interface CustomPalette extends Palette {
-		custom?: PaletteColor & {
-			borderColor?: string;
-			shadowColor?: string;
-			hoverColor?: string;
-			fontColor?: string;
+	interface CustomPalette {
+		primary: {
+			default: {
+				main: string;
+				contrast: string;
+			};
+			light: {
+				main: string;
+				contrast: string;
+			};
+			dark: {
+				main: string;
+				contrast: string;
+			};
 		};
+		background: {
+			main: string;
+			contrast: string;
+		};
+		border: string;
+		shadow: string;
+		hover: string;
+		font: string;
+	}
+	interface Palette {
+		custom: CustomPalette;
 	}
 
 	interface PaletteOptions {
-		custom?: PaletteOptions & {
-			borderColor?: string;
-			shadowColor?: string;
-			hoverColor?: string;
-			fontColor?: string;
-		};
+		custom: Partial<CustomPalette>;
 	}
 }
