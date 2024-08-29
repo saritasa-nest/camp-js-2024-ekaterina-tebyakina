@@ -46,7 +46,7 @@ const StudioListItemComponent = forwardRef<HTMLLIElement, Props>(({ studio }: Pr
 		>
 			<ListItemAvatar
 				sx={{
-					marginRight: '16px',
+					marginRight: 2,
 				}}
 			>
 				<Avatar
