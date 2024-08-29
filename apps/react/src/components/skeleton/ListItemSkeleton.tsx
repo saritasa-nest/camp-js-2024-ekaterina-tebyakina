@@ -1,4 +1,4 @@
-import { Box, ListItem, Skeleton } from '@mui/material';
+import { ListItem, Skeleton, Stack } from '@mui/material';
 import { memo } from 'react';
 
 const ListItemSkeletonComponent = () => (
@@ -6,26 +6,25 @@ const ListItemSkeletonComponent = () => (
 		alignItems='center'
 		sx={{
 			borderBottom: 1,
-			borderColor: 'rgba(0 0 0 / 5%)',
+			borderColor: theme => theme.palette.divider,
 		}}
 	>
 		<Skeleton
 			sx={{
-				marginRight: '8px',
+				marginRight: 2,
 			}}
 			variant='circular'
 			width={80}
 			height={80}
 		/>
-		<Box
-			display='flex'
+		<Stack
 			flex={'1 1 0'}
-			flexDirection='column'
+			direction='column'
 			gap={1}
 		>
 			<Skeleton />
 			<Skeleton width='60%' />
-		</Box>
+		</Stack>
 	</ListItem>
 );
 
