@@ -1,7 +1,7 @@
 import { memo, useEffect, FC } from 'react';
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { Outlet } from 'react-router-dom';
 
 import { GenresFilterForm } from '../../components/GenresFilterForm/GenresFilterForm';
