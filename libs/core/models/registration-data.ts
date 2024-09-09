@@ -1,6 +1,9 @@
 /** User data for registration. */
 export type RegistrationData = {
 
+	/** Avatar. */
+	readonly avatar?: string;
+
 	/** Email. */
 	readonly email: string;
 

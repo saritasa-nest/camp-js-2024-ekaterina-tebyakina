@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ANIME_PATH } from '@js-camp/react/features/anime/routes';
 import { Progress } from '@js-camp/react/components/Progress/Progress';
 import { handleServerErrors } from '@js-camp/react/utils/handleServerErrors';
+import { UserAvatar } from '@js-camp/react/components/UserAvatar/UserAvatar';
 
 import styles from './RegistrationForm.module.css';
 
@@ -45,6 +46,7 @@ const RegistrationFormComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
+	const [avatarUrl, setAvatarUrl] = useState<null | string>(null);
 
 	const {
 		register,
@@ -59,7 +61,10 @@ const RegistrationFormComponent: FC = () => {
 	const registerUser = async(registrationData: RegistrationData) => {
 		setIsLoading(true);
 		try {
-			const tokens = await AuthorizationService.register(registrationData);
+			const tokens = await AuthorizationService.register({
+				...registrationData,
+				...(avatarUrl && { avatar: avatarUrl }),
+			});
 			LocalStorageService.saveTokens(tokens);
 			dispatch(fetchUser());
 			navigate(ANIME_PATH);
@@ -79,6 +84,8 @@ const RegistrationFormComponent: FC = () => {
 		<div className={styles.formWrapper}>
 			<h2 className={styles.header}>Register</h2>
 			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+				{/* <AvatarUploader value={avatarFile} onChange={setAvatarFile}/> */}
+				<UserAvatar onSelectAvatar={setAvatarUrl}/>
 				<TextField
 					label="Email"
 					type="email"
