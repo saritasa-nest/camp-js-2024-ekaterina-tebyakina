@@ -12,8 +12,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ANIME_PATH } from '@js-camp/react/features/anime/routes';
 import { Progress } from '@js-camp/react/components/Progress/Progress';
 import { handleServerErrors } from '@js-camp/react/utils/handleServerErrors';
-import { UserAvatar } from '@js-camp/react/components/UserAvatar/UserAvatar';
 import { selectAvatarUrl } from '@js-camp/react/store/avatar/selectors';
+import { AvatarPicker } from '@js-camp/react/components/AvatarPicker/AvatarPicker';
 
 import styles from './RegistrationForm.module.css';
 
@@ -85,7 +85,7 @@ const RegistrationFormComponent: FC = () => {
 		<div className={styles.formWrapper}>
 			<h2 className={styles.header}>Register</h2>
 			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-				<UserAvatar/>
+				<AvatarPicker/>
 				<TextField
 					label="Email"
 					type="email"

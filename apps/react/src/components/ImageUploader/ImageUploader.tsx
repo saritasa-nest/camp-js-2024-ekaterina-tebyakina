@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useState } from 'react';
+import { FC, memo, useEffect, useId, useState } from 'react';
 import Button from '@mui/material/Button';
 import { FileData } from '@js-camp/core/models/file-data';
 import { FileConfig } from '@js-camp/core/models/file-config';
@@ -6,9 +6,11 @@ import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { selectAvatarError, selectIsAvatarLoading } from '@js-camp/react/store/avatar/selectors';
 import { fetchAvatarUrl } from '@js-camp/react/store/avatar/dispatchers';
 
+import { Box, Stack, Typography } from '@mui/material';
+
 import { Progress } from '../Progress/Progress';
 
-import styles from './AvatarUploader.module.css';
+import styles from './ImageUploader.module.css';
 
 type Props = {
 
@@ -16,8 +18,7 @@ type Props = {
 	readonly handleClose: () => void;
 };
 
-/** Component for image uploading. */
-const AvatarUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
+const ImageUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
 	const dispatch = useAppDispatch();
 	const error = useAppSelector(selectAvatarError);
 	const isLoading = useAppSelector(selectIsAvatarLoading);
@@ -51,20 +52,30 @@ const AvatarUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
 			};
 
 			dispatch(fetchAvatarUrl({ fileData: imageData, file: avatarFile }))
+				.unwrap()
 				.then(() => handleClose());
 		}
 	};
 
+	const fileInputId = useId();
+
 	return (
-		<div className={styles.wrapper}>
+		<Stack
+			direction='column'
+			spacing={1}
+			sx={{
+				alignItems: 'center',
+			}}
+		>
 			<div>
 				<input
-					id="file-input"
+					id={fileInputId}
 					type="file"
 					accept="image/*"
 					className={styles.fileInput}
-					onChange={handleFileChange} />
-				<label htmlFor="file-input">
+					onChange={handleFileChange}
+				/>
+				<label htmlFor={fileInputId}>
 					<Button
 						variant="text"
 						component="span"
@@ -74,16 +85,28 @@ const AvatarUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
 				</label>
 			</div>
 			{previewUrl && (
-				<div>
-					<img
-						src={previewUrl}
-						alt="Avatar Preview"
-						style={{ width: '150px', height: '150px', objectFit: 'cover' }}
-					/>
-				</div>
+				<Box
+					component="img"
+					src={previewUrl}
+					alt="Avatar Preview"
+					sx={{
+						width: '150px',
+						height: '150px',
+						objectFit: 'cover',
+					}}
+				/>
 			)}
 			{ isLoading ? <Progress/> : null}
-			{ error ? <p className={styles.errorMessage}>{error}</p> : null}
+			{ error ?
+				<Typography
+					component='p'
+					sx={{
+						textAlign: 'center',
+						color: 'error.main',
+					}}>
+					{error}
+				</Typography> :
+				null}
 			{avatarFile && (
 				<Button
 					type="button"
@@ -93,9 +116,9 @@ const AvatarUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
 						Upload avatar
 				</Button>
 			)}
-		</div>
+		</Stack>
 	);
 };
 
-/** Memoized avatar uploader. */
-export const AvatarUploader = memo(AvatarUploaderComponent);
+/** Component for image uploading. */
+export const ImageUploader = memo(ImageUploaderComponent);
