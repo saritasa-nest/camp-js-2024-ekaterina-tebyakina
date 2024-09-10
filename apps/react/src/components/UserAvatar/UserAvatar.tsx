@@ -1,5 +1,7 @@
-import { Dispatch, FC, memo, SetStateAction, useState } from 'react';
+import { FC, memo, useState } from 'react';
 import { Avatar, Box, Modal } from '@mui/material';
+import { useAppSelector } from '@js-camp/react/store/store';
+import { selectAvatarUrl } from '@js-camp/react/store/avatar/selectors';
 
 import { AvatarUploader } from '../AvatarUploader/AvatarUploader';
 
@@ -17,33 +19,19 @@ const style = {
 	p: 4,
 };
 
-type Props = {
-
-	/** */
-	readonly onSelectAvatar: Dispatch<SetStateAction<null | string>>;
-};
-
 /**  */
-const UserAvatarComponent: FC<Props> = ({ onSelectAvatar }: Props) => {
-	const [avatarUrl, setAvatarUrl] = useState<string>('');
-	const [avatarFile, setAvatarFile] = useState<null | File>(null);
+const UserAvatarComponent: FC = () => {
+	const avatarUrl = useAppSelector(selectAvatarUrl);
 	const [isOpen, setIsOpen] = useState(false);
 	const handleOpen = () => setIsOpen(true);
 	const handleClose = () => setIsOpen(false);
-
-	const setAvatar = (avatar: string, file: File | null) => {
-		setAvatarUrl(avatar);
-		setAvatarFile(file);
-		onSelectAvatar(avatar);
-		handleClose();
-	};
 
 	return (
 		<>
 			<div className={styles.wrapper}>
 				<Avatar
 					alt="User's avatar"
-					src={avatarUrl}
+					src={avatarUrl ?? ''}
 					sx={{ width: 56, height: 56, cursor: 'pointer' }}
 					onClick={handleOpen}
 				/>
@@ -56,7 +44,7 @@ const UserAvatarComponent: FC<Props> = ({ onSelectAvatar }: Props) => {
 				aria-describedby="modal-modal-description"
 			>
 				<Box sx={style}>
-					<AvatarUploader value={avatarFile} onChange={setAvatar}/>
+					<AvatarUploader handleClose={handleClose}/>
 				</Box>
 			</Modal>
 		</>

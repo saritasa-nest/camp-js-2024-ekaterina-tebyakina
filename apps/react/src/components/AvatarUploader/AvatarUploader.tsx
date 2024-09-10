@@ -1,10 +1,9 @@
 import { FC, memo, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import { FileData } from '@js-camp/core/models/file-data';
-import { s3Service } from '@js-camp/react/api/services/s3Service';
 import { FileConfig } from '@js-camp/core/models/file-config';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
-import { selectAvatarError, selectAvatarUrl, selectIsAvatarLoading } from '@js-camp/react/store/avatar/selectors';
+import { selectAvatarError, selectIsAvatarLoading } from '@js-camp/react/store/avatar/selectors';
 import { fetchAvatarUrl } from '@js-camp/react/store/avatar/dispatchers';
 
 import { Progress } from '../Progress/Progress';
@@ -14,11 +13,11 @@ import styles from './AvatarUploader.module.css';
 type Props = {
 
 	/** */
-	readonly onChange: (avatar: string, file: File | null) => void;
+	readonly handleClose: () => void;
 };
 
 /** Header component. */
-const AvatarUploaderComponent: FC<Props> = ({ onChange }: Props) => {
+const AvatarUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
 	const dispatch = useAppDispatch();
 	const error = useAppSelector(selectAvatarError);
 	const isLoading = useAppSelector(selectIsAvatarLoading);
@@ -53,7 +52,8 @@ const AvatarUploaderComponent: FC<Props> = ({ onChange }: Props) => {
 				contentLength: avatarFile?.size,
 			};
 
-			dispatch(fetchAvatarUrl({ fileData: imageData, file: avatarFile }));
+			dispatch(fetchAvatarUrl({ fileData: imageData, file: avatarFile }))
+				.then(() => handleClose());
 		}
 	};
 
