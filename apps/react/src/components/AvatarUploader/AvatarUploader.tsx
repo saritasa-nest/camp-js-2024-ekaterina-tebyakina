@@ -12,11 +12,11 @@ import styles from './AvatarUploader.module.css';
 
 type Props = {
 
-	/** */
+	/** Close dialog. */
 	readonly handleClose: () => void;
 };
 
-/** Header component. */
+/** Component for image uploading. */
 const AvatarUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
 	const dispatch = useAppDispatch();
 	const error = useAppSelector(selectAvatarError);
@@ -33,7 +33,6 @@ const AvatarUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
 		}
 	, [previewUrl]);
 
-	// Handle file selection and pass the file to the parent component
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
 		if (file) {
@@ -42,14 +41,13 @@ const AvatarUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
 		}
 	};
 
-	// Provide download functionality for the selected image
 	const handleUploadButtonClick = () => {
 		if (avatarFile) {
 			const imageData: FileData = {
 				config: FileConfig.UserAvatars,
-				filename: avatarFile?.name,
-				contentType: avatarFile?.type,
-				contentLength: avatarFile?.size,
+				filename: avatarFile.name,
+				contentType: avatarFile.type,
+				contentLength: avatarFile.size,
 			};
 
 			dispatch(fetchAvatarUrl({ fileData: imageData, file: avatarFile }))

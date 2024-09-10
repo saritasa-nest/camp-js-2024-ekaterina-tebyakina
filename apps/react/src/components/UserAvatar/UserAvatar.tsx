@@ -1,5 +1,5 @@
 import { FC, memo, useState } from 'react';
-import { Avatar, Box, Modal } from '@mui/material';
+import { Avatar, Box, Modal, Typography } from '@mui/material';
 import { useAppSelector } from '@js-camp/react/store/store';
 import { selectAvatarUrl } from '@js-camp/react/store/avatar/selectors';
 
@@ -35,13 +35,13 @@ const UserAvatarComponent: FC = () => {
 					sx={{ width: 56, height: 56, cursor: 'pointer' }}
 					onClick={handleOpen}
 				/>
-				<p>Select image for avatar</p>
+				<Typography
+					sx={{ cursor: 'pointer' }}
+					onClick={handleOpen}>Select image for avatar</Typography>
 			</div>
 			<Modal
 				open={isOpen}
 				onClose={handleClose}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
 			>
 				<Box sx={style}>
 					<AvatarUploader handleClose={handleClose}/>
