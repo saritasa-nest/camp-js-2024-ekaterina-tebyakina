@@ -13,3 +13,8 @@
 	width: 0;
 	height: 0;
 }
+
+.errorMessage {
+	text-align: center;
+	color: var(--error-message-color);
+}

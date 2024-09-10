@@ -9,9 +9,9 @@ export namespace FileConfigMapper {
 	};
 
 	/**
-	 * Map model to dto.
-	 * @param config  - File config dto.
-	 * @returns File config model.
+	 * Map file config model to dto.
+	 * @param config  - File config model.
+	 * @returns File config dto.
 	 */
 	export function toDto(config: FileConfig): FileConfigDto {
 		return FILE_CONFIG_MAP_TO_DTO[config];

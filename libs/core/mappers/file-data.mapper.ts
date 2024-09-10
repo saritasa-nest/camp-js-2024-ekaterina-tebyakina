@@ -6,9 +6,9 @@ import { FileConfigMapper } from './file-config.mapper';
 export namespace FileDataMapper {
 
 	/**
-	 * Maps dto to model.
-	 * @param fileData - Data model for registration.
-	 * @returns Data dto for registration.
+	 * Maps data about file from model to DTO.
+	 * @param fileData - Information about a file to be uploaded.
+	 * @returns Information DTO.
 	 */
 	export function toDto(fileData: FileData): FileDataDto {
 		// Disable eslint because these properties must be written in snake case.

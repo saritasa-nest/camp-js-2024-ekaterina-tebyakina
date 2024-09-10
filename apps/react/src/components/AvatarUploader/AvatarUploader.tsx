@@ -3,6 +3,9 @@ import Button from '@mui/material/Button';
 import { FileData } from '@js-camp/core/models/file-data';
 import { s3Service } from '@js-camp/react/api/services/s3Service';
 import { FileConfig } from '@js-camp/core/models/file-config';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
+import { selectAvatarError, selectAvatarUrl, selectIsAvatarLoading } from '@js-camp/react/store/avatar/selectors';
+import { fetchAvatarUrl } from '@js-camp/react/store/avatar/dispatchers';
 
 import { Progress } from '../Progress/Progress';
 
@@ -11,22 +14,19 @@ import styles from './AvatarUploader.module.css';
 type Props = {
 
 	/** */
-	readonly value: File | null;
-
-	/** */
 	readonly onChange: (avatar: string, file: File | null) => void;
 };
 
 /** Header component. */
 const AvatarUploaderComponent: FC<Props> = ({ onChange }: Props) => {
-	const [isLoading, setIsLoading] = useState(false);
+	const dispatch = useAppDispatch();
+	const error = useAppSelector(selectAvatarError);
+	const isLoading = useAppSelector(selectIsAvatarLoading);
+
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
-	// Clean up the object URL when the component unmounts or when a new file is selected
 	useEffect(() =>
-
-		// Cleanup on unmount or when a new previewUrl is set
 		() => {
 			if (previewUrl) {
 				URL.revokeObjectURL(previewUrl);
@@ -38,20 +38,13 @@ const AvatarUploaderComponent: FC<Props> = ({ onChange }: Props) => {
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
 		if (file) {
-			// Revoke the previous URL to prevent memory leaks
-			if (previewUrl) {
-				URL.revokeObjectURL(previewUrl);
-			}
-
 			setAvatarFile(file);
-			const preview = URL.createObjectURL(file);
-			setPreviewUrl(preview);
-
-			// onChange(file); // Notify parent of the selected file
+			setPreviewUrl(URL.createObjectURL(file));
 		}
 	};
 
-	const setUrl = async() => {
+	// Provide download functionality for the selected image
+	const handleUploadButtonClick = () => {
 		if (avatarFile) {
 			const imageData: FileData = {
 				config: FileConfig.UserAvatars,
@@ -60,18 +53,8 @@ const AvatarUploaderComponent: FC<Props> = ({ onChange }: Props) => {
 				contentLength: avatarFile?.size,
 			};
 
-			// s3Service.getParams(imageData);
-			setIsLoading(true);
-			const url = await s3Service.saveFile(imageData, avatarFile);
-			setIsLoading(false);
-			onChange(url, avatarFile);
-
+			dispatch(fetchAvatarUrl({ fileData: imageData, file: avatarFile }));
 		}
-	};
-
-	// Provide download functionality for the selected image
-	const handleDownload = () => {
-		setUrl();
 	};
 
 	return (
@@ -102,11 +85,12 @@ const AvatarUploaderComponent: FC<Props> = ({ onChange }: Props) => {
 				</div>
 			)}
 			{ isLoading ? <Progress/> : null}
+			{ error ? <p className={styles.errorMessage}>{error}</p> : null}
 			{avatarFile && (
 				<Button
 					type="button"
 					variant="outlined"
-					onClick={handleDownload}
+					onClick={handleUploadButtonClick}
 				>
 						Upload avatar
 				</Button>
