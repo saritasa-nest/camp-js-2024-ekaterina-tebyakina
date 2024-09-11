@@ -8,11 +8,7 @@ import { LoginDataMapper } from '@js-camp/core/mappers/login-data.mapper';
 
 import { http } from '..';
 
-const loginUrl = 'auth/login/';
-const registerUrl = 'auth/register/';
-
-/** Path to refresh access token. */
-export const refreshTokenUrl = 'auth/token/refresh/';
+import { UrlConfigService } from './urlConfigService';
 
 export namespace AuthorizationService {
 
@@ -23,7 +19,7 @@ export namespace AuthorizationService {
 	 */
 	export async function login(loginData: LoginData): Promise<AuthorizationTokens> {
 		const { data } = await http.post<AuthorizationTokensDto>(
-			loginUrl,
+			UrlConfigService.authorizationUrls.login,
 			LoginDataMapper.toDto(loginData),
 		);
 		return AuthorizationTokensMapper.fromDto(data);
@@ -36,7 +32,7 @@ export namespace AuthorizationService {
 	 */
 	export async function register(registrationData: RegistrationData): Promise<AuthorizationTokens> {
 		const { data } = await http.post<AuthorizationTokensDto>(
-			registerUrl,
+			UrlConfigService.authorizationUrls.register,
 			RegistrationDataMapper.toDto(registrationData),
 		);
 		return AuthorizationTokensMapper.fromDto(data);
@@ -49,7 +45,7 @@ export namespace AuthorizationService {
 	 */
 	export async function refreshAccessToken(refreshToken: string): Promise<AuthorizationTokens> {
 		const { data } = await http.post<AuthorizationTokensDto>(
-			refreshTokenUrl,
+			UrlConfigService.authorizationUrls.refreshToken,
 			{
 				refresh: refreshToken,
 			},

@@ -9,13 +9,10 @@ export namespace RegistrationDataMapper {
 	 * @returns Data dto for registration.
 	 */
 	export function toDto(registration: RegistrationData): RegistrationDataDto {
-		// Disable eslint because these properties must be written in snake case.
 		return {
 			...(registration.avatar && { avatar: registration.avatar }),
 			email: registration.email,
-			// eslint-disable-next-line @typescript-eslint/naming-convention
 			first_name: registration.firstName,
-			// eslint-disable-next-line @typescript-eslint/naming-convention
 			last_name: registration.lastName,
 			password: registration.password,
 		};
