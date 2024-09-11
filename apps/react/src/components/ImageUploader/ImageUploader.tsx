@@ -1,4 +1,5 @@
 import { FC, memo, useEffect, useId, useState } from 'react';
+import { SxProps, Theme } from '@mui/system';
 import Button from '@mui/material/Button';
 import { FileData } from '@js-camp/core/models/file-data';
 import { FileConfig } from '@js-camp/core/models/file-config';
@@ -9,7 +10,14 @@ import { Box, Stack, Typography } from '@mui/material';
 
 import { Progress } from '../Progress/Progress';
 
-import styles from './ImageUploader.module.css';
+const fileInputStyles: SxProps<Theme> = {
+	opacity: 0,
+	position: 'absolute',
+	left: 0,
+	top: 0,
+	width: 0,
+	height: 0,
+};
 
 type Props = {
 
@@ -43,14 +51,14 @@ const ImageUploaderComponent: FC<Props> = ({ onUpload }: Props) => {
 
 	const handleUploadButtonClick = () => {
 		if (avatarFile) {
-			const imageData: FileData = {
+			const avatarData: FileData = {
 				config: FileConfig.UserAvatars,
 				filename: avatarFile.name,
 				contentType: avatarFile.type,
 				contentLength: avatarFile.size,
 			};
 
-			dispatch(fetchAvatarUrl({ fileData: imageData, file: avatarFile }))
+			dispatch(fetchAvatarUrl({ fileData: avatarData, file: avatarFile }))
 				.unwrap()
 				.then(() => onUpload());
 		}
@@ -67,13 +75,14 @@ const ImageUploaderComponent: FC<Props> = ({ onUpload }: Props) => {
 			}}
 		>
 			<div>
-				<input
-					id={fileInputId}
-					type="file"
-					accept="image/*"
-					className={styles.fileInput}
-					onChange={handleFileChange}
-				/>
+				<Box sx={fileInputStyles}>
+					<input
+						id={fileInputId}
+						type="file"
+						accept="image/*"
+						onChange={handleFileChange}
+					/>
+				</Box>
 				<label htmlFor={fileInputId}>
 					<Button
 						variant="text"
