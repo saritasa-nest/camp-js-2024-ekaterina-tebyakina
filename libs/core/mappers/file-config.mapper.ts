@@ -1,6 +1,7 @@
 import { FileConfigDto } from '../dtos/file-config.dto';
 import { FileConfig } from '../models/file-config';
 
+/** Map additional information about the purpose of the file. */
 export namespace FileConfigMapper {
 	const FILE_CONFIG_MAP_TO_DTO: Readonly<Record<FileConfig, FileConfigDto>> = {
 		[FileConfig.AnimeImages]: FileConfigDto.AnimeImages,

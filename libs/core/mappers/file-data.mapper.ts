@@ -3,6 +3,7 @@ import { FileData } from '../models/file-data';
 
 import { FileConfigMapper } from './file-config.mapper';
 
+/** Map information about a file to be uploaded. */
 export namespace FileDataMapper {
 
 	/**
