@@ -16,7 +16,7 @@ import { handleServerErrors } from '@js-camp/react/utils/handleServerErrors';
 import styles from './LoginForm.module.css';
 
 /** Schema for login form validation. */
-export const LoginSchema: ZodType<LoginData> = z
+export const LoginSchema = z
 	.object({
 		email: z
 			.string()
