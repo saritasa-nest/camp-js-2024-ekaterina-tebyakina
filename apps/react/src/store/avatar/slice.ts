@@ -11,6 +11,9 @@ export const avatarSlice = createSlice({
 		resetError(state) {
 			state.error = null;
 		},
+		deleteAvatar(state) {
+			state.url = null;
+		},
 	},
 	extraReducers: builder => builder
 		.addCase(fetchAvatarUrl.pending, state => {
@@ -29,5 +32,5 @@ export const avatarSlice = createSlice({
 		}),
 });
 
-/** Function for resetting an error. */
-export const { resetError } = avatarSlice.actions;
+/** Actions for managing avatar's state. */
+export const { resetError, deleteAvatar } = avatarSlice.actions;

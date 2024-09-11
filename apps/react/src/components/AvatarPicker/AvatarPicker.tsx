@@ -1,8 +1,10 @@
 import { FC, memo, useState } from 'react';
-import { Avatar, Box, Modal, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Modal, Stack } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { selectAvatarUrl } from '@js-camp/react/store/avatar/selectors';
-import { resetError } from '@js-camp/react/store/avatar/slice';
+import { deleteAvatar, resetError } from '@js-camp/react/store/avatar/slice';
 
 import { ImageUploader } from '../ImageUploader/ImageUploader';
 
@@ -17,6 +19,7 @@ const AvatarPickerComponent: FC = () => {
 		setIsOpen(false);
 		dispatch(resetError());
 	};
+	const handleDeleteButtonClick = () => dispatch(deleteAvatar());
 
 	return (
 		<>
@@ -38,12 +41,20 @@ const AvatarPickerComponent: FC = () => {
 					}}
 					onClick={handleOpen}
 				/>
-				<Typography
-					sx={{ cursor: 'pointer' }}
+				<Button
+					variant="outlined"
+					startIcon={<CloudUploadIcon />}
 					onClick={handleOpen}
 				>
-					Select image for avatar
-				</Typography>
+					Select
+				</Button>
+				<Button
+					variant="outlined"
+					startIcon={<DeleteIcon />}
+					onClick={handleDeleteButtonClick}
+				>
+					Delete
+				</Button>
 			</Stack>
 			<Modal
 				open={isOpen}
