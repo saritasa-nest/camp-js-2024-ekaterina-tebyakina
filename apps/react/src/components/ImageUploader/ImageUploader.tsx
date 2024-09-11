@@ -74,24 +74,22 @@ const ImageUploaderComponent: FC<Props> = ({ onUpload }: Props) => {
 				alignItems: 'center',
 			}}
 		>
-			<div>
-				<Box sx={fileInputStyles}>
-					<input
-						id={fileInputId}
-						type="file"
-						accept="image/*"
-						onChange={handleFileChange}
-					/>
-				</Box>
-				<label htmlFor={fileInputId}>
-					<Button
-						variant="text"
-						component="span"
-					>
+			<Box sx={fileInputStyles}>
+				<input
+					id={fileInputId}
+					type="file"
+					accept="image/*"
+					onChange={handleFileChange}
+				/>
+			</Box>
+			<label htmlFor={fileInputId}>
+				<Button
+					variant="text"
+					component="span"
+				>
 						Choose file
-					</Button>
-				</label>
-			</div>
+				</Button>
+			</label>
 			{previewUrl && (
 				<Box
 					component="img"
