@@ -13,7 +13,6 @@ export namespace LocalStorageService {
 
 	/**
 	 * Remove tokens from local storage.
-	 * @param tokens - Access and refresh tokens.
 	 */
 	export function removeTokens(): void {
 		localStorage.removeItem('accessToken');
