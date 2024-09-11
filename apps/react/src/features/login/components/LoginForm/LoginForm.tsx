@@ -83,7 +83,7 @@ const LoginFormComponent: FC = () => {
 					fullWidth
 					placeholder="veryStrongPassW0rd"
 					{...register('password')}
-					error={!!errors.password}
+					error={errors.password != null}
 					helperText={errors.password ? errors.password.message : ''}
 				/>
 				{errors.root ? <span className={styles.errorMessage}>{errors.root.message}</span> : ''}
