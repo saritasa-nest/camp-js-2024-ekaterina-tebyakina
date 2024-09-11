@@ -4,7 +4,7 @@ import { FileUploadingSettingsDto } from '@js-camp/core/dtos/file-uploading-sett
 
 import { http } from '..';
 
-const s3Url = 's3/get-params/';
+import { UrlConfigService } from './urlConfigService';
 
 /** Service for uploading files to s3 bucket. */
 export namespace s3Service {
@@ -26,7 +26,10 @@ export namespace s3Service {
 	 * @returns Parameters and url for upload the file to S3 bucket.
 	 */
 	export async function getParams(fileData: FileData): Promise<FileUploadingSettingsDto> {
-		const { data } = await http.post<FileUploadingSettingsDto>(s3Url, FileDataMapper.toDto(fileData));
+		const { data } = await http.post<FileUploadingSettingsDto>(
+			UrlConfigService.s3Urls.getParams,
+			FileDataMapper.toDto(fileData),
+		);
 		return data;
 	}
 
