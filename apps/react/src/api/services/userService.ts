@@ -4,7 +4,7 @@ import { UserMapper } from '@js-camp/core/mappers/user.mapper';
 
 import { http } from '..';
 
-const userUrl = 'users/profile/';
+import { UrlConfigService } from './urlConfigService';
 
 export namespace UserService {
 
@@ -17,7 +17,7 @@ export namespace UserService {
 	 * @returns Current user.
 	 */
 	export async function getCurrentUser(): Promise<User> {
-		const { data } = await http.get<UserDto>(userUrl);
+		const { data } = await http.get<UserDto>(UrlConfigService.userUrls.profile);
 
 		// When the server fails to retrieve a user, it does not send an error,
 		// but an object with an avatar field equal to null.

@@ -3,7 +3,8 @@ import { ServerErrorStatus } from '@js-camp/core/models/server-error-status';
 
 import { http } from '..';
 import { LocalStorageService } from '../services/localStorageService';
-import { AuthorizationService, refreshTokenUrl } from '../services/authorizationService';
+import { AuthorizationService } from '../services/authorizationService';
+import { UrlConfigService } from '../services/urlConfigService';
 
 /**
  * Refresh access token and sets it as the Authorization header to request.
@@ -18,7 +19,7 @@ export async function refreshTokenInterceptor(error: unknown) {
 
 	const originalRequest = error.config;
 
-	if (!originalRequest || originalRequest.url === refreshTokenUrl) {
+	if (!originalRequest || originalRequest.url === UrlConfigService.authorizationUrls.refreshToken) {
 		return Promise.reject(error);
 	}
 
