@@ -56,7 +56,7 @@ const LoginFormComponent: FC = () => {
 		setIsLoading(false);
 	};
 
-	const onSubmit: SubmitHandler<LoginData> = (loginData: LoginData) => {
+	const onSubmit: SubmitHandler<LoginData> = (loginData) => {
 		if (!isLoading && isValid) {
 			loginUser(loginData);
 		}
