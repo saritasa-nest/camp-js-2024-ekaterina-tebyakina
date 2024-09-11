@@ -12,4 +12,9 @@ export namespace UrlConfigService {
 	export const userUrls = {
 		profile: 'users/profile/',
 	};
+
+	/** Object with parts of the s3 url requests. */
+	export const s3Urls = {
+		getParams: 's3/get-params/',
+	};
 }

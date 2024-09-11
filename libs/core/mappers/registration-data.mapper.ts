@@ -10,6 +10,7 @@ export namespace RegistrationDataMapper {
 	 */
 	export function toDto(registration: RegistrationData): RegistrationDataDto {
 		return {
+			...(registration.avatar && { avatar: registration.avatar }),
 			email: registration.email,
 			first_name: registration.firstName,
 			last_name: registration.lastName,

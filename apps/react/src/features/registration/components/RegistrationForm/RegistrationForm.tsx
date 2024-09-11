@@ -3,7 +3,7 @@ import { Button, TextField } from '@mui/material';
 import { RegistrationData } from '@js-camp/core/models/registration-data';
 import { AuthorizationService } from '@js-camp/react/api/services/authorizationService';
 import { LocalStorageService } from '@js-camp/react/api/services/localStorageService';
-import { useAppDispatch } from '@js-camp/react/store/store';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { fetchUser } from '@js-camp/react/store/user/dispatchers';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ANIME_PATH } from '@js-camp/react/features/anime/routes';
 import { Progress } from '@js-camp/react/components/Progress/Progress';
 import { handleServerErrors } from '@js-camp/react/utils/handleServerErrors';
+import { selectAvatarUrl } from '@js-camp/react/store/avatar/selectors';
+import { AvatarPicker } from '@js-camp/react/components/AvatarPicker/AvatarPicker';
 
 import styles from './RegistrationForm.module.css';
 
@@ -44,6 +46,7 @@ export const RegistrationSchema = z
 const RegistrationFormComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const avatarUrl = useAppSelector(selectAvatarUrl);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const {
@@ -59,7 +62,10 @@ const RegistrationFormComponent: FC = () => {
 	const registerUser = async(registrationData: RegistrationData) => {
 		setIsLoading(true);
 		try {
-			const tokens = await AuthorizationService.register(registrationData);
+			const tokens = await AuthorizationService.register({
+				...registrationData,
+				...(avatarUrl && { avatar: avatarUrl }),
+			});
 			LocalStorageService.saveTokens(tokens);
 			dispatch(fetchUser());
 			navigate(ANIME_PATH);
@@ -79,6 +85,7 @@ const RegistrationFormComponent: FC = () => {
 		<div className={styles.formWrapper}>
 			<h2 className={styles.header}>Register</h2>
 			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+				<AvatarPicker/>
 				<TextField
 					label="Email"
 					type="email"
