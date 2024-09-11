@@ -7,7 +7,7 @@ export type UserState = {
 	readonly user: User | null;
 
 	/** Error. */
-	readonly error?: string;
+	readonly error: string | null;
 
 	/** Whether the user is loading or not. */
 	readonly isLoading: boolean;
@@ -16,5 +16,6 @@ export type UserState = {
 /** Initial state for user state. */
 export const initialState: UserState = {
 	user: null,
+	error: null,
 	isLoading: false,
 };

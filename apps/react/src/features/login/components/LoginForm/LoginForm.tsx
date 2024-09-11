@@ -1,7 +1,7 @@
 import { FC, memo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
-import { z, ZodType } from 'zod';
+import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginData } from '@js-camp/core/models/login-data';
 import { useAppDispatch } from '@js-camp/react/store/store';
@@ -56,7 +56,7 @@ const LoginFormComponent: FC = () => {
 		setIsLoading(false);
 	};
 
-	const onSubmit: SubmitHandler<LoginData> = (loginData) => {
+	const onSubmit: SubmitHandler<LoginData> = loginData => {
 		if (!isLoading && isValid) {
 			loginUser(loginData);
 		}
@@ -73,7 +73,7 @@ const LoginFormComponent: FC = () => {
 					fullWidth
 					placeholder="ivan.pupkin@gmail.com"
 					{...register('email', { required: true })}
-					error={!!errors.email}
+					error={errors.email != null}
 					helperText={errors.email ? errors.email.message : ''}
 				/>
 				<TextField
@@ -91,6 +91,7 @@ const LoginFormComponent: FC = () => {
 				<Button
 					type="submit"
 					variant="outlined"
+					disabled={isLoading}
 				>
 					Login
 				</Button>

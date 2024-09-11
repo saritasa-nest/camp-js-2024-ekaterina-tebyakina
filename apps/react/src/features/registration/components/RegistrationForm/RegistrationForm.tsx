@@ -7,7 +7,7 @@ import { useAppDispatch } from '@js-camp/react/store/store';
 import { fetchUser } from '@js-camp/react/store/user/dispatchers';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { z, ZodType } from 'zod';
+import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ANIME_PATH } from '@js-camp/react/features/anime/routes';
 import { Progress } from '@js-camp/react/components/Progress/Progress';
@@ -16,7 +16,7 @@ import { handleServerErrors } from '@js-camp/react/utils/handleServerErrors';
 import styles from './RegistrationForm.module.css';
 
 /** Schema for registration form validation. */
-export const RegistrationSchema: ZodType<RegistrationData> = z
+export const RegistrationSchema = z
 	.object({
 		email: z
 			.string()
@@ -69,7 +69,7 @@ const RegistrationFormComponent: FC = () => {
 		setIsLoading(false);
 	};
 
-	const onSubmit: SubmitHandler<RegistrationData> = (registrationData: RegistrationData) => {
+	const onSubmit: SubmitHandler<RegistrationData> = registrationData => {
 		if (!isLoading && isValid) {
 			registerUser(registrationData);
 		}
@@ -86,7 +86,7 @@ const RegistrationFormComponent: FC = () => {
 					fullWidth
 					placeholder="ivan.pupkin@gmail.com"
 					{...register('email', { required: true })}
-					error={!!errors.email}
+					error={errors.email != null}
 					helperText={errors.email ? errors.email.message : ''}
 				/>
 				<TextField
@@ -96,7 +96,7 @@ const RegistrationFormComponent: FC = () => {
 					fullWidth
 					placeholder="Ivan"
 					{...register('firstName')}
-					error={!!errors.firstName}
+					error={errors.firstName != null}
 					helperText={errors.firstName ? errors.firstName?.message : ''}
 				/>
 				<TextField
@@ -106,7 +106,7 @@ const RegistrationFormComponent: FC = () => {
 					fullWidth
 					placeholder="Pupkin"
 					{...register('lastName')}
-					error={!!errors.lastName}
+					error={errors.lastName != null}
 					helperText={errors.lastName ? errors.lastName.message : ''}
 				/>
 				<TextField
@@ -116,7 +116,7 @@ const RegistrationFormComponent: FC = () => {
 					fullWidth
 					placeholder="veryStrongPassW0rd"
 					{...register('password')}
-					error={!!errors.password}
+					error={errors.password != null}
 					helperText={errors.password ? errors.password.message : ''}
 				/>
 				<TextField
@@ -126,13 +126,14 @@ const RegistrationFormComponent: FC = () => {
 					fullWidth
 					placeholder="veryStrongPassW0rd"
 					{...register('retypedPassword')}
-					error={!!errors.retypedPassword}
+					error={errors.retypedPassword != null}
 					helperText={errors.retypedPassword ? errors.retypedPassword.message : ''}
 				/>
 				{ isLoading ? <Progress/> : null}
 				<Button
 					type="submit"
 					variant="outlined"
+					disabled={isLoading}
 				>
 					Register
 				</Button>
