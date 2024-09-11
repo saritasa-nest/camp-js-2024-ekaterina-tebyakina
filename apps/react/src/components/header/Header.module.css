@@ -20,3 +20,31 @@
 	flex-direction: row;
 	gap: var(--space-m);
 }
+
+.authorizationMenu {
+	display: flex;
+	flex-direction: row;
+	gap: var(--space-s);
+}
+
+.link {
+	font-size: var(--font-size-base);
+	text-decoration: none;
+	color: var(--primary-font-color);
+}
+
+.link:hover {
+	text-decoration: underline;
+}
+
+.logoutButton {
+	font-size: var(--font-size-base);
+	background-color: var(--primary-background-color);
+	border: none;
+	padding: 0;
+	cursor: pointer;
+}
+
+.logoutButton:hover {
+	text-decoration: underline;
+}

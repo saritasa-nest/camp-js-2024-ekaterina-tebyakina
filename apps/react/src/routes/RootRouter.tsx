@@ -4,6 +4,8 @@ import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 import { genresRoutes } from '../features/genres/routes';
 import { animeRoutes, ANIME_PATH } from '../features/anime/routes';
 import { studiosRoutes } from '../features/studios/routes';
+import { registrationRoutes } from '../features/registration/routes';
+import { loginRoutes } from '../features/login/routes';
 
 const routes: RouteObject[] = [
 	{
@@ -13,6 +15,8 @@ const routes: RouteObject[] = [
 	...animeRoutes,
 	...genresRoutes,
 	...studiosRoutes,
+	...registrationRoutes,
+	...loginRoutes,
 ];
 
 /** Root router component. */

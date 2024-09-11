@@ -1,0 +1,24 @@
+.formWrapper {
+	--register-form-min-width: 360px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--space-s);
+	padding: var(--space-xl);
+}
+
+.header {
+	font-size: var(--font-size-xl);
+}
+
+.form {
+	min-width: var(--register-form-min-width);
+	padding: var(--space-m);
+	border-radius: 24px;
+	border: 2px var(--border-color) solid;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-s);
+	align-items: center;
+}
