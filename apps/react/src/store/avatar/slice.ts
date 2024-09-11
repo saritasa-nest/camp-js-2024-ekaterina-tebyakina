@@ -7,7 +7,11 @@ import { fetchAvatarUrl } from './dispatchers';
 export const avatarSlice = createSlice({
 	name: 'avatar',
 	initialState,
-	reducers: {},
+	reducers: {
+		resetError(state) {
+			state.error = null;
+		},
+	},
 	extraReducers: builder => builder
 		.addCase(fetchAvatarUrl.pending, state => {
 			state.isLoading = true;
@@ -24,3 +28,6 @@ export const avatarSlice = createSlice({
 			state.isLoading = false;
 		}),
 });
+
+/** Function for resetting an error. */
+export const { resetError } = avatarSlice.actions;

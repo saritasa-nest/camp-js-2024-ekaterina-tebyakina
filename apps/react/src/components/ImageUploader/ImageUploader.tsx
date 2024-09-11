@@ -5,7 +5,6 @@ import { FileConfig } from '@js-camp/core/models/file-config';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { selectAvatarError, selectIsAvatarLoading } from '@js-camp/react/store/avatar/selectors';
 import { fetchAvatarUrl } from '@js-camp/react/store/avatar/dispatchers';
-
 import { Box, Stack, Typography } from '@mui/material';
 
 import { Progress } from '../Progress/Progress';
@@ -14,11 +13,11 @@ import styles from './ImageUploader.module.css';
 
 type Props = {
 
-	/** Close dialog. */
-	readonly handleClose: () => void;
+	/** Functionality that should be executed after successful file upload. */
+	readonly onUpload: () => void;
 };
 
-const ImageUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
+const ImageUploaderComponent: FC<Props> = ({ onUpload }: Props) => {
 	const dispatch = useAppDispatch();
 	const error = useAppSelector(selectAvatarError);
 	const isLoading = useAppSelector(selectIsAvatarLoading);
@@ -53,7 +52,7 @@ const ImageUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
 
 			dispatch(fetchAvatarUrl({ fileData: imageData, file: avatarFile }))
 				.unwrap()
-				.then(() => handleClose());
+				.then(() => onUpload());
 		}
 	};
 
@@ -103,7 +102,8 @@ const ImageUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
 					sx={{
 						textAlign: 'center',
 						color: 'error.main',
-					}}>
+					}}
+				>
 					{error}
 				</Typography> :
 				null}
@@ -111,9 +111,10 @@ const ImageUploaderComponent: FC<Props> = ({ handleClose }: Props) => {
 				<Button
 					type="button"
 					variant="outlined"
+					disabled={isLoading}
 					onClick={handleUploadButtonClick}
 				>
-						Upload avatar
+					Upload avatar
 				</Button>
 			)}
 		</Stack>

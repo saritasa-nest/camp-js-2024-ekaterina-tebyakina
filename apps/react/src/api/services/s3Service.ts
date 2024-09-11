@@ -6,6 +6,7 @@ import { http } from '..';
 
 const s3Url = 's3/get-params/';
 
+/** Service for uploading files to s3 bucket. */
 export namespace s3Service {
 
 	/**

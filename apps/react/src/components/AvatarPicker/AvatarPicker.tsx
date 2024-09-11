@@ -1,17 +1,22 @@
 import { FC, memo, useState } from 'react';
 import { Avatar, Box, Modal, Stack, Typography } from '@mui/material';
-import { useAppSelector } from '@js-camp/react/store/store';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { selectAvatarUrl } from '@js-camp/react/store/avatar/selectors';
+import { resetError } from '@js-camp/react/store/avatar/slice';
 
 import { ImageUploader } from '../ImageUploader/ImageUploader';
 
 const AVATAR_SIZE = 64;
 
 const AvatarPickerComponent: FC = () => {
+	const dispatch = useAppDispatch();
 	const avatarUrl = useAppSelector(selectAvatarUrl);
 	const [isOpen, setIsOpen] = useState(false);
 	const handleOpen = () => setIsOpen(true);
-	const handleClose = () => setIsOpen(false);
+	const handleClose = () => {
+		setIsOpen(false);
+		dispatch(resetError());
+	};
 
 	return (
 		<>
@@ -53,7 +58,7 @@ const AvatarPickerComponent: FC = () => {
 					bgcolor: 'background.paper',
 					p: 4,
 				}}>
-					<ImageUploader handleClose={handleClose}/>
+					<ImageUploader onUpload={handleClose}/>
 				</Box>
 			</Modal>
 		</>

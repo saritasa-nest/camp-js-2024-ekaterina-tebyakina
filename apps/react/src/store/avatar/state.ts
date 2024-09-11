@@ -1,14 +1,11 @@
 /** Avatar state. */
 export type AvatarState = {
 
-	/** Image for avatar. */
-	// readonly file: File | null;
-
 	/** Uploaded avatar URL. */
 	readonly url: string | null;
 
 	/** Error. */
-	readonly error?: string;
+	readonly error: string | null;
 
 	/** Whether the avatar is loading or not. */
 	readonly isLoading: boolean;
@@ -16,7 +13,7 @@ export type AvatarState = {
 
 /** Initial state for avatar state. */
 export const initialState: AvatarState = {
-	// file: null,
 	url: null,
+	error: null,
 	isLoading: false,
 };
